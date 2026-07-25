@@ -1,0 +1,240 @@
+{
+  "id": "pcRandomlyRestarts",
+  "title": "PC Randomly Restarts",
+  "cardText": [
+    "Diagnose computers that restart unexpectedly during normal use, gaming, startup, or idle periods.",
+    "Check overheating, power supply stability, memory, drivers, Windows errors, and hardware faults.",
+    "Separate software issues from power and hardware failures."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for computers that unexpectedly restart without warning.",
+    "Determine whether the restart occurs under load, while idle, or during startup.",
+    "Check temperatures, event logs, drivers, memory, and power stability.",
+    "Escalate hardware faults when software troubleshooting does not resolve the issue."
+  ],
+  "startNode": "checkRestartPattern",
+  "nodes": {
+    "checkRestartPattern": {
+      "title": "Identify when the restart occurs",
+      "body": [
+        "Determine whether the restart happens during gaming, heavy workloads, startup, or random idle use.",
+        "The timing often provides clues about the underlying cause."
+      ],
+      "successLabel": "Under Load",
+      "failLabel": "Random/Idle",
+      "successNext": "checkTemperatures",
+      "failNext": "checkEventViewer"
+    },
+
+    "checkTemperatures": {
+      "title": "Check system temperatures",
+      "body": [
+        "Monitor CPU and GPU temperatures while the system is under load.",
+        "Overheating can trigger automatic restarts to prevent hardware damage.",
+        "Listen for unusually loud fans or signs of thermal throttling."
+      ],
+      "successLabel": "Temperatures Normal",
+      "failLabel": "Overheating Found",
+      "successNext": "checkPowerSupply",
+      "failNext": "resolveCoolingIssue"
+    },
+
+    "resolveCoolingIssue": {
+      "type": "terminal",
+      "title": "Cooling issue identified",
+      "body": [
+        "The system is overheating.",
+        "Clean dust from vents and fans, verify fan operation, and improve airflow.",
+        "Retest after cooling issues are resolved."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkEventViewer": {
+      "title": "Check Event Viewer",
+      "body": [
+        "Review System logs around the restart time.",
+        "Look for Kernel-Power events, driver crashes, or hardware-related errors.",
+        "Event logs can help identify the source of unexpected restarts."
+      ],
+      "successLabel": "Useful Errors Found",
+      "failLabel": "No Useful Errors",
+      "successNext": "investigateLoggedIssue",
+      "failNext": "checkPowerSupply"
+    },
+
+    "investigateLoggedIssue": {
+      "title": "Investigate logged issue",
+      "body": [
+        "Review the reported error or warning.",
+        "Research the specific driver, service, or hardware component mentioned.",
+        "Apply any recommended fix before continuing."
+      ],
+      "successLabel": "Issue Fixed",
+      "failLabel": "Still Restarting",
+      "successNext": null,
+      "failNext": "checkPowerSupply"
+    },
+
+    "checkPowerSupply": {
+      "title": "Check power supply stability",
+      "body": [
+        "Unexpected restarts are commonly caused by failing power supplies.",
+        "Watch for restarts during gaming, rendering, or other high-power workloads.",
+        "If available, test with a known-good PSU."
+      ],
+      "successLabel": "PSU Appears OK",
+      "failLabel": "PSU Suspected",
+      "successNext": "checkMemory",
+      "failNext": "replacePsu"
+    },
+
+    "replacePsu": {
+      "type": "terminal",
+      "title": "Power supply fault likely",
+      "body": [
+        "The power supply appears unstable.",
+        "Replace or test with a known-good power supply.",
+        "Retest system stability afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkMemory": {
+      "title": "Check system memory",
+      "body": [
+        "Faulty RAM can cause sudden restarts without warning.",
+        "Run a memory diagnostic or memory test utility.",
+        "If multiple RAM sticks are installed, test them individually if necessary."
+      ],
+      "successLabel": "Memory Healthy",
+      "failLabel": "Memory Errors Found",
+      "successNext": "checkDrivers",
+      "failNext": "replaceMemory"
+    },
+
+    "replaceMemory": {
+      "type": "terminal",
+      "title": "Memory fault identified",
+      "body": [
+        "Memory errors were detected.",
+        "Replace the faulty RAM and retest system stability."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkDrivers": {
+      "title": "Check drivers",
+      "body": [
+        "Review recently updated drivers.",
+        "Graphics, chipset, storage, and network drivers are common causes of instability.",
+        "Update or roll back drivers if the issue started recently."
+      ],
+      "successLabel": "Driver Issue Found",
+      "failLabel": "No Driver Issue",
+      "successNext": "repairDriverIssue",
+      "failNext": "checkRecentChanges"
+    },
+
+    "repairDriverIssue": {
+      "type": "terminal",
+      "title": "Driver issue identified",
+      "body": [
+        "A driver appears responsible for the restarts.",
+        "Update, roll back, or reinstall the affected driver.",
+        "Monitor stability after making changes."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkRecentChanges": {
+      "title": "Check recent software or hardware changes",
+      "body": [
+        "Determine whether the problem started after installing software, hardware, updates, or drivers.",
+        "Recent changes often provide a clear starting point for troubleshooting."
+      ],
+      "successLabel": "Recent Change Found",
+      "failLabel": "No Clear Change",
+      "successNext": "undoRecentChange",
+      "failNext": "checkDiskHealth"
+    },
+
+    "undoRecentChange": {
+      "type": "terminal",
+      "title": "Undo recent change",
+      "body": [
+        "Remove or reverse the recent change if appropriate.",
+        "Retest system stability afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkDiskHealth": {
+      "title": "Check storage health",
+      "body": [
+        "Failing SSDs or HDDs can cause crashes and unexpected restarts.",
+        "Review SMART data and storage health information.",
+        "Watch for disk errors in Event Viewer."
+      ],
+      "successLabel": "Storage Healthy",
+      "failLabel": "Storage Issue Found",
+      "successNext": "checkBiosFirmware",
+      "failNext": "replaceStorage"
+    },
+
+    "replaceStorage": {
+      "type": "terminal",
+      "title": "Storage fault identified",
+      "body": [
+        "The storage device appears unreliable.",
+        "Back up important data immediately.",
+        "Replace the drive and restore or reinstall the operating system."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkBiosFirmware": {
+      "title": "Check BIOS and firmware",
+      "body": [
+        "Outdated firmware can cause instability.",
+        "Check for BIOS, motherboard, and device firmware updates.",
+        "Apply updates according to manufacturer instructions."
+      ],
+      "successLabel": "Update Available",
+      "failLabel": "No Update Available",
+      "successNext": "updateFirmware",
+      "failNext": "hardwareEscalation"
+    },
+
+    "updateFirmware": {
+      "type": "terminal",
+      "title": "Update firmware",
+      "body": [
+        "Install available firmware updates.",
+        "Retest the computer after updating.",
+        "Firmware updates can resolve stability problems."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "hardwareEscalation": {
+      "type": "terminal",
+      "title": "Further hardware diagnostics required",
+      "body": [
+        "Temperature, power, memory, storage, drivers, and firmware have been checked.",
+        "Possible causes include motherboard faults, CPU instability, GPU faults, or intermittent hardware failures.",
+        "Escalate for advanced hardware diagnostics."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

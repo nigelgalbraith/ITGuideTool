@@ -1,0 +1,397 @@
+{
+  "id": "computerSlow",
+  "title": "Computer Is Slow",
+  "cardText": [
+    "Diagnose a computer that feels slow, delayed, or unresponsive.",
+    "Check whether the slowdown is caused by one app, low storage, high CPU, high memory, disk activity, updates, malware, or ageing hardware.",
+    "Separate normal background activity from faults that require cleanup, repair, or hardware upgrades."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for computers that turn on and display normally but feel slow to use.",
+    "Start by identifying whether the whole computer is slow or only one application.",
+    "Check common causes such as storage space, startup load, background updates, CPU usage, memory pressure, disk health, and malware.",
+    "Escalate when the system remains slow after software cleanup and basic checks."
+  ],
+  "startNode": "identifyScope",
+  "nodes": {
+    "identifyScope": {
+      "title": "Identify what is slow",
+      "body": [
+        "Determine whether the whole computer is slow or only one program is affected.",
+        "A single slow app usually points to that app, its data, its network connection, or its settings.",
+        "A whole-system slowdown points more toward CPU, memory, disk, startup, updates, malware, or hardware limits."
+      ],
+      "successLabel": "Whole Computer",
+      "failLabel": "One App Only",
+      "successNext": "recentOrLongTerm",
+      "failNext": "checkSingleApp"
+    },
+    "checkSingleApp": {
+      "title": "Check the affected application",
+      "body": [
+        "Close and reopen the affected application.",
+        "Check whether other apps run normally.",
+        "If only one program is slow, update it, clear its cache if appropriate, or reinstall it."
+      ],
+      "successLabel": "App Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "checkAppNetworkDependency"
+    },
+    "checkAppNetworkDependency": {
+      "title": "Check whether the app depends on internet or a server",
+      "body": [
+        "Some applications feel slow because they are waiting on internet, cloud storage, email servers, databases, or shared network folders.",
+        "Test a local app such as Calculator, Notepad, or File Explorer.",
+        "If local apps are fast but cloud or network apps are slow, troubleshoot the network or service instead."
+      ],
+      "successLabel": "Network App Only",
+      "failLabel": "Local Apps Slow Too",
+      "successNext": "networkRelatedAppIssue",
+      "failNext": "recentOrLongTerm"
+    },
+    "networkRelatedAppIssue": {
+      "type": "terminal",
+      "title": "Application or network service issue likely",
+      "body": [
+        "The slowdown appears limited to an app that depends on internet, cloud storage, email, or a server.",
+        "Check the service status, network connection, VPN, shared folder access, or application-specific settings.",
+        "The computer itself may not be the main cause."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "recentOrLongTerm": {
+      "title": "Check whether the slowdown is recent",
+      "body": [
+        "Ask whether the computer has always been slow or became slow recently.",
+        "A recent slowdown often points to updates, new software, malware, failed hardware, or low disk space.",
+        "A long-term slowdown often points to ageing hardware, too little RAM, mechanical hard drive performance, or too many startup programs."
+      ],
+      "successLabel": "Recently Slow",
+      "failLabel": "Always Slow",
+      "successNext": "checkRecentChanges",
+      "failNext": "checkHardwareAge"
+    },
+    "checkRecentChanges": {
+      "title": "Check recent changes",
+      "body": [
+        "Check whether new software, drivers, updates, browser extensions, antivirus tools, or startup apps were added recently.",
+        "Recent changes are useful because they create a likely before-and-after point.",
+        "Undo or disable suspicious recent changes one at a time and retest."
+      ],
+      "successLabel": "Change Found",
+      "failLabel": "No Clear Change",
+      "successNext": "undoRecentChange",
+      "failNext": "checkDiskSpace"
+    },
+    "undoRecentChange": {
+      "title": "Undo or disable the recent change",
+      "body": [
+        "Disable, uninstall, or roll back the recent change if safe to do so.",
+        "Restart the computer after making the change.",
+        "Then test whether normal performance has returned."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "checkDiskSpace"
+    },
+    "checkHardwareAge": {
+      "title": "Check whether the computer is underpowered",
+      "body": [
+        "Older computers with low RAM, weak processors, or mechanical hard drives may be slow even when nothing is technically broken.",
+        "Check the system age, RAM amount, processor generation, and whether it uses an HDD or SSD.",
+        "A computer with a mechanical hard drive and low memory will often feel slow on modern Windows."
+      ],
+      "successLabel": "Likely Underpowered",
+      "failLabel": "Hardware Seems OK",
+      "successNext": "hardwareUpgradeLikely",
+      "failNext": "checkDiskSpace"
+    },
+    "hardwareUpgradeLikely": {
+      "type": "terminal",
+      "title": "Hardware upgrade likely needed",
+      "body": [
+        "The computer appears to be limited by older or low-end hardware rather than a single fault.",
+        "The most effective upgrades are usually replacing an HDD with an SSD and increasing RAM.",
+        "If the computer is very old, replacement may be more sensible than repair."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkDiskSpace": {
+      "title": "Check free disk space",
+      "body": [
+        "Check how much free space is left on the system drive.",
+        "Windows can become slow when the main drive is nearly full because updates, temporary files, cache, and virtual memory need working space.",
+        "As a rough rule, try to keep at least 15–20 percent of the system drive free."
+      ],
+      "successLabel": "Enough Space",
+      "failLabel": "Low Space",
+      "successNext": "openTaskManager",
+      "failNext": "freeDiskSpace"
+    },
+    "freeDiskSpace": {
+      "title": "Free disk space",
+      "body": [
+        "Empty the recycle bin, remove temporary files, uninstall unused programs, and move large personal files to another drive if appropriate.",
+        "Use Windows Storage settings or Disk Cleanup for safe cleanup.",
+        "Avoid deleting files from system folders unless you know exactly what they are."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "openTaskManager"
+    },
+    "openTaskManager": {
+      "title": "Open Task Manager",
+      "body": [
+        "Open Task Manager and check CPU, Memory, Disk, and Network usage.",
+        "Sort by each column to see what is using the most resources.",
+        "This helps identify whether the slowdown is caused by processor load, memory pressure, disk activity, or background network usage."
+      ],
+      "successLabel": "High Usage Found",
+      "failLabel": "Usage Looks Normal",
+      "successNext": "identifyHighUsage",
+      "failNext": "checkStartupPrograms"
+    },
+    "identifyHighUsage": {
+      "title": "Identify which resource is high",
+      "body": [
+        "Check which Task Manager column is consistently high.",
+        "High CPU, high memory, high disk usage, and high network usage point to different causes.",
+        "Do not rely on a one-second spike. Look for repeated or sustained high usage."
+      ],
+      "successLabel": "CPU/Memory High",
+      "failLabel": "Disk/Network High",
+      "successNext": "cpuOrMemoryHigh",
+      "failNext": "diskOrNetworkHigh"
+    },
+    "cpuOrMemoryHigh": {
+      "title": "Check CPU and memory pressure",
+      "body": [
+        "If CPU is high, identify the process using it.",
+        "If memory is high, check whether many apps, browser tabs, or background tools are open.",
+        "High memory use can make Windows rely on disk paging, which causes major slowdowns."
+      ],
+      "successLabel": "Known Process",
+      "failLabel": "Unknown Process",
+      "successNext": "handleKnownHeavyProcess",
+      "failNext": "scanForMalware"
+    },
+    "handleKnownHeavyProcess": {
+      "title": "Handle the heavy process",
+      "body": [
+        "If the process is a normal app, close it or reduce what it is doing.",
+        "If it is a browser, close unused tabs and disable unnecessary extensions.",
+        "If it is antivirus, backup, indexing, or updates, allow it to finish or reschedule it."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "checkStartupPrograms"
+    },
+    "scanForMalware": {
+      "title": "Scan for malware or unwanted software",
+      "body": [
+        "Run a trusted antivirus or Windows Security scan.",
+        "Look for unknown startup entries, suspicious browser extensions, fake cleaners, toolbars, or pop-ups.",
+        "Malware and unwanted software often cause high CPU, high memory, browser redirects, or constant background activity."
+      ],
+      "successLabel": "Threat Found",
+      "failLabel": "No Threat Found",
+      "successNext": "removeThreats",
+      "failNext": "checkStartupPrograms"
+    },
+    "removeThreats": {
+      "type": "terminal",
+      "title": "Remove malware or unwanted software",
+      "body": [
+        "Remove or quarantine the detected threats.",
+        "Restart the computer and run another scan.",
+        "If the system remains unstable or suspicious activity returns, escalate for deeper cleanup or backup-and-reinstall."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "diskOrNetworkHigh": {
+      "title": "Check disk or network activity",
+      "body": [
+        "If Disk usage is high, check whether Windows Update, antivirus scanning, cloud sync, or indexing is running.",
+        "If Network usage is high, check for cloud backup, large downloads, updates, or streaming.",
+        "Background activity can make a computer feel slow even when nothing is broken."
+      ],
+      "successLabel": "Normal Background Task",
+      "failLabel": "Unknown Activity",
+      "successNext": "waitForBackgroundTask",
+      "failNext": "checkDiskHealth"
+    },
+    "waitForBackgroundTask": {
+      "title": "Let background tasks finish",
+      "body": [
+        "Allow updates, indexing, antivirus scans, or cloud sync to complete.",
+        "Restart the computer after the task finishes.",
+        "If the slowdown only happens during these tasks, reschedule them or reduce startup/background load."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "checkDiskHealth"
+    },
+    "checkDiskHealth": {
+      "title": "Check disk health",
+      "body": [
+        "Check whether the drive is an HDD or SSD and look for disk health warnings.",
+        "Signs of drive problems include clicking noises, very slow file access, freezes, failed updates, missing files, or SMART warnings.",
+        "A failing drive can make the whole computer slow and should be treated as a data-risk issue."
+      ],
+      "successLabel": "Disk Looks Healthy",
+      "failLabel": "Disk Fault Suspected",
+      "successNext": "checkStartupPrograms",
+      "failNext": "backupAndReplaceDrive"
+    },
+    "backupAndReplaceDrive": {
+      "type": "terminal",
+      "title": "Back up data and replace drive",
+      "body": [
+        "A failing drive can cause slow performance and data loss.",
+        "Back up important files immediately.",
+        "Replace the drive and reinstall or clone the system if appropriate."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkStartupPrograms": {
+      "title": "Check startup programs",
+      "body": [
+        "Open Task Manager startup settings and review programs that start with Windows.",
+        "Disable unnecessary startup apps such as launchers, updaters, chat apps, helper tools, and vendor utilities.",
+        "Do not disable security software or drivers unless you know what they do."
+      ],
+      "successLabel": "Too Many Found",
+      "failLabel": "Startup Looks OK",
+      "successNext": "disableStartupApps",
+      "failNext": "checkWindowsUpdates"
+    },
+    "disableStartupApps": {
+      "title": "Disable unnecessary startup apps",
+      "body": [
+        "Disable non-essential startup programs.",
+        "Restart the computer and test performance again.",
+        "Reducing startup load can improve boot time and general responsiveness."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "checkWindowsUpdates"
+    },
+    "checkWindowsUpdates": {
+      "title": "Check Windows Update status",
+      "body": [
+        "Open Windows Update and check whether updates are downloading, installing, failing, or waiting for restart.",
+        "Windows can feel slow during large updates or after updates while background tasks finish.",
+        "A repeatedly failing update can also cause repeated background load."
+      ],
+      "successLabel": "Updates Active/Failing",
+      "failLabel": "Updates OK",
+      "successNext": "completeUpdates",
+      "failNext": "checkBrowserLoad"
+    },
+    "completeUpdates": {
+      "title": "Complete or repair updates",
+      "body": [
+        "Allow updates to finish and restart when prompted.",
+        "If updates are stuck or repeatedly failing, use the Windows Update Failed guide.",
+        "Retest performance after updates complete."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "checkBrowserLoad"
+    },
+    "checkBrowserLoad": {
+      "title": "Check browser tabs and extensions",
+      "body": [
+        "Browsers can consume large amounts of memory and CPU, especially with many tabs or extensions.",
+        "Close unused tabs, disable unnecessary extensions, and test with a different browser if needed.",
+        "If only web browsing is slow, the issue may be browser, DNS, internet speed, or website related."
+      ],
+      "successLabel": "Browser Was Cause",
+      "failLabel": "Not Browser Related",
+      "successNext": "browserCleanup"
+    ,
+      "failNext": "checkThermalThrottling"
+    },
+    "browserCleanup": {
+      "type": "terminal",
+      "title": "Browser cleanup resolved issue",
+      "body": [
+        "The slowdown was caused by browser load, extensions, or web content.",
+        "Keep unnecessary extensions disabled and reduce excessive open tabs.",
+        "If browsing remains slow, troubleshoot internet or DNS separately."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkThermalThrottling": {
+      "title": "Check for overheating or throttling",
+      "body": [
+        "Listen for loud fans and check whether the computer gets very hot.",
+        "Dust buildup, blocked vents, failed fans, or dried thermal paste can cause the CPU or GPU to slow itself down to prevent damage.",
+        "Laptops are especially vulnerable when used on beds, carpet, or dusty surfaces."
+      ],
+      "successLabel": "Overheating Suspected",
+      "failLabel": "No Heat Issue",
+      "successNext": "cleanCoolingSystem",
+      "failNext": "checkUserProfile"
+    },
+    "cleanCoolingSystem": {
+      "title": "Clean cooling and improve airflow",
+      "body": [
+        "Power off the computer before cleaning.",
+        "Remove dust from vents and fans if safe to do so.",
+        "Ensure laptops are used on a hard surface and desktops have clear airflow around the case."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Slow",
+      "successNext": null,
+      "failNext": "checkUserProfile"
+    },
+    "checkUserProfile": {
+      "title": "Test another user profile",
+      "body": [
+        "Sign in with another user account if available.",
+        "A damaged or overloaded user profile can cause slow logins, desktop delays, broken search, and slow Explorer behaviour.",
+        "If another profile is fast, the issue may be profile-specific rather than system-wide."
+      ],
+      "successLabel": "Other Profile Fast",
+      "failLabel": "Other Profile Slow Too",
+      "successNext": "profileIssueLikely",
+      "failNext": "finalPerformanceAssessment"
+    },
+    "profileIssueLikely": {
+      "type": "terminal",
+      "title": "User profile issue likely",
+      "body": [
+        "The computer performs better under another user profile.",
+        "Back up the affected user's files and consider creating a fresh profile.",
+        "Check login items, profile corruption, mapped drives, cloud sync, and desktop/file clutter."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "finalPerformanceAssessment": {
+      "type": "terminal",
+      "title": "Further performance diagnostics required",
+      "body": [
+        "Basic checks did not identify a simple cause.",
+        "Next steps may include checking event logs, drive benchmarks, RAM testing, clean boot testing, reinstalling Windows, or assessing hardware upgrades.",
+        "If the computer has an HDD, low RAM, or very old hardware, upgrading or replacing it may be the most practical solution."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

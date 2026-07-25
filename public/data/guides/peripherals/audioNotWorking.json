@@ -1,0 +1,274 @@
+{
+  "id": "audioNotWorking",
+  "title": "Audio Not Working",
+  "cardText": [
+    "Diagnose computers with no sound, low sound, or missing audio devices.",
+    "Check volume levels, output devices, headphones, speakers, Bluetooth connections, audio services, and drivers.",
+    "Separate software configuration issues from hardware faults."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for computers where audio is missing, distorted, or not working correctly.",
+    "Start with simple checks such as volume and output device selection.",
+    "Then investigate applications, drivers, services, and hardware.",
+    "Escalate hardware faults after software troubleshooting is completed."
+  ],
+  "startNode": "checkMute",
+  "nodes": {
+    "checkMute": {
+      "title": "Check mute status",
+      "body": [
+        "Verify the computer is not muted.",
+        "Check the keyboard mute key, volume icon, and any external speaker controls.",
+        "Muting is one of the most common causes of missing audio."
+      ],
+      "successLabel": "Not Muted",
+      "failLabel": "Muted",
+      "successNext": "checkVolumeLevel",
+      "failNext": "unmuteAudio"
+    },
+
+    "unmuteAudio": {
+      "type": "terminal",
+      "title": "Unmute audio",
+      "body": [
+        "The system was muted.",
+        "Unmute audio and test sound playback again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkVolumeLevel": {
+      "title": "Check volume level",
+      "body": [
+        "Ensure the volume is turned up to an audible level.",
+        "Check both the master volume and application volume controls.",
+        "Very low volume can appear as no sound."
+      ],
+      "successLabel": "Volume OK",
+      "failLabel": "Volume Too Low",
+      "successNext": "testAudioPlayback",
+      "failNext": "increaseVolume"
+    },
+
+    "increaseVolume": {
+      "type": "terminal",
+      "title": "Increase volume",
+      "body": [
+        "Raise the volume level and test audio again.",
+        "Check application-specific volume controls as well."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "testAudioPlayback": {
+      "title": "Test audio playback",
+      "body": [
+        "Play a known audio file or video.",
+        "Confirm whether any sound is heard.",
+        "This helps verify whether the issue affects all audio."
+      ],
+      "successLabel": "Some Audio",
+      "failLabel": "No Audio",
+      "successNext": "appSpecificIssue",
+      "failNext": "checkOutputDevice"
+    },
+
+    "appSpecificIssue": {
+      "type": "terminal",
+      "title": "Application-specific audio issue",
+      "body": [
+        "Audio works in some applications but not others.",
+        "Check the application's audio settings, output device, and volume controls.",
+        "The operating system audio system appears to be functioning."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkOutputDevice": {
+      "title": "Check audio output device",
+      "body": [
+        "Open sound settings and review the selected output device.",
+        "Computers can route audio to monitors, Bluetooth devices, USB headsets, or speakers.",
+        "Selecting the wrong device results in no audible sound."
+      ],
+      "successLabel": "Correct Device",
+      "failLabel": "Wrong Device",
+      "successNext": "checkHeadphonesSpeakers",
+      "failNext": "selectCorrectDevice"
+    },
+
+    "selectCorrectDevice": {
+      "type": "terminal",
+      "title": "Select correct audio device",
+      "body": [
+        "The wrong output device was selected.",
+        "Choose the correct speakers, headset, or monitor and test again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkHeadphonesSpeakers": {
+      "title": "Check headphones or speakers",
+      "body": [
+        "Verify speakers are powered on if required.",
+        "Reconnect headphones or speakers.",
+        "Check volume controls on external devices."
+      ],
+      "successLabel": "Device Appears OK",
+      "failLabel": "Device Fault Found",
+      "successNext": "checkBluetoothAudio",
+      "failNext": "repairAudioDevice"
+    },
+
+    "repairAudioDevice": {
+      "type": "terminal",
+      "title": "Repair or replace audio device",
+      "body": [
+        "The headphones or speakers appear faulty.",
+        "Repair, reconnect, or replace the affected device."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkBluetoothAudio": {
+      "title": "Check Bluetooth audio devices",
+      "body": [
+        "Determine whether audio is being sent to a Bluetooth device.",
+        "Bluetooth devices can remain connected even when not being used.",
+        "Disconnect unused Bluetooth audio devices and test again."
+      ],
+      "successLabel": "No Bluetooth Issue",
+      "failLabel": "Bluetooth Issue Found",
+      "successNext": "checkAudioServices",
+      "failNext": "disconnectBluetooth"
+    },
+
+    "disconnectBluetooth": {
+      "type": "terminal",
+      "title": "Disconnect Bluetooth audio device",
+      "body": [
+        "Audio was being routed to a Bluetooth device.",
+        "Disconnect or reconfigure the device and test audio again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkAudioServices": {
+      "title": "Check audio services",
+      "body": [
+        "Verify Windows Audio services are running.",
+        "Audio services are responsible for sound playback and device management.",
+        "Restarting these services can resolve some audio faults."
+      ],
+      "successLabel": "Services Running",
+      "failLabel": "Service Problem",
+      "successNext": "checkAudioDeviceManager",
+      "failNext": "restartAudioServices"
+    },
+
+    "restartAudioServices": {
+      "type": "terminal",
+      "title": "Restart audio services",
+      "body": [
+        "Restart the Windows Audio services.",
+        "Retest audio playback after the services restart."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkAudioDeviceManager": {
+      "title": "Check Device Manager",
+      "body": [
+        "Open Device Manager and inspect audio devices.",
+        "Look for warning icons, missing devices, or disabled hardware.",
+        "Driver problems often appear here."
+      ],
+      "successLabel": "No Issues",
+      "failLabel": "Driver/Device Issue",
+      "successNext": "testAlternateAudioDevice",
+      "failNext": "updateAudioDriver"
+    },
+
+    "updateAudioDriver": {
+      "title": "Update or reinstall audio driver",
+      "body": [
+        "Update the audio driver from the manufacturer if available.",
+        "Alternatively remove and reinstall the device.",
+        "Restart the computer after driver changes."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still No Audio",
+      "successNext": null,
+      "failNext": "testAlternateAudioDevice"
+    },
+
+    "testAlternateAudioDevice": {
+      "title": "Test another audio device",
+      "body": [
+        "Connect another headset, speaker, or monitor with audio.",
+        "This helps separate computer faults from speaker or headphone faults.",
+        "Retest audio playback."
+      ],
+      "successLabel": "Works",
+      "failLabel": "Still No Audio",
+      "successNext": "audioDeviceFault",
+      "failNext": "checkSystemUpdates"
+    },
+
+    "audioDeviceFault": {
+      "type": "terminal",
+      "title": "Audio device fault found",
+      "body": [
+        "Audio works using another device.",
+        "The original speaker, headset, or monitor audio hardware is likely faulty."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkSystemUpdates": {
+      "title": "Check recent updates",
+      "body": [
+        "Determine whether the issue started after a Windows or driver update.",
+        "Recent updates can sometimes introduce audio problems.",
+        "Review update history if applicable."
+      ],
+      "successLabel": "Recent Update Found",
+      "failLabel": "No Update Correlation",
+      "successNext": "rollbackDriver",
+      "failNext": "hardwareEscalation"
+    },
+
+    "rollbackDriver": {
+      "type": "terminal",
+      "title": "Rollback audio driver",
+      "body": [
+        "The issue appears related to a recent update.",
+        "Rollback the audio driver or restore a previous working version if appropriate.",
+        "Retest audio afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "hardwareEscalation": {
+      "type": "terminal",
+      "title": "Further hardware diagnostics required",
+      "body": [
+        "Volume, devices, drivers, services, and updates have been checked.",
+        "Possible causes include failed audio hardware, motherboard faults, damaged ports, or internal speaker failure.",
+        "Escalate for hardware diagnostics."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

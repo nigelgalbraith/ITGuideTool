@@ -1,0 +1,130 @@
+{
+  "home": {
+    "title": "IT How-To Guide",
+    "intro": [
+      "Choose a troubleshooting category to get started.",
+      "Each guide walks through one troubleshooting decision at a time."
+    ]
+  },
+  "categories": [
+    {
+      "id": "computer",
+      "title": "Computer & Windows",
+      "description": "Troubleshoot computer startup, display, performance and Windows problems.",
+      "intro": [
+        "Choose the computer problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
+        {
+          "id": "blueScreenCrash",
+          "path": "guides/computer/blueScreenCrash.json"
+        },
+        {
+          "id": "computerNoDisplay",
+          "path": "guides/computer/computerNoDisplay.json"
+        },
+        {
+          "id": "computerNoPower",
+          "path": "guides/computer/computerNoPower.json"
+        },
+        {
+          "id": "computerSlow",
+          "path": "guides/computer/computerSlow.json"
+        },
+        {
+          "id": "pcRandomlyRestarts",
+          "path": "guides/computer/pcRandomlyRestarts.json"
+        },
+        {
+          "id": "windowsUpdateFailed",
+          "path": "guides/computer/windowsUpdateFailed.json"
+        }
+      ]
+    },
+    {
+      "id": "internet",
+      "title": "Internet & Networking",
+      "description": "Troubleshoot internet access, networking and shared folder problems.",
+      "intro": [
+        "Choose the internet or networking problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
+        {
+          "id": "noInternet",
+          "path": "guides/internet/noInternet.json"
+        },
+        {
+          "id": "sharedFolderAccess",
+          "path": "guides/internet/sharedFolderAccess.json"
+        }
+      ]
+    },
+    {
+      "id": "peripherals",
+      "title": "Peripherals & Hardware",
+      "description": "Troubleshoot printers, displays, audio, input devices and battery problems.",
+      "intro": [
+        "Choose the peripheral or hardware problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
+        {
+          "id": "cannotPrint",
+          "path": "guides/peripherals/cannotPrint.json"
+        },
+        {
+          "id": "audioNotWorking",
+          "path": "guides/peripherals/audioNotWorking.json"
+        },
+        {
+          "id": "keyboardMouseNotWorking",
+          "path": "guides/peripherals/keyboardMouseNotWorking.json"
+        },
+        {
+          "id": "externalMonitorNotDetected",
+          "path": "guides/peripherals/externalMonitorNotDetected.json"
+        },
+        {
+          "id": "batteryNotCharging",
+          "path": "guides/peripherals/batteryNotCharging.json"
+        }
+      ]
+    },
+    {
+      "id": "accounts",
+      "title": "Email & Accounts",
+      "description": "Troubleshoot email access, passwords and account sign-in problems.",
+      "intro": [
+        "Choose the email or account problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
+        {
+          "id": "emailNotWorking",
+          "path": "guides/accounts/emailNotWorking.json"
+        },
+        {
+          "id": "forgottenPassword",
+          "path": "guides/accounts/forgottenPassword.json"
+        }
+      ]
+    },
+    {
+      "id": "files",
+      "title": "Files & Recovery",
+      "description": "Troubleshoot missing files and recover deleted or lost data.",
+      "intro": [
+        "Choose the file or recovery problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
+        {
+          "id": "fileRecovery",
+          "path": "guides/files/fileRecovery.json"
+        }
+      ]
+    }
+  ]
+}

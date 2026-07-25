@@ -1,0 +1,234 @@
+{
+  "id": "keyboardMouseNotWorking",
+  "title": "Keyboard or Mouse Not Working",
+  "cardText": [
+    "Diagnose keyboards and mice that do not respond, disconnect unexpectedly, or are not detected.",
+    "Check power, batteries, connections, drivers, Bluetooth, wireless receivers, and hardware faults.",
+    "Separate device faults from operating system and driver issues."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for keyboards and mice that are not responding or are behaving unexpectedly.",
+    "Check simple issues such as batteries, connections, and power before investigating drivers.",
+    "Determine whether the issue affects one device or multiple input devices.",
+    "Escalate hardware faults after software troubleshooting is complete."
+  ],
+  "startNode": "identifyAffectedDevice",
+  "nodes": {
+    "identifyAffectedDevice": {
+      "title": "Identify the affected device",
+      "body": [
+        "Determine whether the issue affects a keyboard, mouse, or both.",
+        "If both devices fail at the same time, the cause is often the computer rather than the devices themselves."
+      ],
+      "successLabel": "One Device",
+      "failLabel": "Both Devices",
+      "successNext": "checkConnectionType",
+      "failNext": "testAlternateInput"
+    },
+
+    "checkConnectionType": {
+      "title": "Identify connection type",
+      "body": [
+        "Determine whether the device is USB, wireless, or Bluetooth.",
+        "Different connection methods require different troubleshooting."
+      ],
+      "successLabel": "USB",
+      "failLabel": "Wireless/Bluetooth",
+      "successNext": "checkUsbConnection",
+      "failNext": "checkWirelessPower"
+    },
+
+    "checkUsbConnection": {
+      "title": "Check USB connection",
+      "body": [
+        "Reconnect the device.",
+        "Try a different USB port.",
+        "Avoid USB hubs during testing."
+      ],
+      "successLabel": "Still Not Working",
+      "failLabel": "Works Now",
+      "successNext": "checkDeviceManager",
+      "failNext": null
+    },
+
+    "checkWirelessPower": {
+      "title": "Check batteries and power",
+      "body": [
+        "Confirm the device is switched on.",
+        "Replace or recharge batteries.",
+        "Check for power indicator lights."
+      ],
+      "successLabel": "Power OK",
+      "failLabel": "Power Issue",
+      "successNext": "checkWirelessReceiver",
+      "failNext": "replaceBatteries"
+    },
+
+    "replaceBatteries": {
+      "type": "terminal",
+      "title": "Replace batteries or recharge device",
+      "body": [
+        "Low battery power is a common cause of keyboard and mouse failures.",
+        "Replace or recharge the batteries and test again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkWirelessReceiver": {
+      "title": "Check wireless receiver",
+      "body": [
+        "If the device uses a USB receiver, ensure it is connected.",
+        "Try another USB port if available.",
+        "Look for physical damage."
+      ],
+      "successLabel": "Receiver OK",
+      "failLabel": "Receiver Issue",
+      "successNext": "checkBluetoothConnection",
+      "failNext": "receiverFault"
+    },
+
+    "receiverFault": {
+      "type": "terminal",
+      "title": "Wireless receiver issue found",
+      "body": [
+        "The wireless receiver appears faulty or disconnected.",
+        "Reconnect or replace the receiver if supported."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkBluetoothConnection": {
+      "title": "Check Bluetooth connection",
+      "body": [
+        "Verify the device is paired.",
+        "Remove and re-pair the device if necessary.",
+        "Bluetooth devices may disconnect after updates or power events."
+      ],
+      "successLabel": "Bluetooth OK",
+      "failLabel": "Bluetooth Issue",
+      "successNext": "checkDeviceManager",
+      "failNext": "repairBluetooth"
+    },
+
+    "repairBluetooth": {
+      "type": "terminal",
+      "title": "Repair Bluetooth connection",
+      "body": [
+        "Remove the device and pair it again.",
+        "Retest input after pairing completes."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "testAlternateInput": {
+      "title": "Test another keyboard or mouse",
+      "body": [
+        "Connect a known-good keyboard or mouse.",
+        "This helps determine whether the issue is with the device or the computer."
+      ],
+      "successLabel": "New Device Works",
+      "failLabel": "New Device Fails",
+      "successNext": "deviceFault",
+      "failNext": "checkUsbPorts"
+    },
+
+    "deviceFault": {
+      "type": "terminal",
+      "title": "Input device fault found",
+      "body": [
+        "The replacement device works correctly.",
+        "The original keyboard or mouse is likely faulty."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkUsbPorts": {
+      "title": "Check USB ports",
+      "body": [
+        "Test the ports using another USB device.",
+        "Failed ports can affect multiple keyboards and mice."
+      ],
+      "successLabel": "Ports Work",
+      "failLabel": "Ports Faulty",
+      "successNext": "checkDeviceManager",
+      "failNext": "usbPortFault"
+    },
+
+    "usbPortFault": {
+      "type": "terminal",
+      "title": "USB port issue found",
+      "body": [
+        "The USB ports are not functioning correctly.",
+        "Investigate USB controller drivers, motherboard ports, or physical damage."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkDeviceManager": {
+      "title": "Check Device Manager",
+      "body": [
+        "Open Device Manager.",
+        "Look for warning symbols, disabled devices, or missing keyboard/mouse entries.",
+        "Driver issues commonly appear here."
+      ],
+      "successLabel": "Driver Issue Found",
+      "failLabel": "No Driver Issue",
+      "successNext": "reinstallDrivers",
+      "failNext": "checkSafeMode"
+    },
+
+    "reinstallDrivers": {
+      "title": "Reinstall device drivers",
+      "body": [
+        "Remove the affected device from Device Manager.",
+        "Restart the computer and allow Windows to reinstall it.",
+        "Retest the device afterwards."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Working",
+      "successNext": null,
+      "failNext": "checkSafeMode"
+    },
+
+    "checkSafeMode": {
+      "title": "Test in Safe Mode",
+      "body": [
+        "Boot into Safe Mode if possible.",
+        "If the device works there, software or driver conflicts may be responsible."
+      ],
+      "successLabel": "Works In Safe Mode",
+      "failLabel": "Fails In Safe Mode",
+      "successNext": "softwareConflict",
+      "failNext": "hardwareEscalation"
+    },
+
+    "softwareConflict": {
+      "type": "terminal",
+      "title": "Software conflict likely",
+      "body": [
+        "The device works in Safe Mode.",
+        "Investigate startup software, drivers, utilities, or recent updates."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "hardwareEscalation": {
+      "type": "terminal",
+      "title": "Further hardware diagnostics required",
+      "body": [
+        "Power, drivers, ports, Bluetooth, and replacement device testing did not resolve the issue.",
+        "Possible causes include motherboard faults, USB controller failures, or internal hardware problems.",
+        "Escalate for hardware diagnostics."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

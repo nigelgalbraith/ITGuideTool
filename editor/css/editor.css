@@ -1,0 +1,259 @@
+.editor-app .split {
+  grid-template-columns: minmax(13rem, 0.65fr) minmax(24rem, 1.6fr) minmax(18rem, 1fr);
+  align-items: start;
+}
+
+.editor-toolbar,
+.editor-actions,
+.node-actions,
+.answer-grid,
+.guide-list-item {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.editor-toolbar {
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.editor-app .hidden {
+  display: none;
+}
+
+.editor-app .status-container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.editor-app .editor-toolbar--centered,
+.editor-app .editor-toolbar--stacked,
+.editor-app .centered-actions,
+.editor-app .node-footer-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.editor-app .editor-toolbar--centered,
+.editor-app .editor-toolbar--stacked {
+  text-align: center;
+}
+
+.editor-app .editor-toolbar--stacked > h2,
+.editor-app .editor-toolbar--stacked > .centered-actions {
+  flex: 1 0 100%;
+}
+
+.editor-app .centered-actions,
+.editor-app .node-footer-actions {
+  width: 100%;
+}
+
+.editor-app .node-actions {
+  justify-content: center;
+  width: 100%;
+}
+
+.editor-app .guide-editing-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.editor-app .guide-editing-header.hidden {
+  display: none;
+}
+
+.editor-toolbar h2,
+.node-card h3,
+.preview-card h3 {
+  margin: 0;
+}
+
+.guide-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.guide-list-item {
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+}
+
+.guide-list-item[aria-current="true"] {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.editor-form,
+.node-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.form-field--wide {
+  grid-column: 1 / -1;
+}
+
+.form-field label,
+.form-field legend {
+  font-weight: 700;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 0.7rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+  font: inherit;
+}
+
+.form-field textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.field-help {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.node-card,
+.preview-card,
+.validation-box {
+  padding: 1rem;
+  background: color-mix(in srgb, var(--surface) 82%, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+}
+
+.node-card {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.node-card--start {
+  outline: 2px solid var(--button-success);
+}
+
+.node-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.node-badge {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.answer-grid {
+  align-items: end;
+}
+
+.answer-grid .form-field {
+  flex: 1 1 12rem;
+}
+
+.editor-button-danger {
+  background: var(--button-fail);
+}
+
+.editor-button-success {
+  background: var(--button-success);
+}
+
+.status-message {
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+}
+
+.status-message--error {
+  border-color: var(--button-fail);
+}
+
+.status-message--success {
+  border-color: var(--button-success);
+}
+
+.validation-box ul {
+  margin-bottom: 0;
+}
+
+.preview-card .dt-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.preview-card .dt-button {
+  flex: 1 1 9rem;
+}
+
+.empty-message {
+  opacity: 0.8;
+}
+
+.editor-footer-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 1150px) {
+  .editor-app .split {
+    grid-template-columns: minmax(13rem, 0.7fr) minmax(22rem, 1.5fr);
+  }
+
+  .editor-preview-pane {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .editor-app .split,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-preview-pane {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .editor-app .status-container {
+    width: 100%;
+  }
+}

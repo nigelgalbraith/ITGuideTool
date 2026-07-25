@@ -1,0 +1,356 @@
+{
+  "id": "emailNotWorking",
+  "title": "Email Not Working",
+  "cardText": [
+    "Diagnose email problems such as not sending, not receiving, login failures, sync issues, and attachment problems.",
+    "Check internet access, webmail, account credentials, storage limits, mail client settings, and server status.",
+    "Separate device/app issues from account, provider, and mail server faults."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for email accounts that are not sending, receiving, syncing, or logging in correctly.",
+    "Start by identifying whether the issue affects webmail, one device, or all devices.",
+    "Check internet access, account login, storage, spam folders, sync status, and mail client configuration.",
+    "Escalate provider or account problems when local checks do not resolve the issue."
+  ],
+  "startNode": "identifyEmailProblem",
+  "nodes": {
+    "identifyEmailProblem": {
+      "title": "Identify the email problem",
+      "body": [
+        "Determine what exactly is not working.",
+        "Common symptoms include cannot send, cannot receive, login failed, password prompt, emails missing, attachments failing, or email not syncing.",
+        "The exact symptom determines the correct troubleshooting path."
+      ],
+      "successLabel": "Send/Receive Issue",
+      "failLabel": "Login/Sync Issue",
+      "successNext": "checkInternetAccess",
+      "failNext": "checkLoginProblem"
+    },
+    "checkInternetAccess": {
+      "title": "Check internet access",
+      "body": [
+        "Open a browser and test several websites.",
+        "Email apps need a working internet connection to send, receive, and sync messages.",
+        "If websites do not load, troubleshoot the internet connection first."
+      ],
+      "successLabel": "Internet Works",
+      "failLabel": "No Internet",
+      "successNext": "testWebmail",
+      "failNext": "useNoInternetGuide"
+    },
+    "useNoInternetGuide": {
+      "type": "terminal",
+      "title": "Use the no-internet guide",
+      "body": [
+        "The device does not have working internet access.",
+        "Use the No Internet Connection guide before troubleshooting email.",
+        "Email cannot work reliably until the network connection is restored."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "testWebmail": {
+      "title": "Test webmail access",
+      "body": [
+        "Open the email provider's webmail page in a browser.",
+        "Sign in and check whether email works there.",
+        "If webmail works, the account is probably fine and the issue is likely with the email app or device."
+      ],
+      "successLabel": "Webmail Works",
+      "failLabel": "Webmail Fails",
+      "successNext": "checkMailAppIssue",
+      "failNext": "checkProviderStatus"
+    },
+    "checkProviderStatus": {
+      "title": "Check provider status",
+      "body": [
+        "Check whether the email provider has a service outage.",
+        "Provider outages can stop sending, receiving, login, or webmail access.",
+        "If the provider is down, local troubleshooting will not fix the issue."
+      ],
+      "successLabel": "Provider Online",
+      "failLabel": "Outage Found",
+      "successNext": "checkAccountCredentials",
+      "failNext": "waitForProvider"
+    },
+    "waitForProvider": {
+      "type": "terminal",
+      "title": "Wait for provider restoration",
+      "body": [
+        "The email provider appears to have an outage.",
+        "Wait for the provider to restore service.",
+        "Retest webmail and the email app after the outage is resolved."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkAccountCredentials": {
+      "title": "Check account credentials",
+      "body": [
+        "Confirm the email address and password are correct.",
+        "If multi-factor authentication is enabled, confirm the sign-in approval is completed.",
+        "Some email apps require an app password instead of the normal account password."
+      ],
+      "successLabel": "Credentials Work",
+      "failLabel": "Cannot Sign In",
+      "successNext": "checkMailboxStorage",
+      "failNext": "resetEmailPassword"
+    },
+    "resetEmailPassword": {
+      "type": "terminal",
+      "title": "Reset or recover email account",
+      "body": [
+        "The account cannot be accessed with the current credentials.",
+        "Use the provider's account recovery or password reset process.",
+        "After access is restored, update the password in all email apps and devices."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkMailboxStorage": {
+      "title": "Check mailbox storage",
+      "body": [
+        "Check whether the mailbox is full or close to its storage limit.",
+        "A full mailbox may prevent new mail from arriving or stop outgoing messages from being saved.",
+        "Delete unnecessary mail or upgrade storage if required."
+      ],
+      "successLabel": "Storage OK",
+      "failLabel": "Mailbox Full",
+      "successNext": "checkSpamAndRules",
+      "failNext": "freeMailboxStorage"
+    },
+    "freeMailboxStorage": {
+      "type": "terminal",
+      "title": "Free mailbox storage",
+      "body": [
+        "Delete or archive old email, empty deleted items, and remove large attachments if safe.",
+        "After freeing space, wait a few minutes and test sending and receiving again.",
+        "Mail delivery may take time to resume after storage is cleared."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkSpamAndRules": {
+      "title": "Check spam, junk, and mail rules",
+      "body": [
+        "Check spam, junk, deleted items, archive, and other folders.",
+        "Review mail rules or filters that may move messages automatically.",
+        "Missing emails are often being delivered but moved somewhere unexpected."
+      ],
+      "successLabel": "Mail Found",
+      "failLabel": "Mail Not Found",
+      "successNext": "mailRuleIssue",
+      "failNext": "checkSendOrReceive"
+    },
+    "mailRuleIssue": {
+      "type": "terminal",
+      "title": "Mail rule or folder issue found",
+      "body": [
+        "The missing email was found in another folder or moved by a rule.",
+        "Adjust spam settings, safe sender lists, or mailbox rules as needed.",
+        "Ask the sender to resend if the message was deleted or quarantined."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkSendOrReceive": {
+      "title": "Determine whether sending or receiving fails",
+      "body": [
+        "Test sending an email to yourself.",
+        "Then ask whether incoming mail, outgoing mail, or both are failing.",
+        "Sending and receiving use different server paths, so the distinction matters."
+      ],
+      "successLabel": "Receiving Fails",
+      "failLabel": "Sending Fails",
+      "successNext": "checkIncomingMail",
+      "failNext": "checkOutgoingMail"
+    },
+    "checkIncomingMail": {
+      "title": "Check incoming mail",
+      "body": [
+        "Send a test email from another account to the affected address.",
+        "Check whether it appears in webmail.",
+        "If it reaches webmail but not the app, the issue is local sync."
+      ],
+      "successLabel": "Appears In Webmail",
+      "failLabel": "Not In Webmail",
+      "successNext": "checkMailAppIssue",
+      "failNext": "incomingServerIssue"
+    },
+    "incomingServerIssue": {
+      "type": "terminal",
+      "title": "Incoming mail delivery issue likely",
+      "body": [
+        "Incoming messages are not reaching webmail.",
+        "Check sender bounce-back messages, mailbox storage, domain records, provider filtering, or account restrictions.",
+        "Escalate to the email provider or domain administrator if needed."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkOutgoingMail": {
+      "title": "Check outgoing mail",
+      "body": [
+        "Send a plain test email with no attachment.",
+        "Large attachments, blocked recipients, bad addresses, or server authentication problems can stop sending.",
+        "Check for bounce-back or error messages."
+      ],
+      "successLabel": "Plain Email Sends",
+      "failLabel": "Still Fails",
+      "successNext": "attachmentOrRecipientIssue",
+      "failNext": "checkOutbox"
+    },
+    "attachmentOrRecipientIssue": {
+      "type": "terminal",
+      "title": "Attachment or recipient issue likely",
+      "body": [
+        "A plain email sends successfully, so the account can send mail.",
+        "The original message may have an attachment that is too large, a blocked file type, or an invalid recipient.",
+        "Compress the file, use cloud sharing, or correct the recipient address."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkOutbox": {
+      "title": "Check outbox",
+      "body": [
+        "Open the outbox or drafts folder.",
+        "A stuck message can block later messages from sending.",
+        "Delete or move stuck messages, then test with a small plain email."
+      ],
+      "successLabel": "Stuck Message Found",
+      "failLabel": "No Stuck Message",
+      "successNext": "clearOutbox",
+      "failNext": "checkSmtpSettings"
+    },
+    "clearOutbox": {
+      "type": "terminal",
+      "title": "Clear stuck outbox message",
+      "body": [
+        "Delete or move the stuck message from the outbox.",
+        "Restart the email app and send a small test email.",
+        "Recreate the original message only after basic sending works."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkSmtpSettings": {
+      "title": "Check outgoing server settings",
+      "body": [
+        "Check the outgoing SMTP server, port, encryption, and authentication settings.",
+        "Incorrect SMTP settings commonly prevent sending while receiving still works.",
+        "Use the provider's current recommended settings."
+      ],
+      "successLabel": "Settings Correct",
+      "failLabel": "Settings Wrong",
+      "successNext": "checkSecuritySoftware",
+      "failNext": "fixSmtpSettings"
+    },
+    "fixSmtpSettings": {
+      "type": "terminal",
+      "title": "Correct outgoing mail settings",
+      "body": [
+        "Update the SMTP server settings using the provider's recommended values.",
+        "Confirm authentication is enabled if required.",
+        "Restart the email app and test sending again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkLoginProblem": {
+      "title": "Check login or sync symptom",
+      "body": [
+        "Determine whether the issue is a password prompt, login failure, account disconnected message, or mail not syncing.",
+        "Login failures usually point to credentials, authentication, account lockout, or provider issues.",
+        "Sync failures may be local app, cache, profile, or connection related."
+      ],
+      "successLabel": "Login Failed",
+      "failLabel": "Sync Failed",
+      "successNext": "testWebmail",
+      "failNext": "checkMailAppIssue"
+    },
+    "checkMailAppIssue": {
+      "title": "Check whether only the mail app is affected",
+      "body": [
+        "If webmail works but the email app does not, the account itself is likely working.",
+        "The issue is probably the mail app, saved password, sync cache, profile, or account configuration.",
+        "This is common after password changes, updates, or account security changes."
+      ],
+      "successLabel": "Only App Affected",
+      "failLabel": "All Access Fails",
+      "successNext": "restartMailApp",
+      "failNext": "checkProviderStatus"
+    },
+    "restartMailApp": {
+      "title": "Restart the mail app and device",
+      "body": [
+        "Close and reopen the email app.",
+        "Restart the device if the app still does not sync.",
+        "Temporary sync and authentication problems can sometimes clear after a restart."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Broken",
+      "successNext": null,
+      "failNext": "checkSavedPassword"
+    },
+    "checkSavedPassword": {
+      "title": "Check saved password",
+      "body": [
+        "If the password was recently changed, update the saved password in the email app.",
+        "Remove old saved credentials if the app keeps using the wrong password.",
+        "For business or hosted accounts, sign-in may also require MFA or an app password."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Broken",
+      "successNext": null,
+      "failNext": "removeAndReaddAccount"
+    },
+    "removeAndReaddAccount": {
+      "title": "Remove and re-add the email account",
+      "body": [
+        "Remove the email account from the app if webmail confirms the account is working.",
+        "Add the account again using automatic setup if available.",
+        "This refreshes server settings, authentication, and sync configuration."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Broken",
+      "successNext": null,
+      "failNext": "checkSecuritySoftware"
+    },
+    "checkSecuritySoftware": {
+      "title": "Check antivirus, firewall, or VPN interference",
+      "body": [
+        "Security software, firewall rules, or VPN connections can block mail traffic.",
+        "Temporarily disconnect VPN or check security software mail protection settings if safe.",
+        "Do not disable security protection permanently without understanding the cause."
+      ],
+      "successLabel": "Interference Found",
+      "failLabel": "No Interference",
+      "successNext": "securitySoftwareIssue",
+      "failNext": "finalEmailEscalation"
+    },
+    "securitySoftwareIssue": {
+      "type": "terminal",
+      "title": "Security software or VPN issue found",
+      "body": [
+        "Mail works after changing VPN, firewall, or security software settings.",
+        "Update the security software configuration rather than leaving protection disabled.",
+        "Document what was changed in case the issue returns."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "finalEmailEscalation": {
+      "type": "terminal",
+      "title": "Further email diagnostics required",
+      "body": [
+        "Basic account, webmail, storage, app, server, and security checks did not resolve the issue.",
+        "Next steps may include checking provider logs, domain DNS records, mailbox licensing, account restrictions, or rebuilding the mail profile.",
+        "Escalate to the email provider, domain administrator, or IT support."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

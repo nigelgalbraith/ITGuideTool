@@ -1,0 +1,373 @@
+{
+  "id": "windowsUpdateFailed",
+  "title": "Windows Update Failed",
+  "cardText": [
+    "Diagnose Windows updates that fail to download, install, or complete successfully.",
+    "Check internet connectivity, storage space, pending restarts, update services, system files, and update cache issues.",
+    "Separate simple update problems from operating system corruption or hardware faults."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for Windows updates that fail, become stuck, repeatedly retry, or generate error messages.",
+    "Start with basic checks such as internet access, free disk space, and pending restarts.",
+    "Then investigate update services, cache corruption, security software interference, and system file integrity.",
+    "Escalate persistent failures that survive repair attempts."
+  ],
+  "startNode": "checkErrorMessage",
+  "nodes": {
+    "checkErrorMessage": {
+      "title": "Check for an update error message",
+      "body": [
+        "Open Windows Update and note any error codes or messages.",
+        "Error codes can provide clues about the cause of the failure.",
+        "Record the code before making major changes."
+      ],
+      "successLabel": "Error Code Present",
+      "failLabel": "No Error Code",
+      "successNext": "checkInternetAccess",
+      "failNext": "checkInternetAccess"
+    },
+
+    "checkInternetAccess": {
+      "title": "Check internet connectivity",
+      "body": [
+        "Open a browser and test multiple websites.",
+        "Windows Update requires reliable internet access to download updates.",
+        "If websites fail to load, troubleshoot the network connection first."
+      ],
+      "successLabel": "Internet Works",
+      "failLabel": "No Internet",
+      "successNext": "checkPendingRestart",
+      "failNext": "useNoInternetGuide"
+    },
+
+    "useNoInternetGuide": {
+      "type": "terminal",
+      "title": "Resolve internet connectivity first",
+      "body": [
+        "Windows Update cannot function correctly without internet access.",
+        "Use the No Internet Connection guide to restore connectivity.",
+        "Retry updates after the internet connection is working."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkPendingRestart": {
+      "title": "Check for a pending restart",
+      "body": [
+        "Windows may require a restart before additional updates can install.",
+        "Look for Restart Required messages.",
+        "Restart the computer before continuing."
+      ],
+      "successLabel": "Restart Pending",
+      "failLabel": "No Restart Pending",
+      "successNext": "restartComputer",
+      "failNext": "checkDiskSpace"
+    },
+
+    "restartComputer": {
+      "title": "Restart the computer",
+      "body": [
+        "Save your work and restart Windows.",
+        "After startup completes, run Windows Update again.",
+        "Many update failures are resolved by a restart."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Fails",
+      "successNext": null,
+      "failNext": "checkDiskSpace"
+    },
+
+    "checkDiskSpace": {
+      "title": "Check free disk space",
+      "body": [
+        "Windows updates require free space for downloads, extraction, backups, and installation.",
+        "Low storage can cause updates to fail or become stuck.",
+        "Check available space on the system drive."
+      ],
+      "successLabel": "Enough Space",
+      "failLabel": "Low Space",
+      "successNext": "runTroubleshooter",
+      "failNext": "freeDiskSpace"
+    },
+
+    "freeDiskSpace": {
+      "title": "Free disk space",
+      "body": [
+        "Delete temporary files, empty the recycle bin, and remove unnecessary software if appropriate.",
+        "Use Storage Settings or Disk Cleanup to remove safe temporary data.",
+        "Retry Windows Update after freeing space."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Fails",
+      "successNext": null,
+      "failNext": "runTroubleshooter"
+    },
+
+    "runTroubleshooter": {
+      "title": "Run Windows Update Troubleshooter",
+      "body": [
+        "Use the built-in Windows Update Troubleshooter.",
+        "It can automatically repair common update problems.",
+        "Apply any recommended fixes and test updates again."
+      ],
+      "successLabel": "Issue Fixed",
+      "failLabel": "No Change",
+      "successNext": null,
+      "failNext": "checkUpdateType"
+    },
+
+    "checkUpdateType": {
+      "title": "Determine update scope",
+      "body": [
+        "Check whether one update is failing or all updates are failing.",
+        "A single failing update often indicates a package-specific issue.",
+        "Multiple failures may indicate a broader Windows problem."
+      ],
+      "successLabel": "One Update",
+      "failLabel": "Multiple Updates",
+      "successNext": "checkSpecificUpdate",
+      "failNext": "checkUpdateServices"
+    },
+
+    "checkSpecificUpdate": {
+      "title": "Check specific update",
+      "body": [
+        "Identify the update KB number if available.",
+        "Search for known issues affecting that update.",
+        "Some updates are temporarily withdrawn or known to fail on certain systems."
+      ],
+      "successLabel": "Known Issue",
+      "failLabel": "No Known Issue",
+      "successNext": "waitForReplacementUpdate",
+      "failNext": "manualInstallUpdate"
+    },
+
+    "waitForReplacementUpdate": {
+      "type": "terminal",
+      "title": "Known update issue",
+      "body": [
+        "The failing update has a known issue.",
+        "Monitor Microsoft guidance and wait for a replacement or revised update.",
+        "Install other updates normally."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "manualInstallUpdate": {
+      "title": "Attempt manual installation",
+      "body": [
+        "Download the update manually from the Microsoft Update Catalog if appropriate.",
+        "Install it manually and monitor for errors.",
+        "This can bypass some Windows Update delivery issues."
+      ],
+      "successLabel": "Installed",
+      "failLabel": "Still Fails",
+      "successNext": "singleUpdateResolved",
+      "failNext": "checkSystemFiles"
+    },
+
+    "singleUpdateResolved": {
+      "type": "terminal",
+      "title": "Update installed successfully",
+      "body": [
+        "The update installed manually.",
+        "The issue was likely related to Windows Update delivery rather than the update itself.",
+        "Continue installing remaining updates normally."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkUpdateServices": {
+      "title": "Check Windows Update services",
+      "body": [
+        "Verify that Windows Update related services are running.",
+        "Windows Update, Background Intelligent Transfer Service (BITS), and Cryptographic Services are commonly required.",
+        "Stopped services can prevent updates from downloading or installing."
+      ],
+      "successLabel": "Services Running",
+      "failLabel": "Service Problem Found",
+      "successNext": "checkSecuritySoftware",
+      "failNext": "restartUpdateServices"
+    },
+
+    "restartUpdateServices": {
+      "title": "Restart update services",
+      "body": [
+        "Restart the affected update services.",
+        "After the services restart, try Windows Update again.",
+        "Service failures can sometimes occur after crashes or incomplete updates."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Fails",
+      "successNext": null,
+      "failNext": "checkSecuritySoftware"
+    },
+
+    "checkSecuritySoftware": {
+      "title": "Check security software interference",
+      "body": [
+        "Some antivirus or endpoint protection products can interfere with updates.",
+        "Review security software logs and update settings.",
+        "Temporarily testing without interference may help identify the cause."
+      ],
+      "successLabel": "Interference Found",
+      "failLabel": "No Interference",
+      "successNext": "securitySoftwareIssue",
+      "failNext": "resetUpdateCache"
+    },
+
+    "securitySoftwareIssue": {
+      "type": "terminal",
+      "title": "Security software issue found",
+      "body": [
+        "The update failure appears related to security software.",
+        "Adjust configuration or update the security software.",
+        "Retest updates after the changes are made."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "resetUpdateCache": {
+      "title": "Reset Windows Update cache",
+      "body": [
+        "Corrupted update cache files can cause repeated failures.",
+        "Resetting the SoftwareDistribution and Catroot2 folders can force Windows to rebuild update data.",
+        "Retry updates after the cache is rebuilt."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Fails",
+      "successNext": null,
+      "failNext": "checkSystemFiles"
+    },
+
+    "checkSystemFiles": {
+      "title": "Check Windows system files",
+      "body": [
+        "Corrupted operating system files can prevent updates from installing.",
+        "Run System File Checker (SFC) and Deployment Image Servicing and Management (DISM) repairs if appropriate.",
+        "These tools repair missing or damaged Windows components."
+      ],
+      "successLabel": "Corruption Found",
+      "failLabel": "No Corruption Found",
+      "successNext": "repairSystemFiles",
+      "failNext": "checkDateTime"
+    },
+
+    "repairSystemFiles": {
+      "title": "Repair Windows system files",
+      "body": [
+        "Allow SFC and DISM repairs to complete.",
+        "Restart the computer afterwards.",
+        "Test Windows Update again."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Fails",
+      "successNext": null,
+      "failNext": "checkDateTime"
+    },
+
+    "checkDateTime": {
+      "title": "Check system date and time",
+      "body": [
+        "Incorrect system date, time, or time zone settings can cause update authentication failures.",
+        "Verify the clock is correct and synchronized.",
+        "Retry updates afterwards."
+      ],
+      "successLabel": "Date/Time Correct",
+      "failLabel": "Incorrect Date/Time",
+      "successNext": "checkDiskHealth",
+      "failNext": "correctDateTime"
+    },
+
+    "correctDateTime": {
+      "type": "terminal",
+      "title": "Correct system date and time",
+      "body": [
+        "Fix the system clock and synchronize it with an internet time source.",
+        "Retry Windows Update after correcting the settings."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkDiskHealth": {
+      "title": "Check drive health",
+      "body": [
+        "Storage problems can cause update failures and file corruption.",
+        "Check for SMART warnings, disk errors, unusual delays, or storage-related event log entries.",
+        "A failing drive should be treated as a data protection issue."
+      ],
+      "successLabel": "Drive Healthy",
+      "failLabel": "Drive Fault Suspected",
+      "successNext": "checkEventLogs",
+      "failNext": "replaceFailingDrive"
+    },
+
+    "replaceFailingDrive": {
+      "type": "terminal",
+      "title": "Drive failure suspected",
+      "body": [
+        "Back up important data immediately.",
+        "Replace the failing drive and reinstall or restore Windows if necessary.",
+        "Update failures are often secondary symptoms of storage problems."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkEventLogs": {
+      "title": "Review update-related event logs",
+      "body": [
+        "Check Event Viewer for update, servicing, or installation errors.",
+        "Repeated errors can identify the component responsible for failures.",
+        "Document any recurring codes or messages."
+      ],
+      "successLabel": "Useful Error Found",
+      "failLabel": "No Useful Information",
+      "successNext": "researchErrorCode",
+      "failNext": "repairInstallWindows"
+    },
+
+    "researchErrorCode": {
+      "title": "Research update error",
+      "body": [
+        "Use the recorded error code or event log message to identify the failing component.",
+        "Many update errors have documented Microsoft fixes.",
+        "Apply any relevant remediation steps."
+      ],
+      "successLabel": "Fix Available",
+      "failLabel": "No Fix Found",
+      "successNext": "applySpecificFix",
+      "failNext": "repairInstallWindows"
+    },
+
+    "applySpecificFix": {
+      "type": "terminal",
+      "title": "Apply update-specific fix",
+      "body": [
+        "Follow the documented fix for the identified error.",
+        "Retest updates after applying the repair.",
+        "Document the resolution for future reference."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "repairInstallWindows": {
+      "type": "terminal",
+      "title": "Advanced Windows repair required",
+      "body": [
+        "Basic update troubleshooting did not resolve the problem.",
+        "Consider an in-place repair install of Windows, operating system recovery, or a clean reinstall.",
+        "Back up important data before major repair operations."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

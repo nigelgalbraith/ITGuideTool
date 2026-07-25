@@ -1,0 +1,195 @@
+{
+  "cardText": [
+    "Diagnose a desktop or laptop that does not power on.",
+    "Determine whether the problem is power delivery, battery, power supply, motherboard, or startup related.",
+    "Follow the checks in order before replacing hardware."
+  ],
+  "icon": "",
+  "id": "computerNoPower",
+  "nodes": {
+    "checkLaptopBattery": {
+      "body": [
+        "Connect the charger and look for charging LEDs.",
+        "Leave the charger connected for at least 10 minutes.",
+        "A completely discharged battery may require time before startup."
+      ],
+      "failLabel": "No Charging Light",
+      "failNext": "laptopPowerFault",
+      "successLabel": "Charging Light Present",
+      "successNext": null,
+      "title": "Check laptop charging indicators"
+    },
+    "checkMotherboardLed": {
+      "body": [
+        "If safe to open the case, look for a standby LED on the motherboard.",
+        "A standby LED usually indicates the motherboard is receiving power."
+      ],
+      "failLabel": "No LED",
+      "failNext": "psuFailure",
+      "successLabel": "LED Present",
+      "successNext": "testPowerButton",
+      "title": "Check motherboard standby power"
+    },
+    "checkPowerCable": {
+      "body": [
+        "Ensure the power cable is firmly connected.",
+        "For laptops, verify the charger is connected correctly.",
+        "Look for damaged cables, bent pins, or loose connectors."
+      ],
+      "failLabel": "Cable Damaged",
+      "failNext": "replacePowerCable",
+      "successLabel": "Cable Appears OK",
+      "successNext": "desktopOrLaptop",
+      "title": "Check power cable and adapter"
+    },
+    "checkPowerSource": {
+      "body": [
+        "Confirm the wall outlet has power.",
+        "Try another device such as a lamp or phone charger.",
+        "If using a power board, ensure it is switched on."
+      ],
+      "failLabel": "No Power",
+      "failNext": "restorePower",
+      "successLabel": "Power Available",
+      "successNext": "checkPowerCable",
+      "title": "Check power source"
+    },
+    "checkPsuSwitch": {
+      "body": [
+        "Ensure the switch on the back of the power supply is set to ON.",
+        "Some desktop power supplies also include a voltage selector switch which should not normally be changed."
+      ],
+      "failLabel": "Switch OFF",
+      "failNext": "enablePsu",
+      "successLabel": "Switch ON",
+      "successNext": "checkMotherboardLed",
+      "title": "Check power supply switch"
+    },
+    "desktopOrLaptop": {
+      "body": [
+        "Determine whether the affected device is a desktop computer or laptop.",
+        "Different power systems require different troubleshooting steps."
+      ],
+      "failLabel": "Laptop",
+      "failNext": "checkLaptopBattery",
+      "successLabel": "Desktop",
+      "successNext": "checkPsuSwitch",
+      "title": "Identify device type"
+    },
+    "enablePsu": {
+      "body": [
+        "The power supply was switched off.",
+        "Turn it on and test the computer again."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Enable power supply",
+      "type": "terminal"
+    },
+    "fansOrLights": {
+      "body": [
+        "Some activity indicates power is reaching the system.",
+        "The problem may be startup related rather than a complete power failure."
+      ],
+      "failLabel": "No",
+      "failNext": "checkPowerSource",
+      "successLabel": "Yes",
+      "successNext": "motherboardFailure",
+      "title": "Do fans spin or lights turn on?"
+    },
+    "laptopPowerFault": {
+      "body": [
+        "The laptop is not showing evidence of receiving power.",
+        "Test with a known-good charger if available.",
+        "If the problem remains, hardware repair may be required."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Possible charger, battery, or motherboard fault",
+      "type": "terminal"
+    },
+    "motherboardFailure": {
+      "body": [
+        "The computer receives power but still does not start normally.",
+        "Further diagnosis may require testing RAM, CPU, motherboard, and power supply components.",
+        "Escalate for hardware diagnostics or repair."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Possible motherboard or internal hardware fault",
+      "type": "terminal"
+    },
+    "pressPowerButton": {
+      "body": [
+        "Press the power button normally.",
+        "Observe whether any lights, fan movement, sounds, or screen activity occur.",
+        "Any sign of activity helps identify where the startup process is failing."
+      ],
+      "failLabel": "No Activity",
+      "failNext": "checkPowerSource",
+      "successLabel": "Some Activity",
+      "successNext": "fansOrLights",
+      "title": "Press the power button"
+    },
+    "psuFailure": {
+      "body": [
+        "The motherboard does not appear to be receiving standby power.",
+        "Test with a known-good power supply if available.",
+        "Replace the PSU if confirmed faulty."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Possible power supply failure",
+      "type": "terminal"
+    },
+    "repairPowerButton": {
+      "body": [
+        "The power button assembly may be disconnected or defective.",
+        "Inspect front-panel wiring and replace faulty components."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Repair power button",
+      "type": "terminal"
+    },
+    "replacePowerCable": {
+      "body": [
+        "A damaged power cable or charger can prevent the system from receiving power.",
+        "Replace the faulty component and test again."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Replace power cable or charger",
+      "type": "terminal"
+    },
+    "restorePower": {
+      "body": [
+        "The outlet or power board is not providing power.",
+        "Restore power or move the computer to a working outlet before continuing."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Restore electrical power",
+      "type": "terminal"
+    },
+    "testPowerButton": {
+      "body": [
+        "Press the power button and check whether it feels normal.",
+        "A disconnected or failed power switch can prevent startup."
+      ],
+      "failLabel": "Button Faulty",
+      "failNext": "repairPowerButton",
+      "successLabel": "Button Appears OK",
+      "successNext": "motherboardFailure",
+      "title": "Check power button operation"
+    }
+  },
+  "startNode": "pressPowerButton",
+  "text": [
+    "This guide is for computers that do not start when the power button is pressed.",
+    "Identify whether any signs of power are present.",
+    "Check external power sources before investigating internal hardware.",
+    "Escalate hardware faults when basic troubleshooting fails."
+  ],
+  "title": "Computer Won't Turn On"
+}

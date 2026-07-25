@@ -1,0 +1,10 @@
+services:
+  it-guide-tool:
+    build: .
+    container_name: it-guide-tool
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./public/data:/app/public/data
+      - ./backups:/app/backups
+    restart: unless-stopped

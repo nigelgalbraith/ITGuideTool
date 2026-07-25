@@ -1,0 +1,300 @@
+{
+  "id": "blueScreenCrash",
+  "title": "Blue Screen / System Crash",
+  "cardText": [
+    "Diagnose Windows blue screen crashes, stop errors, and system instability.",
+    "Check error codes, drivers, updates, memory, storage, system files, and hardware faults.",
+    "Separate software problems from hardware failures."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for Windows systems that display a blue screen, stop error, or crash unexpectedly.",
+    "Record any error messages before restarting.",
+    "Check recent changes, drivers, updates, memory, storage, and system files.",
+    "Escalate hardware faults when software troubleshooting does not resolve the issue."
+  ],
+  "startNode": "checkBlueScreenCode",
+  "nodes": {
+    "checkBlueScreenCode": {
+      "title": "Check for a blue screen error code",
+      "body": [
+        "Record any stop code or error message shown on the blue screen.",
+        "Examples include MEMORY_MANAGEMENT, CRITICAL_PROCESS_DIED, PAGE_FAULT_IN_NONPAGED_AREA, and IRQL_NOT_LESS_OR_EQUAL.",
+        "The stop code often provides the first clue."
+      ],
+      "successLabel": "Code Available",
+      "failLabel": "No Code",
+      "successNext": "checkRecentChanges",
+      "failNext": "checkRecentChanges"
+    },
+
+    "checkRecentChanges": {
+      "title": "Check recent changes",
+      "body": [
+        "Determine whether the issue started after installing hardware, drivers, updates, or software.",
+        "Recent changes often reveal the source of instability."
+      ],
+      "successLabel": "Recent Change Found",
+      "failLabel": "No Recent Change",
+      "successNext": "undoRecentChange",
+      "failNext": "checkWindowsUpdates"
+    },
+
+    "undoRecentChange": {
+      "title": "Undo recent change",
+      "body": [
+        "Remove, disable, or roll back the recent change if safe to do so.",
+        "Restart the computer and monitor for additional crashes."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Crashing",
+      "successNext": null,
+      "failNext": "checkWindowsUpdates"
+    },
+
+    "checkWindowsUpdates": {
+      "title": "Check recent Windows updates",
+      "body": [
+        "Review update history.",
+        "Some crashes begin after driver or Windows updates.",
+        "Check whether the timing matches the start of the issue."
+      ],
+      "successLabel": "Update Related",
+      "failLabel": "Not Update Related",
+      "successNext": "rollbackUpdate",
+      "failNext": "checkDrivers"
+    },
+
+    "rollbackUpdate": {
+      "type": "terminal",
+      "title": "Rollback update",
+      "body": [
+        "The crash appears related to a recent update.",
+        "Roll back the update if appropriate and monitor stability.",
+        "Install replacement updates when available."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkDrivers": {
+      "title": "Check drivers",
+      "body": [
+        "Review recently updated drivers.",
+        "Graphics, storage, chipset, and network drivers are common causes of blue screens.",
+        "Update or roll back drivers as needed."
+      ],
+      "successLabel": "Driver Issue Found",
+      "failLabel": "No Driver Issue",
+      "successNext": "repairDriverIssue",
+      "failNext": "checkSafeMode"
+    },
+
+    "repairDriverIssue": {
+      "type": "terminal",
+      "title": "Driver issue identified",
+      "body": [
+        "A driver appears responsible for the crashes.",
+        "Update, reinstall, or roll back the driver.",
+        "Monitor system stability after the change."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkSafeMode": {
+      "title": "Test Safe Mode",
+      "body": [
+        "Boot Windows into Safe Mode.",
+        "Safe Mode loads a minimal driver set.",
+        "If crashes stop, a driver or software conflict is likely."
+      ],
+      "successLabel": "Stable In Safe Mode",
+      "failLabel": "Still Crashes",
+      "successNext": "softwareConflict",
+      "failNext": "checkMemory"
+    },
+
+    "softwareConflict": {
+      "type": "terminal",
+      "title": "Software or driver conflict likely",
+      "body": [
+        "The system is stable in Safe Mode.",
+        "Investigate startup software, third-party drivers, antivirus products, and recently installed applications."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkMemory": {
+      "title": "Check memory (RAM)",
+      "body": [
+        "Run a memory diagnostic tool.",
+        "Faulty RAM is one of the most common causes of blue screens.",
+        "Test memory modules individually if necessary."
+      ],
+      "successLabel": "Memory Healthy",
+      "failLabel": "Memory Errors Found",
+      "successNext": "checkStorageHealth",
+      "failNext": "replaceMemory"
+    },
+
+    "replaceMemory": {
+      "type": "terminal",
+      "title": "Memory fault identified",
+      "body": [
+        "Memory testing detected errors.",
+        "Replace the faulty RAM and retest system stability."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkStorageHealth": {
+      "title": "Check storage health",
+      "body": [
+        "Review SSD or HDD health information.",
+        "Storage corruption can trigger blue screens.",
+        "Check SMART data and event logs for disk-related errors."
+      ],
+      "successLabel": "Storage Healthy",
+      "failLabel": "Storage Problem Found",
+      "successNext": "checkSystemFiles",
+      "failNext": "replaceStorage"
+    },
+
+    "replaceStorage": {
+      "type": "terminal",
+      "title": "Storage fault identified",
+      "body": [
+        "The storage device appears unreliable.",
+        "Back up important data immediately.",
+        "Replace the drive and restore or reinstall Windows."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkSystemFiles": {
+      "title": "Check Windows system files",
+      "body": [
+        "Corrupted operating system files can cause crashes.",
+        "Run SFC and DISM repairs if appropriate.",
+        "Restart the computer afterwards."
+      ],
+      "successLabel": "Corruption Found",
+      "failLabel": "No Corruption Found",
+      "successNext": "repairSystemFiles",
+      "failNext": "checkTemperatures"
+    },
+
+    "repairSystemFiles": {
+      "type": "terminal",
+      "title": "Repair system files",
+      "body": [
+        "System file corruption was detected.",
+        "Repair completed successfully.",
+        "Monitor the system for further crashes."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkTemperatures": {
+      "title": "Check temperatures",
+      "body": [
+        "Monitor CPU and GPU temperatures.",
+        "Excessive heat can cause instability and blue screens.",
+        "Check for dust buildup and cooling issues."
+      ],
+      "successLabel": "Temperatures Normal",
+      "failLabel": "Overheating Found",
+      "successNext": "checkEventViewer",
+      "failNext": "resolveCoolingIssue"
+    },
+
+    "resolveCoolingIssue": {
+      "type": "terminal",
+      "title": "Cooling issue identified",
+      "body": [
+        "The system is overheating.",
+        "Clean cooling components and improve airflow.",
+        "Retest after temperatures return to normal."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkEventViewer": {
+      "title": "Review Event Viewer",
+      "body": [
+        "Review System logs around the crash time.",
+        "Look for recurring warnings, driver failures, storage errors, or hardware events.",
+        "Document recurring patterns."
+      ],
+      "successLabel": "Useful Errors Found",
+      "failLabel": "No Useful Errors",
+      "successNext": "researchCrashCause",
+      "failNext": "checkFirmware"
+    },
+
+    "researchCrashCause": {
+      "title": "Investigate recurring error",
+      "body": [
+        "Research the recurring event or stop code.",
+        "Apply any known fixes associated with the fault."
+      ],
+      "successLabel": "Fix Available",
+      "failLabel": "No Clear Fix",
+      "successNext": "applySpecificFix",
+      "failNext": "checkFirmware"
+    },
+
+    "applySpecificFix": {
+      "type": "terminal",
+      "title": "Apply targeted fix",
+      "body": [
+        "Apply the documented fix associated with the error.",
+        "Retest stability afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkFirmware": {
+      "title": "Check BIOS and firmware",
+      "body": [
+        "Review motherboard, storage, and device firmware versions.",
+        "Outdated firmware can cause stability issues.",
+        "Install updates according to manufacturer guidance."
+      ],
+      "successLabel": "Update Available",
+      "failLabel": "No Update Available",
+      "successNext": "updateFirmware",
+      "failNext": "hardwareEscalation"
+    },
+
+    "updateFirmware": {
+      "type": "terminal",
+      "title": "Update firmware",
+      "body": [
+        "Install available firmware updates.",
+        "Retest system stability afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "hardwareEscalation": {
+      "type": "terminal",
+      "title": "Advanced hardware diagnostics required",
+      "body": [
+        "Drivers, updates, memory, storage, system files, temperatures, and firmware have been checked.",
+        "Possible causes include motherboard faults, CPU instability, GPU faults, power issues, or intermittent hardware failures.",
+        "Escalate for advanced diagnostics."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "id": "sharedFolderAccess",
+  "title": "Cannot Access Shared Folder",
+  "cardText": [
+    "Diagnose problems accessing network shared folders.",
+    "Check network connectivity, server availability, permissions, credentials, DNS, and sharing settings.",
+    "Separate connectivity issues from access and permission problems."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for situations where a shared network folder cannot be opened.",
+    "Determine whether the issue affects one user, one computer, or everyone.",
+    "Check connectivity before investigating permissions.",
+    "Escalate server or permission issues when local troubleshooting does not resolve the problem."
+  ],
+  "startNode": "checkAffectedUsers",
+  "nodes": {
+    "checkAffectedUsers": {
+      "title": "Check who is affected",
+      "body": [
+        "Determine whether only one user is affected or whether multiple users cannot access the shared folder.",
+        "This helps identify whether the issue is local to one device or affects the server or share itself."
+      ],
+      "successLabel": "One User",
+      "failLabel": "Multiple Users",
+      "successNext": "checkInternetConnectivity",
+      "failNext": "checkServerAvailability"
+    },
+
+    "checkInternetConnectivity": {
+      "title": "Check network connectivity",
+      "body": [
+        "Confirm the computer can access the local network and internet.",
+        "A disconnected device cannot reach shared resources."
+      ],
+      "successLabel": "Connected",
+      "failLabel": "Disconnected",
+      "successNext": "checkServerAvailability",
+      "failNext": "networkIssue"
+    },
+
+    "networkIssue": {
+      "type": "terminal",
+      "title": "Resolve network connectivity",
+      "body": [
+        "The computer is not connected to the network.",
+        "Restore network connectivity before attempting to access shared folders."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkServerAvailability": {
+      "title": "Check server availability",
+      "body": [
+        "Determine whether the computer hosting the shared folder is powered on and reachable.",
+        "If the server is offline, the share cannot be accessed."
+      ],
+      "successLabel": "Server Online",
+      "failLabel": "Server Offline",
+      "successNext": "testServerName",
+      "failNext": "serverOffline"
+    },
+
+    "serverOffline": {
+      "type": "terminal",
+      "title": "Server unavailable",
+      "body": [
+        "The shared folder host is not available.",
+        "Power on the server or restore connectivity before continuing."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "testServerName": {
+      "title": "Access share by server name",
+      "body": [
+        "Attempt to access the share using the server name.",
+        "Example: \\\\SERVERNAME\\Share",
+        "This tests DNS and name resolution."
+      ],
+      "successLabel": "Works",
+      "failLabel": "Fails",
+      "successNext": "shareAccessible",
+      "failNext": "testServerIp"
+    },
+
+    "shareAccessible": {
+      "type": "terminal",
+      "title": "Share accessible",
+      "body": [
+        "The shared folder can be reached using the server name.",
+        "No further troubleshooting is required."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "testServerIp": {
+      "title": "Access share by IP address",
+      "body": [
+        "Try accessing the share using the server IP address.",
+        "Example: \\\\192.168.1.10\\Share",
+        "This bypasses name resolution."
+      ],
+      "successLabel": "Works",
+      "failLabel": "Fails",
+      "successNext": "dnsIssue",
+      "failNext": "checkPermissions"
+    },
+
+    "dnsIssue": {
+      "type": "terminal",
+      "title": "DNS or name resolution issue",
+      "body": [
+        "The share works by IP address but not by server name.",
+        "Investigate DNS, hostnames, network discovery, or local name resolution settings."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkPermissions": {
+      "title": "Check access permissions",
+      "body": [
+        "Determine whether the user has permission to access the folder.",
+        "Permission errors often appear as Access Denied messages."
+      ],
+      "successLabel": "Permissions Correct",
+      "failLabel": "Permission Error",
+      "successNext": "checkCredentials",
+      "failNext": "permissionIssue"
+    },
+
+    "permissionIssue": {
+      "type": "terminal",
+      "title": "Permission issue found",
+      "body": [
+        "The user does not have sufficient permissions.",
+        "Review share permissions and NTFS permissions if applicable.",
+        "Grant access only as appropriate."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkCredentials": {
+      "title": "Check saved credentials",
+      "body": [
+        "Incorrect saved credentials can prevent access.",
+        "Remove saved credentials and reconnect if necessary.",
+        "Verify the correct username and password are being used."
+      ],
+      "successLabel": "Credentials Correct",
+      "failLabel": "Credential Problem",
+      "successNext": "checkSharingSettings",
+      "failNext": "credentialIssue"
+    },
+
+    "credentialIssue": {
+      "type": "terminal",
+      "title": "Credential issue found",
+      "body": [
+        "Incorrect or expired credentials are preventing access.",
+        "Update saved credentials and reconnect to the share."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkSharingSettings": {
+      "title": "Check sharing configuration",
+      "body": [
+        "Verify the folder is still shared.",
+        "Check that file and printer sharing is enabled.",
+        "Review any recent configuration changes."
+      ],
+      "successLabel": "Sharing Correct",
+      "failLabel": "Sharing Misconfigured",
+      "successNext": "checkFirewall",
+      "failNext": "fixSharing"
+    },
+
+    "fixSharing": {
+      "type": "terminal",
+      "title": "Correct sharing settings",
+      "body": [
+        "The folder is not being shared correctly.",
+        "Reconfigure sharing settings and test access again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkFirewall": {
+      "title": "Check firewall settings",
+      "body": [
+        "Firewall rules can block file sharing traffic.",
+        "Confirm file and printer sharing is allowed through the firewall."
+      ],
+      "successLabel": "Firewall OK",
+      "failLabel": "Firewall Blocking",
+      "successNext": "finalEscalation",
+      "failNext": "adjustFirewall"
+    },
+
+    "adjustFirewall": {
+      "type": "terminal",
+      "title": "Adjust firewall configuration",
+      "body": [
+        "The firewall is preventing access to the shared folder.",
+        "Allow the required sharing services and retest."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "finalEscalation": {
+      "type": "terminal",
+      "title": "Further server diagnostics required",
+      "body": [
+        "Basic network, DNS, permissions, credentials, sharing, and firewall checks did not resolve the issue.",
+        "Investigate server logs, Active Directory, SMB configuration, storage availability, or operating system issues.",
+        "Escalate for server-side diagnostics."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

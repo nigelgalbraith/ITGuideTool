@@ -1,0 +1,264 @@
+{
+  "id": "fileRecovery",
+  "title": "File Recovery",
+  "cardText": [
+    "Recover files that have been deleted, moved, lost, or become inaccessible.",
+    "Check common locations, backups, cloud storage, recycle bin, and recovery options.",
+    "Separate simple file location issues from storage failures."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for files that appear to be missing, deleted, or inaccessible.",
+    "Determine whether the file was deleted, moved, synchronized, or lost due to storage problems.",
+    "Use the safest recovery options first.",
+    "Avoid writing new data to a drive if accidental deletion is suspected."
+  ],
+  "startNode": "identifySituation",
+  "nodes": {
+    "identifySituation": {
+      "title": "Identify the problem",
+      "body": [
+        "Determine whether the file was deleted, moved, renamed, or became inaccessible.",
+        "Understanding what happened helps choose the safest recovery method."
+      ],
+      "successLabel": "Deleted/Missing",
+      "failLabel": "Storage Problem",
+      "successNext": "searchForFile",
+      "failNext": "checkDriveHealth"
+    },
+
+    "searchForFile": {
+      "title": "Search for the file",
+      "body": [
+        "Use the operating system search feature.",
+        "Search by file name, extension, or partial file name.",
+        "The file may have been moved or renamed."
+      ],
+      "successLabel": "File Found",
+      "failLabel": "Not Found",
+      "successNext": "fileLocated",
+      "failNext": "checkRecycleBin"
+    },
+
+    "fileLocated": {
+      "type": "terminal",
+      "title": "File located",
+      "body": [
+        "The file was found.",
+        "Move it to a known location and verify it opens correctly."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkRecycleBin": {
+      "title": "Check Recycle Bin",
+      "body": [
+        "Open the Recycle Bin and search for the missing file.",
+        "Files deleted normally are often stored here until permanently removed."
+      ],
+      "successLabel": "File Found",
+      "failLabel": "Not In Recycle Bin",
+      "successNext": "restoreRecycleBin",
+      "failNext": "checkCloudStorage"
+    },
+
+    "restoreRecycleBin": {
+      "type": "terminal",
+      "title": "Restore file",
+      "body": [
+        "Restore the file from the Recycle Bin.",
+        "Verify the file opens correctly after restoration."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkCloudStorage": {
+      "title": "Check cloud storage",
+      "body": [
+        "Review OneDrive, Google Drive, Dropbox, or other cloud storage services.",
+        "The file may have been moved, synchronized, or deleted through cloud sync."
+      ],
+      "successLabel": "File Found",
+      "failLabel": "Not Found",
+      "successNext": "restoreCloudFile",
+      "failNext": "checkPreviousVersions"
+    },
+
+    "restoreCloudFile": {
+      "type": "terminal",
+      "title": "Restore cloud file",
+      "body": [
+        "Restore the file using the cloud provider's recovery tools or recycle bin.",
+        "Verify the recovered file opens correctly."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkPreviousVersions": {
+      "title": "Check previous versions",
+      "body": [
+        "Some operating systems and storage systems maintain previous versions.",
+        "Check file history, restore points, snapshots, or version history."
+      ],
+      "successLabel": "Version Available",
+      "failLabel": "No Version Found",
+      "successNext": "restorePreviousVersion",
+      "failNext": "checkBackups"
+    },
+
+    "restorePreviousVersion": {
+      "type": "terminal",
+      "title": "Restore previous version",
+      "body": [
+        "Restore the required version of the file.",
+        "Verify the restored copy contains the expected data."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkBackups": {
+      "title": "Check backups",
+      "body": [
+        "Review local backups, external drives, NAS devices, or backup software.",
+        "Backups often provide the safest recovery method."
+      ],
+      "successLabel": "Backup Available",
+      "failLabel": "No Backup Found",
+      "successNext": "restoreBackup",
+      "failNext": "checkRecentDeletion"
+    },
+
+    "restoreBackup": {
+      "type": "terminal",
+      "title": "Restore from backup",
+      "body": [
+        "Restore the file from the backup source.",
+        "Verify the recovered file opens correctly."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkRecentDeletion": {
+      "title": "Was the file recently deleted?",
+      "body": [
+        "Recovery success is generally higher when deletion occurred recently.",
+        "Minimize activity on the affected drive to avoid overwriting recoverable data."
+      ],
+      "successLabel": "Recently Deleted",
+      "failLabel": "Deleted Long Ago",
+      "successNext": "attemptRecoverySoftware",
+      "failNext": "limitedRecovery"
+    },
+
+    "attemptRecoverySoftware": {
+      "title": "Attempt file recovery software",
+      "body": [
+        "Use reputable recovery software on the affected drive.",
+        "Recover files to a different drive whenever possible.",
+        "Avoid installing recovery tools on the affected drive."
+      ],
+      "successLabel": "File Recovered",
+      "failLabel": "Recovery Failed",
+      "successNext": "recoverySuccessful",
+      "failNext": "professionalRecovery"
+    },
+
+    "recoverySuccessful": {
+      "type": "terminal",
+      "title": "File recovered",
+      "body": [
+        "The file was successfully recovered.",
+        "Create a backup to prevent future data loss."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "limitedRecovery": {
+      "type": "terminal",
+      "title": "Recovery may be limited",
+      "body": [
+        "Older deletions are more likely to have been overwritten.",
+        "Recovery may still be possible but success rates are lower."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkDriveHealth": {
+      "title": "Check drive health",
+      "body": [
+        "Determine whether the drive is showing errors, unusual noises, SMART warnings, or connection problems.",
+        "Drive faults require different handling than accidental deletion."
+      ],
+      "successLabel": "Drive Healthy",
+      "failLabel": "Drive Fault Suspected",
+      "successNext": "checkFilePermissions",
+      "failNext": "stopUsingDrive"
+    },
+
+    "stopUsingDrive": {
+      "title": "Stop using the drive",
+      "body": [
+        "Continued use can worsen data loss.",
+        "Power down the device if the data is critical.",
+        "Avoid writing new data to the affected drive."
+      ],
+      "successLabel": "Critical Data",
+      "failLabel": "Non-Critical Data",
+      "successNext": "professionalRecovery",
+      "failNext": "replaceDrive"
+    },
+
+    "replaceDrive": {
+      "type": "terminal",
+      "title": "Replace failing drive",
+      "body": [
+        "The drive appears unreliable.",
+        "Replace the drive and restore data from backups if available."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkFilePermissions": {
+      "title": "Check file permissions",
+      "body": [
+        "The file may exist but access may be restricted.",
+        "Verify ownership and permissions."
+      ],
+      "successLabel": "Permission Issue",
+      "failLabel": "Not Permission Related",
+      "successNext": "fixPermissions",
+      "failNext": "professionalRecovery"
+    },
+
+    "fixPermissions": {
+      "type": "terminal",
+      "title": "Correct permissions",
+      "body": [
+        "Adjust permissions or ownership as appropriate.",
+        "Verify access to the file afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "professionalRecovery": {
+      "type": "terminal",
+      "title": "Professional recovery recommended",
+      "body": [
+        "Basic recovery methods have been exhausted.",
+        "If the data is valuable, consult a professional data recovery service.",
+        "Avoid further use of the affected drive until recovery options have been assessed."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

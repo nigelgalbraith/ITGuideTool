@@ -1,0 +1,270 @@
+{
+  "id": "batteryNotCharging",
+  "title": "Laptop Battery Not Charging",
+  "cardText": [
+    "Diagnose a laptop battery that is not charging correctly.",
+    "Check the charger, power source, battery status, operating system settings, and battery health.",
+    "Separate charger faults, battery faults, and laptop hardware faults."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for laptops that show charging problems.",
+    "The battery may not charge, may charge slowly, or may remain at a fixed percentage.",
+    "Check the charger and power source before investigating software or hardware issues.",
+    "Escalate hardware faults when basic troubleshooting does not resolve the problem."
+  ],
+  "startNode": "checkChargerConnected",
+  "nodes": {
+    "checkChargerConnected": {
+      "title": "Check charger connection",
+      "body": [
+        "Ensure the charger is firmly connected to both the laptop and power outlet.",
+        "Check for loose connections or partially inserted plugs.",
+        "Many charging faults are caused by simple connection issues."
+      ],
+      "successLabel": "Connected",
+      "failLabel": "Not Connected",
+      "successNext": "checkChargingIndicator",
+      "failNext": "reconnectCharger"
+    },
+
+    "reconnectCharger": {
+      "type": "terminal",
+      "title": "Reconnect charger",
+      "body": [
+        "Reconnect the charger securely.",
+        "Verify the connection at both ends.",
+        "Check whether charging resumes."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkChargingIndicator": {
+      "title": "Check charging indicator",
+      "body": [
+        "Look for charging lights or battery charging symbols.",
+        "Most laptops show visual indicators when external power is detected.",
+        "This helps determine whether the charger is being recognized."
+      ],
+      "successLabel": "Indicator Present",
+      "failLabel": "No Indicator",
+      "successNext": "checkBatteryPercentage",
+      "failNext": "checkPowerOutlet"
+    },
+
+    "checkPowerOutlet": {
+      "title": "Check power outlet",
+      "body": [
+        "Test the outlet with another device.",
+        "If using a power board, ensure it is switched on.",
+        "Try another wall outlet if available."
+      ],
+      "successLabel": "Outlet Works",
+      "failLabel": "Outlet Fault",
+      "successNext": "inspectCharger",
+      "failNext": "restorePower"
+    },
+
+    "restorePower": {
+      "type": "terminal",
+      "title": "Restore power source",
+      "body": [
+        "The outlet is not supplying power.",
+        "Restore power or use another outlet.",
+        "Retest charging afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "inspectCharger": {
+      "title": "Inspect charger",
+      "body": [
+        "Check the charger cable, connector, and adapter brick.",
+        "Look for frayed cables, bent connectors, burn marks, or physical damage.",
+        "Damaged chargers often fail intermittently before failing completely."
+      ],
+      "successLabel": "Looks Normal",
+      "failLabel": "Damage Found",
+      "successNext": "testAlternateCharger",
+      "failNext": "replaceCharger"
+    },
+
+    "replaceCharger": {
+      "type": "terminal",
+      "title": "Replace charger",
+      "body": [
+        "The charger appears damaged.",
+        "Replace it with a compatible charger.",
+        "Retest charging after replacement."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "testAlternateCharger": {
+      "title": "Test another charger",
+      "body": [
+        "If available, test with a known-good compatible charger.",
+        "This helps separate charger faults from laptop faults.",
+        "Use only compatible chargers."
+      ],
+      "successLabel": "Charges Correctly",
+      "failLabel": "Still Not Charging",
+      "successNext": "chargerFaultFound",
+      "failNext": "checkBatteryPercentage"
+    },
+
+    "chargerFaultFound": {
+      "type": "terminal",
+      "title": "Original charger faulty",
+      "body": [
+        "The laptop charges with another charger.",
+        "Replace the original charger.",
+        "Verify normal charging operation afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkBatteryPercentage": {
+      "title": "Check battery percentage",
+      "body": [
+        "Observe whether the battery percentage increases while connected to power.",
+        "Leave the charger connected for several minutes.",
+        "A charging icon does not always mean the battery is actually charging."
+      ],
+      "successLabel": "Percentage Increases",
+      "failLabel": "Percentage Stays Same",
+      "successNext": "chargingWorking",
+      "failNext": "checkWindowsBatteryStatus"
+    },
+
+    "chargingWorking": {
+      "type": "terminal",
+      "title": "Battery charging normally",
+      "body": [
+        "The battery percentage is increasing.",
+        "Charging appears to be functioning correctly.",
+        "No further action is required."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkWindowsBatteryStatus": {
+      "title": "Check operating system battery status",
+      "body": [
+        "Look at the battery icon and power settings.",
+        "Check for messages such as Plugged In Not Charging.",
+        "These messages can indicate battery health or charging control issues."
+      ],
+      "successLabel": "Status Message Found",
+      "failLabel": "No Useful Message",
+      "successNext": "batteryManagementCheck",
+      "failNext": "powerReset"
+    },
+
+    "batteryManagementCheck": {
+      "title": "Check battery management software",
+      "body": [
+        "Some manufacturers limit charging to preserve battery lifespan.",
+        "Look for battery conservation or battery health settings.",
+        "These settings can intentionally stop charging at a certain percentage."
+      ],
+      "successLabel": "Setting Found",
+      "failLabel": "No Setting Found",
+      "successNext": "disableBatteryLimit",
+      "failNext": "powerReset"
+    },
+
+    "disableBatteryLimit": {
+      "type": "terminal",
+      "title": "Adjust battery management settings",
+      "body": [
+        "Battery conservation settings are limiting charging.",
+        "Adjust the settings if appropriate.",
+        "Retest charging afterwards."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "powerReset": {
+      "title": "Perform power reset",
+      "body": [
+        "Shut down the laptop completely.",
+        "Disconnect power and hold the power button for 15–30 seconds.",
+        "Reconnect power and test charging again."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Charging",
+      "successNext": null,
+      "failNext": "checkBatteryHealth"
+    },
+
+    "checkBatteryHealth": {
+      "title": "Check battery health",
+      "body": [
+        "Review battery health information if available.",
+        "Older batteries gradually lose charging capacity.",
+        "A severely degraded battery may stop charging normally."
+      ],
+      "successLabel": "Battery Healthy",
+      "failLabel": "Battery Worn Out",
+      "successNext": "checkFirmware",
+      "failNext": "replaceBattery"
+    },
+
+    "replaceBattery": {
+      "type": "terminal",
+      "title": "Replace battery",
+      "body": [
+        "The battery appears to have reached the end of its useful life.",
+        "Replace it with a compatible battery.",
+        "Verify charging after replacement."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkFirmware": {
+      "title": "Check BIOS and firmware updates",
+      "body": [
+        "Some charging problems are caused by firmware issues.",
+        "Check for manufacturer BIOS, EC, or firmware updates.",
+        "Apply updates according to manufacturer guidance."
+      ],
+      "successLabel": "Update Available",
+      "failLabel": "No Update Available",
+      "successNext": "updateFirmware",
+      "failNext": "hardwareFault"
+    },
+
+    "updateFirmware": {
+      "title": "Update firmware",
+      "body": [
+        "Install available firmware updates.",
+        "Restart the laptop and retest charging.",
+        "Firmware updates can resolve battery communication issues."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Charging",
+      "successNext": null,
+      "failNext": "hardwareFault"
+    },
+
+    "hardwareFault": {
+      "type": "terminal",
+      "title": "Hardware diagnostics required",
+      "body": [
+        "The charger, battery, power source, and software checks did not resolve the issue.",
+        "Possible causes include charging circuitry faults, motherboard faults, damaged charging ports, or battery communication failures.",
+        "Escalate for hardware repair or replacement."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

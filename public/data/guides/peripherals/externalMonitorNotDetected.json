@@ -1,0 +1,251 @@
+{
+  "id": "externalMonitorNotDetected",
+  "title": "External Monitor Not Detected",
+  "cardText": [
+    "Diagnose external monitors that are not detected or do not display an image.",
+    "Check monitor power, cables, input source, display settings, drivers, docking stations, and graphics hardware.",
+    "Separate monitor, cable, software, and graphics hardware issues."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for computers where an external monitor is not detected or does not display correctly.",
+    "Confirm the monitor and cable before investigating software settings.",
+    "Check display detection, graphics drivers, docking stations, and hardware connections.",
+    "Escalate hardware faults after basic troubleshooting is complete."
+  ],
+  "startNode": "checkMonitorPower",
+  "nodes": {
+    "checkMonitorPower": {
+      "title": "Check monitor power",
+      "body": [
+        "Confirm the monitor is turned on.",
+        "Check for a power indicator light or monitor menu.",
+        "A monitor with no power cannot be detected."
+      ],
+      "successLabel": "Monitor On",
+      "failLabel": "No Power",
+      "successNext": "checkInputSource",
+      "failNext": "restoreMonitorPower"
+    },
+
+    "restoreMonitorPower": {
+      "type": "terminal",
+      "title": "Restore monitor power",
+      "body": [
+        "Reconnect the monitor power cable.",
+        "Try another power outlet if necessary.",
+        "Retest after the monitor powers on."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkInputSource": {
+      "title": "Check monitor input source",
+      "body": [
+        "Verify the monitor is set to the correct input.",
+        "Common inputs include HDMI, DisplayPort, USB-C, DVI, and VGA.",
+        "The monitor must match the connected cable."
+      ],
+      "successLabel": "Correct Input",
+      "failLabel": "Wrong Input",
+      "successNext": "checkCableConnection",
+      "failNext": "selectCorrectInput"
+    },
+
+    "selectCorrectInput": {
+      "type": "terminal",
+      "title": "Select correct input",
+      "body": [
+        "The monitor was listening on the wrong input source.",
+        "Select the correct input and test again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkCableConnection": {
+      "title": "Check cable connection",
+      "body": [
+        "Ensure the display cable is firmly connected at both ends.",
+        "Check for loose, damaged, or bent connectors.",
+        "Reconnect the cable and test again."
+      ],
+      "successLabel": "Cable OK",
+      "failLabel": "Cable Fault Found",
+      "successNext": "testAnotherCable",
+      "failNext": "replaceCable"
+    },
+
+    "replaceCable": {
+      "type": "terminal",
+      "title": "Replace display cable",
+      "body": [
+        "The display cable appears damaged or unreliable.",
+        "Replace it with a known-good cable and retest."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "testAnotherCable": {
+      "title": "Test another cable",
+      "body": [
+        "Display cables can fail even when no damage is visible.",
+        "Use another known-good cable if available.",
+        "Retest monitor detection."
+      ],
+      "successLabel": "Works",
+      "failLabel": "Still Not Detected",
+      "successNext": "cableFaultFound",
+      "failNext": "testAnotherPort"
+    },
+
+    "cableFaultFound": {
+      "type": "terminal",
+      "title": "Cable fault identified",
+      "body": [
+        "The monitor works with another cable.",
+        "Replace the original cable."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "testAnotherPort": {
+      "title": "Test another display port",
+      "body": [
+        "Try another HDMI, DisplayPort, USB-C, or graphics output.",
+        "A failed port can prevent display detection.",
+        "Restart the computer after changing ports if needed."
+      ],
+      "successLabel": "Works",
+      "failLabel": "Still Not Detected",
+      "successNext": "displayPortFault",
+      "failNext": "detectDisplays"
+    },
+
+    "displayPortFault": {
+      "type": "terminal",
+      "title": "Display port fault identified",
+      "body": [
+        "The monitor works on another output.",
+        "The original display port may be faulty or disabled."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "detectDisplays": {
+      "title": "Force display detection",
+      "body": [
+        "Open display settings.",
+        "Use Detect Displays if available.",
+        "Check whether the monitor appears in display settings."
+      ],
+      "successLabel": "Detected",
+      "failLabel": "Not Detected",
+      "successNext": "checkDisplayMode",
+      "failNext": "checkDockingStation"
+    },
+
+    "checkDisplayMode": {
+      "title": "Check display mode",
+      "body": [
+        "Verify the monitor is not disabled.",
+        "Choose Extend, Duplicate, or Second Screen Only as appropriate.",
+        "A detected monitor may still appear blank if disabled."
+      ],
+      "successLabel": "Display Works",
+      "failLabel": "Still Blank",
+      "successNext": null,
+      "failNext": "checkGraphicsDriver"
+    },
+
+    "checkDockingStation": {
+      "title": "Check docking station or adapter",
+      "body": [
+        "If using a dock, hub, or USB-C adapter, disconnect it temporarily.",
+        "Connect the monitor directly to the computer if possible.",
+        "Some docks require drivers, firmware updates, or power."
+      ],
+      "successLabel": "Using Dock",
+      "failLabel": "No Dock",
+      "successNext": "testWithoutDock",
+      "failNext": "checkGraphicsDriver"
+    },
+
+    "testWithoutDock": {
+      "title": "Test without dock",
+      "body": [
+        "Connect the monitor directly to the computer.",
+        "This helps determine whether the dock is responsible.",
+        "Retest display detection."
+      ],
+      "successLabel": "Works Directly",
+      "failLabel": "Still Fails",
+      "successNext": "dockFaultFound",
+      "failNext": "checkGraphicsDriver"
+    },
+
+    "dockFaultFound": {
+      "type": "terminal",
+      "title": "Dock or adapter issue found",
+      "body": [
+        "The monitor works without the dock.",
+        "Update dock firmware, drivers, or replace the dock if necessary."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "checkGraphicsDriver": {
+      "title": "Check graphics drivers",
+      "body": [
+        "Update or reinstall graphics drivers.",
+        "Display detection issues can occur after driver corruption or failed updates.",
+        "Restart the computer after driver changes."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Detected",
+      "successNext": null,
+      "failNext": "testAnotherMonitor"
+    },
+
+    "testAnotherMonitor": {
+      "title": "Test another monitor",
+      "body": [
+        "Connect a different monitor or TV.",
+        "This helps separate monitor faults from computer faults.",
+        "Use the same cable if possible."
+      ],
+      "successLabel": "Other Monitor Works",
+      "failLabel": "Other Monitor Fails",
+      "successNext": "monitorFault",
+      "failNext": "hardwareEscalation"
+    },
+
+    "monitorFault": {
+      "type": "terminal",
+      "title": "Monitor fault likely",
+      "body": [
+        "Another monitor works correctly.",
+        "The original monitor is likely faulty or misconfigured."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+
+    "hardwareEscalation": {
+      "type": "terminal",
+      "title": "Graphics hardware diagnostics required",
+      "body": [
+        "The monitor, cable, ports, settings, dock, and drivers have been tested.",
+        "Possible causes include graphics card faults, motherboard faults, USB-C controller issues, or firmware problems.",
+        "Escalate for hardware diagnostics."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

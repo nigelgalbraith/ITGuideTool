@@ -1,0 +1,335 @@
+{
+  "id": "cannotPrint",
+  "title": "Cannot Print",
+  "cardText": [
+    "Diagnose a printer that does not print when a job is sent.",
+    "Check printer power, connection, queue status, default printer, paper, ink/toner, driver, and network access.",
+    "Separate printer faults from computer, network, and print queue problems."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for printers that do not print after a document is sent.",
+    "Start by checking whether the printer is powered on and ready.",
+    "Then check the print queue, selected printer, connection type, and printer status.",
+    "Escalate driver, network, or hardware faults when basic checks do not resolve the issue."
+  ],
+  "startNode": "checkPrinterPower",
+  "nodes": {
+    "checkPrinterPower": {
+      "title": "Check printer power",
+      "body": [
+        "Confirm the printer is turned on.",
+        "Check for lights, display messages, or startup sounds.",
+        "If there is no sign of power, check the power cable and wall outlet."
+      ],
+      "successLabel": "Printer On",
+      "failLabel": "No Power",
+      "successNext": "checkPrinterStatus",
+      "failNext": "restorePrinterPower"
+    },
+    "restorePrinterPower": {
+      "type": "terminal",
+      "title": "Restore printer power",
+      "body": [
+        "The printer is not receiving power or is not turned on.",
+        "Reconnect the power cable, try another outlet, and turn the printer on.",
+        "Once the printer powers on, try printing again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkPrinterStatus": {
+      "title": "Check printer status screen",
+      "body": [
+        "Look at the printer screen or indicator lights.",
+        "Check for messages such as offline, paper jam, out of paper, low ink, replace toner, door open, or error code.",
+        "Printer status messages are usually the fastest way to identify a simple blocking fault."
+      ],
+      "successLabel": "Ready",
+      "failLabel": "Error Showing",
+      "successNext": "checkCorrectPrinter",
+      "failNext": "resolvePrinterError"
+    },
+    "resolvePrinterError": {
+      "title": "Resolve printer error",
+      "body": [
+        "Follow the message shown on the printer.",
+        "Load paper, clear jams, close covers, replace ink or toner, or restart the printer as needed.",
+        "After clearing the error, wait until the printer returns to Ready."
+      ],
+      "successLabel": "Error Cleared",
+      "failLabel": "Error Remains",
+      "successNext": "testPrintAgain",
+      "failNext": "printerHardwareFault"
+    },
+    "printerHardwareFault": {
+      "type": "terminal",
+      "title": "Printer hardware fault likely",
+      "body": [
+        "The printer is showing an error that cannot be cleared through normal checks.",
+        "Record the exact error message or code.",
+        "Escalate for printer repair, servicing, or replacement."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkCorrectPrinter": {
+      "title": "Check selected printer",
+      "body": [
+        "When printing, confirm the correct printer is selected.",
+        "A document may be sent to an old printer, PDF printer, OneNote printer, or disconnected device.",
+        "Select the correct physical printer and try again."
+      ],
+      "successLabel": "Correct Printer",
+      "failLabel": "Wrong Printer",
+      "successNext": "checkPrintQueue",
+      "failNext": "selectCorrectPrinter"
+    },
+    "selectCorrectPrinter": {
+      "type": "terminal",
+      "title": "Select the correct printer",
+      "body": [
+        "The job was being sent to the wrong printer.",
+        "Select the correct printer and print again.",
+        "Set it as the default printer if it is used regularly."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkPrintQueue": {
+      "title": "Check print queue",
+      "body": [
+        "Open the print queue for the printer.",
+        "Look for stuck, paused, failed, or pending print jobs.",
+        "One failed job can block every job behind it."
+      ],
+      "successLabel": "Queue Clear",
+      "failLabel": "Jobs Stuck",
+      "successNext": "checkPrinterConnection",
+      "failNext": "clearPrintQueue"
+    },
+    "clearPrintQueue": {
+      "title": "Clear stuck print jobs",
+      "body": [
+        "Cancel stuck or failed print jobs.",
+        "Pause and resume the printer if needed.",
+        "Restart the printer and try printing a small test document."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Printing",
+      "successNext": null,
+      "failNext": "restartPrintSpooler"
+    },
+    "restartPrintSpooler": {
+      "title": "Restart print spooler",
+      "body": [
+        "Restart the computer first if this is a home or small office setup.",
+        "If comfortable with Windows services, restart the Print Spooler service.",
+        "The print spooler controls the print queue and can sometimes lock up."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Printing",
+      "successNext": null,
+      "failNext": "checkPrinterConnection"
+    },
+    "checkPrinterConnection": {
+      "title": "Identify printer connection type",
+      "body": [
+        "Determine whether the printer connects by USB, Wi-Fi, Ethernet, or shared network printer.",
+        "The next checks depend on how the computer communicates with the printer.",
+        "Do not reinstall drivers until the connection path is confirmed."
+      ],
+      "successLabel": "USB",
+      "failLabel": "Network/Wi-Fi",
+      "successNext": "checkUsbConnection",
+      "failNext": "checkNetworkPrinterConnection"
+    },
+    "checkUsbConnection": {
+      "title": "Check USB printer connection",
+      "body": [
+        "Confirm the USB cable is firmly connected to the printer and computer.",
+        "Try another USB port on the computer.",
+        "Avoid USB hubs during testing because they can cause detection problems."
+      ],
+      "successLabel": "USB Connected",
+      "failLabel": "USB Issue Found",
+      "successNext": "checkPrinterDetected",
+      "failNext": "replaceUsbCable"
+    },
+    "replaceUsbCable": {
+      "type": "terminal",
+      "title": "Replace or reconnect USB cable",
+      "body": [
+        "A loose, damaged, or unreliable USB cable can prevent printing.",
+        "Reconnect the cable directly to the computer or replace it with a known-good cable.",
+        "Retest printing after reconnecting."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkPrinterDetected": {
+      "title": "Check whether printer is detected",
+      "body": [
+        "Open printer settings and confirm the printer appears as installed.",
+        "If the printer is missing, the computer may not be detecting it correctly.",
+        "Detection problems usually point to USB, driver, or printer firmware issues."
+      ],
+      "successLabel": "Printer Detected",
+      "failLabel": "Printer Missing",
+      "successNext": "printTestPage",
+      "failNext": "reinstallPrinter"
+    },
+    "checkNetworkPrinterConnection": {
+      "title": "Check printer network connection",
+      "body": [
+        "Confirm the printer is connected to the same network as the computer.",
+        "For Wi-Fi printers, check the printer's wireless status.",
+        "For Ethernet printers, check the network cable and link lights."
+      ],
+      "successLabel": "Connected To Network",
+      "failLabel": "Not Connected",
+      "successNext": "checkPrinterIp",
+      "failNext": "reconnectPrinterNetwork"
+    },
+    "reconnectPrinterNetwork": {
+      "type": "terminal",
+      "title": "Reconnect printer to network",
+      "body": [
+        "The printer is not connected to the network.",
+        "Reconnect it to Wi-Fi or Ethernet.",
+        "Once the printer is back online, try printing again."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkPrinterIp": {
+      "title": "Check printer IP address",
+      "body": [
+        "Print or view the printer network status page if available.",
+        "Check whether the printer has a valid IP address.",
+        "If the printer IP address changed, the computer may still be trying to print to the old address."
+      ],
+      "successLabel": "Valid IP",
+      "failLabel": "No Valid IP",
+      "successNext": "checkPrinterOnlineStatus",
+      "failNext": "restartPrinterRouter"
+    },
+    "restartPrinterRouter": {
+      "title": "Restart printer and router",
+      "body": [
+        "Restart the printer.",
+        "If multiple network devices are having problems, restart the router as well.",
+        "Wait for the printer to reconnect before testing again."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Printing",
+      "successNext": null,
+      "failNext": "reinstallPrinter"
+    },
+    "checkPrinterOnlineStatus": {
+      "title": "Check printer online/offline status",
+      "body": [
+        "Open printer settings and check whether the printer is shown as Online or Offline.",
+        "If Windows says the printer is offline while the printer itself is ready, the saved printer connection may be stale.",
+        "This commonly happens with network printers after an IP address change."
+      ],
+      "successLabel": "Online",
+      "failLabel": "Offline",
+      "successNext": "printTestPage",
+      "failNext": "disableUsePrinterOffline"
+    },
+    "disableUsePrinterOffline": {
+      "title": "Disable offline mode",
+      "body": [
+        "Open the printer queue options.",
+        "Make sure Use Printer Offline is not enabled.",
+        "Then try printing a test page."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Offline",
+      "successNext": null,
+      "failNext": "reinstallPrinter"
+    },
+    "printTestPage": {
+      "title": "Print a test page",
+      "body": [
+        "Print a test page from printer settings.",
+        "A test page removes the original document or application from the troubleshooting path.",
+        "If the test page prints, the printer and computer connection are working."
+      ],
+      "successLabel": "Test Page Prints",
+      "failLabel": "Test Page Fails",
+      "successNext": "documentOrAppIssue",
+      "failNext": "checkDriver"
+    },
+    "documentOrAppIssue": {
+      "type": "terminal",
+      "title": "Document or application issue likely",
+      "body": [
+        "The printer works when printing a test page.",
+        "The original document, application, page size, print settings, or file format may be the problem.",
+        "Try printing from another app or save the document as PDF and print the PDF."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkDriver": {
+      "title": "Check printer driver",
+      "body": [
+        "Check whether the correct printer driver is installed.",
+        "Generic drivers may print poorly or fail with certain printer features.",
+        "Driver issues are common after Windows updates, printer changes, or network address changes."
+      ],
+      "successLabel": "Driver Looks Correct",
+      "failLabel": "Driver Wrong/Missing",
+      "successNext": "reinstallPrinter",
+      "failNext": "installCorrectDriver"
+    },
+    "installCorrectDriver": {
+      "type": "terminal",
+      "title": "Install correct printer driver",
+      "body": [
+        "Install the correct driver from the printer manufacturer or trusted source.",
+        "Restart the computer if required.",
+        "Print a test page after installation."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "reinstallPrinter": {
+      "title": "Remove and re-add printer",
+      "body": [
+        "Remove the printer from printer settings.",
+        "Restart the computer if needed.",
+        "Add the printer again using USB, network discovery, or the printer IP address."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Printing",
+      "successNext": null,
+      "failNext": "finalPrinterEscalation"
+    },
+    "testPrintAgain": {
+      "title": "Test printing again",
+      "body": [
+        "Send a simple one-page test document to the printer.",
+        "Avoid complex documents until basic printing is confirmed.",
+        "If this works, retry the original document."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Printing",
+      "successNext": null,
+      "failNext": "checkPrintQueue"
+    },
+    "finalPrinterEscalation": {
+      "type": "terminal",
+      "title": "Further printer diagnostics required",
+      "body": [
+        "The printer has power, appears ready, and basic queue, connection, network, and driver checks have not resolved the fault.",
+        "Next steps may include firmware updates, testing from another computer, checking router/firewall rules, or factory resetting the printer.",
+        "If the printer fails from multiple devices, the printer itself is likely faulty."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}
