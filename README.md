@@ -1,6 +1,6 @@
-# ITGuideTool Editor
+# ITGuideTool
 
-The ITGuideTool Editor is a browser-based editor for creating, editing, validating and maintaining ITGuideTool troubleshooting guides.
+The ITGuideTool is a browser-based editor for creating, editing, validating and maintaining ITGuideTool troubleshooting guides.
 
 The editor uses the same JSON guide format as the public ITGuideTool website. There is no database—guides are edited directly as JSON files and are immediately available to the public site.
 
