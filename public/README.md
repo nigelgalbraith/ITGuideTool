@@ -1,6 +1,8 @@
 # IT Guide Tool
 
-IT Guide Tool is a static IT troubleshooting guide website built for GitHub Pages. It helps users choose an IT problem category, open a troubleshooting guide, and work through a JSON-driven decision tree one step at a time.
+A static, JSON-driven IT troubleshooting website designed for GitHub Pages.
+
+IT Guide Tool helps users choose an IT problem category, open a troubleshooting guide, and work through a JSON-driven decision tree one step at a time.
 
 There is no backend, framework, package manager, or build step required. The site is served as static HTML, CSS, JavaScript, JSON, and image files.
 
@@ -16,6 +18,20 @@ Home
 ```
 
 The app loads `data/guides.json` as the guide registry. That registry defines the home page content, troubleshooting categories, and the guide JSON file paths. Individual guide files contain the decision-tree data used by the interactive guide, Mermaid flowchart, and printable guide reference.
+
+## Guide Editor
+
+The built-in browser editor provides a graphical interface for maintaining guide JSON files used by the website.
+
+It allows users to:
+
+- Create and delete guides
+- Create question and outcome nodes
+- Edit guide metadata
+- Assign images, captions and alt text
+- Validate guide data
+- Preview guides before saving
+- Save JSON compatible with the website
 
 ## Technology
 
@@ -165,12 +181,15 @@ Each decision node commonly contains:
 | `failNext` | Next node ID for the fail path, or `null`. |
 | `type` | Optional node type. |
 
-A node is terminal when either:
+Outcome nodes use:
 
-- `type` is `"terminal"`;
-- both `successNext` and `failNext` are `null`.
+```json
+"type": "terminal"
+```
 
-Guide JSON text is plain text. HTML in guide JSON is not supported.
+Terminal nodes are final results. They do not present further choices.
+
+Guide text is plain text. HTML markup is not supported.
 
 ## Guide Images
 
@@ -184,7 +203,7 @@ Guide steps can optionally include an image:
 }
 ```
 
-Guide JSON stores only the image filename. It must not include folder paths. JavaScript builds the device-specific paths automatically.
+Guide JSON stores only the image filename. It must not include folder paths. JavaScript automatically resolves the correct responsive image path.
 
 ## Image Folder Structure
 
@@ -271,7 +290,7 @@ Generated guide image outputs:
 | Laptop | 1024px | 1366px |
 | Mobile | 480px | 768px |
 
-The script also processes icon assets and favicons when their source folders exist.
+Icon assets and favicons are processed automatically when their source folders exist.
 
 Install dependency:
 
@@ -289,17 +308,18 @@ python Image-Optimizer.py
 ## Decision Tree Features
 
 - JSON-driven troubleshooting guides
-- Success/fail branch navigation
-- Terminal states
-- Start Over controls
-- Guide data validation before rendering
-- Mermaid flowchart generation
-- Printable guide reference
+- Decision-tree navigation
+- Success/fail branching
+- Terminal outcome nodes
 - Guide images
 - Image captions
 - Alt text
+- Responsive image loading
 - Image zoom modal
-- Keyboard support for image modal triggers and modal close controls
+- Keyboard accessibility
+- Mermaid flowchart generation
+- Printable guide reference
+- Guide data validation
 
 ## Printing
 
@@ -333,12 +353,12 @@ python -m http.server 8000
 Open:
 
 ```text
-http://127.0.0.1:8000
+http://localhost:8000/
 ```
 
 ## GitHub Pages
 
-This project is suitable for GitHub Pages because it is fully static. Publish the repository through GitHub Pages using the repository root as the site source, then open the generated Pages URL.
+This project is suitable for GitHub Pages because it is fully static. Publish the repository through GitHub Pages using the repository root as the site source. The root `index.html` redirects visitors to the application in the `public/` folder.
 
 ## Adding a New Guide
 
