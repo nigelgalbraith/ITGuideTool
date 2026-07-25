@@ -88,7 +88,7 @@ export function renderGuideEditorPane({ state, hosts, actions }) {
   form.appendChild(nodeList);
 
   const questionActions = el("div", "centered-actions");
-  const questionButton = el("button", "", "Add Question");
+  const questionButton = el("button", "", "Add Node");
   questionButton.type = "button";
   questionButton.addEventListener("click", () => actions.addNode(false));
   questionActions.appendChild(questionButton);
@@ -110,9 +110,6 @@ function renderNode({ state, actions, nodeId, node }) {
   card.appendChild(heading);
 
   const grid = el("div", "form-grid");
-  const idInput = makeInput(nodeId, (value) => actions.renameNode(nodeId, value.trim()));
-  grid.appendChild(createField("Node ID", idInput, true, "Unique identifier for this node. Renaming updates links automatically."));
-
   const typeSelect = document.createElement("select");
   typeSelect.append(new Option("Question", "question"), new Option("Outcome", "terminal"));
   typeSelect.value = node.type === "terminal" ? "terminal" : "question";
@@ -133,6 +130,9 @@ function renderNode({ state, actions, nodeId, node }) {
     actions.renderPreview();
   });
   grid.appendChild(createField("Node type", typeSelect, true, "Choose Question for a branching step or Outcome for a final result."));
+
+  const idInput = makeInput(nodeId, (value) => actions.renameNode(nodeId, value.trim()));
+  grid.appendChild(createField("Node ID", idInput, true, "Unique identifier for this node. Renaming updates links automatically."));
 
   const titleInput = makeInput(node.title || "", (value) => {
     node.title = value;
@@ -220,13 +220,5 @@ function renderNode({ state, actions, nodeId, node }) {
   removeButton.addEventListener("click", () => actions.removeNode(nodeId));
   nodeActions.append(startButton, removeButton);
   card.appendChild(nodeActions);
-  if (node.type !== "terminal") {
-    const outcomeActions = el("div", "node-footer-actions");
-    const outcomeButton = el("button", "", "Add Outcome");
-    outcomeButton.type = "button";
-    outcomeButton.addEventListener("click", () => actions.addNode(true));
-    outcomeActions.appendChild(outcomeButton);
-    card.appendChild(outcomeActions);
-  }
   return card;
 }
