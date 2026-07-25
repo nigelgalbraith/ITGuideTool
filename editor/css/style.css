@@ -601,7 +601,6 @@ button:hover { filter: brightness(1.08); }
 .editor-toolbar,
 .editor-actions,
 .node-actions,
-.answer-grid,
 .guide-list-item {
   display: flex;
   gap: 0.65rem;
@@ -782,12 +781,39 @@ button:hover { filter: brightness(1.08); }
   font-size: 0.82rem;
 }
 
-.answer-grid {
-  align-items: end;
+.answer-sections {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
 }
 
-.answer-grid .form-field {
-  flex: 1 1 12rem;
+.answer-section {
+  display: grid;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.answer-section + .answer-section {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.answer-section-title {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 0.95rem;
+}
+
+.answer-section-title--positive {
+  color: var(--button-success-hover);
+}
+
+.answer-section-title--negative {
+  color: var(--button-fail-hover);
+}
+
+.answer-section .form-field {
+  width: 100%;
 }
 
 .editor-button-danger {
@@ -843,6 +869,7 @@ button:hover { filter: brightness(1.08); }
   margin-top: 1rem;
   font-size: 0.9rem;
   opacity: 0.8;
+  text-align: center;
 }
 
 /* =========================

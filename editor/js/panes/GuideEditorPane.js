@@ -42,13 +42,13 @@ export function renderGuideEditorPane({ state, hosts, actions }) {
     actions.renderEditor();
     actions.renderPreview();
   });
-  details.appendChild(createField("Title", titleInput, true));
+  details.appendChild(createField("Title", titleInput, true, "The title shown to users for this guide."));
 
   const idInput = makeInput(state.guide.id, (value) => {
     state.guide.id = value.trim();
     actions.markDirty();
   });
-  details.appendChild(createField("Guide ID", idInput, true, "Used for the filename and URL. Example: cannotPrint"));
+  details.appendChild(createField("Guide ID", idInput, true, "Used for the filename and URL. Example: cannotPrint."));
 
   const categorySelect = document.createElement("select");
   state.categories.forEach((category) => categorySelect.appendChild(new Option(category.title, category.id)));
@@ -58,25 +58,25 @@ export function renderGuideEditorPane({ state, hosts, actions }) {
     actions.markDirty();
   });
   hosts.categorySelect = categorySelect;
-  details.appendChild(createField("Category", categorySelect, true));
+  details.appendChild(createField("Category", categorySelect, true, "The category this guide appears under."));
 
   const iconInput = makeInput(state.guide.icon || "", (value) => {
     state.guide.icon = value.trim();
     actions.markDirty();
   });
-  details.appendChild(createField("Icon path", iconInput, true, "Optional. Keep blank when no icon is needed."));
+  details.appendChild(createField("Icon path", iconInput, true, "Optional. Leave blank if no icon is required."));
 
   const cardText = makeTextarea(linesText(state.guide.cardText), (value) => {
     state.guide.cardText = textLines(value);
     actions.markDirty();
   });
-  details.appendChild(createField("Card description — one paragraph per line", cardText, true));
+  details.appendChild(createField("Card description — one paragraph per line", cardText, true, "Short summary shown on the guide card. One paragraph per line."));
 
   const introText = makeTextarea(linesText(state.guide.text), (value) => {
     state.guide.text = textLines(value);
     actions.markDirty();
   });
-  details.appendChild(createField("Guide introduction — one paragraph per line", introText, true));
+  details.appendChild(createField("Guide introduction — one paragraph per line", introText, true, "Introductory text shown before the first question. One paragraph per line."));
   form.appendChild(details);
 
   const nodeToolbar = el("div", "editor-toolbar");
@@ -111,7 +111,7 @@ function renderNode({ state, actions, nodeId, node }) {
 
   const grid = el("div", "form-grid");
   const idInput = makeInput(nodeId, (value) => actions.renameNode(nodeId, value.trim()));
-  grid.appendChild(createField("Node ID", idInput, false, "Changing an ID also updates links to it."));
+  grid.appendChild(createField("Node ID", idInput, true, "Unique identifier for this node. Renaming updates links automatically."));
 
   const typeSelect = document.createElement("select");
   typeSelect.append(new Option("Question", "question"), new Option("Outcome", "terminal"));
@@ -132,67 +132,75 @@ function renderNode({ state, actions, nodeId, node }) {
     actions.renderEditor();
     actions.renderPreview();
   });
-  grid.appendChild(createField("Node type", typeSelect, false, "\u00a0"));
+  grid.appendChild(createField("Node type", typeSelect, true, "Choose Question for a branching step or Outcome for a final result."));
 
   const titleInput = makeInput(node.title || "", (value) => {
     node.title = value;
     actions.markDirty();
     actions.renderPreview();
   });
-  grid.appendChild(createField("Title", titleInput, true));
+  grid.appendChild(createField("Title", titleInput, true, "The heading displayed for this question or outcome."));
 
   const bodyInput = makeTextarea(linesText(node.body), (value) => {
     node.body = textLines(value);
     actions.markDirty();
     actions.renderPreview();
   });
-  grid.appendChild(createField("Body — one paragraph per line", bodyInput, true));
+  grid.appendChild(createField("Body — one paragraph per line", bodyInput, true, "Main text shown to the user. One paragraph per line."));
 
   const imageInput = makeInput(node.image || "", (value) => {
     node.image = value.trim();
     actions.markDirty();
     actions.renderPreview();
   });
-  grid.appendChild(createField("Image", imageInput, true));
+  grid.appendChild(createField("Image", imageInput, true, "Optional. Enter the relative path or URL of the image to display."));
 
   const altInput = makeInput(node.alt || "", (value) => {
     node.alt = value;
     actions.markDirty();
     actions.renderPreview();
   });
-  grid.appendChild(createField("Alt text", altInput, true));
+  grid.appendChild(createField("Alt text", altInput, true, "Optional. Describe the image for accessibility."));
 
   const captionInput = makeInput(node.caption || "", (value) => {
     node.caption = value;
     actions.markDirty();
     actions.renderPreview();
   });
-  grid.appendChild(createField("Caption", captionInput, true));
+  grid.appendChild(createField("Caption", captionInput, true, "Optional. Text displayed beneath the image."));
   card.appendChild(grid);
 
   if (node.type !== "terminal") {
-    const answerGrid = el("div", "answer-grid");
-    answerGrid.appendChild(createField("Positive answer", makeInput(node.successLabel || "", (value) => {
+    const answerSections = el("div", "answer-sections");
+
+    const positiveSection = el("section", "answer-section answer-section--positive");
+    positiveSection.appendChild(el("h4", "answer-section-title answer-section-title--positive", "Positive answer"));
+    positiveSection.appendChild(createField("Answer label", makeInput(node.successLabel || "", (value) => {
       node.successLabel = value;
       actions.markDirty();
       actions.renderPreview();
-    })));
-    answerGrid.appendChild(createField("Goes to", destinationSelect(node.successNext, nodeId, (value) => {
+    }), true, "Label shown for the positive/Yes option."));
+    positiveSection.appendChild(createField("Goes to", destinationSelect(node.successNext, nodeId, (value) => {
       node.successNext = value;
       actions.markDirty();
       actions.renderPreview();
-    })));
-    answerGrid.appendChild(createField("Negative answer", makeInput(node.failLabel || "", (value) => {
+    }), true, "Select which node is shown when this answer is chosen."));
+
+    const negativeSection = el("section", "answer-section answer-section--negative");
+    negativeSection.appendChild(el("h4", "answer-section-title answer-section-title--negative", "Negative answer"));
+    negativeSection.appendChild(createField("Answer label", makeInput(node.failLabel || "", (value) => {
       node.failLabel = value;
       actions.markDirty();
       actions.renderPreview();
-    })));
-    answerGrid.appendChild(createField("Goes to", destinationSelect(node.failNext, nodeId, (value) => {
+    }), true, "Label shown for the negative/No option."));
+    negativeSection.appendChild(createField("Goes to", destinationSelect(node.failNext, nodeId, (value) => {
       node.failNext = value;
       actions.markDirty();
       actions.renderPreview();
-    })));
-    card.appendChild(answerGrid);
+    }), true, "Select which node is shown when this answer is chosen."));
+
+    answerSections.append(positiveSection, negativeSection);
+    card.appendChild(answerSections);
   }
 
   const nodeActions = el("div", "node-actions");
