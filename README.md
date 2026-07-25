@@ -63,7 +63,7 @@ The JSON files remain the single source of truth.
 ITGuideToolEditor/
 │
 ├── app.py
-├── compose.yaml
+├── docker-compose.yml
 ├── Dockerfile
 ├── requirements.txt
 │
@@ -72,14 +72,24 @@ ITGuideToolEditor/
 ├── editor/
 │   ├── index.html
 │   ├── css/
+│   │   └── style.css
 │   └── js/
+│       ├── app.js
+│       ├── core/
+│       ├── pages/
+│       └── panes/
 │
 └── public/
     ├── index.html
     ├── css/
+    │   ├── print.css
+    │   └── style.css
     ├── js/
     ├── images/
-    └── data/
+    ├── data/
+    ├── PythonFiles/
+    ├── README.md
+    └── LICENSE
 ```
 
 ---
@@ -139,7 +149,7 @@ Each guide is stored as a JSON file.
 Example:
 
 ```
-public/data/guides/network/wifi-not-working.json
+public/data/guides/internet/noInternet.json
 ```
 
 The guide index is stored in:
