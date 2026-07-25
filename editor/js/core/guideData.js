@@ -57,14 +57,46 @@ export function emptyGuide() {
 
 /** Requests JSON from the editor API */
 export async function requestJson(url, options = {}) {
-  const response = await fetch(url, {
-    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
-    ...options
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const messages = data.errors || [data.error || `Request failed (${response.status}).`];
-    throw new Error(messages.join("\n"));
+  const controller = new AbortController();
+  let timedOut = false;
+  const timeoutId = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, 5000);
+  const abortRequest = () => controller.abort();
+
+  if (options.signal) {
+    if (options.signal.aborted) {
+      controller.abort();
+    } else {
+      options.signal.addEventListener("abort", abortRequest, { once: true });
+    }
   }
-  return data;
+
+  try {
+    const response = await fetch(url, {
+      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+      ...options,
+      signal: controller.signal
+    });
+    const data = await response.json().catch((error) => {
+      if (timedOut && error.name === "AbortError") throw error;
+      return {};
+    });
+    if (!response.ok) {
+      const messages = data.errors || [data.error || `Request failed (${response.status}).`];
+      throw new Error(messages.join("\n"));
+    }
+    return data;
+  } catch (error) {
+    if (timedOut && error.name === "AbortError") {
+      throw new Error("Unable to connect to the editor API.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+    if (options.signal) {
+      options.signal.removeEventListener("abort", abortRequest);
+    }
+  }
 }
