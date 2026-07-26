@@ -33,6 +33,10 @@
           "path": "guides/computer/computerSlow.json"
         },
         {
+          "id": "newGuide",
+          "path": "guides/computer/newGuide.json"
+        },
+        {
           "id": "pcRandomlyRestarts",
           "path": "guides/computer/pcRandomlyRestarts.json"
         },
