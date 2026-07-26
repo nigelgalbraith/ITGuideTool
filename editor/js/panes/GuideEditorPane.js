@@ -1,6 +1,6 @@
 // IMPORTS
 import { el } from "../../../js/core/helpers.js";
-import { createField, destinationSelect, makeInput, makeTextarea } from "../core/editorFields.js";
+import { CREATE_OUTCOME_DESTINATION, CREATE_QUESTION_DESTINATION, createField, destinationSelect, makeInput, makeTextarea } from "../core/editorFields.js";
 import { linesText, makeId, textLines } from "../core/guideData.js";
 
 // BUILD
@@ -84,7 +84,13 @@ export function renderGuideEditorPane({ state, hosts, actions }) {
   form.appendChild(nodeToolbar);
 
   const nodeList = el("div", "node-list");
-  Object.entries(state.guide.nodes).forEach(([nodeId, node]) => nodeList.appendChild(renderNode({ state, actions, nodeId, node })));
+  const nodeEntries = Object.entries(state.guide.nodes);
+  const startNodeIndex = nodeEntries.findIndex(([nodeId]) => nodeId === state.guide.startNode);
+  if (startNodeIndex > 0) {
+    const [startNodeEntry] = nodeEntries.splice(startNodeIndex, 1);
+    nodeEntries.unshift(startNodeEntry);
+  }
+  nodeEntries.forEach(([nodeId, node]) => nodeList.appendChild(renderNode({ state, actions, nodeId, node })));
   form.appendChild(nodeList);
 
   const questionActions = el("div", "centered-actions");
@@ -105,6 +111,7 @@ export function renderGuideEditorPane({ state, hosts, actions }) {
 /** Renders one guide node card */
 function renderNode({ state, actions, nodeId, node }) {
   const card = el("article", `node-card${state.guide.startNode === nodeId ? " node-card--start" : ""}`);
+  card.dataset.nodeId = nodeId;
   const heading = el("div", "node-heading");
   heading.append(el("h3", "", node.title || nodeId), el("span", "node-badge", node.type === "terminal" ? "Outcome" : "Question"));
   card.appendChild(heading);
@@ -181,6 +188,12 @@ function renderNode({ state, actions, nodeId, node }) {
       actions.renderPreview();
     }), true, "Label shown for the positive/Yes option."));
     positiveSection.appendChild(createField("Goes to", destinationSelect(node.successNext, nodeId, (value) => {
+      if (value === CREATE_QUESTION_DESTINATION || value === CREATE_OUTCOME_DESTINATION) {
+        actions.addNode(value === CREATE_OUTCOME_DESTINATION, (newNodeId) => {
+          node.successNext = newNodeId;
+        });
+        return;
+      }
       node.successNext = value;
       actions.markDirty();
       actions.renderPreview();
@@ -194,6 +207,12 @@ function renderNode({ state, actions, nodeId, node }) {
       actions.renderPreview();
     }), true, "Label shown for the negative/No option."));
     negativeSection.appendChild(createField("Goes to", destinationSelect(node.failNext, nodeId, (value) => {
+      if (value === CREATE_QUESTION_DESTINATION || value === CREATE_OUTCOME_DESTINATION) {
+        actions.addNode(value === CREATE_OUTCOME_DESTINATION, (newNodeId) => {
+          node.failNext = newNodeId;
+        });
+        return;
+      }
       node.failNext = value;
       actions.markDirty();
       actions.renderPreview();
@@ -213,6 +232,12 @@ function renderNode({ state, actions, nodeId, node }) {
     actions.markDirty();
     actions.renderEditor();
     actions.renderPreview();
+    const startCard = document.querySelector(".node-card--start");
+    if (startCard) {
+      startCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      startCard.classList.add("node-card--start-highlight");
+      setTimeout(() => startCard.classList.remove("node-card--start-highlight"), 1600);
+    }
   });
   const removeButton = el("button", "editor-button-danger", "Remove Node");
   removeButton.type = "button";

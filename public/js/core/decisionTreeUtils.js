@@ -128,9 +128,14 @@ export function buildDecisionTreeMermaid(guide) {
     buildMermaidInit(),
     "flowchart TD"
   ];
+  const startNodeId = guide && guide.startNode && nodeIds[guide.startNode] ? nodeIds[guide.startNode] : "";
   let hasResolvedEnd = false;
   let hasFailEnd = false;
   const normalClasses = [];
+  if (startNodeId) {
+    lines.push("  START([\"Start\"])");
+    lines.push("  START --> " + startNodeId);
+  }
   Object.keys(nodes).forEach(function (key) {
     const node = nodes[key] || {};
     const id = nodeIds[key];
@@ -159,8 +164,8 @@ export function buildDecisionTreeMermaid(guide) {
   if (normalClasses.length) lines.push("  class " + normalClasses.join(",") + " normal");
   if (hasResolvedEnd) lines.push("  class RESOLVED success");
   if (hasFailEnd) lines.push("  class END fail");
-  if (guide && guide.startNode && nodeIds[guide.startNode]) {
-    lines.push("  class " + nodeIds[guide.startNode] + " startNode");
+  if (startNodeId) {
+    lines.push("  class " + startNodeId + " startNode");
   }
   return lines.join("\n");
 }

@@ -2,6 +2,10 @@
 import { el } from "../../../js/core/helpers.js";
 import { state } from "./editorState.js";
 
+// CONSTANTS
+export const CREATE_QUESTION_DESTINATION = "__createQuestion";
+export const CREATE_OUTCOME_DESTINATION = "__createOutcome";
+
 // BUILD
 /** Creates a labelled form field */
 export function createField(labelText, input, wide = false, help = "") {
@@ -38,6 +42,7 @@ export function makeTextarea(value, onChange) {
 export function destinationSelect(value, currentNodeId, onChange) {
   const select = document.createElement("select");
   select.appendChild(new Option("End guide", ""));
+  select.append(new Option("Create new question…", CREATE_QUESTION_DESTINATION), new Option("Create new outcome…", CREATE_OUTCOME_DESTINATION));
   Object.keys(state.guide.nodes).forEach((nodeId) => {
     select.appendChild(new Option(nodeId === currentNodeId ? `${nodeId} (this node)` : nodeId, nodeId));
   });

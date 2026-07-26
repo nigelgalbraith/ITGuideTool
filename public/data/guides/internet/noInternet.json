@@ -1,334 +1,310 @@
 {
-  "id": "noInternet",
-  "title": "No Internet Connection",
   "cardText": [
     "Diagnose devices that cannot access websites, online services, or cloud applications.",
     "Determine whether the problem is Wi-Fi, Ethernet, DNS, router, ISP, VPN, or device related.",
     "Separate local device issues from network-wide outages."
   ],
   "icon": "",
+  "id": "noInternet",
+  "nodes": {
+    "checkAffectedDevices": {
+      "alt": "Router status lights",
+      "body": [
+        "Test another phone, tablet, laptop, or computer on the same network.",
+        "This helps determine whether the issue is isolated to one device or affects the entire network.",
+        "Knowing this early prevents unnecessary troubleshooting."
+      ],
+      "caption": "Test image",
+      "failLabel": "Multiple Devices Affected",
+      "failNext": "checkRouterStatus",
+      "image": "router-lights.png",
+      "successLabel": "Only One Device Affected",
+      "successNext": "checkConnectionType",
+      "title": "Check whether other devices have internet access"
+    },
+    "changeDnsServer": {
+      "body": [
+        "Try using a reliable public DNS provider such as Cloudflare (1.1.1.1) or Google DNS (8.8.8.8).",
+        "Flush DNS cache if appropriate.",
+        "Retest website access after making changes."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Change DNS server",
+      "type": "terminal"
+    },
+    "checkConnectionType": {
+      "body": [
+        "Determine whether the affected device is using Wi-Fi or Ethernet.",
+        "The troubleshooting path differs depending on how the device connects to the network."
+      ],
+      "failLabel": "Ethernet",
+      "failNext": "checkEthernetCable",
+      "successLabel": "Wi-Fi",
+      "successNext": "checkWifiConnection",
+      "title": "Identify connection type"
+    },
+    "checkDirectConnection": {
+      "body": [
+        "If appropriate, connect a device directly to the modem.",
+        "This helps determine whether the router or modem is responsible.",
+        "Only perform this if you understand the network layout."
+      ],
+      "failLabel": "Direct Connection Fails",
+      "failNext": "contactIsp",
+      "successLabel": "Direct Connection Works",
+      "successNext": "routerFaultLikely",
+      "title": "Check direct modem connection"
+    },
+    "checkEthernetCable": {
+      "body": [
+        "Ensure the Ethernet cable is firmly connected at both ends.",
+        "Look for link lights on the network port if available.",
+        "Try another cable if possible."
+      ],
+      "failLabel": "Cable Fault Found",
+      "failNext": "replaceEthernetCable",
+      "successLabel": "Cable Appears OK",
+      "successNext": "testWebsiteAccess",
+      "title": "Check Ethernet cable"
+    },
+    "checkIpAddress": {
+      "body": [
+        "Verify the device has received an IP address from the router.",
+        "A device without an IP address cannot communicate properly on the network.",
+        "Look for messages such as Limited Connectivity or Self-Assigned Address."
+      ],
+      "failLabel": "No Valid IP",
+      "failNext": "renewIpAddress",
+      "successLabel": "Valid IP Address",
+      "successNext": "checkVpnUsage",
+      "title": "Check IP address assignment"
+    },
+    "checkIspOutage": {
+      "body": [
+        "Check the internet provider's website, service status page, mobile app, or recorded support line.",
+        "Look for known outages affecting your area.",
+        "Many internet problems are caused by provider-side faults."
+      ],
+      "failLabel": "No Outage Reported",
+      "failNext": "checkDirectConnection",
+      "successLabel": "Outage Found",
+      "successNext": "waitForIspRepair",
+      "title": "Check ISP outage information"
+    },
+    "checkNetworkAdapter": {
+      "body": [
+        "Open network settings and confirm the network adapter is enabled.",
+        "Disable and re-enable the adapter if necessary.",
+        "A disabled adapter can prevent internet access even when hardware appears normal."
+      ],
+      "failLabel": "Adapter Disabled",
+      "failNext": "enableAdapter",
+      "successLabel": "Adapter Enabled",
+      "successNext": "checkIpAddress",
+      "title": "Check network adapter status"
+    },
+    "checkRouterStatus": {
+      "body": [
+        "Inspect the router and modem.",
+        "Look for warning lights, flashing fault indicators, or missing internet lights.",
+        "Compare the lights with the provider's documentation if available."
+      ],
+      "failLabel": "Fault Lights Present",
+      "failNext": "restartRouter",
+      "successLabel": "Lights Normal",
+      "successNext": "restartRouter",
+      "title": "Check router and modem status lights"
+    },
+    "checkVpnUsage": {
+      "body": [
+        "Determine whether a VPN is active.",
+        "A misconfigured or disconnected VPN can block internet access.",
+        "Temporarily disconnect the VPN and test again."
+      ],
+      "failLabel": "No VPN",
+      "failNext": "restartDevice",
+      "successLabel": "VPN In Use",
+      "successNext": "disableVpn",
+      "title": "Check for VPN usage"
+    },
+    "checkWifiConnection": {
+      "body": [
+        "Verify the device is connected to the correct wireless network.",
+        "Check whether the Wi-Fi icon shows Connected, Connected without Internet, or Disconnected.",
+        "Reconnect if necessary."
+      ],
+      "failLabel": "Not Connected",
+      "failNext": "reconnectWifi",
+      "successLabel": "Connected",
+      "successNext": "testWebsiteAccess",
+      "title": "Check Wi-Fi connection status"
+    },
+    "contactIsp": {
+      "body": [
+        "Local troubleshooting has not restored internet access.",
+        "Provide the ISP with details of the tests already completed.",
+        "Request line testing and confirmation of service status."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Contact ISP",
+      "type": "terminal"
+    },
+    "deviceNetworkEscalation": {
+      "body": [
+        "The issue appears isolated to one device.",
+        "Investigate network drivers, operating system corruption, security software, or hardware faults.",
+        "Escalate if the device still cannot connect."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Further device diagnostics required",
+      "type": "terminal"
+    },
+    "disableVpn": {
+      "body": [
+        "Disconnect the VPN connection.",
+        "Test websites and online services again.",
+        "If internet access returns, review VPN settings."
+      ],
+      "failLabel": "Still Broken",
+      "failNext": "restartDevice",
+      "successLabel": "Fixed",
+      "successNext": null,
+      "title": "Disable VPN temporarily"
+    },
+    "dnsIssueCheck": {
+      "body": [
+        "If some websites work but others do not, DNS resolution may be failing.",
+        "DNS translates website names into IP addresses.",
+        "A DNS problem can make the internet appear partially broken."
+      ],
+      "failLabel": "Not DNS",
+      "failNext": "checkVpnUsage",
+      "successLabel": "DNS Likely",
+      "successNext": "changeDnsServer",
+      "title": "Check for DNS issues"
+    },
+    "enableAdapter": {
+      "body": [
+        "The network adapter was disabled.",
+        "Enable it and test the internet connection again."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Enable network adapter",
+      "type": "terminal"
+    },
+    "reconnectWifi": {
+      "body": [
+        "Connect to the correct wireless network.",
+        "Verify the Wi-Fi password is correct.",
+        "Once connected, test internet access again."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Reconnect to Wi-Fi",
+      "type": "terminal"
+    },
+    "renewIpAddress": {
+      "body": [
+        "Disconnect and reconnect to the network.",
+        "Restart the device or renew the IP address lease.",
+        "If the problem persists, investigate router DHCP settings."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Renew IP address",
+      "type": "terminal"
+    },
+    "replaceEthernetCable": {
+      "body": [
+        "A damaged cable can prevent network connectivity.",
+        "Replace the cable and retest the connection."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Replace Ethernet cable",
+      "type": "terminal"
+    },
+    "resetNetworkSettings": {
+      "body": [
+        "Reset network settings if available.",
+        "This can remove corrupted configuration and restore default networking behaviour.",
+        "Reconnect to the network afterwards."
+      ],
+      "failLabel": "Still Broken",
+      "failNext": "deviceNetworkEscalation",
+      "successLabel": "Fixed",
+      "successNext": null,
+      "title": "Reset network settings"
+    },
+    "restartDevice": {
+      "body": [
+        "Restart the affected device.",
+        "Temporary network stack problems can sometimes be resolved by a reboot.",
+        "Retest connectivity after startup."
+      ],
+      "failLabel": "Still Broken",
+      "failNext": "resetNetworkSettings",
+      "successLabel": "Fixed",
+      "successNext": null,
+      "title": "Restart the device"
+    },
+    "restartRouter": {
+      "body": [
+        "Power off the modem and router.",
+        "Wait at least 30 seconds.",
+        "Power them back on and wait for all status lights to stabilize."
+      ],
+      "failLabel": "Still Offline",
+      "failNext": "checkIspOutage",
+      "successLabel": "Internet Restored",
+      "successNext": null,
+      "title": "Restart modem and router"
+    },
+    "routerFaultLikely": {
+      "body": [
+        "Internet works when bypassing the router.",
+        "The router configuration or hardware may be faulty.",
+        "Review router settings or replace the router if necessary."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Router fault likely",
+      "type": "terminal"
+    },
+    "testWebsiteAccess": {
+      "body": [
+        "Open a web browser and try visiting several different websites.",
+        "Do not rely on a single website because the site itself may be offline.",
+        "Test both familiar and well-known public websites."
+      ],
+      "failLabel": "No Sites Work",
+      "failNext": "checkNetworkAdapter",
+      "successLabel": "Some Sites Work",
+      "successNext": "dnsIssueCheck",
+      "title": "Test access to websites"
+    },
+    "waitForIspRepair": {
+      "body": [
+        "The provider has reported an outage.",
+        "Monitor the outage status and wait for service restoration.",
+        "No local troubleshooting is likely to resolve the issue until the outage is fixed."
+      ],
+      "failNext": null,
+      "successNext": null,
+      "title": "Wait for ISP restoration",
+      "type": "terminal"
+    }
+  },
+  "startNode": "checkAffectedDevices",
   "text": [
     "This guide is for devices that cannot access the internet.",
     "Determine whether the issue affects one device or multiple devices.",
     "Check local connectivity before restarting network equipment.",
     "Escalate ISP or infrastructure issues when local troubleshooting fails."
   ],
-  "startNode": "checkAffectedDevices",
-  "nodes": {
-    "checkAffectedDevices": {
-      "title": "Check whether other devices have internet access",
-      "body": [
-        "Test another phone, tablet, laptop, or computer on the same network.",
-        "This helps determine whether the issue is isolated to one device or affects the entire network.",
-        "Knowing this early prevents unnecessary troubleshooting."
-      ],
-      "image": "router-lights.png",
-      "alt": "Router status lights",
-      "caption": "Test image",
-      "successLabel": "Only One Device Affected",
-      "failLabel": "Multiple Devices Affected",
-      "successNext": "checkConnectionType",
-      "failNext": "checkRouterStatus"
-    },
-
-    "checkConnectionType": {
-      "title": "Identify connection type",
-      "body": [
-        "Determine whether the affected device is using Wi-Fi or Ethernet.",
-        "The troubleshooting path differs depending on how the device connects to the network."
-      ],
-      "successLabel": "Wi-Fi",
-      "failLabel": "Ethernet",
-      "successNext": "checkWifiConnection",
-      "failNext": "checkEthernetCable"
-    },
-
-    "checkWifiConnection": {
-      "title": "Check Wi-Fi connection status",
-      "body": [
-        "Verify the device is connected to the correct wireless network.",
-        "Check whether the Wi-Fi icon shows Connected, Connected without Internet, or Disconnected.",
-        "Reconnect if necessary."
-      ],
-      "successLabel": "Connected",
-      "failLabel": "Not Connected",
-      "successNext": "testWebsiteAccess",
-      "failNext": "reconnectWifi"
-    },
-
-    "reconnectWifi": {
-      "type": "terminal",
-      "title": "Reconnect to Wi-Fi",
-      "body": [
-        "Connect to the correct wireless network.",
-        "Verify the Wi-Fi password is correct.",
-        "Once connected, test internet access again."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "checkEthernetCable": {
-      "title": "Check Ethernet cable",
-      "body": [
-        "Ensure the Ethernet cable is firmly connected at both ends.",
-        "Look for link lights on the network port if available.",
-        "Try another cable if possible."
-      ],
-      "successLabel": "Cable Appears OK",
-      "failLabel": "Cable Fault Found",
-      "successNext": "testWebsiteAccess",
-      "failNext": "replaceEthernetCable"
-    },
-
-    "replaceEthernetCable": {
-      "type": "terminal",
-      "title": "Replace Ethernet cable",
-      "body": [
-        "A damaged cable can prevent network connectivity.",
-        "Replace the cable and retest the connection."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "testWebsiteAccess": {
-      "title": "Test access to websites",
-      "body": [
-        "Open a web browser and try visiting several different websites.",
-        "Do not rely on a single website because the site itself may be offline.",
-        "Test both familiar and well-known public websites."
-      ],
-      "successLabel": "Some Sites Work",
-      "failLabel": "No Sites Work",
-      "successNext": "dnsIssueCheck",
-      "failNext": "checkNetworkAdapter"
-    },
-
-    "dnsIssueCheck": {
-      "title": "Check for DNS issues",
-      "body": [
-        "If some websites work but others do not, DNS resolution may be failing.",
-        "DNS translates website names into IP addresses.",
-        "A DNS problem can make the internet appear partially broken."
-      ],
-      "successLabel": "DNS Likely",
-      "failLabel": "Not DNS",
-      "successNext": "changeDnsServer",
-      "failNext": "checkVpnUsage"
-    },
-
-    "changeDnsServer": {
-      "type": "terminal",
-      "title": "Change DNS server",
-      "body": [
-        "Try using a reliable public DNS provider such as Cloudflare (1.1.1.1) or Google DNS (8.8.8.8).",
-        "Flush DNS cache if appropriate.",
-        "Retest website access after making changes."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "checkNetworkAdapter": {
-      "title": "Check network adapter status",
-      "body": [
-        "Open network settings and confirm the network adapter is enabled.",
-        "Disable and re-enable the adapter if necessary.",
-        "A disabled adapter can prevent internet access even when hardware appears normal."
-      ],
-      "successLabel": "Adapter Enabled",
-      "failLabel": "Adapter Disabled",
-      "successNext": "checkIpAddress",
-      "failNext": "enableAdapter"
-    },
-
-    "enableAdapter": {
-      "type": "terminal",
-      "title": "Enable network adapter",
-      "body": [
-        "The network adapter was disabled.",
-        "Enable it and test the internet connection again."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "checkIpAddress": {
-      "title": "Check IP address assignment",
-      "body": [
-        "Verify the device has received an IP address from the router.",
-        "A device without an IP address cannot communicate properly on the network.",
-        "Look for messages such as Limited Connectivity or Self-Assigned Address."
-      ],
-      "successLabel": "Valid IP Address",
-      "failLabel": "No Valid IP",
-      "successNext": "checkVpnUsage",
-      "failNext": "renewIpAddress"
-    },
-
-    "renewIpAddress": {
-      "type": "terminal",
-      "title": "Renew IP address",
-      "body": [
-        "Disconnect and reconnect to the network.",
-        "Restart the device or renew the IP address lease.",
-        "If the problem persists, investigate router DHCP settings."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "checkVpnUsage": {
-      "title": "Check for VPN usage",
-      "body": [
-        "Determine whether a VPN is active.",
-        "A misconfigured or disconnected VPN can block internet access.",
-        "Temporarily disconnect the VPN and test again."
-      ],
-      "successLabel": "VPN In Use",
-      "failLabel": "No VPN",
-      "successNext": "disableVpn",
-      "failNext": "restartDevice"
-    },
-
-    "disableVpn": {
-      "title": "Disable VPN temporarily",
-      "body": [
-        "Disconnect the VPN connection.",
-        "Test websites and online services again.",
-        "If internet access returns, review VPN settings."
-      ],
-      "successLabel": "Fixed",
-      "failLabel": "Still Broken",
-      "successNext": null,
-      "failNext": "restartDevice"
-    },
-
-    "restartDevice": {
-      "title": "Restart the device",
-      "body": [
-        "Restart the affected device.",
-        "Temporary network stack problems can sometimes be resolved by a reboot.",
-        "Retest connectivity after startup."
-      ],
-      "successLabel": "Fixed",
-      "failLabel": "Still Broken",
-      "successNext": null,
-      "failNext": "resetNetworkSettings"
-    },
-
-    "resetNetworkSettings": {
-      "title": "Reset network settings",
-      "body": [
-        "Reset network settings if available.",
-        "This can remove corrupted configuration and restore default networking behaviour.",
-        "Reconnect to the network afterwards."
-      ],
-      "successLabel": "Fixed",
-      "failLabel": "Still Broken",
-      "successNext": null,
-      "failNext": "deviceNetworkEscalation"
-    },
-
-    "deviceNetworkEscalation": {
-      "type": "terminal",
-      "title": "Further device diagnostics required",
-      "body": [
-        "The issue appears isolated to one device.",
-        "Investigate network drivers, operating system corruption, security software, or hardware faults.",
-        "Escalate if the device still cannot connect."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "checkRouterStatus": {
-      "title": "Check router and modem status lights",
-      "body": [
-        "Inspect the router and modem.",
-        "Look for warning lights, flashing fault indicators, or missing internet lights.",
-        "Compare the lights with the provider's documentation if available."
-      ],
-      "successLabel": "Lights Normal",
-      "failLabel": "Fault Lights Present",
-      "successNext": "restartRouter",
-      "failNext": "restartRouter"
-    },
-
-    "restartRouter": {
-      "title": "Restart modem and router",
-      "body": [
-        "Power off the modem and router.",
-        "Wait at least 30 seconds.",
-        "Power them back on and wait for all status lights to stabilize."
-      ],
-      "successLabel": "Internet Restored",
-      "failLabel": "Still Offline",
-      "successNext": null,
-      "failNext": "checkIspOutage"
-    },
-
-    "checkIspOutage": {
-      "title": "Check ISP outage information",
-      "body": [
-        "Check the internet provider's website, service status page, mobile app, or recorded support line.",
-        "Look for known outages affecting your area.",
-        "Many internet problems are caused by provider-side faults."
-      ],
-      "successLabel": "Outage Found",
-      "failLabel": "No Outage Reported",
-      "successNext": "waitForIspRepair",
-      "failNext": "checkDirectConnection"
-    },
-
-    "waitForIspRepair": {
-      "type": "terminal",
-      "title": "Wait for ISP restoration",
-      "body": [
-        "The provider has reported an outage.",
-        "Monitor the outage status and wait for service restoration.",
-        "No local troubleshooting is likely to resolve the issue until the outage is fixed."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "checkDirectConnection": {
-      "title": "Check direct modem connection",
-      "body": [
-        "If appropriate, connect a device directly to the modem.",
-        "This helps determine whether the router or modem is responsible.",
-        "Only perform this if you understand the network layout."
-      ],
-      "successLabel": "Direct Connection Works",
-      "failLabel": "Direct Connection Fails",
-      "successNext": "routerFaultLikely",
-      "failNext": "contactIsp"
-    },
-
-    "routerFaultLikely": {
-      "type": "terminal",
-      "title": "Router fault likely",
-      "body": [
-        "Internet works when bypassing the router.",
-        "The router configuration or hardware may be faulty.",
-        "Review router settings or replace the router if necessary."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "contactIsp": {
-      "type": "terminal",
-      "title": "Contact ISP",
-      "body": [
-        "Local troubleshooting has not restored internet access.",
-        "Provide the ISP with details of the tests already completed.",
-        "Request line testing and confirmation of service status."
-      ],
-      "successNext": null,
-      "failNext": null
-    }
-  }
+  "title": "No Internet Connection"
 }

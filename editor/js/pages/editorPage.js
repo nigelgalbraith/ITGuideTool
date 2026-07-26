@@ -110,14 +110,21 @@ function uniqueNodeId(prefix) {
 
 
 /** Adds a node to the current guide */
-function addNode(terminal) {
+function addNode(terminal, afterCreate = null) {
   const id = uniqueNodeId(terminal ? "outcome" : "question");
   state.guide.nodes[id] = terminal
     ? { type: "terminal", title: "New outcome", body: ["Describe the result or next action."], successNext: null, failNext: null }
     : { title: "New question", body: ["Describe the troubleshooting check."], successLabel: "Yes", failLabel: "No", successNext: null, failNext: null };
+  if (afterCreate) afterCreate(id);
   state.previewNodeId = id;
   markDirty();
   renderEditor();
+  const newNodeCard = Array.from(document.querySelectorAll(".node-card")).find((card) => card.dataset.nodeId === id);
+  if (newNodeCard) {
+    newNodeCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    const firstInput = newNodeCard.querySelector("input");
+    if (firstInput) firstInput.focus({ preventScroll: true });
+  }
   renderPreview();
 }
 

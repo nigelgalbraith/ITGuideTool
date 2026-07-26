@@ -767,6 +767,12 @@ button:hover { filter: brightness(1.08); }
   outline: 2px solid var(--button-success);
 }
 
+.node-card--start-highlight {
+  background: color-mix(in srgb, var(--button-success) 12%, var(--surface));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--button-success) 28%, transparent);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
 .node-heading {
   display: flex;
   justify-content: space-between;

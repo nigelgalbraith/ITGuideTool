@@ -13,7 +13,7 @@ const DIAGRAM_CLASS = "pane-host--decision-tree-diagram";
 
 // BUILD
 /** Renders Mermaid syntax into the diagram host */
-function renderMermaid(host, syntax) {
+function renderMermaid(host, syntax, isCurrent = function () { return true; }) {
   const loading = document.createElement("div");
   loading.className = "dt-diagram-loading";
   loading.textContent = "Loading flowchart...";
@@ -25,10 +25,12 @@ function renderMermaid(host, syntax) {
   host.appendChild(diagram);
   renderMermaidElement(diagram)
     .then(function () {
+      if (!isCurrent()) return;
       loading.remove();
       diagram.hidden = false;
     })
     .catch(function () {
+      if (!isCurrent()) return;
       loading.remove();
       diagram.remove();
       renderHostMessage(host, "Unable to render decision tree diagram.", "dt-diagram-error", false);
@@ -39,13 +41,14 @@ function renderMermaid(host, syntax) {
 /** Initializes the decision tree diagram pane */
 function initDecisionTreeDiagramPane(host, settings) {
   const decisionTree = settings.guide || null;
+  const isCurrent = settings.isCurrent || function () { return true; };
   clearHost(host);
   renderHostTitle(host, settings.title || "Guide Flowchart", "dt-diagram-title");
   if (!decisionTree) {
     renderHostMessage(host, "Guide not found.", "dt-diagram-error", false);
     return { destroy() {} };
   }
-  renderMermaid(host, buildDecisionTreeMermaid(decisionTree));
+  renderMermaid(host, buildDecisionTreeMermaid(decisionTree), isCurrent);
   return { destroy() {} };
 }
 
@@ -66,6 +69,8 @@ export function renderDecisionTreeDiagramPane({ state, hosts }) {
   const contentHost = hosts.contentHost;
   const existingPane = hosts.decisionTreeDiagramPane;
   if (existingPane) existingPane.remove();
+  hosts.decisionTreeDiagramRenderId = (hosts.decisionTreeDiagramRenderId || 0) + 1;
+  const renderId = hosts.decisionTreeDiagramRenderId;
   if (!state.guide) {
     const emptyPane = document.createElement("div");
     emptyPane.className = "pane";
@@ -77,7 +82,10 @@ export function renderDecisionTreeDiagramPane({ state, hosts }) {
   }
   const flowchartPane = buildDecisionTreeDiagramPane({
     guide: state.guide,
-    title: "Decision Tree Diagram Preview"
+    title: "Decision Tree Diagram Preview",
+    isCurrent: function () {
+      return hosts.decisionTreeDiagramRenderId === renderId;
+    }
   });
   hosts.decisionTreeDiagramPane = flowchartPane.node;
   contentHost.appendChild(flowchartPane.node);

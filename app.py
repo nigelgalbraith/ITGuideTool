@@ -31,12 +31,10 @@ def read_json(path: Path) -> Any:
 def atomic_write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     BACKUP_DIR.mkdir(parents=True, exist_ok=True)
-
     if path.exists():
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         relative_name = path.relative_to(DATA_DIR).as_posix().replace("/", "__")
         shutil.copy2(path, BACKUP_DIR / f"{relative_name}.{timestamp}.bak")
-
     descriptor, temporary_name = tempfile.mkstemp(
         prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent)
     )
@@ -107,24 +105,20 @@ def validate_guide(guide: Any) -> list[str]:
     errors: list[str] = []
     if not isinstance(guide, dict):
         return ["Guide must be a JSON object."]
-
     errors.extend(validate_identifier(guide.get("id"), "Guide ID"))
     if not str(guide.get("title") or "").strip():
         errors.append("Guide title is required.")
     errors.extend(validate_text_list(guide.get("cardText"), "cardText"))
     errors.extend(validate_text_list(guide.get("text"), "text"))
-
     nodes = guide.get("nodes")
     if not isinstance(nodes, dict) or not nodes:
         errors.append("Guide must contain at least one node.")
         return errors
-
     start_node = str(guide.get("startNode") or "").strip()
     if not start_node:
         errors.append("A start node is required.")
     elif start_node not in nodes:
         errors.append(f'Start node "{start_node}" does not exist.')
-
     for node_id, node in nodes.items():
         errors.extend(validate_identifier(node_id, f'Node ID "{node_id}"'))
         if not isinstance(node, dict):
@@ -133,7 +127,6 @@ def validate_guide(guide: Any) -> list[str]:
         if not str(node.get("title") or "").strip():
             errors.append(f'Node "{node_id}" needs a title.')
         errors.extend(validate_text_list(node.get("body"), f'Node "{node_id}" body', required=True))
-
         is_terminal = node.get("type") == "terminal"
         for pointer_name in ("successNext", "failNext"):
             pointer = node.get(pointer_name)
@@ -141,7 +134,6 @@ def validate_guide(guide: Any) -> list[str]:
                 continue
             if pointer not in nodes:
                 errors.append(f'Node "{node_id}" points to missing node "{pointer}" through {pointer_name}.')
-
         if not is_terminal:
             if not str(node.get("successLabel") or "").strip():
                 errors.append(f'Question node "{node_id}" needs a success label.')
@@ -211,29 +203,24 @@ def save_guide():
     payload = request.get_json(silent=True)
     if not isinstance(payload, dict):
         return jsonify({"errors": ["Request body must be JSON."]}), 400
-
     guide = payload.get("guide")
     category_id = str(payload.get("categoryId") or "").strip()
     original_id = str(payload.get("originalId") or "").strip()
     errors = validate_identifier(category_id, "Category ID") + validate_guide(guide)
     if errors:
         return jsonify({"errors": errors}), 400
-
     guide_id = guide["id"].strip()
     try:
         index = load_index()
         category = find_category(index, category_id)
         if category is None:
             return jsonify({"errors": [f'Category "{category_id}" does not exist.']}), 400
-
         existing = find_guide_entry(index, original_id or guide_id)
         id_owner = find_guide_entry(index, guide_id)
         if id_owner is not None and (not existing or id_owner[1] is not existing[1]):
             return jsonify({"errors": [f'Guide ID "{guide_id}" is already in use.']}), 409
-
         destination_relative = f"guides/{category_id}/{guide_id}.json"
         destination_path = resolve_guide_path(destination_relative)
-
         if existing:
             old_category, entry = existing
             old_path = resolve_guide_path(entry["path"])
@@ -244,10 +231,18 @@ def save_guide():
                 BACKUP_DIR.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(old_path, BACKUP_DIR / f"renamed__{old_path.name}.{timestamp}.bak")
                 old_path.unlink()
-
         category.setdefault("guides", []).append({"id": guide_id, "path": destination_relative})
         category["guides"].sort(key=lambda item: item.get("id", "").lower())
-
+        start_node = guide["startNode"]
+        node_items = list(guide["nodes"].items())
+        start_node_index = -1
+        for node_index, (node_id, _node) in enumerate(node_items):
+            if node_id == start_node:
+                start_node_index = node_index
+                break
+        if start_node_index > 0:
+            start_node_item = node_items.pop(start_node_index)
+            guide["nodes"] = dict([start_node_item] + node_items)
         atomic_write_json(destination_path, guide)
         atomic_write_json(GUIDE_INDEX_PATH, index)
         return jsonify({"ok": True, "guideId": guide_id, "path": destination_relative})
