@@ -1,6 +1,7 @@
 // IMPORTS
 import {
   el,
+  openPrintWindow,
   clearHost,
   addHostClasses,
   renderHostMessage,
@@ -12,17 +13,6 @@ import { buildPrintableGuideHtml } from "../core/decisionTreeUtils.js";
 const PRINT_CLASS = "pane-host--decision-tree-print";
 
 // BUILD
-/** Opens the printable guide in a clean print window */
-function openPrintWindow(guide) {
-  const printWindow = window.open("", "_blank");
-  if (!printWindow) return false;
-  printWindow.document.open();
-  printWindow.document.write(buildPrintableGuideHtml(guide));
-  printWindow.document.close();
-  return true;
-}
-
-
 /** Initializes the decision tree print pane */
 function initDecisionTreePrintPane(host, settings) {
   const decisionTree = settings.guide || null;
@@ -38,7 +28,7 @@ function initDecisionTreePrintPane(host, settings) {
   printButton.className = "dt-print-button";
   printButton.textContent = "Print / Save PDF";
   const onClick = function () {
-    if (!openPrintWindow(decisionTree)) {
+    if (!openPrintWindow(buildPrintableGuideHtml(decisionTree))) {
       renderHostMessage(host, "Allow pop-ups to open the print preview.", "dt-print-error", false);
     }
   };
