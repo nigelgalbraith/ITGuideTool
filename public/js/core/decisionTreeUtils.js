@@ -221,12 +221,30 @@ function buildPrintableImageHtml(node) {
 }
 
 
+
+/** Builds printable guide links HTML */
+function buildPrintableLinksHtml(node) {
+  if (!Array.isArray(node?.link) || !node.link.length) return "";
+  const items = node.link.map(function (item) {
+    const name = String(item?.name || "").trim();
+    const url = String(item?.url || "").trim();
+    if (!name || !url) return "";
+    if (!/^(https?:\/\/|#)/i.test(url)) return "";
+    const description = String(item?.description || "").trim();
+    const descriptionHtml = description ? "<p class=\"print-link-description\">" + escapeHTML(description) + "</p>" : "";
+    return "<li><a href=\"" + escapeHTML(url) + "\">" + escapeHTML(name) + "</a>" + descriptionHtml + "</li>";
+  }).filter(Boolean).join("");
+  return items ? "<ul class=\"print-node-links\">" + items + "</ul>" : "";
+}
+
+
 /** Builds printable reference HTML */
 function buildInstructionsHtml(guide) {
   return getGuideNodeOrder(guide).map(function (nodeId, index) {
     const node = guide.nodes[nodeId] || {};
     const bodyHtml = buildPrintableBodyHtml(node.body);
     const imageHtml = buildPrintableImageHtml(node);
+    const linksHtml = buildPrintableLinksHtml(node);
     const successTitle = node.successNext === null ? "Resolved" : getNodeTitle(guide, node.successNext);
     const failTitle = node.failNext === null ? "End" : getNodeTitle(guide, node.failNext);
     const successLabel = getBranchLabel(node, "success");
@@ -240,6 +258,7 @@ function buildInstructionsHtml(guide) {
       "<h3 class=\"print-node-title\">" + escapeHTML(getNodeTitle(guide, nodeId)) + "</h3>",
       bodyHtml,
       imageHtml,
+      linksHtml,
       branchHtml,
       "</section>"
     ].join("");

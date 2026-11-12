@@ -11,6 +11,31 @@ function renderNodeImage(host, node) {
 }
 
 
+/** Renders optional links in the node preview */
+function renderNodeLinks(host, node) {
+  if (!Array.isArray(node?.link) || !node.link.length) return;
+  const list = el("ul", "dt-links");
+  node.link.forEach((item) => {
+    const name = String(item.name || "").trim();
+    const url = String(item.url || "").trim();
+    if (!name || !/^(https?:\/\/|#)/i.test(url)) return;
+    const listItem = el("li", "dt-links-item");
+    const anchor = el("a", "dt-link");
+    anchor.textContent = name;
+    anchor.href = url;
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    listItem.appendChild(anchor);
+    if (item.description) {
+      listItem.appendChild(el("p", "dt-link-description", item.description));
+    }
+    list.appendChild(listItem);
+  });
+  if (list.childElementCount) host.appendChild(list);
+}
+
+
+
 /** Renders the current node alt text when configured */
 function renderNodeAltText(host, node) {
   const altText = String(node && node.alt || "").trim();
@@ -40,6 +65,7 @@ export function renderDecisionTreePane({ state, hosts, actions }) {
   (node.body || []).forEach((line) => body.appendChild(el("p", "", line)));
   card.appendChild(body);
   renderNodeImage(card, node);
+  renderNodeLinks(card, node);
   renderNodeAltText(card, node);
   if (node.type !== "terminal") {
     const previewActions = el("div", "dt-actions");

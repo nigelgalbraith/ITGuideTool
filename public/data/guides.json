@@ -6,6 +6,12 @@
       "Each guide walks through one troubleshooting decision at a time."
     ]
   },
+  "search": {
+    "title": "Search Guides",
+    "intro": [
+      "Browse all troubleshooting guides or search by title and description."
+    ]
+  },
   "categories": [
     {
       "id": "computer",
@@ -31,10 +37,6 @@
         {
           "id": "computerSlow",
           "path": "guides/computer/computerSlow.json"
-        },
-        {
-          "id": "newGuide",
-          "path": "guides/computer/newGuide.json"
         },
         {
           "id": "pcRandomlyRestarts",

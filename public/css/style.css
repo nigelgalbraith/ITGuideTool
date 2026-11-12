@@ -103,9 +103,9 @@ h1 {
   color: var(--text-strong);
 }
 
-/* =========================
-   Pane Content: Intro Text
-   ========================= */
+/* =================================
+   Pane Content: Intro & Search Text
+   =============================== */
 .intro-text {
   margin: 0.75rem auto 1rem;
   line-height: 1.5;
@@ -118,6 +118,27 @@ h1 {
 
 .intro-text ul {
     padding-left: 2rem;
+}
+
+.search-input {
+  display: block;
+  width: 70%;
+  max-width: 40rem;
+  margin: 1rem auto;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.search-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.search-results > .intro-text {
+  text-align: center;
 }
 
 .guide-validation-error {
@@ -166,6 +187,24 @@ h1 {
   text-align: left;
 }
 
+.pane-host--decision-tree .dt-links {
+  margin: 1rem auto;
+  padding-left: 1.5rem;
+  max-width: 80%;
+}
+.pane-host--decision-tree .dt-links-item {
+  margin-bottom: 0.75rem;
+}
+.pane-host--decision-tree .dt-link {
+  color: var(--accent);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+.pane-host--decision-tree .dt-link-description {
+  margin: 4px 0 8px;
+  color: var(--text-soft);
+  font-size: 0.9em;
+}
 .pane-host--decision-tree .guide-image {
   display: flex;
   flex-direction: column;

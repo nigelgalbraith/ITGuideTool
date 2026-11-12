@@ -2,6 +2,8 @@
 import { initHomePage } from "./pages/homePage.js";
 import { initGuidePage } from "./pages/guidePage.js";
 import { initCategoryPage } from "./pages/categoryPage.js";
+import { initSearchPage } from "./pages/searchPage.js";
+
 
 // BUILD
 /** Reads the current page key from the URL */
@@ -20,6 +22,10 @@ async function initApp() {
   }
   if (page === "category") {
     await initCategoryPage();
+    return;
+  }
+  if (page === "search") {
+    await initSearchPage();
     return;
   }
   await initHomePage();

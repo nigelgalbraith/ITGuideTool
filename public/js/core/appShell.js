@@ -11,7 +11,8 @@ const THEME_TOGGLE_TEXT_CLASS = "theme-toggle-text";
 const NAV_CLASS = "nav";
 const NAV_LINKS_CLASS = "nav-links";
 const NAV_ITEMS = [
-  { key: "home", label: "Main Menu", href: "index.html" }
+  { key: "home", label: "Main Menu", href: "index.html" },
+  { key: "search", label: "Search Guides", href: "index.html?page=search" }
 ];
 
 // BUILD

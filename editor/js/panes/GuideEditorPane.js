@@ -175,6 +175,67 @@ function renderNode({ state, actions, nodeId, node }) {
     actions.renderPreview();
   });
   grid.appendChild(createField("Caption", captionInput, true, "Optional. Text displayed beneath the image."));
+
+  const linksContainer = el("div", "form-field form-field--wide");
+  linksContainer.appendChild(el("h4", "", "Links"));
+  const linksList = el("div", "");
+  function renderLinks() {
+    linksList.replaceChildren();
+    (node.link || []).forEach((link, index) => {
+      const row = el("div", "form-field");
+      const nameInput = makeInput(link.name || "", (value) => {
+        link.name = value;
+        actions.markDirty();
+        actions.renderPreview();
+      });
+      row.appendChild(createField("Link Name", nameInput));
+      const textInput = makeInput(link.description || "", (value) => {
+        link.description = value;
+        actions.markDirty();
+        actions.renderPreview();
+      });
+      row.appendChild(createField("Description", textInput));
+      const urlInput = makeInput(link.url || "", (value) => {
+        link.url = value;
+        actions.markDirty();
+        actions.renderPreview();
+      });
+      row.appendChild(createField("URL", urlInput));
+      const removeButton = el("button", "editor-button-danger", "Remove Link");
+      removeButton.type = "button";
+      removeButton.addEventListener("click", () => {
+        node.link.splice(index, 1);
+        if (node.link.length === 0) {
+          delete node.link;
+        }
+        actions.markDirty();
+        renderLinks();
+        actions.renderPreview();
+      });
+      row.appendChild(removeButton);
+      linksList.appendChild(row);
+    });
+  }
+
+  const addLinkButton = el("button", "", "Add Link");
+  addLinkButton.type = "button";
+  addLinkButton.addEventListener("click", () => {
+    if (!Array.isArray(node.link)) node.link = [];
+    node.link.push({
+      name: "",
+      description: "",
+      url: "",
+    });
+    actions.markDirty();
+    renderLinks();
+    actions.renderPreview();
+  });
+
+  linksContainer.append(linksList, addLinkButton);
+  grid.appendChild(linksContainer);
+
+  renderLinks();
+
   card.appendChild(grid);
 
   if (node.type !== "terminal") {

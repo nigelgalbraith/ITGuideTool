@@ -50,6 +50,26 @@
   margin-bottom: 2mm;
 }
 
+.print-node-links {
+  margin: 3mm 0 3mm 6mm;
+  padding-left: 5mm;
+  overflow-wrap: anywhere;
+}
+
+.print-node-links li {
+  margin-bottom: 2mm;
+}
+
+.print-node-links a {
+  color: #0645ad;
+  text-decoration: underline;
+}
+
+.print-link-description {
+  margin: 1mm 0 2mm;
+  font-size: 9.5pt;
+}
+
 .print-node {
   break-inside: avoid;
   page-break-inside: avoid;

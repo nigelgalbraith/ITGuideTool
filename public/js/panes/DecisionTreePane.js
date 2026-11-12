@@ -65,12 +65,41 @@ function renderNodeImage(host, node) {
 }
 
 
+
+/** Renders optional links within a guide step */
+function renderNodeLinks(host, node) {
+  if (!Array.isArray(node?.link) || !node.link.length) return;
+  const list = el("ul", "dt-links");
+  node.link.forEach((item) => {
+    const name = String(item.name || "").trim();
+    const url = String(item.url || "").trim();
+    if (!name || !/^(https?:\/\/|#)/i.test(url)) return;
+    const listItem = el("li", "dt-links-item");
+    const anchor = el("a", "dt-link");
+    anchor.textContent = name;
+    anchor.href = url;
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    listItem.appendChild(anchor);
+    if (item.description) {
+      listItem.appendChild(el("p", "dt-link-description", item.description));
+    }
+    list.appendChild(listItem);
+  });
+  if (list.childElementCount) {
+    host.appendChild(list);
+  }
+}
+
+
+
 /** Renders a decision tree node */
 function renderNode(host, node, history, onBack, onSuccess, onFail, onStartOver) {
   clearHost(host);
   renderHostTitle(host, node.title || "Node", "dt-title");
   renderNodeBody(host, node.body);
   renderNodeImage(host, node);
+  renderNodeLinks(host, node);
   const actions = el("div", "dt-actions");
   const backButton = document.createElement("button");
   backButton.type = "button";

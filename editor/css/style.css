@@ -146,6 +146,28 @@ button:hover { filter: brightness(1.08); }
   text-align: left;
 }
 
+.pane-host--decision-tree .dt-links {
+  margin: 1rem auto;
+  padding-left: 1.5rem;
+  max-width: 80%;
+}
+
+.pane-host--decision-tree .dt-links-item {
+  margin-bottom: 0.75rem;
+}
+
+.pane-host--decision-tree .dt-link {
+  color: var(--accent);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+.pane-host--decision-tree .dt-link-description {
+  margin: 4px 0 8px;
+  color: var(--text-soft);
+  font-size: 0.9em;
+}
+
 .pane-host--decision-tree .guide-image {
   display: flex;
   flex-direction: column;

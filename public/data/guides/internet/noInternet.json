@@ -8,16 +8,23 @@
   "id": "noInternet",
   "nodes": {
     "checkAffectedDevices": {
-      "alt": "Router status lights",
       "body": [
         "Test another phone, tablet, laptop, or computer on the same network.",
         "This helps determine whether the issue is isolated to one device or affects the entire network.",
         "Knowing this early prevents unnecessary troubleshooting."
       ],
+      "link": [
+        {
+          "name": "Check affected devices", 
+          "description": "A website to test whether your internet connection is working.",
+          "url": "https://nointernetgame.com/"
+        }
+      ],
       "caption": "Test image",
       "failLabel": "Multiple Devices Affected",
       "failNext": "checkRouterStatus",
       "image": "router-lights.png",
+      "alt": "Router status lights",
       "successLabel": "Only One Device Affected",
       "successNext": "checkConnectionType",
       "title": "Check whether other devices have internet access"
