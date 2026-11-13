@@ -1,8 +1,9 @@
+
+// IMPORTS
 import { createPageRuntime } from "../core/pageRuntime.js";
 import { loadGuideRegistry } from "../core/guideData.js";
 import { buildIntroPane } from "../panes/IntroPane.js";
 import { buildIntroCardPane } from "../panes/IntroCardPane.js";
-import { buildFooterPane } from "../panes/FooterPane.js";
 
 // BUILD
 /** Gets fallback home content when the registry cannot be loaded */
@@ -40,9 +41,6 @@ export async function initHomePage() {
   loadingHost.className = "intro-text pane-host pane-host--intro-text pane pane-intro-text";
   loadingHost.appendChild(document.createElement("p")).textContent = "Loading guides...";
   shell.contentHost.appendChild(loadingHost);
-  const footerPane = buildFooterPane();
-  shell.appRoot.appendChild(footerPane.node);
-  lifecycle.add(footerPane.destroy);
   try {
     const registry = await loadGuideRegistry();
     home = registry && registry.home ? registry.home : home;

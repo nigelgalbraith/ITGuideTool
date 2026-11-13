@@ -1,42 +1,48 @@
+
 // IMPORTS
 import { NOOP_PANE, addHostClasses, el, renderHostMessage, renderTextArray } from "../core/helpers.js";
 
 // STATE
-const CARDS_CLASS = "intro-card-grid";
+const CARD_CONFIG = {
+  className: "intro-card-grid",
+  cardClass: "intro-card",
+  categoriesKey: "categories",
+  itemsKey: "guides",
+  categoryPage: "?page=category&category=",
+  itemPage: "index.html?page=guide&guide=",
+  categoryEmptyMessage: "No categories configured.",
+  itemEmptyMessage: "No guides configured.",
+  countSingular: "guide",
+  countPlural: "guides"
+};
 
 // BUILD
-/** Gets the display guide count for a category */
-function getGuideCountText(category) {
-  const count = category && Array.isArray(category.guides) ? category.guides.length : 0;
-  return count + " " + (count === 1 ? "guide" : "guides");
+/** Gets the display item count for a category */
+function getCategoryCountText(category) {
+  const items = category[CARD_CONFIG.itemsKey];
+  const count = Array.isArray(items) ? items.length : 0;
+  return count + " " + (count === 1 ? CARD_CONFIG.countSingular : CARD_CONFIG.countPlural);
 }
 
 
-/** Gets guide card content as text blocks */
-function getGuideCardText(guide) {
-  return Array.isArray(guide.cardText) ? guide.cardText : [];
+/** Converts card content into text blocks */
+function getCardText(value) {
+  if (Array.isArray(value)) return value;
+  return value ? [String(value)] : [];
 }
 
 
-/** Builds one category card element */
-function buildCategoryCard(category) {
-  const card = el("div", "intro-card");
+/** Builds one card element */
+function buildCard(item, isCategory) {
+  const card = el("div", CARD_CONFIG.cardClass);
   const link = document.createElement("a");
-  link.href = "?page=category&category=" + encodeURIComponent(category.id || "");
-  link.appendChild(el("h2", "", category.title || category.id || ""));
-  renderTextArray(link, [category.description || "", getGuideCountText(category)].filter(Boolean));
-  card.appendChild(link);
-  return card;
-}
-
-
-/** Builds one guide card element */
-function buildGuideCard(guide) {
-  const card = el("div", "intro-card");
-  const link = document.createElement("a");
-  link.href = "index.html?page=guide&guide=" + encodeURIComponent(guide.id || "");
-  link.appendChild(el("h2", "", guide.title || guide.id || ""));
-  renderTextArray(link, getGuideCardText(guide));
+  const page = isCategory ? CARD_CONFIG.categoryPage : CARD_CONFIG.itemPage;
+  link.href = page + encodeURIComponent(item.id || "");
+  link.appendChild(el("h2", "", item.title || item.id || ""));
+  const content = isCategory
+    ? [item.description || "", getCategoryCountText(item)].filter(Boolean)
+    : getCardText(item.cardText);
+  renderTextArray(link, content);
   card.appendChild(link);
   return card;
 }
@@ -44,25 +50,24 @@ function buildGuideCard(guide) {
 
 /** Initializes the intro cards pane node */
 function initIntroCardsPane(host, settings) {
-  const categories = settings.categories || [];
-  const guides = settings.guides || [];
+  const categories = settings[CARD_CONFIG.categoriesKey] || [];
+  const items = settings[CARD_CONFIG.itemsKey] || [];
   if (categories.length) {
     categories.forEach(function (category) {
-      if (category) host.appendChild(buildCategoryCard(category));
+      if (category) host.appendChild(buildCard(category, true));
     });
     return NOOP_PANE;
   }
-  if (guides.length) {
-    guides.forEach(function (guide) {
-      if (guide) host.appendChild(buildGuideCard(guide));
+  if (items.length) {
+    items.forEach(function (item) {
+      if (item) host.appendChild(buildCard(item, false));
     });
     return NOOP_PANE;
   }
-  if (settings.categories) {
-    renderHostMessage(host, "No categories configured.", "", true, "p");
-  } else {
-    renderHostMessage(host, "No guides configured.", "", true, "p");
-  }
+  const message = settings[CARD_CONFIG.categoriesKey]
+    ? CARD_CONFIG.categoryEmptyMessage
+    : CARD_CONFIG.itemEmptyMessage;
+  renderHostMessage(host, message, "", true, "p");
   return NOOP_PANE;
 }
 
@@ -71,7 +76,7 @@ function initIntroCardsPane(host, settings) {
 export function buildIntroCardPane(options) {
   const settings = options || {};
   const node = document.createElement("div");
-  node.className = settings.className || CARDS_CLASS;
+  node.className = settings.className || CARD_CONFIG.className;
   if (settings.id) node.id = settings.id;
   addHostClasses(node, ["pane-host", "pane-host--intro-cards"]);
   const instance = initIntroCardsPane(node, settings);

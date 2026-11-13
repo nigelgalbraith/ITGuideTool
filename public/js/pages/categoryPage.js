@@ -1,3 +1,5 @@
+
+// IMPORTS
 import { createPageRuntime } from "../core/pageRuntime.js";
 import { el } from "../core/helpers.js";
 import {
@@ -7,7 +9,6 @@ import {
 } from "../core/guideData.js";
 import { buildIntroPane } from "../panes/IntroPane.js";
 import { buildIntroCardPane } from "../panes/IntroCardPane.js";
-import { buildFooterPane } from "../panes/FooterPane.js";
 
 // STATE
 const BASE_TITLE = "IT How-To Guide";
@@ -39,14 +40,6 @@ function renderMissingParamMessage(host) {
 }
 
 
-/** Appends the footer pane after the main page content */
-function appendFooter(shell, lifecycle) {
-  const footerPane = buildFooterPane();
-  shell.appRoot.appendChild(footerPane.node);
-  lifecycle.add(footerPane.destroy);
-}
-
-
 /** Builds the selected category introduction content */
 function buildCategoryIntroPane(category) {
   const introPane = buildIntroPane({
@@ -74,7 +67,6 @@ export async function initCategoryPage() {
     renderMissingParamMessage(introHost);
     shell.contentHost.appendChild(introHost);
     document.title = BASE_TITLE;
-    appendFooter(shell, lifecycle);
     return;
   }
   let category = null;
@@ -89,7 +81,6 @@ export async function initCategoryPage() {
     introHost.appendChild(el("p", "", "Category not found."));
     shell.contentHost.appendChild(introHost);
     document.title = BASE_TITLE;
-    appendFooter(shell, lifecycle);
     return;
   }
   const displayName = category.title || category.id || BASE_TITLE;
@@ -103,7 +94,6 @@ export async function initCategoryPage() {
   introSection.appendChild(introPane.node);
   introSection.appendChild(cardPane.node);
   shell.contentHost.appendChild(introSection);
-  appendFooter(shell, lifecycle);
   lifecycle.add(introPane.destroy);
   lifecycle.add(cardPane.destroy);
 }
