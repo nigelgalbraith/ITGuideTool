@@ -1,317 +1,590 @@
+
 {
+  "id": "noInternet",
+  "title": "No Internet Connection",
   "cardText": [
     "Diagnose devices that cannot access websites, online services, or cloud applications.",
     "Determine whether the problem is Wi-Fi, Ethernet, DNS, router, ISP, VPN, or device related.",
-    "Separate local device issues from network-wide outages."
+    "Troubleshoot fibre and 4G/5G mobile broadband connections."
   ],
   "icon": "",
-  "id": "noInternet",
+  "text": [
+    "This guide is for devices that cannot access the internet.",
+    "Determine whether the problem affects one device or multiple devices.",
+    "Test a computer using a phone hotspot when appropriate.",
+    "For network-wide problems, identify whether the service uses fibre, mobile broadband or another connection type.",
+    "Check local connectivity before resetting equipment or changing router settings.",
+    "Contact the internet provider when local troubleshooting does not restore service."
+  ],
+  "startNode": "checkAffectedDevices",
   "nodes": {
     "checkAffectedDevices": {
+      "title": "Check whether other devices have internet access",
       "body": [
-        "Test another phone, tablet, laptop, or computer on the same network.",
-        "This helps determine whether the issue is isolated to one device or affects the entire network.",
-        "Knowing this early prevents unnecessary troubleshooting."
+        "Test another phone, tablet, laptop or computer on the same network.",
+        "On a phone, temporarily disable mobile data to ensure you are testing its Wi-Fi connection.",
+        "This determines whether the issue is isolated to one device or affects the entire network.",
+        "If only one device is affected, continue with device troubleshooting.",
+        "If multiple devices cannot access the internet, investigate the router and internet service."
       ],
       "link": [
         {
-          "name": "Check affected devices", 
-          "description": "A website to test whether your internet connection is working.",
+          "name": "Internet connection test",
+          "description": "A simple external website to check whether internet access is working. It will not load while the connection is offline.",
           "url": "https://nointernetgame.com/"
         }
       ],
-      "caption": "Test image",
-      "failLabel": "Multiple Devices Affected",
-      "failNext": "checkRouterStatus",
-      "image": "router-lights.png",
-      "alt": "Router status lights",
       "successLabel": "Only One Device Affected",
-      "successNext": "checkConnectionType",
-      "title": "Check whether other devices have internet access"
+      "failLabel": "Multiple Devices Affected",
+      "successNext": "testPhoneHotspot",
+      "failNext": "checkRouterStatus"
     },
-    "changeDnsServer": {
+    "testPhoneHotspot": {
+      "title": "Test the computer using a phone hotspot",
       "body": [
-        "Try using a reliable public DNS provider such as Cloudflare (1.1.1.1) or Google DNS (8.8.8.8).",
-        "Flush DNS cache if appropriate.",
-        "Retest website access after making changes."
+        "On a phone with working mobile data, enable Personal Hotspot or Mobile Hotspot.",
+        "Disconnect the affected computer from its normal Wi-Fi network and connect it to the phone hotspot.",
+        "Try opening several websites.",
+        "If internet access works through the hotspot, investigate the computer's connection to its normal network.",
+        "If it still fails, investigate the computer's network configuration. A failed hotspot test alone does not prove the computer is faulty.",
+        "Turn off the hotspot after testing to avoid unnecessary mobile data usage.",
+        "If a hotspot is unavailable, continue with the normal connection checks."
       ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Change DNS server",
-      "type": "terminal"
+      "successLabel": "Works on Hotspot",
+      "failLabel": "Fails or Cannot Test",
+      "successNext": "checkConnectionType",
+      "failNext": "checkConnectionType"
     },
     "checkConnectionType": {
+      "title": "Identify the computer's connection type",
       "body": [
-        "Determine whether the affected device is using Wi-Fi or Ethernet.",
-        "The troubleshooting path differs depending on how the device connects to the network."
+        "Determine whether the affected computer normally connects using Wi-Fi or Ethernet.",
+        "If you tested a phone hotspot, disconnect it and return to the normal network.",
+        "Select the connection type used by the affected computer."
       ],
-      "failLabel": "Ethernet",
-      "failNext": "checkEthernetCable",
       "successLabel": "Wi-Fi",
+      "failLabel": "Ethernet",
       "successNext": "checkWifiConnection",
-      "title": "Identify connection type"
-    },
-    "checkDirectConnection": {
-      "body": [
-        "If appropriate, connect a device directly to the modem.",
-        "This helps determine whether the router or modem is responsible.",
-        "Only perform this if you understand the network layout."
-      ],
-      "failLabel": "Direct Connection Fails",
-      "failNext": "contactIsp",
-      "successLabel": "Direct Connection Works",
-      "successNext": "routerFaultLikely",
-      "title": "Check direct modem connection"
-    },
-    "checkEthernetCable": {
-      "body": [
-        "Ensure the Ethernet cable is firmly connected at both ends.",
-        "Look for link lights on the network port if available.",
-        "Try another cable if possible."
-      ],
-      "failLabel": "Cable Fault Found",
-      "failNext": "replaceEthernetCable",
-      "successLabel": "Cable Appears OK",
-      "successNext": "testWebsiteAccess",
-      "title": "Check Ethernet cable"
-    },
-    "checkIpAddress": {
-      "body": [
-        "Verify the device has received an IP address from the router.",
-        "A device without an IP address cannot communicate properly on the network.",
-        "Look for messages such as Limited Connectivity or Self-Assigned Address."
-      ],
-      "failLabel": "No Valid IP",
-      "failNext": "renewIpAddress",
-      "successLabel": "Valid IP Address",
-      "successNext": "checkVpnUsage",
-      "title": "Check IP address assignment"
-    },
-    "checkIspOutage": {
-      "body": [
-        "Check the internet provider's website, service status page, mobile app, or recorded support line.",
-        "Look for known outages affecting your area.",
-        "Many internet problems are caused by provider-side faults."
-      ],
-      "failLabel": "No Outage Reported",
-      "failNext": "checkDirectConnection",
-      "successLabel": "Outage Found",
-      "successNext": "waitForIspRepair",
-      "title": "Check ISP outage information"
-    },
-    "checkNetworkAdapter": {
-      "body": [
-        "Open network settings and confirm the network adapter is enabled.",
-        "Disable and re-enable the adapter if necessary.",
-        "A disabled adapter can prevent internet access even when hardware appears normal."
-      ],
-      "failLabel": "Adapter Disabled",
-      "failNext": "enableAdapter",
-      "successLabel": "Adapter Enabled",
-      "successNext": "checkIpAddress",
-      "title": "Check network adapter status"
-    },
-    "checkRouterStatus": {
-      "body": [
-        "Inspect the router and modem.",
-        "Look for warning lights, flashing fault indicators, or missing internet lights.",
-        "Compare the lights with the provider's documentation if available."
-      ],
-      "failLabel": "Fault Lights Present",
-      "failNext": "restartRouter",
-      "successLabel": "Lights Normal",
-      "successNext": "restartRouter",
-      "title": "Check router and modem status lights"
-    },
-    "checkVpnUsage": {
-      "body": [
-        "Determine whether a VPN is active.",
-        "A misconfigured or disconnected VPN can block internet access.",
-        "Temporarily disconnect the VPN and test again."
-      ],
-      "failLabel": "No VPN",
-      "failNext": "restartDevice",
-      "successLabel": "VPN In Use",
-      "successNext": "disableVpn",
-      "title": "Check for VPN usage"
+      "failNext": "checkEthernetCable"
     },
     "checkWifiConnection": {
+      "title": "Check Wi-Fi connection status",
       "body": [
         "Verify the device is connected to the correct wireless network.",
-        "Check whether the Wi-Fi icon shows Connected, Connected without Internet, or Disconnected.",
-        "Reconnect if necessary."
+        "Check whether Windows reports Connected, Connected without Internet or Disconnected.",
+        "Reconnect to the correct network if necessary."
       ],
-      "failLabel": "Not Connected",
-      "failNext": "reconnectWifi",
       "successLabel": "Connected",
+      "failLabel": "Not Connected",
       "successNext": "testWebsiteAccess",
-      "title": "Check Wi-Fi connection status"
-    },
-    "contactIsp": {
-      "body": [
-        "Local troubleshooting has not restored internet access.",
-        "Provide the ISP with details of the tests already completed.",
-        "Request line testing and confirmation of service status."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Contact ISP",
-      "type": "terminal"
-    },
-    "deviceNetworkEscalation": {
-      "body": [
-        "The issue appears isolated to one device.",
-        "Investigate network drivers, operating system corruption, security software, or hardware faults.",
-        "Escalate if the device still cannot connect."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Further device diagnostics required",
-      "type": "terminal"
-    },
-    "disableVpn": {
-      "body": [
-        "Disconnect the VPN connection.",
-        "Test websites and online services again.",
-        "If internet access returns, review VPN settings."
-      ],
-      "failLabel": "Still Broken",
-      "failNext": "restartDevice",
-      "successLabel": "Fixed",
-      "successNext": null,
-      "title": "Disable VPN temporarily"
-    },
-    "dnsIssueCheck": {
-      "body": [
-        "If some websites work but others do not, DNS resolution may be failing.",
-        "DNS translates website names into IP addresses.",
-        "A DNS problem can make the internet appear partially broken."
-      ],
-      "failLabel": "Not DNS",
-      "failNext": "checkVpnUsage",
-      "successLabel": "DNS Likely",
-      "successNext": "changeDnsServer",
-      "title": "Check for DNS issues"
-    },
-    "enableAdapter": {
-      "body": [
-        "The network adapter was disabled.",
-        "Enable it and test the internet connection again."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Enable network adapter",
-      "type": "terminal"
+      "failNext": "reconnectWifi"
     },
     "reconnectWifi": {
+      "type": "terminal",
+      "title": "Reconnect to Wi-Fi",
       "body": [
         "Connect to the correct wireless network.",
         "Verify the Wi-Fi password is correct.",
-        "Once connected, test internet access again."
+        "Once connected, test internet access again.",
+        "If the problem persists, continue troubleshooting the network connection."
       ],
-      "failNext": null,
       "successNext": null,
-      "title": "Reconnect to Wi-Fi",
-      "type": "terminal"
+      "failNext": null
     },
-    "renewIpAddress": {
+    "checkEthernetCable": {
+      "title": "Check Ethernet cable",
       "body": [
-        "Disconnect and reconnect to the network.",
-        "Restart the device or renew the IP address lease.",
-        "If the problem persists, investigate router DHCP settings."
+        "Ensure the Ethernet cable is firmly connected at both ends.",
+        "Look for link lights on the network port if available.",
+        "Try another cable or port if possible."
       ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Renew IP address",
-      "type": "terminal"
+      "successLabel": "Cable Appears OK",
+      "failLabel": "Cable Fault Found",
+      "successNext": "testWebsiteAccess",
+      "failNext": "replaceEthernetCable"
     },
     "replaceEthernetCable": {
+      "type": "terminal",
+      "title": "Replace Ethernet cable",
       "body": [
-        "A damaged cable can prevent network connectivity.",
+        "A damaged or disconnected Ethernet cable can prevent network connectivity.",
         "Replace the cable and retest the connection."
       ],
-      "failNext": null,
       "successNext": null,
-      "title": "Replace Ethernet cable",
-      "type": "terminal"
-    },
-    "resetNetworkSettings": {
-      "body": [
-        "Reset network settings if available.",
-        "This can remove corrupted configuration and restore default networking behaviour.",
-        "Reconnect to the network afterwards."
-      ],
-      "failLabel": "Still Broken",
-      "failNext": "deviceNetworkEscalation",
-      "successLabel": "Fixed",
-      "successNext": null,
-      "title": "Reset network settings"
-    },
-    "restartDevice": {
-      "body": [
-        "Restart the affected device.",
-        "Temporary network stack problems can sometimes be resolved by a reboot.",
-        "Retest connectivity after startup."
-      ],
-      "failLabel": "Still Broken",
-      "failNext": "resetNetworkSettings",
-      "successLabel": "Fixed",
-      "successNext": null,
-      "title": "Restart the device"
-    },
-    "restartRouter": {
-      "body": [
-        "Power off the modem and router.",
-        "Wait at least 30 seconds.",
-        "Power them back on and wait for all status lights to stabilize."
-      ],
-      "failLabel": "Still Offline",
-      "failNext": "checkIspOutage",
-      "successLabel": "Internet Restored",
-      "successNext": null,
-      "title": "Restart modem and router"
-    },
-    "routerFaultLikely": {
-      "body": [
-        "Internet works when bypassing the router.",
-        "The router configuration or hardware may be faulty.",
-        "Review router settings or replace the router if necessary."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Router fault likely",
-      "type": "terminal"
+      "failNext": null
     },
     "testWebsiteAccess": {
+      "title": "Test access to websites",
       "body": [
-        "Open a web browser and try visiting several different websites.",
-        "Do not rely on a single website because the site itself may be offline.",
-        "Test both familiar and well-known public websites."
+        "Open a web browser and try several different websites.",
+        "Do not rely on a single website because that site itself may be offline.",
+        "Check whether some websites work or whether all websites fail."
       ],
-      "failLabel": "No Sites Work",
-      "failNext": "checkNetworkAdapter",
       "successLabel": "Some Sites Work",
+      "failLabel": "No Sites Work",
       "successNext": "dnsIssueCheck",
-      "title": "Test access to websites"
+      "failNext": "checkNetworkAdapter"
+    },
+    "dnsIssueCheck": {
+      "title": "Check for DNS issues",
+      "body": [
+        "If some websites work but others do not, DNS resolution may be failing.",
+        "DNS translates website names into IP addresses.",
+        "Compare results from several websites or services.",
+        "A DNS problem can make the internet appear partially broken."
+      ],
+      "successLabel": "DNS Likely",
+      "failLabel": "Not DNS",
+      "successNext": "changeDnsServer",
+      "failNext": "checkVpnUsage"
+    },
+    "changeDnsServer": {
+      "type": "terminal",
+      "title": "Change DNS server",
+      "body": [
+        "Try a reliable public DNS provider such as Cloudflare (1.1.1.1) or Google DNS (8.8.8.8), if appropriate.",
+        "Flush the DNS cache if necessary.",
+        "Retest website access after making changes.",
+        "On managed networks, check with the administrator before changing DNS settings."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkNetworkAdapter": {
+      "title": "Check network adapter status",
+      "body": [
+        "Open network settings and confirm the network adapter is enabled.",
+        "Disable and re-enable the adapter if necessary.",
+        "A disabled adapter can prevent internet access even when the hardware appears normal."
+      ],
+      "successLabel": "Adapter Enabled",
+      "failLabel": "Adapter Disabled",
+      "successNext": "checkIpAddress",
+      "failNext": "enableAdapter"
+    },
+    "enableAdapter": {
+      "type": "terminal",
+      "title": "Enable network adapter",
+      "body": [
+        "Enable the disabled network adapter.",
+        "Reconnect to the network and test internet access."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkIpAddress": {
+      "title": "Check IP address assignment",
+      "body": [
+        "Open Command Prompt and run ipconfig.",
+        "Check that the network adapter has a valid IP address and default gateway.",
+        "An address beginning with 169.254 may indicate that Windows failed to obtain an address from DHCP.",
+        "Check whether the device uses a deliberately configured static address before changing anything."
+      ],
+      "successLabel": "Valid IP Address",
+      "failLabel": "No Valid IP",
+      "successNext": "checkVpnUsage",
+      "failNext": "renewIpAddress"
+    },
+    "renewIpAddress": {
+      "type": "terminal",
+      "title": "Renew IP address",
+      "body": [
+        "Disconnect and reconnect to the network.",
+        "Restart the device or renew its DHCP lease.",
+        "On Windows, ipconfig /release followed by ipconfig /renew can request another IPv4 address when DHCP is in use.",
+        "If the problem persists, investigate router DHCP settings.",
+        "Do not remove a required static IP configuration."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkVpnUsage": {
+      "title": "Check for VPN usage",
+      "body": [
+        "Determine whether a VPN is active.",
+        "A misconfigured or disconnected VPN can block internet access.",
+        "Temporarily disconnect the VPN if permitted."
+      ],
+      "successLabel": "VPN In Use",
+      "failLabel": "No VPN",
+      "successNext": "disableVpn",
+      "failNext": "restartDevice"
+    },
+    "disableVpn": {
+      "title": "Disable VPN temporarily",
+      "body": [
+        "Disconnect the VPN temporarily if authorised.",
+        "Test websites and online services again.",
+        "If internet access returns, review the VPN configuration."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Broken",
+      "successNext": null,
+      "failNext": "restartDevice"
+    },
+    "restartDevice": {
+      "title": "Restart the device",
+      "body": [
+        "Restart the affected computer or device.",
+        "Temporary networking problems can sometimes be resolved by a reboot.",
+        "Retest internet access after startup."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Broken",
+      "successNext": null,
+      "failNext": "resetNetworkSettings"
+    },
+    "resetNetworkSettings": {
+      "title": "Reset network settings",
+      "body": [
+        "Consider resetting network settings after simpler troubleshooting has failed.",
+        "A network reset can remove saved Wi-Fi networks, VPN configuration and other custom settings.",
+        "Record important configuration details before proceeding.",
+        "Reconnect to the network and retest internet access."
+      ],
+      "successLabel": "Fixed",
+      "failLabel": "Still Broken",
+      "successNext": null,
+      "failNext": "deviceNetworkEscalation"
+    },
+    "deviceNetworkEscalation": {
+      "type": "terminal",
+      "title": "Further device diagnostics required",
+      "body": [
+        "The problem appears isolated to this device.",
+        "Investigate network drivers, operating system settings, security software and hardware faults.",
+        "Review the results of the phone hotspot test if one was performed.",
+        "Escalate if the device still cannot connect."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkRouterStatus": {
+      "title": "Check router and modem status lights",
+      "body": [
+        "Inspect the router or modem for warning lights and missing internet indicators.",
+        "If you have a separate fibre ONT, inspect its lights as well.",
+        "A router using mobile broadband may have separate 4G/5G signal and network indicators.",
+        "Compare the lights with the equipment's documentation because their meanings vary by model.",
+        "Record any red warning lights or connection errors."
+      ],
+      "link": [
+        {
+          "name": "Chorus ONT-500 guide",
+          "description": "Official example of fibre ONT status lights and equipment connections.",
+          "url": "https://www.chorus.co.nz/optimise/ont-fibre-box-support/ont-500-guide"
+        }
+      ],
+      "image": "internet-ont-lights.jpg",
+      "alt": "Chorus fibre ONT status lights",
+      "caption": "Example Chorus fibre ONT indicators. Other ONTs and mobile broadband routers have different lights.",
+      "successLabel": "Lights Normal",
+      "failLabel": "Fault Lights Present",
+      "successNext": "restartRouter",
+      "failNext": "restartRouter"
+    },
+    "restartRouter": {
+      "title": "Restart the router or modem",
+      "body": [
+        "Switch off the router or modem and wait at least 30 seconds.",
+        "Turn it back on and allow several minutes for the connection to establish.",
+        "If you use fibre with a separate ONT, leave the ONT powered on during this initial router-only restart.",
+        "If you use mobile broadband, allow time for the router to register with the cellular network.",
+        "Test internet access again."
+      ],
+      "successLabel": "Internet Restored",
+      "failLabel": "Still Offline",
+      "successNext": null,
+      "failNext": "checkIspOutage"
+    },
+    "checkIspOutage": {
+      "title": "Check ISP outage information",
+      "body": [
+        "Use another working internet connection or mobile data to check your ISP's outage information.",
+        "Look for known fibre, fixed-line or mobile network problems in your area.",
+        "If the provider reports an outage, further local changes may not help.",
+        "If no outage is reported, continue investigating."
+      ],
+      "successLabel": "Outage Found",
+      "failLabel": "No Outage Reported",
+      "successNext": "waitForIspRepair",
+      "failNext": "checkFibreConnection"
     },
     "waitForIspRepair": {
-      "body": [
-        "The provider has reported an outage.",
-        "Monitor the outage status and wait for service restoration.",
-        "No local troubleshooting is likely to resolve the issue until the outage is fixed."
-      ],
-      "failNext": null,
-      "successNext": null,
+      "type": "terminal",
       "title": "Wait for ISP restoration",
-      "type": "terminal"
+      "body": [
+        "The internet provider has reported an outage.",
+        "Monitor its service status and wait for restoration.",
+        "Contact the ISP if you need an estimated restoration time."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkFibreConnection": {
+      "title": "Is the router connected to a separate fibre ONT?",
+      "body": [
+        "Look at the router's WAN or Internet port.",
+        "Check whether an Ethernet cable runs from that port to a separate fibre box (ONT), usually mounted on a wall.",
+        "If it is connected to an ONT, select Fibre ONT.",
+        "If the router uses a SIM card or another type of broadband connection, select No ONT.",
+        "If unsure, follow the cable from the router's WAN port or check the router's connection settings.",
+        "Some routers have 4G/5G backup, so check which connection is currently active if both are available."
+      ],
+      "successLabel": "Fibre ONT",
+      "failLabel": "No ONT",
+      "successNext": "powerOffOnt",
+      "failNext": "checkMobileBroadband"
+    },
+    "checkMobileBroadband": {
+      "title": "Does the router use 4G or 5G mobile broadband?",
+      "body": [
+        "Check whether the router contains a SIM card and connects to the mobile network.",
+        "Look for LTE, 4G, 5G, Cellular or Mobile Network on its display or administration page.",
+        "You can usually find the router's administration address using the Default Gateway shown by ipconfig on a connected Windows computer.",
+        "A router may provide strong Wi-Fi even when its mobile internet connection has a weak signal.",
+        "If the connection uses mobile broadband, continue with the mobile network checks.",
+        "For DSL, cable or another connection type, follow the general modem checks."
+      ],
+      "link": [
+        {
+          "name": "One NZ wireless broadband modem setup",
+          "description": "Examples of SIM-based broadband modems and cellular connection indicators.",
+          "url": "https://one.nz/help/broadband/modem-support/wireless-modem-set-up/"
+        }
+      ],
+      "image": "internet-mobile-router.png",
+      "alt": "Example 4G or 5G mobile broadband router",
+      "caption": "An example mobile broadband modem. Models and signal indicators vary between providers.",
+      "successLabel": "4G or 5G",
+      "failLabel": "Other Broadband",
+      "successNext": "checkMobileSignal",
+      "failNext": "checkDirectConnection"
+    },
+    "checkMobileSignal": {
+      "title": "Check mobile broadband signal strength",
+      "body": [
+        "Look at the mobile signal indicator on the router or its administration page.",
+        "Check whether the router has registered on a 4G or 5G network.",
+        "Poor signal, missing network registration or repeated disconnections can prevent internet access.",
+        "Remember that the Wi-Fi signal shown on your computer only measures the connection to the router, not the router's mobile connection.",
+        "Check whether the cellular signal is weak or unavailable."
+      ],
+      "link": [
+        {
+          "name": "One NZ wireless broadband signal indicators",
+          "description": "Official examples of mobile modem signal lights and what their colours mean.",
+          "url": "https://one.nz/help/broadband/modem-support/wireless-modem-set-up/"
+        }
+      ],
+      "successLabel": "Signal Good",
+      "failLabel": "Weak or No Signal",
+      "successNext": "checkMobileRegistration",
+      "failNext": "improveMobileReception"
+    },
+    "improveMobileReception": {
+      "title": "Improve mobile broadband reception",
+      "body": [
+        "Move the mobile broadband router closer to a window, ideally higher up and away from obstructions.",
+        "Avoid placing it inside cupboards, behind televisions or near large metal objects.",
+        "Try different windows or rooms and allow the router to reconnect after each move.",
+        "Check the cellular signal indicator or router status page after each change.",
+        "Keep the router within any placement restrictions required by the provider.",
+        "When signal improves, test internet access again."
+      ],
+      "link": [
+        {
+          "name": "2degrees modem placement advice",
+          "description": "Official advice on positioning 4G and 5G broadband modems for better reception.",
+          "url": "https://www.2degrees.nz/help/broadband-help/getting-started/modem-placement-for-best-wifi"
+        }
+      ],
+      "successLabel": "Internet Works",
+      "failLabel": "Still Not Working",
+      "successNext": null,
+      "failNext": "checkMobileRegistration"
+    },
+    "checkMobileRegistration": {
+      "title": "Check mobile network registration and SIM status",
+      "body": [
+        "Open the router's administration page or manufacturer's app if available.",
+        "Check whether the SIM is recognised and the router is registered with the mobile network.",
+        "Look for messages such as No SIM, SIM Error, Not Registered or No Service.",
+        "If the provider supplies the SIM and router, avoid changing APN or authentication settings without checking its instructions.",
+        "If the SIM is not recognised, follow the manufacturer's instructions for checking it while the router is powered off.",
+        "If registration is normal, continue testing the mobile connection."
+      ],
+      "successLabel": "Registered",
+      "failLabel": "SIM or Network Error",
+      "successNext": "testMobileConnection",
+      "failNext": "contactMobileIsp"
+    },
+    "testMobileConnection": {
+      "title": "Test the mobile broadband connection",
+      "body": [
+        "Check whether the router has obtained a mobile data connection and internet access.",
+        "Try opening several websites from a connected computer or phone.",
+        "If the connection works intermittently or becomes very slow at certain times, tower congestion or changing reception may be contributing.",
+        "Compare results at different times or router positions if practical.",
+        "If the router is registered but internet access still fails, contact the provider for service and SIM checks."
+      ],
+      "successLabel": "Internet Working",
+      "failLabel": "Still Offline",
+      "successNext": null,
+      "failNext": "contactMobileIsp"
+    },
+    "contactMobileIsp": {
+      "type": "terminal",
+      "title": "Contact the mobile broadband provider",
+      "body": [
+        "Mobile broadband is still not working after checking signal, router placement and network registration.",
+        "Record the router model, 4G/5G signal status, SIM status and any error messages.",
+        "Ask the provider to check the SIM activation, mobile network service, local tower issues and account status.",
+        "Do not factory-reset the router or change APN settings unless the provider recommends it."
+      ],
+      "link": [
+        {
+          "name": "One NZ wireless broadband troubleshooting",
+          "description": "Example provider instructions for mobile broadband equipment and signal issues.",
+          "url": "https://one.nz/help/broadband/modem-support/wireless-modem-set-up/"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "powerOffOnt": {
+      "title": "Power down the fibre ONT",
+      "body": [
+        "This is an extended power-reset procedure after ordinary troubleshooting has failed.",
+        "Switch off the router and disconnect power to the ONT using its power switch or power supply.",
+        "Do not press the recessed factory Reset button or disconnect the fibre-optic cable.",
+        "Leave the ONT powered off for approximately ten minutes.",
+        "While the ONT is off, review the router's WAN configuration if the router is accessible.",
+        "Internet-based telephone services and other connections may be unavailable while the equipment is off.",
+        "The ten-minute interval is an additional troubleshooting attempt, not a requirement for every ONT or ISP."
+      ],
+      "link": [
+        {
+          "name": "Chorus ONT-500 equipment guide",
+          "description": "Official illustrations showing ONT power controls and the separate Reset button.",
+          "url": "https://www.chorus.co.nz/optimise/ont-fibre-box-support/ont-500-guide"
+        }
+      ],
+      "image": "internet-ont-power.png",
+      "alt": "Chorus fibre ONT power switch and reset button",
+      "caption": "Use the power control, not the recessed factory Reset button. Other ONTs may look different.",
+      "successLabel": "ONT Powered Off",
+      "failLabel": "Cannot Power Off",
+      "successNext": "checkWanSettings",
+      "failNext": "checkDirectConnection"
+    },
+    "checkWanSettings": {
+      "title": "Check router WAN settings",
+      "body": [
+        "Open the router administration page if accessible.",
+        "Locate Internet, WAN or Ethernet WAN settings.",
+        "Check that the connection type matches the ISP requirements, such as DHCP/IPoE or PPPoE.",
+        "Check whether VLAN tagging is required and verify the VLAN ID and priority.",
+        "For example, 2degrees fibre specifies DHCP, VLAN ID 10 and priority 0.",
+        "These settings are ISP-specific and must not be assumed for every connection.",
+        "If the settings already match the provider's requirements, leave them unchanged."
+      ],
+      "link": [
+        {
+          "name": "2degrees BYO router configuration",
+          "description": "Official fibre WAN settings showing an example of DHCP, VLAN ID 10 and priority 0.",
+          "url": "https://www.2degrees.nz/help/broadband-help/modem-settings/byo-modem-help"
+        }
+      ],
+      "successLabel": "Settings Correct",
+      "failLabel": "Incorrect or Uncertain",
+      "successNext": "restoreOnt",
+      "failNext": "correctWanSettings"
+    },
+    "correctWanSettings": {
+      "title": "Confirm and correct WAN configuration",
+      "body": [
+        "Find the WAN configuration required by the customer's actual internet provider.",
+        "Check the connection protocol, login details where required, VLAN tagging, VLAN ID and priority.",
+        "Record the original values before making any changes.",
+        "Only correct values you have confirmed are wrong.",
+        "If the required settings are unknown, do not guess. Leave the configuration unchanged and continue to restore the connection."
+      ],
+      "link": [
+        {
+          "name": "Example ISP WAN requirements",
+          "description": "2degrees settings illustrate the information to confirm with the customer's own provider.",
+          "url": "https://www.2degrees.nz/help/broadband-help/modem-settings/byo-modem-help"
+        }
+      ],
+      "successLabel": "Settings Confirmed",
+      "failLabel": "Unable to Confirm",
+      "successNext": "restoreOnt",
+      "failNext": "restoreOnt"
+    },
+    "restoreOnt": {
+      "title": "Restore ONT and router power",
+      "body": [
+        "After approximately ten minutes, switch the ONT back on.",
+        "Allow its optical connection indicators to stabilise.",
+        "Turn the router back on and wait for the WAN connection to establish.",
+        "Check the router's internet status and test several websites.",
+        "If the ONT indicates an optical fault, contact the provider rather than repeatedly resetting it."
+      ],
+      "successLabel": "Internet Restored",
+      "failLabel": "Still Offline",
+      "successNext": null,
+      "failNext": "checkDirectConnection"
+    },
+    "checkDirectConnection": {
+      "title": "Check the modem or router connection",
+      "body": [
+        "For fibre, inspect the Ethernet connection between the ONT and the router WAN port.",
+        "For DSL or other services, check the appropriate modem and incoming connection.",
+        "Try another suitable cable where possible.",
+        "If the provider supports it, test with a compatible replacement router or an approved direct connection method.",
+        "A computer connected directly to a fibre ONT may require VLAN tagging or authentication settings before internet access works.",
+        "A failed direct test alone does not prove that the ISP connection is faulty."
+      ],
+      "link": [
+        {
+          "name": "One NZ fibre modem installation",
+          "description": "Illustrations showing an ONT connected to a router's WAN port.",
+          "url": "https://one.nz/help/broadband/modem-support/self-install/"
+        }
+      ],
+      "image": "internet-router-wan.png",
+      "alt": "Ethernet cable connecting an ONT to a router WAN port",
+      "caption": "Example fibre ONT-to-router connection. Port positions vary by model.",
+      "successLabel": "Alternative Works",
+      "failLabel": "Fails or Cannot Test",
+      "successNext": "routerFaultLikely",
+      "failNext": "contactIsp"
+    },
+    "routerFaultLikely": {
+      "type": "terminal",
+      "title": "Router fault or configuration issue likely",
+      "body": [
+        "Internet access works using an alternative router or ISP-supported direct connection.",
+        "This suggests the original router, its WAN settings or its cabling may be responsible.",
+        "Review the router configuration before replacing hardware."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "contactIsp": {
+      "type": "terminal",
+      "title": "Contact ISP",
+      "body": [
+        "Local troubleshooting has not restored internet access.",
+        "Record the equipment status lights and any error messages.",
+        "Tell the provider whether multiple devices are affected.",
+        "Report any router restart, ONT reset, WAN configuration checks and cable tests completed.",
+        "Ask the ISP to check the service and confirm its required connection settings.",
+        "Avoid factory-resetting network equipment unless instructed to do so."
+      ],
+      "successNext": null,
+      "failNext": null
     }
-  },
-  "startNode": "checkAffectedDevices",
-  "text": [
-    "This guide is for devices that cannot access the internet.",
-    "Determine whether the issue affects one device or multiple devices.",
-    "Check local connectivity before restarting network equipment.",
-    "Escalate ISP or infrastructure issues when local troubleshooting fails."
-  ],
-  "title": "No Internet Connection"
+  }
 }

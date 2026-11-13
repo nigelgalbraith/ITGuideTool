@@ -1,0 +1,385 @@
+
+{
+  "id": "setupNewRouter",
+  "title": "Setting Up a New Router (NZ Fibre)",
+  "cardText": [
+    "Set up a new or replacement router on a New Zealand fibre broadband connection.",
+    "Connect the router to the fibre ONT and configure the correct ISP WAN settings.",
+    "Check DHCP, PPPoE, VLAN tagging, Wi-Fi and internet connectivity."
+  ],
+  "icon": "",
+  "text": [
+    "This guide explains how to install a new or replacement router on a New Zealand fibre broadband connection.",
+    "You will need the router, its power adapter, an Ethernet cable and access to the fibre ONT.",
+    "The ONT is the fibre connection box usually mounted on a wall.",
+    "Most NZ fibre providers use VLAN 10, but WAN authentication and VLAN requirements differ between providers.",
+    "Use your own ISP's published settings rather than assuming every fibre connection is the same.",
+    "This guide is for standard fibre connections using an Ethernet WAN port. Mobile broadband, DSL and some Hyperfibre installations may require different equipment."
+  ],
+  "startNode": "checkServiceActive",
+  "nodes": {
+    "checkServiceActive": {
+      "title": "Is the fibre broadband service active?",
+      "body": [
+        "Confirm that the internet provider has activated the fibre service at the property.",
+        "Check the activation email or account information if the service is new.",
+        "Make sure the fibre ONT is powered on and does not show an optical fault.",
+        "If the service has not been activated, router configuration alone will not establish an internet connection."
+      ],
+      "successLabel": "Service Active",
+      "failLabel": "Not Active or Unsure",
+      "successNext": "checkRouterCompatibility",
+      "failNext": "confirmActivation"
+    },
+    "confirmActivation": {
+      "type": "terminal",
+      "title": "Confirm fibre activation",
+      "body": [
+        "Contact the internet provider to confirm that the fibre service is active.",
+        "Ask which ONT Ethernet port is assigned to the broadband service.",
+        "If the ONT displays an optical fault, report the indicator lights to the provider.",
+        "Continue with router setup once the service is confirmed active."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkRouterCompatibility": {
+      "title": "Check that the router supports fibre broadband",
+      "body": [
+        "Check that the router has an Ethernet WAN or Internet port.",
+        "Confirm that it supports the WAN connection type required by the provider, usually DHCP/IPoE or PPPoE.",
+        "Check whether it supports 802.1Q VLAN tagging if the ISP requires it.",
+        "A router that only supports an ADSL or VDSL telephone connection may not be suitable unless it also has an Ethernet WAN mode.",
+        "Check that the router supports the speed of the broadband plan.",
+        "Some ISP-supplied routers may have restricted or locked configuration settings."
+      ],
+      "successLabel": "Compatible",
+      "failLabel": "Not Compatible",
+      "successNext": "connectRouterToOnt",
+      "failNext": "routerNotCompatible"
+    },
+    "routerNotCompatible": {
+      "type": "terminal",
+      "title": "Router may not be compatible",
+      "body": [
+        "The router does not appear to support the required fibre WAN connection.",
+        "Check the manufacturer's specifications for Ethernet WAN, DHCP, PPPoE and VLAN support.",
+        "If the provider requires VLAN tagging and the router cannot configure it, use another compatible router.",
+        "For Hyperfibre plans, check whether faster Ethernet ports or special equipment are required."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "connectRouterToOnt": {
+      "title": "Connect the router to the fibre ONT",
+      "body": [
+        "Place the router near the ONT or an existing Ethernet connection leading to it.",
+        "Connect an Ethernet cable from the activated LAN port on the ONT to the WAN or Internet port on the router.",
+        "Check the provider's activation information for the correct ONT port. Do not assume it is always LAN1.",
+        "Connect the router's power adapter and switch it on.",
+        "Wait for the router to complete its startup process.",
+        "Do not disconnect the fibre-optic cable or press the ONT factory Reset button."
+      ],
+      "image": "router-wan-connection.png",
+      "alt": "Ethernet cable connected to a router WAN port",
+      "caption": "Example router WAN port connection. The ONT connects to the router's WAN or Internet port.",
+      "link": [
+        {
+          "name": "One NZ: Set up your own modem",
+          "description": "Official NZ instructions showing how to connect a compatible router to a fibre ONT.",
+          "url": "https://one.nz/help/broadband/modem-support/byo-modem/"
+        }
+      ],
+      "successLabel": "Connected",
+      "failLabel": "Cannot Connect",
+      "successNext": "loginRouter",
+      "failNext": "connectionProblem"
+    },
+    "connectionProblem": {
+      "type": "terminal",
+      "title": "Check the physical connection",
+      "body": [
+        "Check that the Ethernet cable connects the active ONT LAN port to the router's WAN port.",
+        "Try another known-working Ethernet cable if available.",
+        "Confirm the router is powered on and that the ONT is showing its normal service indicators.",
+        "If the required ONT port or router WAN connection is unclear, consult the ISP or router manual."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "loginRouter": {
+      "title": "Log in to the router",
+      "body": [
+        "Connect a computer to one of the router's LAN ports or its default Wi-Fi network.",
+        "The default Wi-Fi name, password and administration address are often printed on the router label.",
+        "Open a web browser and enter the router's administration address.",
+        "Common examples are 192.168.1.1 and 192.168.0.1, but the correct address depends on the router.",
+        "On Windows, open Command Prompt and run ipconfig to find the Default Gateway address if necessary.",
+        "Sign in using the router's administration credentials.",
+        "If it is a new router, follow the initial setup wizard and create an administrator password when prompted."
+      ],
+      "successLabel": "Logged In",
+      "failLabel": "Cannot Log In",
+      "successNext": "checkIspSettings",
+      "failNext": "routerLoginProblem"
+    },
+    "routerLoginProblem": {
+      "type": "terminal",
+      "title": "Cannot access router settings",
+      "body": [
+        "Confirm the computer is connected to the new router rather than another nearby Wi-Fi network.",
+        "Check the router label or manufacturer instructions for the correct administration address.",
+        "Use ipconfig to check the Default Gateway on Windows.",
+        "Try a direct Ethernet connection if Wi-Fi access is not working.",
+        "Use the router's documented login or password-recovery procedure if required.",
+        "Only factory-reset the router if you understand that existing settings will be lost."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkIspSettings": {
+      "title": "Find the correct NZ internet provider settings",
+      "body": [
+        "Identify the customer's internet service provider.",
+        "Use the relevant official support link below to check the provider's fibre WAN settings.",
+        "Check whether the provider requires DHCP/IPoE or PPPoE.",
+        "Check whether 802.1Q VLAN tagging is required, including the VLAN ID and priority.",
+        "Many NZ fibre providers use VLAN ID 10 and priority 0, but this is not universal.",
+        "For example, Spark uses PPPoE and VLAN 10, while 2degrees uses DHCP and VLAN 10.",
+        "Skinny's published BYO fibre settings use PPPoE with VLAN tagging disabled.",
+        "Confirm any required username and password before proceeding."
+      ],
+      "link": [
+        {
+          "name": "Spark fibre router settings",
+          "description": "Spark's official PPPoE, VLAN ID 10 and priority 0 configuration for third-party routers.",
+          "url": "https://www.spark.co.nz/help/internet/set-up/broadband-settings-for-third-party-modems/"
+        },
+        {
+          "name": "One NZ fibre router settings",
+          "description": "Official One NZ settings for fibre, including DHCP/IPoE and VLAN ID 10.",
+          "url": "https://one.nz/faq/modem-settings-for-a-non-one-nz-modem"
+        },
+        {
+          "name": "2degrees fibre router settings",
+          "description": "Official BYO-router settings, including DHCP, VLAN ID 10 and priority 0.",
+          "url": "https://www.2degrees.nz/help/broadband-help/modem-settings/byo-modem-help"
+        },
+        {
+          "name": "Slingshot fibre router settings",
+          "description": "Official Slingshot instructions for using your own fibre router.",
+          "url": "https://help.2degrees.nz/Slingshot/Broadband/Setting_up_your_own_Fibre_modem"
+        },
+        {
+          "name": "Orcon fibre router settings",
+          "description": "Official Orcon instructions for configuring a third-party fibre router.",
+          "url": "https://help.2degrees.nz/Orcon/Tech_Support/Setting_up_your_own_Fibre_modem"
+        },
+        {
+          "name": "Skinny fibre router settings",
+          "description": "Official Skinny BYO-router settings, including PPPoE with VLAN tagging disabled on fibre.",
+          "url": "https://www.spark.co.nz/help/modem-set-up/byo-modem"
+        }
+      ],
+      "successLabel": "Settings Found",
+      "failLabel": "Settings Unknown",
+      "successNext": "configureWan",
+      "failNext": "confirmIspSettings"
+    },
+    "confirmIspSettings": {
+      "type": "terminal",
+      "title": "Confirm router settings with the ISP",
+      "body": [
+        "Do not guess the internet provider's connection settings.",
+        "Contact the ISP and confirm the WAN connection type, VLAN requirements and any authentication details.",
+        "Ask whether the service supports a third-party router.",
+        "Once the settings are confirmed, continue the router installation."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "configureWan": {
+      "title": "Configure the router WAN connection",
+      "body": [
+        "Open the Internet, WAN or Quick Setup section of the router.",
+        "Select the connection type required by the customer's ISP.",
+        "For DHCP/IPoE, select Dynamic IP, Automatic IP or the equivalent option.",
+        "For PPPoE, select PPPoE and enter the username and password required by the ISP.",
+        "Do not use PPPoE simply because the router offers it as an option.",
+        "Leave DNS settings on Automatic unless the provider requires otherwise.",
+        "Save the settings and allow the router to establish the internet connection."
+      ],
+      "image": "router-wan-settings.png",
+      "alt": "Router administration screen showing Dynamic IP and PPPoE WAN connection choices",
+      "caption": "Example TP-Link WAN settings. Choose the connection type required by your ISP.",
+      "successLabel": "Configured",
+      "failLabel": "Cannot Configure",
+      "successNext": "configureVlan",
+      "failNext": "routerSettingsProblem"
+    },
+    "routerSettingsProblem": {
+      "type": "terminal",
+      "title": "Router settings unavailable",
+      "body": [
+        "The required WAN connection settings cannot be configured on the router.",
+        "Check whether the router has a Quick Setup wizard, Advanced settings or a separate Internet configuration page.",
+        "Consult the manufacturer's instructions for your exact router model.",
+        "If the firmware is restricted or the required settings are unsupported, use a compatible router."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "configureVlan": {
+      "title": "Configure VLAN tagging if required",
+      "body": [
+        "Check whether the internet provider requires VLAN tagging.",
+        "If required, find the Internet VLAN, IPTV/VLAN, 802.1Q or ISP Profile settings.",
+        "Enable 802.1Q tagging and enter the provider's VLAN ID.",
+        "For providers requiring VLAN 10 and priority 0, enter Internet VLAN ID 10 and VLAN Priority 0.",
+        "Some routers have a preset ISP profile or New Zealand UFB option.",
+        "If the provider requires an untagged connection, leave VLAN tagging disabled.",
+        "Do not change IPTV or VoIP VLAN settings unless the provider has supplied those values.",
+        "Save the settings and allow the router to reconnect."
+      ],
+      "image": "router-vlan-settings.png",
+      "alt": "TP-Link router VLAN configuration screen showing Internet VLAN ID and priority settings",
+      "caption": "Example TP-Link VLAN configuration. The screenshot uses VLAN 100 for illustration; enter your ISP's actual value, commonly 10 for NZ fibre.",
+      "link": [
+        {
+          "name": "TP-Link: Set up VLAN ID",
+          "description": "Official instructions showing where to configure Internet VLAN ID and priority on supported TP-Link routers.",
+          "url": "https://www.tp-link.com/au/support/faq/3453/"
+        }
+      ],
+      "successLabel": "Settings Saved",
+      "failLabel": "Cannot Configure",
+      "successNext": "checkWanConnection",
+      "failNext": "routerSettingsProblem"
+    },
+    "checkWanConnection": {
+      "title": "Check whether the router has internet access",
+      "body": [
+        "Open the router's Internet Status or WAN Status page.",
+        "Check whether the connection is reported as Connected.",
+        "For DHCP connections, check whether the router has received a WAN IP address.",
+        "For PPPoE connections, check whether the session has authenticated successfully.",
+        "A private or CGNAT WAN address can be normal and does not necessarily indicate a fault.",
+        "If the router reports Disconnected or Authentication Failed, continue troubleshooting."
+      ],
+      "successLabel": "WAN Connected",
+      "failLabel": "WAN Not Connected",
+      "successNext": "setupWifi",
+      "failNext": "checkWanProblem"
+    },
+    "checkWanProblem": {
+      "title": "Check why the WAN connection failed",
+      "body": [
+        "Check that the Ethernet cable is connected to the router's WAN port and the correct ONT port.",
+        "Confirm the ISP service is active and the ONT lights are normal.",
+        "Review the selected DHCP or PPPoE connection type.",
+        "Check any PPPoE username and password.",
+        "Verify VLAN tagging, VLAN ID and priority against the ISP's published requirements.",
+        "Restart the router after saving confirmed settings if necessary.",
+        "If the connection still fails, contact the ISP and ask them to check the service and ONT port provisioning."
+      ],
+      "successLabel": "WAN Now Connected",
+      "failLabel": "Still Not Connected",
+      "successNext": "setupWifi",
+      "failNext": "contactIsp"
+    },
+    "setupWifi": {
+      "title": "Configure the router Wi-Fi network",
+      "body": [
+        "Open the Wireless or Wi-Fi settings in the router.",
+        "Choose a Wi-Fi network name (SSID) and a strong password.",
+        "Use WPA2-AES or WPA3 security where supported by your devices.",
+        "If replacing an existing router, you may reuse the previous Wi-Fi name and password to help existing devices reconnect.",
+        "Check whether the router combines 2.4 GHz and 5 GHz networks or configures them separately.",
+        "Save the wireless settings.",
+        "If you changed the Wi-Fi name or password, reconnect your computer or phone using the new details."
+      ],
+      "successLabel": "Wi-Fi Configured",
+      "failLabel": "Cannot Configure",
+      "successNext": "testInternet",
+      "failNext": "wifiSetupProblem"
+    },
+    "wifiSetupProblem": {
+      "type": "terminal",
+      "title": "Wi-Fi configuration problem",
+      "body": [
+        "Check whether the router's wireless function is enabled.",
+        "Review the Wi-Fi name, security mode and password.",
+        "If possible, connect a computer using Ethernet to access the router settings.",
+        "Consult the router manufacturer's setup instructions if wireless settings cannot be saved."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "testInternet": {
+      "title": "Test the internet connection",
+      "body": [
+        "Connect a computer or phone to the new router.",
+        "Open several websites to confirm internet access.",
+        "Test both Wi-Fi and Ethernet if possible.",
+        "Check that the router remains connected after a restart.",
+        "If the router has internet access but one device does not, troubleshoot that device's local connection."
+      ],
+      "successLabel": "Internet Working",
+      "failLabel": "Still Not Working",
+      "successNext": "routerSetupComplete",
+      "failNext": "testConnectionProblem"
+    },
+    "testConnectionProblem": {
+      "title": "Is the router WAN connection still active?",
+      "body": [
+        "Check the router's WAN or Internet Status page again.",
+        "If the WAN is connected, investigate the affected device, Wi-Fi connection, DNS or other local settings.",
+        "If the WAN has disconnected, review the physical connection and ISP settings.",
+        "Use the No Internet Connection troubleshooting guide for more detailed diagnostics."
+      ],
+      "successLabel": "WAN Connected",
+      "failLabel": "WAN Disconnected",
+      "successNext": "localConnectionProblem",
+      "failNext": "contactIsp"
+    },
+    "localConnectionProblem": {
+      "type": "terminal",
+      "title": "Check local network connectivity",
+      "body": [
+        "The router reports a working WAN connection, but internet access still fails on a connected device.",
+        "Check that the device receives an IP address, default gateway and DNS settings.",
+        "Try another device or an Ethernet connection to isolate Wi-Fi problems.",
+        "Continue with the No Internet Connection guide if the problem remains."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "routerSetupComplete": {
+      "type": "terminal",
+      "title": "Router setup complete",
+      "body": [
+        "The new router is connected to the fibre service and internet access is working.",
+        "Confirm that the Wi-Fi network and password are correct.",
+        "Reconnect household devices as required.",
+        "Keep a record of the router model, administration address and relevant ISP WAN settings.",
+        "Check for manufacturer firmware updates and save a configuration backup if the router supports it.",
+        "If the customer uses an internet phone service, confirm that calling also works."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "contactIsp": {
+      "type": "terminal",
+      "title": "Contact the internet provider",
+      "body": [
+        "The router has not established a working internet connection.",
+        "Record the router model, ONT status lights and the exact WAN connection error.",
+        "Tell the ISP which WAN protocol and VLAN settings have been configured.",
+        "Ask the ISP to confirm service activation, the correct ONT port, connection authentication and BYO-router compatibility.",
+        "If the service includes voice calling, confirm whether the provider requires its own equipment."
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

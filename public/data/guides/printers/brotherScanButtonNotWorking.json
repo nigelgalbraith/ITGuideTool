@@ -1,0 +1,268 @@
+
+{
+  "id": "brotherScanButtonNotWorking",
+  "title": "Brother Scan Button Not Working",
+  "cardText": [
+    "Troubleshoot a Brother printer or scanner that will not scan to a Windows computer when the Scan button is pressed.",
+    "Check computer scanning, Brother ControlCenter, scan-event settings and device communication.",
+    "Resolve problems that may require reinstalling the complete Brother software package."
+  ],
+  "icon": "",
+  "text": [
+    "This guide is for Brother printers and scanners where scanning from the device control panel does not work correctly.",
+    "The steps focus on scanning to a Windows computer using Brother software.",
+    "ControlCenter availability and menu names vary by model. Some newer models use Brother iPrint&Scan instead.",
+    "First establish whether scanning works from the computer before troubleshooting the Scan button."
+  ],
+  "startNode": "testComputerScanning",
+  "nodes": {
+    "testComputerScanning": {
+      "title": "Test scanning from the computer",
+      "body": [
+        "Open Brother ControlCenter, Brother iPrint&Scan, or another compatible scanning application on the computer.",
+        "Try scanning a document directly from the computer.",
+        "This determines whether the scanner itself is communicating with Windows."
+      ],
+      "image": "brother-iprintscan.jpg",
+      "alt": "Brother iPrint&Scan software showing the Scan button",
+      "caption": "Brother iPrint&Scan. The scanning interface may differ depending on the software version.",
+      "successLabel": "Scanning Works",
+      "failLabel": "Scanning Fails",
+      "successNext": "checkBrotherSoftware",
+      "failNext": "checkScannerConnection"
+    },
+    "checkScannerConnection": {
+      "title": "Check the scanner connection",
+      "body": [
+        "Confirm the Brother printer or scanner is powered on and showing no errors.",
+        "For USB connections, check the cable and try another USB port.",
+        "For network connections, confirm the printer and computer are connected to the correct network.",
+        "Check whether Windows detects the scanner."
+      ],
+      "successLabel": "Scanner Detected",
+      "failLabel": "Not Detected",
+      "successNext": "checkScannerDriver",
+      "failNext": "resolveConnection"
+    },
+    "resolveConnection": {
+      "type": "terminal",
+      "title": "Resolve scanner communication problem",
+      "body": [
+        "The computer cannot reliably communicate with the scanner.",
+        "Check the USB cable, network connection, printer IP address and Windows device detection as appropriate.",
+        "Restore communication before troubleshooting the Scan button.",
+        "Once the connection is working, restart this guide."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkScannerDriver": {
+      "title": "Check the scanner driver",
+      "body": [
+        "Confirm the scanner driver for the Brother model is installed.",
+        "Check whether the scanner is available in Brother software or Windows scanning applications.",
+        "If the printer can print but cannot scan, the scanner driver or scanning components may be missing."
+      ],
+      "link": [
+        {
+          "name": "Brother support and downloads",
+          "description": "Find the correct scanner driver and software for your Brother model.",
+          "url": "https://support.brother.com/g/b/countrytop.aspx?c=nz&lang=en"
+        }
+      ],
+      "successLabel": "Driver Installed",
+      "failLabel": "Driver Missing",
+      "successNext": "checkBrotherSoftware",
+      "failNext": "installBrotherSoftware"
+    },
+    "checkBrotherSoftware": {
+      "title": "Check Brother scanning software",
+      "body": [
+        "Confirm Brother ControlCenter or the model's supported Brother scanning application is installed.",
+        "Open the application manually and check whether the scanner is detected.",
+        "Some Brother models use ControlCenter4, while others use Brother iPrint&Scan.",
+        "The printer Scan button may require additional Brother components beyond a basic Windows scanner driver."
+      ],
+      "link": [
+        {
+          "name": "Brother software and driver downloads",
+          "description": "Find the software available for your exact printer model.",
+          "url": "https://support.brother.com/g/b/countrytop.aspx?c=nz&lang=en"
+        }
+      ],
+      "image": "brother-controlcenter.png",
+      "alt": "Brother ControlCenter4 scanning software",
+      "caption": "Example Brother ControlCenter4 interface.",
+      "successLabel": "Software Working",
+      "failLabel": "Missing/Not Working",
+      "successNext": "checkScanDestination",
+      "failNext": "installBrotherSoftware"
+    },
+    "installBrotherSoftware": {
+      "title": "Install the Brother scanning software",
+      "body": [
+        "Download the appropriate software package for the exact Brother model from Brother's official support website.",
+        "Where available, use the complete driver and software package rather than only a basic printer driver.",
+        "Install the required scanning components and follow the connection instructions.",
+        "After installation, test scanning from the computer."
+      ],
+      "link": [
+        {
+          "name": "Brother support downloads",
+          "description": "Select your printer model and download the compatible driver and scanning software.",
+          "url": "https://support.brother.com/g/b/countrytop.aspx?c=nz&lang=en"
+        }
+      ],
+      "successLabel": "Scanning Works",
+      "failLabel": "Still Failing",
+      "successNext": "checkScanDestination",
+      "failNext": "finalDiagnosis"
+    },
+    "checkScanDestination": {
+      "title": "Check the Scan button destination",
+      "body": [
+        "On the Brother printer, open the Scan menu.",
+        "Select the appropriate option, such as Scan to PC or Scan to File.",
+        "If a computer list appears, confirm the correct Windows computer is available and selected.",
+        "Check whether the computer name has changed or the printer is trying to send the scan to an old computer."
+      ],
+      "image": "brother-scan-button.png",
+      "alt": "Brother printer control panel showing the Scan option",
+      "caption": "Example Brother printer touchscreen showing the Scan option. The destination selection may vary by model.",
+      "successLabel": "PC Available",
+      "failLabel": "PC Missing",
+      "successNext": "checkScanEvents",
+      "failNext": "checkDeviceRegistration"
+    },
+    "checkDeviceRegistration": {
+      "title": "Check computer registration and network discovery",
+      "body": [
+        "Confirm Brother scanning software recognises the correct printer or scanner.",
+        "For network-connected scanners, check that the PC and printer can communicate over the network.",
+        "Check any Brother setting for registering the computer as a Scan to PC destination, where supported.",
+        "If the PC is not listed, restart Brother scanning software and check the device selection settings."
+      ],
+      "link": [
+        {
+          "name": "Brother troubleshooting and support",
+          "description": "Find model-specific instructions for Scan to PC and network scanning problems.",
+          "url": "https://support.brother.com/g/b/countrytop.aspx?c=nz&lang=en"
+        }
+      ],
+      "successLabel": "PC Now Available",
+      "failLabel": "Still Missing",
+      "successNext": "checkScanEvents",
+      "failNext": "reinstallBrotherPackage"
+    },
+    "checkScanEvents": {
+      "title": "Check scan-event settings",
+      "body": [
+        "Open Brother ControlCenter4 and locate the Device Settings tab, then Device Scan Settings, where available.",
+        "Confirm the required Scan to File, Scan to Image or other destination is configured.",
+        "Where supported, check the settings for starting scanning from the printer's control panel.",
+        "Check that the Brother background scanning software is running.",
+        "Apply any changes before testing the printer Scan button again."
+      ],
+      "link": [
+        {
+          "name": "Configure ControlCenter4 and the Scan button",
+          "description": "Official Brother instructions showing how to change the settings used by the printer's Scan button.",
+          "url": "https://support.brother.com/g/b/faqend.aspx?c=gb&faqid=faq00002780_001&lang=en&prod=dcpl2500d_eu"
+        }
+      ],
+      "image": "brother-scan-settings.jpg",
+      "alt": "Brother ControlCenter4 Device Scan Settings window",
+      "caption": "Example Device Scan Settings window for configuring the printer's Scan button.",
+      "successLabel": "Settings Correct",
+      "failLabel": "Settings Incorrect",
+      "successNext": "testScanButton",
+      "failNext": "configureScanEvents"
+    },
+    "configureScanEvents": {
+      "title": "Configure scan events",
+      "body": [
+        "Select the appropriate Scan button destination in the Brother software.",
+        "Configure the destination folder, application or file format as required.",
+        "Enable any relevant control-panel scanning option supported by the model.",
+        "Save the settings and return to the printer."
+      ],
+      "link": [
+        {
+          "name": "Brother Scan button settings instructions",
+          "description": "Step-by-step instructions for configuring ControlCenter4 Device Scan Settings.",
+          "url": "https://help.brother-usa.com/app/answers/detail/a_id/65773/~/configure-the-scan-button-on-the-machine"
+        }
+      ],
+      "successLabel": "Configured",
+      "failLabel": "Cannot Configure",
+      "successNext": "testScanButton",
+      "failNext": "reinstallBrotherPackage"
+    },
+    "testScanButton": {
+      "title": "Test scanning from the printer",
+      "body": [
+        "Place a document on the scanner glass or in the automatic document feeder.",
+        "Press Scan on the Brother printer.",
+        "Choose the configured scanning destination and select the correct computer if prompted.",
+        "Check whether the scanning process starts and the document reaches the computer."
+      ],
+      "successLabel": "Scanning Works",
+      "failLabel": "Still Not Working",
+      "successNext": "scanButtonFixed",
+      "failNext": "reinstallBrotherPackage"
+    },
+    "scanButtonFixed": {
+      "type": "terminal",
+      "title": "Scan button working",
+      "body": [
+        "The Brother Scan button successfully sends scans to the computer.",
+        "The scanner connection, software and scan destination are functioning correctly."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "reinstallBrotherPackage": {
+      "title": "Reinstall the complete Brother software package",
+      "body": [
+        "The Scan button still fails after checking Brother software and scan-event settings.",
+        "Download the complete Brother driver and software package for the exact printer model and Windows version.",
+        "Run the installer over the existing installation where the installer supports this.",
+        "This may repair missing or damaged Brother components and Scan button integration without requiring a manual uninstall first.",
+        "Restart the computer if requested, then test scanning from the printer again."
+      ],
+      "link": [
+        {
+          "name": "Brother full driver and software downloads",
+          "description": "Select your Brother printer model to find the complete software package supported for your version of Windows.",
+          "url": "https://support.brother.com/g/b/countrytop.aspx?c=nz&lang=en"
+        }
+      ],
+      "image": "brother-full-package.png",
+      "alt": "Brother support download page showing the Full Driver and Software Package",
+      "caption": "Look for the Full Driver & Software Package when it is available for your model.",
+      "successLabel": "Fixed",
+      "failLabel": "Still Not Working",
+      "successNext": "scanButtonFixed",
+      "failNext": "finalDiagnosis"
+    },
+    "finalDiagnosis": {
+      "type": "terminal",
+      "title": "Further Brother scanner diagnostics required",
+      "body": [
+        "The problem remains after checking scanner communication, Brother software and Scan button configuration.",
+        "Record the exact Brother printer model, Windows version, connection type and any displayed error.",
+        "Check Brother's model-specific troubleshooting documentation or contact Brother support.",
+        "Further diagnosis may involve model-specific network settings, Windows security software, scanner drivers or damaged Brother components."
+      ],
+      "link": [
+        {
+          "name": "Brother New Zealand Support",
+          "description": "Find troubleshooting articles, downloads and contact options for your printer.",
+          "url": "https://support.brother.com/g/b/countrytop.aspx?c=nz&lang=en"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

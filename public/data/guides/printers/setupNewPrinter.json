@@ -1,0 +1,288 @@
+
+{
+  "id": "setupNewPrinter",
+  "title": "Setting Up a New Printer",
+  "cardText": [
+    "Set up a new printer on a Windows computer using USB, Wi-Fi or Ethernet.",
+    "Configure wireless printing from the printer control panel, a mobile app or the manufacturer's PC installer.",
+    "Install suitable printer drivers and confirm the printer works with a test page."
+  ],
+  "icon": "",
+  "text": [
+    "This guide helps you connect and install a new printer on a Windows computer.",
+    "It covers USB and network printers, including several ways to configure Wi-Fi.",
+    "The exact setup procedure varies by printer manufacturer and model.",
+    "Before starting, unpack the printer, remove shipping materials, install the ink or toner, load paper and turn it on.",
+    "Follow the connection method you intend to use."
+  ],
+  "startNode": "chooseConnection",
+  "nodes": {
+    "chooseConnection": {
+      "title": "Are you connecting the printer directly by USB?",
+      "body": [
+        "Decide whether the printer will connect directly to your computer using a USB cable or through your network.",
+        "For Wi-Fi or Ethernet printing, choose No.",
+        "For a permanent USB connection, choose Yes."
+      ],
+      "successLabel": "USB",
+      "failLabel": "Network",
+      "successNext": "connectUsb",
+      "failNext": "checkNetworkConnection"
+    },
+    "connectUsb": {
+      "title": "Connect the printer using USB",
+      "body": [
+        "Check that the printer supports a USB connection and that you have the correct cable.",
+        "Connect the USB cable between the printer and computer.",
+        "Turn on the printer and allow Windows to detect it.",
+        "Some manufacturers recommend connecting the USB cable only when their installer prompts you. Follow those instructions if applicable."
+      ],
+      "image": "printer-usb-connection.png",
+      "alt": "Diagram showing a USB cable connecting a printer to a computer",
+      "caption": "Example USB printer connection. The connector type varies by printer model.",
+      "successLabel": "Printer Detected",
+      "failLabel": "Not Detected",
+      "successNext": "installPrinterSoftware",
+      "failNext": "checkUsbConnection"
+    },
+    "checkUsbConnection": {
+      "title": "Check the USB connection",
+      "body": [
+        "Confirm the printer is turned on and has no error messages.",
+        "Check that the USB cable is firmly connected at both ends.",
+        "Try another USB port and, if available, another compatible cable.",
+        "Avoid USB hubs and docking stations while diagnosing connection problems.",
+        "Check whether Windows detects the printer after reconnecting it."
+      ],
+      "successLabel": "Detected",
+      "failLabel": "Still Missing",
+      "successNext": "installPrinterSoftware",
+      "failNext": "setupUnable"
+    },
+    "checkNetworkConnection": {
+      "title": "Is the printer already connected to your network?",
+      "body": [
+        "Check the printer screen, network status page or network configuration report.",
+        "For Wi-Fi, confirm the printer is connected to your normal wireless network.",
+        "For Ethernet, confirm the network cable is connected to the router or switch.",
+        "If the printer already has a working network connection, proceed to installing it on Windows."
+      ],
+      "successLabel": "Connected",
+      "failLabel": "Not Connected",
+      "successNext": "addPrinterWindows",
+      "failNext": "checkControlPanel"
+    },
+    "checkControlPanel": {
+      "title": "Can you configure Wi-Fi from the printer control panel?",
+      "body": [
+        "Check whether the printer has a screen or buttons for Wi-Fi or network settings.",
+        "Look for Wireless Setup, Wi-Fi Setup Wizard, WLAN or Network Settings.",
+        "If the printer supports wireless setup from its control panel, use that method first.",
+        "If it does not, check whether a manufacturer's mobile app can configure it."
+      ],
+      "successLabel": "Yes",
+      "failLabel": "No",
+      "successNext": "setupWifiControlPanel",
+      "failNext": "checkMobileApp"
+    },
+    "setupWifiControlPanel": {
+      "title": "Connect the printer to Wi-Fi using its control panel",
+      "body": [
+        "Open the printer's Wi-Fi or Network Settings menu.",
+        "Select Wireless Setup Wizard or the equivalent option.",
+        "Select your wireless network name (SSID).",
+        "Enter the Wi-Fi password carefully, checking uppercase and lowercase characters.",
+        "Wait for the printer to confirm the connection.",
+        "Some printers support only particular Wi-Fi bands or security modes, so check the model's network requirements if your network is not listed."
+      ],
+      "link": [
+        {
+          "name": "Brother wireless setup instructions",
+          "description": "Official example of configuring Wi-Fi directly from a printer's control panel.",
+          "url": "https://www.brother.com.au/en/contents/top-faqs/faq-wireless-setup"
+        }
+      ],
+      "image": "printer-wifi-setup.jpg",
+      "alt": "Brother printer screen showing the wireless network Setup Wizard",
+      "caption": "Example Wi-Fi Setup Wizard on a Brother printer. Menu names vary between manufacturers.",
+      "successLabel": "Connected",
+      "failLabel": "Connection Failed",
+      "successNext": "addPrinterWindows",
+      "failNext": "checkMobileApp"
+    },
+    "checkMobileApp": {
+      "title": "Does the manufacturer offer a mobile setup app?",
+      "body": [
+        "Check whether the printer manufacturer provides a compatible mobile application for initial setup.",
+        "Examples include the HP app, Brother Mobile Connect and Epson Smart Panel.",
+        "Confirm that the application supports your exact printer model.",
+        "If a suitable app is available, use it to configure the printer.",
+        "Otherwise, try the manufacturer's PC installer."
+      ],
+      "successLabel": "App Available",
+      "failLabel": "No App",
+      "successNext": "setupMobileApp",
+      "failNext": "setupPcInstaller"
+    },
+    "setupMobileApp": {
+      "title": "Configure the printer using a mobile app",
+      "body": [
+        "Install the manufacturer's official printer setup app on your phone or tablet.",
+        "Connect the phone to the wireless network you want the printer to use.",
+        "Turn on Bluetooth and allow the app's requested local network or location permissions when required for device discovery.",
+        "Put the printer into Wi-Fi setup mode if instructed.",
+        "Open the app, choose to add or set up a new printer and follow the instructions.",
+        "Wait for confirmation that the printer has joined your network."
+      ],
+      "link": [
+        {
+          "name": "HP printer setup using the HP app",
+          "description": "Official HP instructions demonstrating mobile printer setup. Other manufacturers use different apps.",
+          "url": "https://support.hp.com/nz-en/document/ish_1716406-1413451-16"
+        }
+      ],
+      "image": "printer-mobile-app.png",
+      "alt": "HP mobile printer setup application showing the Add Printer options",
+      "caption": "Example mobile printer setup interface. Use the application recommended for your printer model.",
+      "successLabel": "Connected",
+      "failLabel": "Setup Failed",
+      "successNext": "addPrinterWindows",
+      "failNext": "setupPcInstaller"
+    },
+    "setupPcInstaller": {
+      "title": "Try the manufacturer's PC installation software",
+      "body": [
+        "Find the printer model on the manufacturer's official support website.",
+        "Download the recommended Windows driver and installation software.",
+        "Run the installer and select the wireless or network installation option where available.",
+        "Follow the instructions for discovering or connecting the printer to Wi-Fi.",
+        "If the installer completes network setup successfully, continue to Windows printer installation."
+      ],
+      "link": [
+        {
+          "name": "Brother software and driver downloads",
+          "description": "Find the correct software for a Brother printer. For other brands, use the manufacturer's official support website.",
+          "url": "https://support.brother.com/g/b/countrytop.aspx?c=nz&lang=en"
+        }
+      ],
+      "image": "printer-software-installer.png",
+      "alt": "Brother support website showing the full driver and software package",
+      "caption": "Example full driver and software package. Download software for the exact printer model.",
+      "successLabel": "Connected",
+      "failLabel": "Still Not Connected",
+      "successNext": "addPrinterWindows",
+      "failNext": "temporaryUsbSetup"
+    },
+    "temporaryUsbSetup": {
+      "title": "Try temporary USB-assisted wireless setup",
+      "body": [
+        "Some printers can use a temporary USB connection to configure their wireless network settings.",
+        "Check whether the manufacturer's installer supports this method for your printer model.",
+        "If supported, connect the printer to the computer with a USB cable when prompted.",
+        "Use the installer to select your Wi-Fi network and enter its password.",
+        "Wait for the installer to confirm the wireless connection.",
+        "Disconnect the USB cable only when the installer instructs you to do so."
+      ],
+      "image": "printer-usb-connection.png",
+      "alt": "USB cable connecting a printer to a computer during installation",
+      "caption": "A USB cable may be used temporarily to configure Wi-Fi on supported printers.",
+      "successLabel": "Wi-Fi Connected",
+      "failLabel": "Setup Failed",
+      "successNext": "addPrinterWindows",
+      "failNext": "setupUnable"
+    },
+    "addPrinterWindows": {
+      "title": "Add the printer in Windows",
+      "body": [
+        "Ensure the printer is switched on and connected to the same network as the computer, or connected by USB.",
+        "Open Windows Settings, then Bluetooth & devices, then Printers & scanners.",
+        "Select Add device and wait while Windows searches for available printers.",
+        "Select the correct printer and complete the installation.",
+        "If Windows cannot find the printer, try the manual printer installation option or install the manufacturer's driver."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Add or install a printer in Windows",
+          "description": "Official Windows instructions for adding USB and network printers, including manual installation.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/add-or-install-a-printer-in-windows"
+        }
+      ],
+      "image": "printer-windows-add.jpg",
+      "alt": "Windows 11 Printers and scanners settings showing the Add device button",
+      "caption": "Windows 11 printer settings. The appearance may vary with Windows updates.",
+      "successLabel": "Printer Added",
+      "failLabel": "Cannot Add",
+      "successNext": "testPrinter",
+      "failNext": "installPrinterSoftware"
+    },
+    "installPrinterSoftware": {
+      "title": "Install or update the printer driver",
+      "body": [
+        "Check whether Windows has already installed a suitable printer driver.",
+        "If a driver is missing or the printer is not working correctly, download the recommended driver from the manufacturer's website.",
+        "Install the correct model-specific driver and follow the setup instructions.",
+        "If the exact driver is unavailable, check whether the manufacturer offers a compatible universal printer driver.",
+        "A universal driver may provide only basic printing features and might not support scanning or other functions.",
+        "After installation, try printing a test page."
+      ],
+      "link": [
+        {
+          "name": "Microsoft printer installation instructions",
+          "description": "Instructions for adding printers and obtaining suitable printer drivers through Windows.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/add-or-install-a-printer-in-windows"
+        }
+      ],
+      "successLabel": "Installed",
+      "failLabel": "Installation Failed",
+      "successNext": "testPrinter",
+      "failNext": "setupUnable"
+    },
+    "testPrinter": {
+      "title": "Print a test page",
+      "body": [
+        "Open Windows Settings and select Bluetooth & devices, then Printers & scanners.",
+        "Select the new printer.",
+        "Open Printer properties and choose Print Test Page.",
+        "Check that the printer produces the page correctly.",
+        "If it is a multifunction printer, also test scanning separately after the printer setup is complete."
+      ],
+      "successLabel": "Prints Correctly",
+      "failLabel": "Cannot Print",
+      "successNext": "printerSetupComplete",
+      "failNext": "setupUnable"
+    },
+    "printerSetupComplete": {
+      "type": "terminal",
+      "title": "Printer setup complete",
+      "body": [
+        "The printer has been installed and successfully prints from Windows.",
+        "If you use this printer regularly, consider setting it as your default printer.",
+        "For network printing, keep the printer connected to the correct network.",
+        "If the printer supports scanning, test that function separately."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupUnable": {
+      "type": "terminal",
+      "title": "Further printer setup troubleshooting required",
+      "body": [
+        "The printer could not be installed or the connection could not be completed.",
+        "Confirm the exact printer model and whether it supports USB, Ethernet, Wi-Fi or Wi-Fi Direct.",
+        "Record any error messages from the printer, Windows or the manufacturer's installer.",
+        "Check the manufacturer's support documentation for model-specific setup requirements.",
+        "If the printer is installed but will not print, use the Cannot Print troubleshooting guide.",
+        "If the manufacturer's driver is unavailable, investigate supported universal drivers or Windows built-in drivers before replacing the printer."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix printer connection and printing problems",
+          "description": "Troubleshooting steps for printers that Windows cannot connect to or print from.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

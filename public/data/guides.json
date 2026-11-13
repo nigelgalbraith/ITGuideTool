@@ -14,37 +14,25 @@
   },
   "categories": [
     {
-      "id": "computer",
-      "title": "Computer & Windows",
-      "description": "Troubleshoot computer startup, display, performance and Windows problems.",
+      "id": "software",
+      "title": "Software & Operating Systems",
+      "description": "Troubleshoot operating systems, applications, startup and performance problems.",
       "intro": [
-        "Choose the computer problem that best matches your issue.",
+        "Choose the software or operating system problem that best matches your issue.",
         "Follow the guide one step at a time."
       ],
       "guides": [
         {
           "id": "blueScreenCrash",
-          "path": "guides/computer/blueScreenCrash.json"
-        },
-        {
-          "id": "computerNoDisplay",
-          "path": "guides/computer/computerNoDisplay.json"
-        },
-        {
-          "id": "computerNoPower",
-          "path": "guides/computer/computerNoPower.json"
+          "path": "guides/software/blueScreenCrash.json"
         },
         {
           "id": "computerSlow",
-          "path": "guides/computer/computerSlow.json"
-        },
-        {
-          "id": "pcRandomlyRestarts",
-          "path": "guides/computer/pcRandomlyRestarts.json"
+          "path": "guides/software/computerSlow.json"
         },
         {
           "id": "windowsUpdateFailed",
-          "path": "guides/computer/windowsUpdateFailed.json"
+          "path": "guides/software/windowsUpdateFailed.json"
         }
       ]
     },
@@ -58,6 +46,10 @@
       ],
       "guides": [
         {
+          "id": "setupNewRouter",
+          "path": "guides/internet/setupNewRouter.json"
+        },
+        {
           "id": "noInternet",
           "path": "guides/internet/noInternet.json"
         },
@@ -68,18 +60,37 @@
       ]
     },
     {
-      "id": "peripherals",
-      "title": "Peripherals & Hardware",
-      "description": "Troubleshoot printers, displays, audio, input devices and battery problems.",
+      "id": "printers",
+      "title": "Printers & Scanners",
+      "description": "Set up and troubleshoot printers, scanners, drivers and connectivity problems.",
       "intro": [
-        "Choose the peripheral or hardware problem that best matches your issue.",
+        "Choose the printer or scanner problem that best matches your issue.",
         "Follow the guide one step at a time."
       ],
       "guides": [
         {
-          "id": "cannotPrint",
-          "path": "guides/peripherals/cannotPrint.json"
+          "id": "setupNewPrinter",
+          "path": "guides/printers/setupNewPrinter.json"
         },
+        {
+          "id": "cannotPrint",
+          "path": "guides/printers/cannotPrint.json"
+        },
+        {
+          "id": "brotherScanButtonNotWorking",
+          "path": "guides/printers/brotherScanButtonNotWorking.json"
+        }
+      ]
+    },
+    {
+      "id": "peripherals",
+      "title": "Peripherals",
+      "description": "Troubleshoot displays, audio and input devices.",
+      "intro": [
+        "Choose the peripheral problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
         {
           "id": "audioNotWorking",
           "path": "guides/peripherals/audioNotWorking.json"
@@ -91,29 +102,63 @@
         {
           "id": "externalMonitorNotDetected",
           "path": "guides/peripherals/externalMonitorNotDetected.json"
-        },
-        {
-          "id": "batteryNotCharging",
-          "path": "guides/peripherals/batteryNotCharging.json"
         }
       ]
     },
     {
-      "id": "accounts",
-      "title": "Email & Accounts",
-      "description": "Troubleshoot email access, passwords and account sign-in problems.",
+      "id": "hardware",
+      "title": "Hardware",
+      "description": "Troubleshoot computer power, display, battery, storage and hardware stability problems.",
       "intro": [
-        "Choose the email or account problem that best matches your issue.",
+        "Choose the hardware problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
+        {
+          "id": "computerNoDisplay",
+          "path": "guides/hardware/computerNoDisplay.json"
+        },
+        {
+          "id": "computerNoPower",
+          "path": "guides/hardware/computerNoPower.json"
+        },
+        {
+          "id": "pcRandomlyRestarts",
+          "path": "guides/hardware/pcRandomlyRestarts.json"
+        },
+        {
+          "id": "batteryNotCharging",
+          "path": "guides/hardware/batteryNotCharging.json"
+        }
+      ]
+    },
+    {
+      "id": "email",
+      "title": "Email",
+      "description": "Troubleshoot email access, configuration, sending and receiving problems.",
+      "intro": [
+        "Choose the email problem that best matches your issue.",
         "Follow the guide one step at a time."
       ],
       "guides": [
         {
           "id": "emailNotWorking",
-          "path": "guides/accounts/emailNotWorking.json"
-        },
+          "path": "guides/email/emailNotWorking.json"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security & Accounts",
+      "description": "Troubleshoot passwords, account access and security problems.",
+      "intro": [
+        "Choose the account or security problem that best matches your issue.",
+        "Follow the guide one step at a time."
+      ],
+      "guides": [
         {
           "id": "forgottenPassword",
-          "path": "guides/accounts/forgottenPassword.json"
+          "path": "guides/security/forgottenPassword.json"
         }
       ]
     },
