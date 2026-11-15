@@ -470,7 +470,7 @@
           "url": "https://www.chorus.co.nz/optimise/ont-fibre-box-support/ont-500-guide"
         }
       ],
-      "image": "internet-ont-power.png",
+      "image": "internet-ont-power.jpg",
       "alt": "Chorus fibre ONT power switch and reset button",
       "caption": "Use the power control, not the recessed factory Reset button. Other ONTs may look different.",
       "successLabel": "ONT Powered Off",

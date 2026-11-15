@@ -141,7 +141,7 @@
         "Some monitors have multiple HDMI or DisplayPort inputs, so check the exact socket.",
       "Allow several seconds after changing the input."
       ],
-      "image": "computer-monitor-input-select.png",
+      "image": "computer-monitor-input-select.jpg",
       "alt": "Monitor on-screen input selection menu showing HDMI and DisplayPort options",
       "caption": "Use the monitor's menu to select the input matching the connected display cable.",
       "successLabel": "Correct Input",
