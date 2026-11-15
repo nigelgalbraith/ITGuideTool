@@ -1,248 +1,396 @@
+
 {
   "id": "externalMonitorNotDetected",
   "title": "External Monitor Not Detected",
   "cardText": [
-    "Diagnose external monitors that are not detected or do not display an image.",
-    "Check monitor power, cables, input source, display settings, drivers, docking stations, and graphics hardware.",
-    "Separate monitor, cable, software, and graphics hardware issues."
+    "Diagnose an external monitor that is not detected or displays no image.",
+    "Check monitor power, input selection, display cables, Windows settings, USB-C connections and docking stations.",
+    "Isolate monitor, cable, graphics driver and computer hardware faults."
   ],
   "icon": "",
   "text": [
-    "This guide is for computers where an external monitor is not detected or does not display correctly.",
-    "Confirm the monitor and cable before investigating software settings.",
-    "Check display detection, graphics drivers, docking stations, and hardware connections.",
-    "Escalate hardware faults after basic troubleshooting is complete."
+    "This guide helps troubleshoot external monitors connected to Windows computers.",
+    "Start with monitor power, input selection and cable connections.",
+    "Then check Windows display settings, USB-C compatibility, docking stations and graphics drivers.",
+    "Test another monitor or computer where possible to identify the faulty component.",
+    "Windows instructions are primarily for Windows 11."
   ],
   "startNode": "checkMonitorPower",
   "nodes": {
     "checkMonitorPower": {
       "title": "Check monitor power",
       "body": [
-        "Confirm the monitor is turned on.",
-        "Check for a power indicator light or monitor menu.",
-        "A monitor with no power cannot be detected."
+        "Confirm the monitor is switched on.",
+        "Look for a power indicator light or press the monitor's menu button.",
+        "Check whether the monitor displays its own menu, logo or No Signal message.",
+        "If the monitor shows no signs of power, check its power cable and outlet."
       ],
       "successLabel": "Monitor On",
       "failLabel": "No Power",
       "successNext": "checkInputSource",
       "failNext": "restoreMonitorPower"
     },
-
     "restoreMonitorPower": {
       "type": "terminal",
       "title": "Restore monitor power",
       "body": [
-        "Reconnect the monitor power cable.",
-        "Try another power outlet if necessary.",
-        "Retest after the monitor powers on."
+        "Check that the monitor's power cable or adapter is connected securely.",
+        "Try a known-working power outlet.",
+        "Check the monitor's power button or switch.",
+        "If it still shows no signs of power, its power supply or internal hardware may be faulty.",
+        "Once the monitor powers on, restart this guide."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkInputSource": {
       "title": "Check monitor input source",
       "body": [
-        "Verify the monitor is set to the correct input.",
-        "Common inputs include HDMI, DisplayPort, USB-C, DVI, and VGA.",
-        "The monitor must match the connected cable."
+        "Open the monitor's on-screen menu using its physical buttons or joystick.",
+        "Locate Input, Source or Input Select.",
+        "Choose the input matching the cable connected to the monitor.",
+        "Common inputs include HDMI 1, HDMI 2, DisplayPort, USB-C, DVI and VGA.",
+        "Some monitors have several HDMI or DisplayPort inputs, so check the exact socket used.",
+        "Wait a few seconds after changing the input."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot external display connections",
+          "description": "Official guidance covering monitor inputs, cables and display connections.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshoot-external-monitor-connections-in-windows"
+        }
       ],
       "successLabel": "Correct Input",
       "failLabel": "Wrong Input",
       "successNext": "checkCableConnection",
       "failNext": "selectCorrectInput"
     },
-
     "selectCorrectInput": {
       "type": "terminal",
-      "title": "Select correct input",
+      "title": "Select the correct monitor input",
       "body": [
-        "The monitor was listening on the wrong input source.",
-        "Select the correct input and test again."
+        "Select the monitor input corresponding to the connected display cable.",
+        "Wait for the monitor to detect the computer's video signal.",
+        "If the picture appears, the problem was incorrect input selection.",
+        "If the monitor remains blank, continue with the cable checks."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkCableConnection": {
-      "title": "Check cable connection",
+      "title": "Check display cable connections",
       "body": [
-        "Ensure the display cable is firmly connected at both ends.",
-        "Check for loose, damaged, or bent connectors.",
-        "Reconnect the cable and test again."
+        "Disconnect and reconnect the video cable at both the monitor and computer.",
+        "Confirm each connector is fully inserted.",
+        "Check for damaged connectors, bent pins or loose sockets.",
+        "For DisplayPort cables, release any locking mechanism before unplugging.",
+        "If using a desktop computer with a dedicated graphics card, check that the monitor is connected to the graphics card rather than an inactive motherboard display output.",
+        "Temporarily remove unnecessary adapters or extension cables."
       ],
-      "successLabel": "Cable OK",
+      "successLabel": "Cable Connected",
       "failLabel": "Cable Fault Found",
       "successNext": "testAnotherCable",
       "failNext": "replaceCable"
     },
-
     "replaceCable": {
       "type": "terminal",
-      "title": "Replace display cable",
+      "title": "Replace the display cable",
       "body": [
-        "The display cable appears damaged or unreliable.",
-        "Replace it with a known-good cable and retest."
+        "A damaged or unreliable video cable may prevent the monitor from receiving a signal.",
+        "Replace the cable with a known-working one of the correct type.",
+        "Ensure the replacement supports the required display resolution and refresh rate.",
+        "Reconnect the monitor and test again.",
+        "If the problem remains, continue with further troubleshooting."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "testAnotherCable": {
-      "title": "Test another cable",
+      "title": "Test another display cable",
       "body": [
-        "Display cables can fail even when no damage is visible.",
-        "Use another known-good cable if available.",
-        "Retest monitor detection."
+        "Try another known-working HDMI, DisplayPort or other suitable cable.",
+        "Keep the same monitor and computer ports during the test if possible.",
+        "Use a cable that supports the required display mode.",
+        "For USB-C connections, the replacement cable must explicitly support video.",
+        "If the monitor works with the replacement, the original cable was likely faulty or incompatible."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: External monitor troubleshooting",
+          "description": "Official recommendations for testing replacement display cables.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshoot-external-monitor-connections-in-windows"
+        }
       ],
       "successLabel": "Works",
       "failLabel": "Still Not Detected",
       "successNext": "cableFaultFound",
       "failNext": "testAnotherPort"
     },
-
     "cableFaultFound": {
       "type": "terminal",
-      "title": "Cable fault identified",
+      "title": "Display cable fault identified",
       "body": [
-        "The monitor works with another cable.",
-        "Replace the original cable."
+        "The monitor works with a different cable.",
+        "The original cable was likely faulty or unsuitable for the connection.",
+        "Replace it with a compatible cable.",
+        "Retest the intended resolution and refresh rate."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "testAnotherPort": {
-      "title": "Test another display port",
+      "title": "Test another display output",
       "body": [
-        "Try another HDMI, DisplayPort, USB-C, or graphics output.",
-        "A failed port can prevent display detection.",
-        "Restart the computer after changing ports if needed."
+        "If the computer has another compatible display output, try connecting the monitor to it.",
+        "Use a known-working cable and select the corresponding input on the monitor.",
+        "For desktop computers, prefer outputs on the dedicated graphics card where one is installed.",
+        "If changing ports fixes the issue, the original port, its configuration or a compatibility limitation may be responsible.",
+        "A different working port does not by itself prove the original port is physically damaged."
       ],
       "successLabel": "Works",
       "failLabel": "Still Not Detected",
       "successNext": "displayPortFault",
-      "failNext": "detectDisplays"
+      "failNext": "checkUsbCConnection"
     },
-
     "displayPortFault": {
       "type": "terminal",
-      "title": "Display port fault identified",
+      "title": "Original display output issue",
       "body": [
-        "The monitor works on another output.",
-        "The original display port may be faulty or disabled."
+        "The monitor works when connected to a different display output.",
+        "The original port may be faulty, disabled or incompatible with the connected device.",
+        "Check the computer or graphics card documentation for supported display outputs.",
+        "Inspect the original connector for damage.",
+        "Use the working output or arrange further diagnostics if necessary."
       ],
       "successNext": null,
       "failNext": null
     },
-
-    "detectDisplays": {
-      "title": "Force display detection",
+    "checkUsbCConnection": {
+      "title": "Is the monitor connected using USB-C?",
       "body": [
-        "Open display settings.",
-        "Use Detect Displays if available.",
-        "Check whether the monitor appears in display settings."
+        "Check whether the display connection uses USB-C directly or through a USB-C adapter.",
+        "USB-C ports are not all equivalent.",
+        "Some support only USB data or charging and cannot output video.",
+        "Select USB-C if the monitor connection uses that connector or an adapter connected to it.",
+        "Otherwise continue with Windows display detection."
       ],
+      "successLabel": "USB-C",
+      "failLabel": "Other Connection",
+      "successNext": "checkUsbCVideo",
+      "failNext": "detectDisplays"
+    },
+    "checkUsbCVideo": {
+      "title": "Check USB-C video compatibility",
+      "body": [
+        "Check the computer's specifications to confirm the USB-C port supports video output.",
+        "Look for DisplayPort Alternate Mode, Thunderbolt or USB4 display support.",
+        "Ensure any adapter and cable also support the required video connection.",
+        "If the computer has multiple USB-C ports, try the one specified for display output.",
+        "Some USB-C charging or data cables cannot carry a video signal.",
+        "Test using a compatible video-capable cable or adapter before continuing."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix USB-C problems in Windows",
+          "description": "Explains USB-C display compatibility, Alternate Mode and adapter problems.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/usb/fix-usb-c-problems-in-windows"
+        }
+      ],
+      "successLabel": "Video Works",
+      "failLabel": "Still Not Working",
+      "successNext": null,
+      "failNext": "detectDisplays"
+    },
+    "detectDisplays": {
+      "title": "Detect the monitor in Windows",
+      "body": [
+        "Right-click the Windows desktop and select Display settings.",
+        "Alternatively, open Settings, System, Display.",
+        "Expand Multiple displays and select Detect.",
+        "Wait for Windows to search for an additional monitor.",
+        "If the monitor appears, select it and check its display settings.",
+        "If Windows reports that no other display was found, continue with connection and driver troubleshooting."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: How to use multiple monitors",
+          "description": "Official instructions for detecting, identifying and arranging multiple displays.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/how-to-use-multiple-monitors-in-windows"
+        }
+      ],
+      "image": "monitor-display-detection.jpg",
+      "alt": "Windows 11 Display settings showing Multiple displays and Detect other display",
+      "caption": "Use Detect in Windows Display settings to search for the connected monitor.",
       "successLabel": "Detected",
       "failLabel": "Not Detected",
       "successNext": "checkDisplayMode",
       "failNext": "checkDockingStation"
     },
-
     "checkDisplayMode": {
-      "title": "Check display mode",
+      "title": "Check Windows projection mode",
       "body": [
-        "Verify the monitor is not disabled.",
-        "Choose Extend, Duplicate, or Second Screen Only as appropriate.",
-        "A detected monitor may still appear blank if disabled."
+        "Press Windows + P to open the projection menu.",
+        "Select Extend to use the monitor as additional desktop space.",
+        "Select Duplicate to show the same picture on both screens.",
+        "PC screen only disables the external display, while Second screen only disables the computer's primary display.",
+        "Choose the appropriate mode and wait for the monitor to respond.",
+        "If the monitor remains blank despite being detected, check its resolution and refresh rate."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Configure multiple monitors",
+          "description": "Explains Duplicate, Extend, PC screen only and Second screen only modes.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/how-to-use-multiple-monitors-in-windows"
+        }
+      ],
+      "image": "monitor-projection-mode.png",
+      "alt": "Windows 11 projection menu showing PC screen only, Duplicate, Extend and Second screen only",
+      "caption": "Press Windows + P and choose Extend or Duplicate as appropriate.",
+      "successLabel": "Display Works",
+      "failLabel": "Still Blank",
+      "successNext": null,
+      "failNext": "checkResolution"
+    },
+    "checkResolution": {
+      "title": "Check resolution and refresh rate",
+      "body": [
+        "Open Settings, System, Display.",
+        "Select the external monitor from the display diagram.",
+        "Choose a resolution supported by the monitor, preferably the recommended resolution.",
+        "Open Advanced display and check the refresh rate.",
+        "If the monitor remains blank, try a common supported refresh rate such as 60 Hz where available.",
+        "High resolutions and refresh rates require compatible graphics hardware, cables, adapters and docks.",
+        "Allow Windows to revert any unsupported display mode if the picture disappears."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Multiple monitor settings",
+          "description": "Official guidance for changing display resolution, refresh rate and display layout.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/how-to-use-multiple-monitors-in-windows"
+        }
       ],
       "successLabel": "Display Works",
       "failLabel": "Still Blank",
       "successNext": null,
       "failNext": "checkGraphicsDriver"
     },
-
     "checkDockingStation": {
-      "title": "Check docking station or adapter",
+      "title": "Check docking station or display adapter",
       "body": [
-        "If using a dock, hub, or USB-C adapter, disconnect it temporarily.",
-        "Connect the monitor directly to the computer if possible.",
-        "Some docks require drivers, firmware updates, or power."
+        "Determine whether the monitor connects through a docking station, USB-C hub or video adapter.",
+        "A dock may require its own power supply, drivers or firmware.",
+        "Check that the dock supports the computer and the monitor's required resolution and refresh rate.",
+        "Some USB-C docks require a USB-C port with DisplayPort Alternate Mode or Thunderbolt support.",
+        "If no dock or adapter is being used, continue with graphics driver troubleshooting."
       ],
-      "successLabel": "Using Dock",
-      "failLabel": "No Dock",
+      "link": [
+        {
+          "name": "Microsoft: External monitor troubleshooting",
+          "description": "Includes recommendations for troubleshooting docks, adapters and display connections.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshoot-external-monitor-connections-in-windows"
+        }
+      ],
+      "successLabel": "Using Dock / Adapter",
+      "failLabel": "Direct Connection",
       "successNext": "testWithoutDock",
       "failNext": "checkGraphicsDriver"
     },
-
     "testWithoutDock": {
-      "title": "Test without dock",
+      "title": "Test the monitor without the dock",
       "body": [
-        "Connect the monitor directly to the computer.",
-        "This helps determine whether the dock is responsible.",
-        "Retest display detection."
+        "If the computer has a suitable display output, connect the monitor directly to it.",
+        "Use a compatible cable and select the correct monitor input.",
+        "This test helps isolate problems caused by the dock or adapter.",
+        "If the monitor works directly, check the dock's power supply, firmware, driver and supported display limits.",
+        "If the monitor still fails when connected directly, continue troubleshooting the computer."
       ],
       "successLabel": "Works Directly",
       "failLabel": "Still Fails",
       "successNext": "dockFaultFound",
       "failNext": "checkGraphicsDriver"
     },
-
     "dockFaultFound": {
       "type": "terminal",
-      "title": "Dock or adapter issue found",
+      "title": "Dock or adapter issue identified",
       "body": [
-        "The monitor works without the dock.",
-        "Update dock firmware, drivers, or replace the dock if necessary."
+        "The monitor works when connected directly to the computer.",
+        "The docking station, hub or adapter may be incompatible, misconfigured or faulty.",
+        "Check that the dock has sufficient power and supports the required video outputs.",
+        "Install manufacturer-recommended dock firmware and drivers where appropriate.",
+        "Check maximum supported monitor counts, resolutions and refresh rates.",
+        "Replace or repair the dock if it still fails."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkGraphicsDriver": {
-      "title": "Check graphics drivers",
+      "title": "Check the graphics driver",
       "body": [
-        "Update or reinstall graphics drivers.",
-        "Display detection issues can occur after driver corruption or failed updates.",
-        "Restart the computer after driver changes."
+        "If Windows is responding, press Windows + Ctrl + Shift + B to reset the graphics driver.",
+        "The screen may briefly flash or go blank during the reset.",
+        "Restart the computer and test the external monitor again.",
+        "Open Device Manager and expand Display adapters.",
+        "Check for warning symbols or device errors.",
+        "Install a compatible graphics driver from the computer or graphics card manufacturer if necessary.",
+        "If the problem began immediately after a graphics driver update, consider using Roll Back Driver in Device Manager."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot external monitors",
+          "description": "Official instructions for resetting, updating, reinstalling and rolling back display drivers.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshoot-external-monitor-connections-in-windows"
+        }
       ],
       "successLabel": "Fixed",
       "failLabel": "Still Not Detected",
       "successNext": null,
       "failNext": "testAnotherMonitor"
     },
-
     "testAnotherMonitor": {
-      "title": "Test another monitor",
+      "title": "Test another monitor or computer",
       "body": [
-        "Connect a different monitor or TV.",
-        "This helps separate monitor faults from computer faults.",
-        "Use the same cable if possible."
+        "Connect another known-working monitor or TV to the computer.",
+        "Use a suitable known-working cable and the same computer output if possible.",
+        "Also test the original monitor on another computer where practical.",
+        "If the replacement monitor works but the original does not, investigate the original monitor's settings, input or hardware.",
+        "If several known-working monitors fail on the computer, the computer's display output or software is more likely to be responsible."
       ],
       "successLabel": "Other Monitor Works",
       "failLabel": "Other Monitor Fails",
       "successNext": "monitorFault",
       "failNext": "hardwareEscalation"
     },
-
     "monitorFault": {
       "type": "terminal",
-      "title": "Monitor fault likely",
+      "title": "Original monitor or compatibility issue likely",
       "body": [
-        "Another monitor works correctly.",
-        "The original monitor is likely faulty or misconfigured."
+        "A different monitor works with the same computer.",
+        "Test the original monitor with another computer and a known-working cable.",
+        "Check the original monitor's input source and supported resolutions.",
+        "Try restoring the monitor's default settings using its on-screen menu if appropriate.",
+        "If the monitor fails on multiple computers, a hardware fault is likely.",
+        "Arrange repair or replacement if necessary."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "hardwareEscalation": {
       "type": "terminal",
-      "title": "Graphics hardware diagnostics required",
+      "title": "Further graphics hardware diagnostics required",
       "body": [
-        "The monitor, cable, ports, settings, dock, and drivers have been tested.",
-        "Possible causes include graphics card faults, motherboard faults, USB-C controller issues, or firmware problems.",
-        "Escalate for hardware diagnostics."
+        "Multiple known-working monitors fail after checking cables, ports, Windows settings, docks and graphics drivers.",
+        "Possible causes include graphics hardware faults, damaged display outputs, USB-C controller problems or system firmware issues.",
+        "Check whether the graphics hardware supports the number of connected monitors and their required resolutions.",
+        "For desktop computers, confirm external displays are connected to the intended graphics outputs.",
+        "Review the computer manufacturer's BIOS, firmware and graphics driver guidance.",
+        "Record the computer model, monitor model, connection type and troubleshooting results before arranging further diagnostics."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: External monitor troubleshooting",
+          "description": "Official reference for unresolved display connection and graphics driver problems.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshoot-external-monitor-connections-in-windows"
+        }
       ],
       "successNext": null,
       "failNext": null

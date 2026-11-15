@@ -1,165 +1,213 @@
+
 {
   "id": "emailNotWorking",
   "title": "Email Not Working",
   "cardText": [
-    "Diagnose email problems such as not sending, not receiving, login failures, sync issues, and attachment problems.",
-    "Check internet access, webmail, account credentials, storage limits, mail client settings, and server status.",
-    "Separate device/app issues from account, provider, and mail server faults."
+    "Diagnose email sending, receiving, sign-in, synchronisation and attachment problems.",
+    "Separate mailbox or provider faults from email application and device problems.",
+    "Includes official setup and troubleshooting links for Outlook, Thunderbird, Apple Mail and other email clients."
   ],
   "icon": "",
   "text": [
-    "This guide is for email accounts that are not sending, receiving, syncing, or logging in correctly.",
-    "Start by identifying whether the issue affects webmail, one device, or all devices.",
-    "Check internet access, account login, storage, spam folders, sync status, and mail client configuration.",
-    "Escalate provider or account problems when local checks do not resolve the issue."
+    "This guide covers email problems across desktop applications, mobile devices and webmail.",
+    "Start by identifying the symptom and whether the mailbox works through the provider's webmail service.",
+    "Use generic checks for account access, delivery, storage, synchronisation and server configuration.",
+    "Follow the linked manufacturer instructions for client-specific settings and repair procedures.",
+    "Preserve local mail data before removing accounts, rebuilding profiles or changing POP configurations."
   ],
   "startNode": "identifyEmailProblem",
   "nodes": {
     "identifyEmailProblem": {
       "title": "Identify the email problem",
       "body": [
-        "Determine what exactly is not working.",
-        "Common symptoms include cannot send, cannot receive, login failed, password prompt, emails missing, attachments failing, or email not syncing.",
-        "The exact symptom determines the correct troubleshooting path."
+        "Determine whether the problem affects sending or receiving messages, or involves sign-in and synchronisation.",
+        "Record any error message, server response or authentication warning.",
+        "Note whether the issue affects one account, multiple accounts or several devices.",
+        "For missing emails, check whether messages are absent from webmail or only from the email application."
       ],
-      "successLabel": "Send/Receive Issue",
-      "failLabel": "Login/Sync Issue",
-      "successNext": "checkInternetAccess",
+      "successLabel": "Sending / Receiving",
+      "failLabel": "Login / Sync",
+      "successNext": "testWebmail",
       "failNext": "checkLoginProblem"
     },
-    "checkInternetAccess": {
-      "title": "Check internet access",
-      "body": [
-        "Open a browser and test several websites.",
-        "Email apps need a working internet connection to send, receive, and sync messages.",
-        "If websites do not load, troubleshoot the internet connection first."
-      ],
-      "successLabel": "Internet Works",
-      "failLabel": "No Internet",
-      "successNext": "testWebmail",
-      "failNext": "useNoInternetGuide"
-    },
-    "useNoInternetGuide": {
-      "type": "terminal",
-      "title": "Use the no-internet guide",
-      "body": [
-        "The device does not have working internet access.",
-        "Use the No Internet Connection guide before troubleshooting email.",
-        "Email cannot work reliably until the network connection is restored."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
     "testWebmail": {
-      "title": "Test webmail access",
+      "title": "Compare the email client with webmail",
       "body": [
-        "Open the email provider's webmail page in a browser.",
-        "Sign in and check whether email works there.",
-        "If webmail works, the account is probably fine and the issue is likely with the email app or device."
+        "Access the mailbox through the email provider's official webmail service, where available.",
+        "Check whether recent messages appear and whether a simple test message can be sent.",
+        "Compare this with the behaviour in the affected email application.",
+        "If webmail works but the application fails, investigate client configuration, authentication and synchronisation.",
+        "If webmail also fails, investigate the account, provider or mail delivery system.",
+        "For accounts without webmail, compare against another configured device or use the provider's diagnostic tools."
       ],
       "successLabel": "Webmail Works",
-      "failLabel": "Webmail Fails",
+      "failLabel": "Webmail Fails / Unavailable",
       "successNext": "checkMailAppIssue",
       "failNext": "checkProviderStatus"
     },
     "checkProviderStatus": {
-      "title": "Check provider status",
+      "title": "Check email provider availability",
       "body": [
-        "Check whether the email provider has a service outage.",
-        "Provider outages can stop sending, receiving, login, or webmail access.",
-        "If the provider is down, local troubleshooting will not fix the issue."
+        "Check the email provider's official service status or support information.",
+        "Determine whether the issue affects mail delivery, authentication or the webmail service.",
+        "For business email, check the organisation's service health dashboard or mail administrator.",
+        "Check whether other accounts hosted by the same provider are affected.",
+        "If a confirmed service outage explains the problem, avoid unnecessary local account changes.",
+        "If the provider is functioning normally, continue with account diagnostics."
       ],
-      "successLabel": "Provider Online",
-      "failLabel": "Outage Found",
+      "link": [
+        {
+          "name": "Microsoft 365 Service Health",
+          "description": "Official Microsoft 365 service status information and administrator guidance.",
+          "url": "https://learn.microsoft.com/en-us/microsoft-365/enterprise/view-service-health"
+        },
+        {
+          "name": "Google Workspace Status Dashboard",
+          "description": "Official service status for Gmail and other Google Workspace services.",
+          "url": "https://www.google.com/appsstatus/dashboard/"
+        }
+      ],
+      "successLabel": "Provider Available",
+      "failLabel": "Outage Confirmed",
       "successNext": "checkAccountCredentials",
       "failNext": "waitForProvider"
     },
     "waitForProvider": {
       "type": "terminal",
-      "title": "Wait for provider restoration",
+      "title": "Email provider outage identified",
       "body": [
-        "The email provider appears to have an outage.",
-        "Wait for the provider to restore service.",
-        "Retest webmail and the email app after the outage is resolved."
+        "The provider has confirmed a service disruption affecting the mailbox.",
+        "Monitor the provider's status updates for the affected service.",
+        "Avoid changing working passwords or account configurations during an outage.",
+        "Retest webmail and the email application once service is restored."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkAccountCredentials": {
-      "title": "Check account credentials",
+      "title": "Check account authentication",
       "body": [
-        "Confirm the email address and password are correct.",
-        "If multi-factor authentication is enabled, confirm the sign-in approval is completed.",
-        "Some email apps require an app password instead of the normal account password."
+        "Review the exact authentication error reported by the provider.",
+        "Determine whether the account is locked, its password was changed or additional verification is required.",
+        "Check whether multifactor authentication or a provider-specific app password is involved.",
+        "Modern Microsoft and Google accounts generally use supported interactive sign-in or OAuth authentication in compatible clients.",
+        "Do not assume that an ordinary account password will work with every older POP or IMAP application.",
+        "If account recovery is necessary, use the provider's official recovery process."
       ],
-      "successLabel": "Credentials Work",
-      "failLabel": "Cannot Sign In",
+      "link": [
+        {
+          "name": "Microsoft: Outlook account setup and password help",
+          "description": "Guidance for account authentication, app passwords and adding supported email accounts.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        },
+        {
+          "name": "Google Account Recovery",
+          "description": "Official recovery service for Gmail and Google account sign-in failures.",
+          "url": "https://accounts.google.com/signin/recovery"
+        }
+      ],
+      "successLabel": "Account Accessible",
+      "failLabel": "Authentication Fails",
       "successNext": "checkMailboxStorage",
       "failNext": "resetEmailPassword"
     },
     "resetEmailPassword": {
       "type": "terminal",
-      "title": "Reset or recover email account",
+      "title": "Recover email account access",
       "body": [
-        "The account cannot be accessed with the current credentials.",
-        "Use the provider's account recovery or password reset process.",
-        "After access is restored, update the password in all email apps and devices."
+        "The email provider is rejecting access or requires additional account verification.",
+        "Use its official account recovery or password reset procedure.",
+        "For organisation-managed accounts, contact the appropriate administrator.",
+        "Complete required multifactor authentication or account security checks.",
+        "After restoring access, update affected email clients using the provider's supported authentication method.",
+        "Avoid repeated sign-in attempts that may trigger additional account lockouts."
+      ],
+      "link": [
+        {
+          "name": "Microsoft Account Recovery",
+          "description": "Official personal Microsoft account password reset service.",
+          "url": "https://account.live.com/password/reset"
+        },
+        {
+          "name": "Google Account Recovery",
+          "description": "Official Gmail and Google account recovery process.",
+          "url": "https://accounts.google.com/signin/recovery"
+        },
+        {
+          "name": "Microsoft Work or School Password Reset",
+          "description": "Self-service password reset for eligible organisation-managed accounts.",
+          "url": "https://passwordreset.microsoftonline.com/"
+        }
       ],
       "successNext": null,
       "failNext": null
     },
     "checkMailboxStorage": {
-      "title": "Check mailbox storage",
+      "title": "Check mailbox storage and account restrictions",
       "body": [
-        "Check whether the mailbox is full or close to its storage limit.",
-        "A full mailbox may prevent new mail from arriving or stop outgoing messages from being saved.",
-        "Delete unnecessary mail or upgrade storage if required."
+        "Inspect mailbox storage usage in the provider's account settings.",
+        "Check whether the account has reached a storage or sending quota.",
+        "Look for account restrictions, suspicious activity warnings or licensing problems.",
+        "A full mailbox may prevent delivery or affect outgoing mail depending on the provider.",
+        "If storage and account status are normal, investigate message filtering and delivery."
       ],
-      "successLabel": "Storage OK",
-      "failLabel": "Mailbox Full",
+      "successLabel": "Storage / Account OK",
+      "failLabel": "Limit or Restriction Found",
       "successNext": "checkSpamAndRules",
       "failNext": "freeMailboxStorage"
     },
     "freeMailboxStorage": {
-      "type": "terminal",
-      "title": "Free mailbox storage",
+      "title": "Resolve mailbox quota or account limits",
       "body": [
-        "Delete or archive old email, empty deleted items, and remove large attachments if safe.",
-        "After freeing space, wait a few minutes and test sending and receiving again.",
-        "Mail delivery may take time to resume after storage is cleared."
+        "Identify the specific mailbox storage or sending restriction.",
+        "Remove unnecessary messages and large attachments when appropriate.",
+        "Review Deleted Items, Junk and other folders that may contribute to mailbox usage.",
+        "For business mailboxes, check retention policies and available storage licensing before deleting data.",
+        "Resolve any account suspension or sending restriction through the provider.",
+        "Retest mail delivery after the restriction is cleared."
       ],
+      "successLabel": "Mail Working",
+      "failLabel": "Still Failing",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkSpamAndRules"
     },
     "checkSpamAndRules": {
-      "title": "Check spam, junk, and mail rules",
+      "title": "Check mail filtering and folder rules",
       "body": [
-        "Check spam, junk, deleted items, archive, and other folders.",
-        "Review mail rules or filters that may move messages automatically.",
-        "Missing emails are often being delivered but moved somewhere unexpected."
+        "Search the mailbox for a message that appears to be missing.",
+        "Check Junk, Spam, Deleted Items, Archive, quarantine and other folders.",
+        "Review inbox rules, filters, forwarding settings and blocked senders.",
+        "For managed email, check whether a server-side security filter quarantined the message.",
+        "If an unexpected forwarding rule or filter appears, consider whether the account has been compromised.",
+        "If no missing message is found, continue with sending and receiving diagnostics."
       ],
-      "successLabel": "Mail Found",
-      "failLabel": "Mail Not Found",
+      "successLabel": "Message / Rule Found",
+      "failLabel": "No Relevant Finding",
       "successNext": "mailRuleIssue",
       "failNext": "checkSendOrReceive"
     },
     "mailRuleIssue": {
       "type": "terminal",
-      "title": "Mail rule or folder issue found",
+      "title": "Mail filtering or folder problem identified",
       "body": [
-        "The missing email was found in another folder or moved by a rule.",
-        "Adjust spam settings, safe sender lists, or mailbox rules as needed.",
-        "Ask the sender to resend if the message was deleted or quarantined."
+        "The missing email was found in another folder or affected by a mail rule.",
+        "Correct the relevant filter, rule, blocked sender or quarantine setting.",
+        "Review unexpected forwarding rules for possible unauthorised changes.",
+        "Restore or move messages as appropriate.",
+        "Retest delivery with the original sender."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkSendOrReceive": {
-      "title": "Determine whether sending or receiving fails",
+      "title": "Determine which mail direction is failing",
       "body": [
-        "Test sending an email to yourself.",
-        "Then ask whether incoming mail, outgoing mail, or both are failing.",
-        "Sending and receiving use different server paths, so the distinction matters."
+        "Test sending a simple email to another accessible address.",
+        "Send a separate message from that address back to the affected mailbox.",
+        "Check whether outgoing messages are accepted and incoming messages arrive.",
+        "Record any nondelivery report or server error returned.",
+        "If both sending and receiving fail, account authentication, provider or server configuration may be involved.",
+        "Choose the direction with the clearest failure; the other can be tested afterwards."
       ],
       "successLabel": "Receiving Fails",
       "failLabel": "Sending Fails",
@@ -167,57 +215,71 @@
       "failNext": "checkOutgoingMail"
     },
     "checkIncomingMail": {
-      "title": "Check incoming mail",
+      "title": "Diagnose incoming mail delivery",
       "body": [
-        "Send a test email from another account to the affected address.",
-        "Check whether it appears in webmail.",
-        "If it reaches webmail but not the app, the issue is local sync."
+        "Send a test message from an independent email account.",
+        "Check whether the message reaches the provider's webmail mailbox.",
+        "If it reaches webmail but not the client, investigate synchronisation and folder settings.",
+        "If it never reaches the provider, check for a sender nondelivery report.",
+        "For custom-domain email, investigate MX records, mailbox routing, spam filtering and server-side restrictions.",
+        "Do not change the email client's incoming server settings if the message has not reached the provider."
       ],
-      "successLabel": "Appears In Webmail",
-      "failLabel": "Not In Webmail",
+      "successLabel": "Arrives In Webmail",
+      "failLabel": "Not Delivered",
       "successNext": "checkMailAppIssue",
       "failNext": "incomingServerIssue"
     },
     "incomingServerIssue": {
       "type": "terminal",
-      "title": "Incoming mail delivery issue likely",
+      "title": "Incoming mail delivery problem",
       "body": [
-        "Incoming messages are not reaching webmail.",
-        "Check sender bounce-back messages, mailbox storage, domain records, provider filtering, or account restrictions.",
-        "Escalate to the email provider or domain administrator if needed."
+        "The test message is not reaching the mailbox on the provider's server.",
+        "Check any nondelivery report for a delivery error or rejection reason.",
+        "Investigate mailbox quotas, blocked senders, filtering and account restrictions.",
+        "For custom domains, verify MX records and mail hosting configuration.",
+        "For organisation-managed accounts, inspect available mail-flow or message-trace logs.",
+        "Contact the mail hosting provider or domain administrator when server-side troubleshooting is required."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkOutgoingMail": {
-      "title": "Check outgoing mail",
+      "title": "Diagnose outgoing mail",
       "body": [
-        "Send a plain test email with no attachment.",
-        "Large attachments, blocked recipients, bad addresses, or server authentication problems can stop sending.",
-        "Check for bounce-back or error messages."
+        "Send a plain-text test email without attachments to a known-working external address.",
+        "Check whether the email leaves the Outbox and appears in Sent Items.",
+        "Record any SMTP rejection, authentication failure or nondelivery message.",
+        "If plain mail sends but the original message does not, inspect attachment size, blocked file types and recipient details.",
+        "If even a basic message fails, investigate the Outbox and outgoing server configuration."
       ],
-      "successLabel": "Plain Email Sends",
-      "failLabel": "Still Fails",
+      "successLabel": "Plain Message Sends",
+      "failLabel": "Cannot Send",
       "successNext": "attachmentOrRecipientIssue",
       "failNext": "checkOutbox"
     },
     "attachmentOrRecipientIssue": {
       "type": "terminal",
-      "title": "Attachment or recipient issue likely",
+      "title": "Message, attachment or recipient problem likely",
       "body": [
-        "A plain email sends successfully, so the account can send mail.",
-        "The original message may have an attachment that is too large, a blocked file type, or an invalid recipient.",
-        "Compress the file, use cloud sharing, or correct the recipient address."
+        "A plain test message sends successfully.",
+        "Compare the failing message with the working test.",
+        "Check recipient addresses, attachment size, file type and provider sending limits.",
+        "For large attachments, use an approved cloud-sharing method where appropriate.",
+        "Review any rejection or nondelivery report for the exact reason.",
+        "Retest after correcting the affected message."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkOutbox": {
-      "title": "Check outbox",
+      "title": "Check outgoing message queue",
       "body": [
-        "Open the outbox or drafts folder.",
-        "A stuck message can block later messages from sending.",
-        "Delete or move stuck messages, then test with a small plain email."
+        "Inspect the email client's Outbox or pending-send folder.",
+        "Check whether a failed message remains queued.",
+        "Look for an offline mode, paused synchronisation or repeated authentication errors.",
+        "Move a stuck message to Drafts or preserve a copy before deleting it.",
+        "Try sending a new small test message.",
+        "If the message remains queued, investigate the account's outgoing server configuration."
       ],
       "successLabel": "Stuck Message Found",
       "failLabel": "No Stuck Message",
@@ -225,129 +287,342 @@
       "failNext": "checkSmtpSettings"
     },
     "clearOutbox": {
-      "type": "terminal",
-      "title": "Clear stuck outbox message",
+      "title": "Resolve stuck outgoing messages",
       "body": [
-        "Delete or move the stuck message from the outbox.",
-        "Restart the email app and send a small test email.",
-        "Recreate the original message only after basic sending works."
+        "Preserve any unsent message content before removing it from the Outbox.",
+        "Remove or move the stuck message and reconnect the client if it was offline.",
+        "Check whether another message or attachment is causing repeated failures.",
+        "Retry with a simple outgoing test message.",
+        "If sending still fails, investigate SMTP authentication and server settings."
       ],
+      "successLabel": "Sending Restored",
+      "failLabel": "Still Cannot Send",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkSmtpSettings"
     },
     "checkSmtpSettings": {
-      "title": "Check outgoing server settings",
+      "title": "Check outgoing server configuration",
       "body": [
-        "Check the outgoing SMTP server, port, encryption, and authentication settings.",
-        "Incorrect SMTP settings commonly prevent sending while receiving still works.",
-        "Use the provider's current recommended settings."
+        "Determine whether the account is using SMTP or a provider-managed Exchange or API connection.",
+        "For manually configured SMTP accounts, compare the outgoing server hostname, port, encryption and authentication settings with the provider's instructions.",
+        "Check whether SMTP authentication is enabled when required.",
+        "Use the provider's current TLS and authentication requirements rather than assuming that older saved settings remain valid.",
+        "Common submission ports include 587 with STARTTLS and 465 with implicit TLS, but the provider's supported settings take precedence.",
+        "For modern Microsoft or Google accounts, prefer the supported account sign-in method rather than forcing basic password authentication.",
+        "If the settings match the provider's recommendations, investigate network or security software interference."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Thunderbird Manual Account Configuration",
+          "description": "Official instructions covering incoming and outgoing mail servers, ports, encryption and authentication.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        },
+        {
+          "name": "Microsoft: Outlook Account Settings",
+          "description": "Instructions for reviewing server and authentication settings in supported Outlook versions.",
+          "url": "https://support.microsoft.com/en-us/outlook/change-or-update-email-account-settings-in-outlook-for-windows"
+        },
+        {
+          "name": "Google: IMAP Email Client Settings",
+          "description": "Official Gmail recommendations for compatible third-party email clients.",
+          "url": "https://support.google.com/mail/answer/78892"
+        }
       ],
       "successLabel": "Settings Correct",
-      "failLabel": "Settings Wrong",
+      "failLabel": "Settings Incorrect",
       "successNext": "checkSecuritySoftware",
       "failNext": "fixSmtpSettings"
     },
     "fixSmtpSettings": {
-      "type": "terminal",
-      "title": "Correct outgoing mail settings",
+      "title": "Correct outgoing mail server settings",
       "body": [
-        "Update the SMTP server settings using the provider's recommended values.",
-        "Confirm authentication is enabled if required.",
-        "Restart the email app and test sending again."
+        "Use the email provider's current outgoing server settings.",
+        "Correct the SMTP hostname, supported port, encryption and authentication configuration.",
+        "Check the account username and supported sign-in method.",
+        "Do not disable encryption to work around an authentication failure.",
+        "Save the changes and send a small test message.",
+        "If the client still cannot send, investigate local network and security restrictions."
       ],
+      "successLabel": "Sending Restored",
+      "failLabel": "Still Cannot Send",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkSecuritySoftware"
     },
     "checkLoginProblem": {
-      "title": "Check login or sync symptom",
+      "title": "Identify authentication or synchronisation failure",
       "body": [
-        "Determine whether the issue is a password prompt, login failure, account disconnected message, or mail not syncing.",
-        "Login failures usually point to credentials, authentication, account lockout, or provider issues.",
-        "Sync failures may be local app, cache, profile, or connection related."
+        "Determine whether the client repeatedly prompts for credentials, rejects sign-in or simply stops synchronising.",
+        "Record the exact error message and any provider authentication code.",
+        "Check whether the account requires multifactor verification, a supported OAuth sign-in or administrator approval.",
+        "If the account cannot authenticate through the provider's website, investigate account recovery.",
+        "If authentication works elsewhere but the client does not update, investigate the email application."
       ],
-      "successLabel": "Login Failed",
-      "failLabel": "Sync Failed",
-      "successNext": "testWebmail",
+      "successLabel": "Sign-in Failed",
+      "failLabel": "Sync Problem",
+      "successNext": "checkProviderStatus",
       "failNext": "checkMailAppIssue"
     },
     "checkMailAppIssue": {
-      "title": "Check whether only the mail app is affected",
+      "title": "Check whether the email application is responsible",
       "body": [
-        "If webmail works but the email app does not, the account itself is likely working.",
-        "The issue is probably the mail app, saved password, sync cache, profile, or account configuration.",
-        "This is common after password changes, updates, or account security changes."
+        "Compare the affected client with webmail or another working device.",
+        "Check whether the issue affects one mailbox, all accounts in the app or only particular folders.",
+        "Inspect offline status, sync errors and account authentication warnings.",
+        "Check that the mail client supports the account provider's current authentication requirements.",
+        "If webmail works and the failure is confined to one client, continue with application troubleshooting.",
+        "If the account fails across multiple devices and webmail, investigate the provider or account instead."
       ],
-      "successLabel": "Only App Affected",
-      "failLabel": "All Access Fails",
-      "successNext": "restartMailApp",
+      "successLabel": "Client Only",
+      "failLabel": "Account / Provider",
+      "successNext": "checkClientSync",
       "failNext": "checkProviderStatus"
     },
-    "restartMailApp": {
-      "title": "Restart the mail app and device",
+    "checkClientSync": {
+      "title": "Check mail application synchronisation",
       "body": [
-        "Close and reopen the email app.",
-        "Restart the device if the app still does not sync.",
-        "Temporary sync and authentication problems can sometimes clear after a restart."
+        "Check whether the client is offline, paused or displaying a sync error.",
+        "Use the application's supported Send/Receive or Sync operation.",
+        "Check whether messages appear in the expected folder and whether a folder filter is hiding them.",
+        "Compare the account's folder contents with webmail.",
+        "Check whether the app is up to date and supported by the email provider.",
+        "If synchronisation remains broken, investigate saved account credentials and configuration."
       ],
-      "successLabel": "Fixed",
-      "failLabel": "Still Broken",
+      "link": [
+        {
+          "name": "Microsoft: Sync Mail in New and Classic Outlook",
+          "description": "Official Send/Receive and Sync instructions for both Outlook applications.",
+          "url": "https://support.microsoft.com/en-us/outlook/mail/sync-to-manually-check-for-new-mail-and-to-send-messages-in-outlook"
+        },
+        {
+          "name": "Mozilla: Thunderbird Support",
+          "description": "Thunderbird help articles covering synchronisation and account configuration.",
+          "url": "https://support.mozilla.org/en-US/products/thunderbird"
+        }
+      ],
+      "successLabel": "Sync Restored",
+      "failLabel": "Still Not Syncing",
       "successNext": null,
       "failNext": "checkSavedPassword"
     },
     "checkSavedPassword": {
-      "title": "Check saved password",
+      "title": "Check saved account authentication",
       "body": [
-        "If the password was recently changed, update the saved password in the email app.",
-        "Remove old saved credentials if the app keeps using the wrong password.",
-        "For business or hosted accounts, sign-in may also require MFA or an app password."
+        "Check whether the email account password or security settings changed recently.",
+        "If the application repeatedly prompts for a password, review any reported authentication error.",
+        "Reauthenticate through the provider's supported sign-in screen where available.",
+        "For legacy or manually configured accounts, check whether an app-specific password is required and supported.",
+        "For managed accounts, confirm that the application is approved by the organisation's security policies.",
+        "Avoid repeatedly deleting saved credentials without identifying which account or connection is failing.",
+        "If reauthentication does not resolve the problem, review the client's account configuration."
       ],
-      "successLabel": "Fixed",
-      "failLabel": "Still Broken",
+      "link": [
+        {
+          "name": "Microsoft: Outlook Email Setup and Authentication",
+          "description": "Guidance for adding email accounts and resolving supported password or app-password problems.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        }
+      ],
+      "successLabel": "Access Restored",
+      "failLabel": "Still Failing",
+      "successNext": null,
+      "failNext": "checkClientSettings"
+    },
+    "checkClientSettings": {
+      "title": "Review email client settings and setup instructions",
+      "body": [
+        "Identify the email application and the account provider.",
+        "Check whether the account uses Exchange, IMAP or POP, or another supported connection type.",
+        "Use the provider's automatic setup method when available.",
+        "For manual IMAP or POP accounts, compare incoming and outgoing server details with the provider's current documentation.",
+        "Do not assume settings from one email client apply to another.",
+        "The links below provide client-specific setup and troubleshooting instructions for new Outlook, classic Outlook, Thunderbird and Apple Mail.",
+        "If the configuration is correct but the client still fails, investigate repair or account recreation options."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Set Up New Outlook for Windows",
+          "description": "Official account setup and management instructions for new Outlook.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        },
+        {
+          "name": "Microsoft: Classic Outlook Setup and Troubleshooting",
+          "description": "Official instructions for configuring and troubleshooting email accounts in classic Outlook.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/troubleshoot-outlook-email-setup"
+        },
+        {
+          "name": "Mozilla: Thunderbird Account Configuration",
+          "description": "Official instructions for configuring Thunderbird using automatic or manual mail settings.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        },
+        {
+          "name": "Apple: Add and Manage Email Accounts",
+          "description": "Official Apple Mail account setup and management instructions.",
+          "url": "https://support.apple.com/en-nz/guide/mail/mail35803/mac"
+        },
+        {
+          "name": "Google: Gmail Settings for Other Mail Clients",
+          "description": "Official guidance for accessing Gmail using compatible third-party applications.",
+          "url": "https://support.google.com/mail/answer/78892"
+        }
+      ],
+      "successLabel": "Configuration Fixed",
+      "failLabel": "Still Not Working",
+      "successNext": null,
+      "failNext": "checkAccountData"
+    },
+    "checkAccountData": {
+      "title": "Check for locally stored mail before repairs",
+      "body": [
+        "Before removing an account or rebuilding a profile, identify how its email is stored.",
+        "IMAP and Exchange accounts generally synchronise mailbox data with a server, although locally stored or exported content may not be synchronised.",
+        "POP accounts may contain messages downloaded only to the local computer.",
+        "Check for local folders, archives, Outlook PST files and Thunderbird local mail data where relevant.",
+        "Back up important locally stored messages, contacts, calendars and account settings.",
+        "Confirm that the account can be accessed through webmail or another working device before removing its configuration.",
+        "If the data is protected and recoverable, proceed with an appropriate client repair."
+      ],
+      "successLabel": "Data Protected",
+      "failLabel": "Local Data At Risk",
+      "successNext": "repairMailClient",
+      "failNext": "preserveLocalMail"
+    },
+    "preserveLocalMail": {
+      "type": "terminal",
+      "title": "Preserve local email data before continuing",
+      "body": [
+        "The email application may contain messages or data not stored on the provider's server.",
+        "Back up relevant mail archives, locally stored messages, contacts and calendars.",
+        "Do not remove a POP account or delete an Outlook or Thunderbird profile until the important data is protected.",
+        "Use the application's export or backup procedure where appropriate.",
+        "Once the backup has been verified, continue with client repair or account recreation."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "repairMailClient": {
+      "title": "Repair the email client or account configuration",
+      "body": [
+        "Use the email application's supported account repair or profile troubleshooting tools.",
+        "For classic Outlook, the account Repair option may be available, depending on account type.",
+        "For new Outlook, review the account management and sign-in settings.",
+        "For Thunderbird, review account settings and available troubleshooting procedures before rebuilding the profile.",
+        "Avoid clearing application data, removing profiles or deleting cache folders without checking their effect on locally stored messages.",
+        "After applying a supported repair, verify sending, receiving and folder synchronisation."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Repair a Classic Outlook Profile",
+          "description": "Official classic Outlook profile repair instructions.",
+          "url": "https://support.microsoft.com/en-us/outlook/fix-your-outlook-email-connection-by-repairing-your-profile"
+        },
+        {
+          "name": "Microsoft: New Outlook Account Management",
+          "description": "Official setup, account management and removal instructions for new Outlook.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        },
+        {
+          "name": "Mozilla: Thunderbird Support",
+          "description": "Official Thunderbird troubleshooting and account setup resources.",
+          "url": "https://support.mozilla.org/en-US/products/thunderbird"
+        }
+      ],
+      "successLabel": "Client Working",
+      "failLabel": "Still Failing",
       "successNext": null,
       "failNext": "removeAndReaddAccount"
     },
     "removeAndReaddAccount": {
-      "title": "Remove and re-add the email account",
+      "title": "Recreate the email account configuration",
       "body": [
-        "Remove the email account from the app if webmail confirms the account is working.",
-        "Add the account again using automatic setup if available.",
-        "This refreshes server settings, authentication, and sync configuration."
+        "Only proceed after verifying mailbox access and protecting important local data.",
+        "Record the account address, connection type and any required server settings.",
+        "Use the email client's supported account removal and setup procedure.",
+        "Re-add the account using automatic configuration where available.",
+        "For manual configurations, use the provider's current IMAP, POP, SMTP and authentication requirements.",
+        "Allow time for folders and messages to resynchronise.",
+        "Verify sending, receiving, contacts and calendar access as applicable.",
+        "If the account remains broken, check for network or security software interference."
       ],
-      "successLabel": "Fixed",
-      "failLabel": "Still Broken",
+      "link": [
+        {
+          "name": "Microsoft: New and Classic Outlook Account Setup",
+          "description": "Official procedures for adding and managing accounts in both Outlook versions.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        },
+        {
+          "name": "Mozilla: Thunderbird Account Configuration",
+          "description": "Official Thunderbird account setup instructions.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        },
+        {
+          "name": "Apple: Manage Email Accounts",
+          "description": "Official Apple Mail account management instructions.",
+          "url": "https://support.apple.com/en-nz/guide/mail/mail35803/mac"
+        }
+      ],
+      "successLabel": "Mail Working",
+      "failLabel": "Still Failing",
       "successNext": null,
       "failNext": "checkSecuritySoftware"
     },
     "checkSecuritySoftware": {
-      "title": "Check antivirus, firewall, or VPN interference",
+      "title": "Check VPN, firewall and security interference",
       "body": [
-        "Security software, firewall rules, or VPN connections can block mail traffic.",
-        "Temporarily disconnect VPN or check security software mail protection settings if safe.",
-        "Do not disable security protection permanently without understanding the cause."
+        "Review security software, VPN and firewall logs for blocked email connections.",
+        "Check whether the failure occurs only on a particular network or while connected to a VPN.",
+        "For manually configured accounts, confirm that the required server ports are permitted.",
+        "Check whether security software is interfering with encrypted mail connections or authentication.",
+        "Do not permanently disable endpoint protection to make email work.",
+        "For organisation-managed devices, consult the administrator before changing firewall or security policies."
       ],
-      "successLabel": "Interference Found",
+      "successLabel": "Interference Identified",
       "failLabel": "No Interference",
       "successNext": "securitySoftwareIssue",
       "failNext": "finalEmailEscalation"
     },
     "securitySoftwareIssue": {
-      "type": "terminal",
-      "title": "Security software or VPN issue found",
+      "title": "Correct the confirmed network or security issue",
       "body": [
-        "Mail works after changing VPN, firewall, or security software settings.",
-        "Update the security software configuration rather than leaving protection disabled.",
-        "Document what was changed in case the issue returns."
+        "Identify the VPN, firewall or security product responsible for blocking mail access.",
+        "Review the product's official configuration and troubleshooting instructions.",
+        "Correct the relevant rule, certificate handling or network setting.",
+        "Do not leave security protection disabled.",
+        "Retest the affected account after the correction."
       ],
+      "successLabel": "Mail Working",
+      "failLabel": "Still Failing",
       "successNext": null,
-      "failNext": null
+      "failNext": "finalEmailEscalation"
     },
     "finalEmailEscalation": {
       "type": "terminal",
       "title": "Further email diagnostics required",
       "body": [
-        "Basic account, webmail, storage, app, server, and security checks did not resolve the issue.",
-        "Next steps may include checking provider logs, domain DNS records, mailbox licensing, account restrictions, or rebuilding the mail profile.",
-        "Escalate to the email provider, domain administrator, or IT support."
+        "The problem persists after checking account access, webmail, delivery, client settings and local security software.",
+        "Record the email provider, application, version, account type and exact error messages.",
+        "For hosted mailboxes, investigate account restrictions, authentication policies and server-side logs.",
+        "For custom domains, check mail routing and DNS records where relevant.",
+        "For Microsoft 365 or other managed email, inspect available message trace and service health information.",
+        "If the problem affects one email client only, review its profile, data files and application-specific diagnostics.",
+        "Preserve local mail data before undertaking destructive repairs.",
+        "Contact the mail hosting provider, application vendor or responsible administrator with the troubleshooting results."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Outlook Help",
+          "description": "Official troubleshooting and setup documentation for Outlook email clients.",
+          "url": "https://support.microsoft.com/en-us/outlook"
+        },
+        {
+          "name": "Mozilla: Thunderbird Support",
+          "description": "Official Thunderbird troubleshooting documentation.",
+          "url": "https://support.mozilla.org/en-US/products/thunderbird"
+        },
+        {
+          "name": "Apple: Mail User Guide",
+          "description": "Official Apple Mail setup and troubleshooting documentation.",
+          "url": "https://support.apple.com/en-nz/guide/mail/welcome/mac"
+        }
       ],
       "successNext": null,
       "failNext": null

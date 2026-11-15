@@ -1,0 +1,725 @@
+
+{
+  "id": "setupNewOutlook",
+  "title": "Set Up New Outlook for Windows",
+  "cardText": [
+    "Set up Microsoft 365, Outlook.com, Gmail, IMAP and supported POP email accounts in new Outlook.",
+    "Configure email accounts, authentication and provider mail settings.",
+    "Synchronise IMAP or Exchange mail, and safely transfer local POP or PST messages when required."
+  ],
+  "icon": "",
+  "text": [
+    "This guide covers setting up email accounts in new Outlook for Windows.",
+    "Identify the email provider and account type before starting.",
+    "IMAP and Exchange normally restore server-stored mail and folders automatically after account configuration.",
+    "Check for local-only folders, PST archives and other data that will not be restored by server synchronisation.",
+    "For an existing POP mailbox, protect locally stored messages before changing computers or email clients.",
+    "When local mail must be imported, use a separate staging folder and check for duplicates before merging.",
+    "New Outlook and classic Outlook have different settings and data file capabilities."
+  ],
+  "startNode": "identifySetupType",
+  "nodes": {
+    "identifySetupType": {
+      "title": "Identify the email setup",
+      "body": [
+        "Determine whether this is a new account setup or a migration from an existing email application.",
+        "For migrations, identify whether the existing account uses POP, IMAP or Exchange.",
+        "IMAP and Exchange generally synchronise server-stored mail and folders.",
+        "POP messages may exist only on the original computer.",
+        "For a new account without existing mail, proceed directly to account configuration."
+      ],
+      "successLabel": "New Account",
+      "failLabel": "Existing Mail / Migration",
+      "successNext": "identifyAccountProtocol",
+      "failNext": "checkOldMailStorage"
+    },
+    "checkOldMailStorage": {
+      "title": "Identify where the existing mail is stored",
+      "body": [
+        "Check the original email application's account settings.",
+        "Determine whether the account uses POP, IMAP or Exchange.",
+        "IMAP and Exchange normally store synchronised messages on the provider's server.",
+        "POP accounts may contain downloaded messages that no longer exist on the server.",
+        "Classic Outlook commonly stores POP messages in a PST file.",
+        "Check for separate local-only folders, PST archives or other stored mail regardless of the account type.",
+        "Do not remove the original account until important local data has been protected."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Outlook PST and OST Files",
+          "description": "Explains Outlook data files and locally stored mail.",
+          "url": "https://support.microsoft.com/en-us/outlook/create-an-outlook-data-file-pst-to-save-your-information"
+        }
+      ],
+      "successLabel": "POP / Local Mail",
+      "failLabel": "IMAP / Exchange",
+      "successNext": "backupPopMail",
+      "failNext": "backupExistingMail"
+    },
+    "backupPopMail": {
+      "title": "Back up existing POP email",
+      "body": [
+        "On the original computer, open classic Outlook if that was the previous email client.",
+        "Select File, Account Settings, Account Settings.",
+        "Open the Data Files tab.",
+        "Identify the PST file associated with the existing POP account.",
+        "Select Open File Location to locate the file in Windows.",
+        "Close Outlook before copying the PST.",
+        "Copy the PST to a separate, reliable backup location.",
+        "Check for additional PST archives containing older messages.",
+        "Preserve Inbox, Sent Items, custom folders, contacts and other locally stored data.",
+        "If the old client is not Outlook, use its supported export or backup procedure.",
+        "Verify the backup before changing the original account."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Export Outlook Mail to PST",
+          "description": "Official instructions for exporting Outlook data.",
+          "url": "https://support.microsoft.com/en-us/outlook/export-emails-contacts-and-calendar-items-to-outlook-using-a-pst-file"
+        },
+        {
+          "name": "Microsoft: Find Outlook Data Files",
+          "description": "Instructions for locating PST archives.",
+          "url": "https://support.microsoft.com/en-us/outlook/open-and-find-items-in-an-outlook-data-file-pst"
+        }
+      ],
+      "image": "email-outlook-pst-location.jpg",
+      "alt": "Classic Outlook Account Settings showing the Data Files tab and Open File Location button",
+      "caption": "Use classic Outlook's Data Files tab to locate existing POP mail archives.",
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "identifyAccountProtocol",
+      "failNext": "protectOriginalMail"
+    },
+    "backupExistingMail": {
+      "title": "Protect existing IMAP or Exchange data",
+      "body": [
+        "Compare the original mailbox with the provider's webmail service where available.",
+        "Check that important messages and folders are stored on the server.",
+        "Identify any local-only folders, PST archives or exported messages.",
+        "Back up local data that will not be restored by normal server synchronisation.",
+        "Check contacts and calendars separately because IMAP itself does not synchronise them.",
+        "Keep the original email installation available until the new setup has been verified.",
+        "Do not export the entire server mailbox unnecessarily if all required mail is already synchronised."
+      ],
+      "successLabel": "Mail Protected",
+      "failLabel": "Local Data At Risk",
+      "successNext": "identifyAccountProtocol",
+      "failNext": "protectOriginalMail"
+    },
+    "protectOriginalMail": {
+      "type": "terminal",
+      "title": "Protect the original email data",
+      "body": [
+        "Important existing messages or local data have not yet been backed up.",
+        "Locate the original mail files or use the source application's export facility.",
+        "Check POP messages, Sent Items, archives, contacts and local folders.",
+        "Keep an untouched backup of required local data.",
+        "Do not delete the previous email configuration until the backup has been verified.",
+        "Resume the setup after protecting the mail."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "identifyAccountProtocol": {
+      "title": "Identify the email account type",
+      "body": [
+        "Determine whether the account belongs to Microsoft 365, Outlook.com, Gmail, Yahoo, iCloud or another email provider.",
+        "Check whether the provider supports automatic setup in new Outlook.",
+        "For third-party hosting, obtain the recommended IMAP, POP and SMTP settings.",
+        "Prefer IMAP when mail must synchronise across several devices.",
+        "POP may be needed for an existing workflow but does not synchronise local mailbox folders between devices.",
+        "Check the installed new Outlook version's support for the required account type.",
+        "Use the provider's supported modern authentication method."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Add an Email Account to Outlook",
+          "description": "Official account setup instructions.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        },
+        {
+          "name": "Microsoft: New Outlook Feature Comparison",
+          "description": "Current new Outlook account and feature support.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/feature-comparison-between-new-outlook-and-classic-outlook"
+        }
+      ],
+      "successLabel": "Automatic Setup",
+      "failLabel": "Manual / Hosted Mail",
+      "successNext": "addEmailAccount",
+      "failNext": "collectMailSettings"
+    },
+    "collectMailSettings": {
+      "title": "Collect incoming and outgoing mail settings",
+      "body": [
+        "Obtain the email address and username required by the provider.",
+        "Record whether the incoming connection uses IMAP or POP.",
+        "Record the incoming server hostname, port and encryption.",
+        "Record the outgoing SMTP hostname, port and encryption.",
+        "Common IMAP settings use port 993 with SSL/TLS.",
+        "Common POP settings use port 995 with SSL/TLS.",
+        "Common SMTP settings use port 587 with STARTTLS or 465 with implicit TLS.",
+        "These are examples; confirm the actual settings with the provider.",
+        "Check whether OAuth, multifactor authentication or an app-specific password is required.",
+        "Confirm that new Outlook supports the provider's required configuration."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Outlook Account Setup",
+          "description": "Official account configuration instructions.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        },
+        {
+          "name": "Microsoft: New Outlook Supported Features",
+          "description": "Check connection and protocol support.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/feature-comparison-between-new-outlook-and-classic-outlook"
+        }
+      ],
+      "successLabel": "Settings Available",
+      "failLabel": "Settings Unknown",
+      "successNext": "addEmailAccount",
+      "failNext": "obtainProviderSettings"
+    },
+    "obtainProviderSettings": {
+      "type": "terminal",
+      "title": "Obtain the correct provider settings",
+      "body": [
+        "The required incoming, outgoing or authentication settings are unavailable.",
+        "Check the email provider's official setup documentation.",
+        "Confirm the server names, ports, encryption and authentication method.",
+        "Check whether the account can be configured in new Outlook.",
+        "Do not guess server addresses or disable encryption to force a connection.",
+        "Continue when the correct settings are available."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "addEmailAccount": {
+      "title": "Add the email account to new Outlook",
+      "body": [
+        "Open new Outlook for Windows.",
+        "Select Settings or open View, View settings.",
+        "Navigate to Accounts, Your accounts or Email accounts depending on the installed version.",
+        "Select Add Account.",
+        "Enter the email address and select Continue.",
+        "Complete the provider's sign-in and verification process.",
+        "For Microsoft 365 and supported providers, Outlook normally detects the settings automatically.",
+        "If supported manual configuration is required, enter the provider's documented settings.",
+        "Complete setup and check that the account appears in Outlook."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Add Email Account in New Outlook",
+          "description": "Official procedure for adding an account.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/add-an-email-account-to-outlook-for-windows"
+        },
+        {
+          "name": "Microsoft: Start Using New Outlook",
+          "description": "Getting-started instructions for new Outlook.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/start-using-new-outlook-for-windows"
+        }
+      ],
+      "image": "email-new-outlook-add-account.png",
+      "alt": "New Outlook for Windows showing the Add Account dialog",
+      "caption": "Open account settings, select Add Account and enter the email address.",
+      "successLabel": "Account Added",
+      "failLabel": "Setup Failed",
+      "successNext": "testEmailConnection",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "troubleshootAccountSetup": {
+      "title": "Diagnose account setup failure",
+      "body": [
+        "Record the exact error displayed during account setup.",
+        "Check whether the provider supports new Outlook and the selected email protocol.",
+        "Verify incoming, outgoing and encryption settings.",
+        "Check whether multifactor authentication, OAuth or an app password is required.",
+        "For managed Microsoft 365 accounts, check organisational client access restrictions.",
+        "If the necessary POP or manual configuration options are unavailable, consider classic Outlook or Thunderbird.",
+        "Avoid repeatedly attempting incorrect credentials."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot Outlook Email Setup",
+          "description": "Official account setup troubleshooting.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/troubleshoot-outlook-email-setup"
+        }
+      ],
+      "successLabel": "Setup Fixed",
+      "failLabel": "Still Failing",
+      "successNext": "testEmailConnection",
+      "failNext": "setupEscalation"
+    },
+    "testEmailConnection": {
+      "title": "Test incoming and outgoing email",
+      "body": [
+        "Check that the account appears in new Outlook.",
+        "Send a test message to another accessible email address.",
+        "Reply from that address and confirm the response arrives.",
+        "Check that the outgoing message appears in Sent Items.",
+        "Check for authentication, delivery or synchronisation errors.",
+        "Once sending and receiving work, identify whether this is an IMAP or Exchange mailbox or a POP-based setup.",
+        "IMAP and Exchange mail should be checked for normal server synchronisation before considering any import."
+      ],
+      "successLabel": "Send / Receive Works",
+      "failLabel": "Mail Not Working",
+      "successNext": "checkAccountSyncType",
+      "failNext": "troubleshootMailFlow"
+    },
+    "troubleshootMailFlow": {
+      "title": "Investigate sending or receiving failures",
+      "body": [
+        "Determine whether incoming mail, outgoing mail or both are failing.",
+        "Compare Outlook with the provider's webmail service.",
+        "Check authentication errors, server rejections and synchronisation failures.",
+        "For manually configured accounts, verify the provider's server settings.",
+        "Check mailbox storage and account restrictions.",
+        "Use the Email Not Working guide for more detailed diagnosis."
+      ],
+      "successLabel": "Mail Working",
+      "failLabel": "Still Failing",
+      "successNext": "checkAccountSyncType",
+      "failNext": "setupEscalation"
+    },
+    "checkAccountSyncType": {
+      "title": "Does the account synchronise its mailbox?",
+      "body": [
+        "Identify the configured account type in Outlook.",
+        "Microsoft 365, Exchange, Outlook.com and IMAP accounts normally synchronise server-stored messages and folders.",
+        "A POP account may contain messages that exist only in local storage.",
+        "For IMAP or Exchange, check server synchronisation first rather than importing the old mailbox.",
+        "For POP, check whether messages must be recovered from an existing PST or another local archive."
+      ],
+      "successLabel": "IMAP / Exchange",
+      "failLabel": "POP / Local Mail",
+      "successNext": "verifyServerSyncedMail",
+      "failNext": "checkMailMigration"
+    },
+    "verifyServerSyncedMail": {
+      "title": "Verify IMAP or Exchange synchronisation",
+      "body": [
+        "Allow Outlook to finish synchronising the mailbox.",
+        "Compare Outlook with the provider's webmail service where available.",
+        "Check Inbox, Sent Items, Drafts, Archive and custom server folders.",
+        "Open a selection of older messages to confirm they are available.",
+        "Some folders may require expanding the account or allowing additional time to synchronise.",
+        "Compare server-stored message dates and folder contents rather than importing a PST immediately.",
+        "If the expected messages are present in webmail but missing in Outlook, investigate the synchronisation problem.",
+        "If the server-stored mail is correct, continue to check for local-only data."
+      ],
+      "successLabel": "Server Mail Synced",
+      "failLabel": "Server Mail Missing",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "investigateSyncMissing"
+    },
+    "investigateSyncMissing": {
+      "title": "Investigate missing synchronised mail",
+      "body": [
+        "Determine whether the missing messages exist in webmail.",
+        "If they are in webmail, investigate Outlook synchronisation, account connection, folder visibility and any active filters.",
+        "Check the correct account and folder, including Archive and Deleted Items.",
+        "Allow enough time for larger mailboxes to synchronise.",
+        "If the messages are absent from webmail but present in the old application, determine whether they were stored in a local-only folder or archive.",
+        "Do not import the entire old PST until the source and location of the missing messages are understood.",
+        "Correct the issue or identify the local data that must be migrated."
+      ],
+      "successLabel": "Server Sync Fixed",
+      "failLabel": "Local Mail / Unresolved",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "checkMissingMailSource"
+    },
+    "checkMissingMailSource": {
+      "title": "Is the missing mail stored locally?",
+      "body": [
+        "Check whether the missing messages are available in the original email application but absent from webmail.",
+        "Look for local folders, separate PST archives or messages downloaded by a previous POP configuration.",
+        "If the messages are local-only, preserve the source files before attempting a transfer.",
+        "If the messages are not present locally or on the server, importing an unrelated archive will not correct the problem.",
+        "Investigate the account, provider or backups when the missing data cannot be located."
+      ],
+      "successLabel": "Local Mail Found",
+      "failLabel": "Mail Not Located",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "migrationEscalation"
+    },
+    "checkLocalOnlyData": {
+      "title": "Check for local-only folders or archives",
+      "body": [
+        "After confirming normal IMAP or Exchange synchronisation, inspect the original email application.",
+        "Check for separate PST archives, locally stored folders and messages not visible in webmail.",
+        "Check local Sent Items, older archives and any mail previously downloaded by POP.",
+        "Contacts, calendars, signatures and rules may also require separate migration depending on where they were stored.",
+        "Do not import the old mailbox if every required message is already synchronised.",
+        "If local-only mail exists, ensure it has been backed up before transferring it."
+      ],
+      "successLabel": "Local-Only Mail Exists",
+      "failLabel": "Everything Is Synced",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "confirmLocalBackup": {
+      "title": "Confirm local mail is backed up",
+      "body": [
+        "Locate the local-only messages or archive on the original computer.",
+        "For classic Outlook, identify the PST using File, Account Settings, Account Settings, Data Files.",
+        "For another application, use its supported export or backup method.",
+        "Keep an untouched copy of the source archive.",
+        "Verify that the backup contains the required folders and messages.",
+        "Do not start an import until the local-only data is protected."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Export Outlook Data to PST",
+          "description": "Official instructions for preserving locally stored Outlook mail.",
+          "url": "https://support.microsoft.com/en-us/outlook/export-emails-contacts-and-calendar-items-to-outlook-using-a-pst-file"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "identifyImportFormat",
+      "failNext": "protectOriginalMail"
+    },
+    "checkMailMigration": {
+      "title": "Check whether POP or local mail needs importing",
+      "body": [
+        "Determine whether old messages or folders must be transferred from another computer or email application.",
+        "For an existing POP setup, check the original PST or local mail archive.",
+        "Compare the old archive with messages available in the newly configured account.",
+        "A new POP setup does not automatically restore messages previously removed from the server.",
+        "Check older Inbox messages, Sent Items and locally created folders.",
+        "If the required mail is already available, do not perform an unnecessary import.",
+        "If local mail is missing from the new setup, ensure the original data is backed up and continue with migration."
+      ],
+      "successLabel": "Old Mail Must Transfer",
+      "failLabel": "No Import Needed",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "identifyImportFormat": {
+      "title": "Identify the original mail file",
+      "body": [
+        "Check whether the required local-only mail is stored in an Outlook PST or another application's archive.",
+        "Classic Outlook commonly uses PST files for POP messages and local archives.",
+        "An OST is a synchronisation cache and should not be treated as a PST backup.",
+        "Thunderbird and Apple Mail may use MBOX or other application-specific formats.",
+        "Preserve the original data before attempting conversion.",
+        "Determine which import method supports the source format."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Outlook Data Files",
+          "description": "Information about PST and OST files.",
+          "url": "https://support.microsoft.com/en-us/outlook/create-an-outlook-data-file-pst-to-save-your-information"
+        }
+      ],
+      "successLabel": "Outlook PST",
+      "failLabel": "Other Mail Format",
+      "successNext": "checkPstImportSupport",
+      "failNext": "checkExistingMailbox"
+    },
+    "checkPstImportSupport": {
+      "title": "Check PST import support in new Outlook",
+      "body": [
+        "Open new Outlook Settings and navigate to Data files, Import.",
+        "Look for Outlook Data File (.pst) and its Get started option.",
+        "Microsoft documents PST import in supported new Outlook installations.",
+        "Availability and eligibility may vary by version, account type and subscription.",
+        "Check that importing into the intended destination mailbox is supported.",
+        "If the feature is unavailable, use classic Outlook or another compatible migration method.",
+        "Do not assume that opening a PST archive and importing its contents are the same operation."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Import Email from PST",
+          "description": "Official PST import instructions and requirements.",
+          "url": "https://support.microsoft.com/en-us/outlook/import-email-contacts-and-calendar-from-an-outlook-pst-file"
+        },
+        {
+          "name": "Microsoft: Open Outlook PST Files",
+          "description": "Information about PST archive access.",
+          "url": "https://support.microsoft.com/en-us/outlook/open-and-close-outlook-data-files-pst"
+        }
+      ],
+      "successLabel": "PST Import Available",
+      "failLabel": "PST Import Unavailable",
+      "successNext": "checkExistingMailbox",
+      "failNext": "checkExistingMailbox"
+    },
+    "checkExistingMailbox": {
+      "title": "Check the destination for existing messages",
+      "body": [
+        "Compare the source mail archive with the destination mailbox before importing.",
+        "Check Inbox, Sent Items, Archive and custom folders.",
+        "Look for overlap between old POP messages and mail already present on the server.",
+        "Compare sample messages using sender, recipient, subject, date, contents and attachments.",
+        "Check the destination mailbox's available storage.",
+        "Do not import directly into an existing Inbox or Sent Items when overlapping messages may exist.",
+        "Use a separate staging location where the chosen import method supports it."
+      ],
+      "successLabel": "Overlap / Uncertain",
+      "failLabel": "No Overlap Found",
+      "successNext": "prepareImportFolder",
+      "failNext": "prepareImportFolder"
+    },
+    "prepareImportFolder": {
+      "title": "Prepare a separate mail import folder",
+      "body": [
+        "Prepare a staging folder such as Imported Old Mail.",
+        "For IMAP or Exchange, use a folder under the destination mailbox when the import method supports it.",
+        "For a POP-only destination, consider retaining the old PST as a separate archive instead of merging it into the active mailbox.",
+        "Avoid choosing an existing Inbox, Sent Items or Archive folder as the destination for an uncontrolled import.",
+        "Check whether source subfolders will be retained beneath the staging folder.",
+        "Keep the source archive unchanged.",
+        "If the import tool cannot target an appropriate separate folder, use a compatible alternative rather than risking an uncontrolled merge.",
+        "A separate folder isolates the imported messages but does not automatically remove duplicates."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: PST Import and Destination Folders",
+          "description": "Official destination selection instructions.",
+          "url": "https://support.microsoft.com/en-us/outlook/import-email-contacts-and-calendar-from-an-outlook-pst-file"
+        }
+      ],
+      "successLabel": "Staging Folder Ready",
+      "failLabel": "Staging Unavailable",
+      "successNext": "selectImportMethod",
+      "failNext": "migrationEscalation"
+    },
+    "selectImportMethod": {
+      "title": "Select the supported mail import method",
+      "body": [
+        "Use new Outlook's PST importer only if its import feature and destination are supported.",
+        "If new Outlook cannot import the PST, use classic Outlook to open it and copy selected messages into a separate folder.",
+        "For MBOX, EML or another format, use a compatible client or supported conversion workflow.",
+        "Use the prepared staging location rather than merging directly into existing mailbox folders.",
+        "If the old data only needs to remain accessible as an archive, importing it into the live mailbox may not be necessary.",
+        "Do not import the same archive repeatedly without checking the previous transfer."
+      ],
+      "successLabel": "New Outlook PST Import",
+      "failLabel": "Alternative Migration",
+      "successNext": "importPstMail",
+      "failNext": "useClassicOutlookMigration"
+    },
+    "importPstMail": {
+      "title": "Import PST messages into a separate folder",
+      "body": [
+        "Keep an untouched backup of the original PST.",
+        "Open Settings, Data files, Import in new Outlook.",
+        "Under Outlook Data File (.pst), select Get started and Select file.",
+        "Browse to the PST and open it.",
+        "Select the source folder and include subfolders where required.",
+        "Review any available duplicate-handling options.",
+        "If a Do not import duplicates option is available, it may reduce overlap but is not a guaranteed deduplication method.",
+        "Under Choose a destination folder, select the correct mailbox.",
+        "Create or select a separate Imported Old Mail folder where supported.",
+        "Avoid importing directly into Inbox or Sent Items.",
+        "Start the import and allow it to complete.",
+        "Monitor mailbox storage and synchronisation.",
+        "Do not repeat a partial import before checking which messages were transferred.",
+        "Preserve the source PST until the final result has been verified."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Import PST Files into Outlook",
+          "description": "Official PST import instructions.",
+          "url": "https://support.microsoft.com/en-us/outlook/import-email-contacts-and-calendar-from-an-outlook-pst-file"
+        }
+      ],
+      "image": "email-new-outlook-import-pst.png",
+      "alt": "New Outlook Settings showing the PST import section",
+      "caption": "Use Data files, Import and select a separate destination folder when supported.",
+      "successLabel": "Import Completed",
+      "failLabel": "Import Failed / Partial",
+      "successNext": "reviewImportedMail",
+      "failNext": "checkPartialImport"
+    },
+    "useClassicOutlookMigration": {
+      "title": "Use classic Outlook or a compatible email client",
+      "body": [
+        "Use a compatible classic Outlook installation if new Outlook cannot import the PST.",
+        "Keep a verified backup of the original archive.",
+        "In classic Outlook, open the PST as a separate archive using File, Open & Export, Open Outlook Data File.",
+        "Copy required messages into a separate staging folder in the destination IMAP or Exchange mailbox.",
+        "Alternatively, use classic Outlook's Import/Export wizard where the destination and duplicate handling can be controlled safely.",
+        "For MBOX or EML sources, use a compatible client such as Thunderbird to import the messages locally first.",
+        "Copy required messages into a separate destination folder in manageable batches.",
+        "Allow server synchronisation to complete.",
+        "Check webmail for messages intended to be stored on the server.",
+        "Do not repeat an import without checking what was already transferred."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: PST Import in Classic Outlook",
+          "description": "Official classic Outlook import procedure.",
+          "url": "https://support.microsoft.com/en-us/outlook/import-email-contacts-and-calendar-from-an-outlook-pst-file"
+        },
+        {
+          "name": "Mozilla: Thunderbird Mail Import",
+          "description": "Official import options for other mail formats.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-import"
+        }
+      ],
+      "successLabel": "Messages Transferred",
+      "failLabel": "Transfer Failed / Partial",
+      "successNext": "reviewImportedMail",
+      "failNext": "checkPartialImport"
+    },
+    "checkPartialImport": {
+      "title": "Check a failed or incomplete import",
+      "body": [
+        "Do not immediately repeat the entire import.",
+        "Inspect the staging folder and identify messages already transferred.",
+        "Check for mailbox storage limits, connection failures, unsupported items or damaged archives.",
+        "Compare the completed folders and message date ranges with the original source.",
+        "Correct the identified problem before another attempt.",
+        "If another transfer is needed, use a new clearly labelled staging folder or select only missing messages.",
+        "Retain the original archive and partial import until the result is reconciled."
+      ],
+      "successLabel": "Partial Mail Identified",
+      "failLabel": "Cannot Determine Result",
+      "successNext": "reviewImportedMail",
+      "failNext": "migrationEscalation"
+    },
+    "reviewImportedMail": {
+      "title": "Compare imported mail with existing messages",
+      "body": [
+        "Open the Imported Old Mail staging folder or the separately retained archive.",
+        "Compare its messages with the existing Inbox, Sent Items, Archive and relevant custom folders.",
+        "Look for duplicates using sender, recipient, subject, date, contents and attachments.",
+        "Messages in the same conversation may have identical subjects but still be different messages.",
+        "Confirm that older local-only or POP messages missing from the server are present.",
+        "Check important attachments and subfolders.",
+        "Do not bulk-delete messages based only on matching subjects or dates.",
+        "Decide whether the imported mail should remain separate or be selectively merged."
+      ],
+      "successLabel": "Review Completed",
+      "failLabel": "Duplicates / Missing Mail",
+      "successNext": "chooseMailDestination",
+      "failNext": "resolveImportDuplicates"
+    },
+    "resolveImportDuplicates": {
+      "title": "Resolve duplicates or missing imported mail",
+      "body": [
+        "Compare suspected duplicates against the existing destination messages.",
+        "Check message contents and attachments before treating messages as duplicates.",
+        "Remove confirmed redundant copies from the staging area only after verifying that the required message exists elsewhere.",
+        "If messages are missing, inspect other source folders or the original archive.",
+        "For large archives, review smaller batches.",
+        "Keep the untouched original backup.",
+        "If the imported messages cannot be reconciled safely, leave them separate rather than merging."
+      ],
+      "successLabel": "Mail Reconciled",
+      "failLabel": "Still Uncertain",
+      "successNext": "chooseMailDestination",
+      "failNext": "migrationEscalation"
+    },
+    "chooseMailDestination": {
+      "title": "Keep the archive separate or merge reviewed mail",
+      "body": [
+        "Decide whether the imported messages should remain in Imported Old Mail or another separate archive.",
+        "A separate historical archive can be sufficient for old POP mail.",
+        "If normal mailbox placement is required, transfer only messages confirmed to be missing from the destination.",
+        "Prefer copying reviewed messages rather than moving them until the results have been verified.",
+        "Do not copy an entire unreviewed archive into an existing Inbox or Sent Items folder.",
+        "Retain the original source backup regardless of the chosen destination."
+      ],
+      "successLabel": "Keep Separate Archive",
+      "failLabel": "Merge Reviewed Messages",
+      "successNext": "verifyMigratedMail",
+      "failNext": "mergeImportedMail"
+    },
+    "mergeImportedMail": {
+      "title": "Merge only the missing messages",
+      "body": [
+        "Identify which messages from the staging folder are not already present in the destination.",
+        "Copy only those messages into the appropriate Inbox, Sent Items, Archive or custom folders.",
+        "Work in manageable batches.",
+        "Check copied messages and attachments in the destination.",
+        "For IMAP or Exchange, allow synchronisation to complete.",
+        "Verify the server-side copies through webmail where appropriate.",
+        "Do not remove the staging folder or original archive until the merge is confirmed."
+      ],
+      "successLabel": "Merge Verified",
+      "failLabel": "Missing / Duplicate Mail",
+      "successNext": "verifyMigratedMail",
+      "failNext": "resolveImportDuplicates"
+    },
+    "verifyMigratedMail": {
+      "title": "Verify imported messages and folders",
+      "body": [
+        "Compare the final mailbox or separate archive with the original source.",
+        "Check Inbox, Sent Items, Archive, Imported Old Mail and important custom folders.",
+        "Verify that required older POP or local-only messages are present.",
+        "Check sample message dates, contents and attachments.",
+        "Look for duplicates after any merge.",
+        "For IMAP or Exchange, check webmail to confirm intended server-side messages are present.",
+        "For POP or a separate PST archive, confirm that historical mail remains accessible.",
+        "Check the destination storage capacity.",
+        "Retain the original mail backup until migration has been verified."
+      ],
+      "successLabel": "Mail Verified",
+      "failLabel": "Mail Missing / Duplicated",
+      "successNext": "setupComplete",
+      "failNext": "resolveImportDuplicates"
+    },
+    "migrationEscalation": {
+      "type": "terminal",
+      "title": "Further mail migration required",
+      "body": [
+        "Required mail could not be located, imported or reconciled safely.",
+        "Preserve the original PST or other mail archive.",
+        "Keep partially imported messages separate.",
+        "Record the source format, destination account, migration method and any errors.",
+        "Check for archive damage, unsupported formats, mailbox limits or incomplete synchronisation.",
+        "Before trying again, identify which messages have already been transferred.",
+        "Do not merge uncertain message sets or delete the original source."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix PST Import Problems",
+          "description": "Official troubleshooting for PST import errors.",
+          "url": "https://support.microsoft.com/en-us/outlook/fix-problems-importing-an-outlook-pst-file"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupComplete": {
+      "type": "terminal",
+      "title": "New Outlook setup complete",
+      "body": [
+        "The email account has been configured successfully.",
+        "Incoming and outgoing messages work as expected.",
+        "For IMAP or Exchange, required server-stored messages and folders have synchronised.",
+        "If there was no missing local-only data, no mail import was necessary.",
+        "For POP or local archives, any required old mail has been transferred or retained as a verified separate archive.",
+        "Imported mail was checked for duplicates before being merged into existing folders.",
+        "Check contacts, calendars and signatures separately when required.",
+        "Retain original mail archives and backups for future recovery."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupEscalation": {
+      "type": "terminal",
+      "title": "Further new Outlook setup diagnostics",
+      "body": [
+        "New Outlook cannot connect to the mailbox after checking its account settings.",
+        "Record the email provider, account type, Outlook version and exact error.",
+        "Confirm the selected protocol and authentication method are supported.",
+        "For managed accounts, check organisational security and client access policies.",
+        "If required manual settings are unsupported, consider classic Outlook or Thunderbird.",
+        "Preserve any existing POP, PST or local-only data while investigating."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Outlook Setup Troubleshooting",
+          "description": "Official Outlook setup troubleshooting.",
+          "url": "https://support.microsoft.com/en-us/outlook/getstarted/troubleshoot-outlook-email-setup"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

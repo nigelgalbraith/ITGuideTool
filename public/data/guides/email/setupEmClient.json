@@ -1,0 +1,923 @@
+
+{
+  "id": "setupEmClient",
+  "title": "Set Up eM Client",
+  "cardText": [
+    "Set up IMAP, POP, Microsoft 365 and Exchange email accounts in eM Client.",
+    "Configure incoming and outgoing servers, authentication and POP message retention.",
+    "Safely migrate old POP messages, PST archives and eM Client backups while preventing duplicate mail."
+  ],
+  "icon": "",
+  "text": [
+    "This guide covers eM Client email setup on Windows and macOS.",
+    "Use automatic configuration where supported, or manually enter the provider's IMAP, POP and SMTP settings.",
+    "IMAP and Exchange normally restore server-stored messages and folders automatically.",
+    "Check for locally stored POP messages, Local Folders, archives and contacts that are not available on the server.",
+    "Use eM Client Backup and Restore when moving an entire existing installation.",
+    "Use the Import wizard for selected Outlook PST, MBOX, EML and other supported mail archives.",
+    "Import into separate folders or data files where supported, check for duplicates and merge only missing messages.",
+    "Preserve original mail backups until migration is verified."
+  ],
+  "startNode": "identifySetupType",
+  "nodes": {
+    "identifySetupType": {
+      "title": "Identify the email setup",
+      "body": [
+        "Determine whether this is a new mailbox setup or a migration from an existing computer.",
+        "Identify the previous email application and account type.",
+        "IMAP and Exchange normally synchronise server-stored messages.",
+        "POP and Local Folders may contain messages stored only on the original computer.",
+        "Preserve the original email installation if local mail must be transferred."
+      ],
+      "successLabel": "New Account",
+      "failLabel": "Existing Mail / Migration",
+      "successNext": "collectAccountDetails",
+      "failNext": "identifyExistingClient"
+    },
+    "identifyExistingClient": {
+      "title": "Identify the original email application",
+      "body": [
+        "Determine whether the source is eM Client, classic Outlook, Thunderbird, Apple Mail or another email client.",
+        "Check whether the account uses IMAP, Exchange or POP.",
+        "Inspect the original application for Local Folders and separate archives.",
+        "If the original application is eM Client, determine whether the entire database should be transferred.",
+        "If the original application is different, identify its available backup or export format.",
+        "Keep the original installation available until migration is verified."
+      ],
+      "successLabel": "Existing eM Client",
+      "failLabel": "Other Email Client",
+      "successNext": "backupExistingEmClient",
+      "failNext": "backupOtherClient"
+    },
+    "backupExistingEmClient": {
+      "title": "Back up the original eM Client installation",
+      "body": [
+        "Open eM Client on the original computer.",
+        "Use Menu, Backup to start a full application backup.",
+        "In older versions, the command may be under Menu, File, Backup.",
+        "Check the backup destination under Menu, Settings, General, Backup.",
+        "Allow the backup to finish completely.",
+        "Locate the resulting ZIP backup, commonly stored in the user's Documents, eM Client folder unless configured otherwise.",
+        "Copy the backup to separate, reliable storage.",
+        "Keep an untouched copy throughout the migration.",
+        "Full backups are particularly important for POP messages, Local Folders, contacts and locally stored archives."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Move Data to a New Computer",
+          "description": "Official Backup and Restore instructions for transferring an eM Client installation.",
+          "url": "https://www.emclient.com/faq-getting-started"
+        },
+        {
+          "name": "eM Client: Automatic Backups",
+          "description": "Explanation of backup requirements for POP and local mail.",
+          "url": "https://www.emclient.com/blog/how-to-work-with-automatic-backups-in-em-client-341"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "chooseExistingMigration",
+      "failNext": "protectOriginalMail"
+    },
+    "backupOtherClient": {
+      "title": "Back up email from another application",
+      "body": [
+        "Identify the original application's mail storage and export format.",
+        "For classic Outlook, locate any PST files containing POP messages and local archives.",
+        "For Thunderbird, back up its profile or export the required MBOX or EML messages.",
+        "For Apple Mail, use its supported mailbox export procedure where appropriate.",
+        "Check whether all required messages already exist in webmail.",
+        "Preserve local-only mail and any separate archives.",
+        "Keep an untouched backup of the original source data."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Import from Other Email Clients",
+          "description": "Official information about supported application and file imports.",
+          "url": "https://www.emclient.com/blog/import-data-from-other-email-clients-to-em-client-380"
+        },
+        {
+          "name": "Microsoft: Export Outlook Mail",
+          "description": "Official PST export instructions.",
+          "url": "https://support.microsoft.com/en-us/outlook/export-emails-contacts-and-calendar-items-to-outlook-using-a-pst-file"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "collectAccountDetails",
+      "failNext": "protectOriginalMail"
+    },
+    "protectOriginalMail": {
+      "type": "terminal",
+      "title": "Protect the original email data",
+      "body": [
+        "The required original mail or application data has not been backed up successfully.",
+        "Keep the original computer and email application unchanged.",
+        "Preserve POP messages, Local Folders, Sent Items and separate archives.",
+        "Create a verified backup before removing accounts or restoring another database.",
+        "Do not overwrite the only working copy of existing mail.",
+        "Continue after protecting the source data."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "chooseExistingMigration": {
+      "title": "Choose complete restoration or selected mail transfer",
+      "body": [
+        "Determine whether the user wants the complete previous eM Client installation restored.",
+        "A full backup can preserve the application database, accounts, settings and local data.",
+        "A complete database restore is different from importing selected messages into an existing mailbox.",
+        "If the destination eM Client already contains important mail or settings, back it up first.",
+        "Do not restore an entire old database over a working installation simply to recover a few messages.",
+        "Use selected mail export and import when the destination should retain its existing setup."
+      ],
+      "successLabel": "Restore Entire Installation",
+      "failLabel": "Import Selected Mail",
+      "successNext": "restoreEmClientBackup",
+      "failNext": "collectAccountDetails"
+    },
+    "restoreEmClientBackup": {
+      "title": "Restore an eM Client backup",
+      "body": [
+        "Install a compatible eM Client version on the destination computer.",
+        "If the destination already contains important data, back it up before restoring.",
+        "For a replacement installation, skip initial account setup where appropriate.",
+        "Transfer the original eM Client backup ZIP to the destination computer.",
+        "Open eM Client and select Menu, File, Restore.",
+        "Select the correct backup file or configure its location under Settings, General, Backup.",
+        "Allow the database restoration to complete.",
+        "Restart eM Client if required and activate the appropriate licence.",
+        "Check locally stored POP messages, Local Folders, contacts and other restored data.",
+        "Allow IMAP or Exchange accounts to reconnect and synchronise.",
+        "Do not import the same messages again unless the restored database is missing required data."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Transfer Data to Another Computer",
+          "description": "Official step-by-step Backup and Restore procedure.",
+          "url": "https://www.emclient.com/faq-getting-started"
+        },
+        {
+          "name": "eM Client: Restore Backups",
+          "description": "Official backup recovery guidance.",
+          "url": "https://www.emclient.com/blog/how-to-work-with-automatic-backups-in-em-client-341"
+        }
+      ],
+      "successLabel": "Database Restored",
+      "failLabel": "Restore Failed",
+      "successNext": "verifyRestoredDatabase",
+      "failNext": "migrationEscalation"
+    },
+    "verifyRestoredDatabase": {
+      "title": "Verify the restored eM Client database",
+      "body": [
+        "Confirm the expected email accounts and application settings are present.",
+        "Check old POP messages and Local Folders.",
+        "Open a selection of older messages and attachments.",
+        "Verify contacts, calendars and local archives where required.",
+        "For IMAP or Exchange, allow server synchronisation and compare with webmail.",
+        "Check for repeated or duplicated folders before importing anything else.",
+        "If the restored installation contains everything required, no separate mail import is needed.",
+        "Keep the original backup for future recovery."
+      ],
+      "successLabel": "Restoration Verified",
+      "failLabel": "Missing / Duplicate Data",
+      "successNext": "setupComplete",
+      "failNext": "migrationEscalation"
+    },
+    "collectAccountDetails": {
+      "title": "Identify the provider and account settings",
+      "body": [
+        "Obtain the complete email address and provider information.",
+        "Determine whether the account uses Microsoft 365, Exchange, IMAP or POP.",
+        "For manual setup, obtain the incoming server hostname, SMTP server hostname, ports and encryption requirements.",
+        "Confirm whether the provider supports OAuth or requires another authentication method.",
+        "Check that the selected protocol is enabled for the account.",
+        "Use current provider documentation rather than guessing mail server settings."
+      ],
+      "link": [
+        {
+          "name": "eM Client: IMAP and POP3 Protocols",
+          "description": "Official information about manual setup and protocol differences.",
+          "url": "https://www.emclient.com/imap-and-pop3-protocols-guide"
+        },
+        {
+          "name": "eM Client: Getting Started",
+          "description": "Official account setup and provider information.",
+          "url": "https://www.emclient.com/faq-getting-started"
+        }
+      ],
+      "successLabel": "Settings Available",
+      "failLabel": "Settings Unknown",
+      "successNext": "addEmailAccount",
+      "failNext": "obtainProviderSettings"
+    },
+    "obtainProviderSettings": {
+      "type": "terminal",
+      "title": "Obtain the correct provider settings",
+      "body": [
+        "The required account configuration is not available.",
+        "Check the email provider's official setup instructions.",
+        "Record the incoming and outgoing servers, ports, encryption and authentication method.",
+        "Confirm that the provider permits the selected POP, IMAP or Exchange connection.",
+        "Do not disable encryption or use unsupported authentication methods.",
+        "Continue once the settings are confirmed."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "addEmailAccount": {
+      "title": "Add an email account to eM Client",
+      "body": [
+        "Open eM Client.",
+        "On a new installation, use the initial account setup wizard.",
+        "On Windows, open Menu, Accounts and select Add account.",
+        "On macOS, open eM Client, Accounts and select Add account.",
+        "Enter the email address and use Automatic Setup where supported.",
+        "Complete the provider's sign-in procedure and any multifactor authentication.",
+        "For Microsoft 365, Exchange and supported services, use the provider's recommended account type.",
+        "If automatic detection fails or manual POP or IMAP is required, use the Mail, Other account setup route."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Account Setup",
+          "description": "Official instructions for adding an email account.",
+          "url": "https://www.emclient.com/faq-getting-started"
+        }
+      ],
+      "successLabel": "Automatic Setup Works",
+      "failLabel": "Manual Setup Required",
+      "successNext": "testEmailConnection",
+      "failNext": "manualAccountSetup"
+    },
+    "manualAccountSetup": {
+      "title": "Configure IMAP or POP manually",
+      "body": [
+        "Open Menu, Accounts, Add account on Windows, or eM Client, Accounts, Add account on macOS.",
+        "In the New Account window, select Mail, Other.",
+        "Enter the email address and proceed to the incoming server configuration.",
+        "Choose IMAP or POP3 according to the provider's requirements.",
+        "Enter the incoming server hostname and the required username.",
+        "Enter the outgoing SMTP server and authentication details when prompted.",
+        "Use the provider's actual server settings, ports and connection security.",
+        "Common encrypted ports are IMAP 993, POP 995 and SMTP submission 587 with STARTTLS or 465 with SSL/TLS.",
+        "Complete the configuration test and follow any provider authentication prompts.",
+        "Do not choose POP simply because an automatic IMAP setup failed."
+      ],
+      "link": [
+        {
+          "name": "eM Client: IMAP and POP3 Setup Guide",
+          "description": "Official manual account configuration walkthrough.",
+          "url": "https://www.emclient.com/imap-and-pop3-protocols-guide"
+        }
+      ],
+      "image": "email-emclient-protocol-setup.png",
+      "alt": "eM Client incoming server setup showing POP3 and IMAP protocol options",
+      "caption": "Choose POP3 or IMAP and enter the incoming server settings supplied by the email provider.",
+      "successLabel": "IMAP Configured",
+      "failLabel": "POP Configured",
+      "successNext": "configureImap",
+      "failNext": "configurePop"
+    },
+    "configureImap": {
+      "title": "Complete IMAP configuration",
+      "body": [
+        "Check the provider's incoming IMAP server hostname.",
+        "Confirm the required port and encryption, commonly port 993 with SSL/TLS.",
+        "Check outgoing SMTP settings, authentication and encryption.",
+        "Complete any OAuth or multifactor authentication prompts.",
+        "Finish account setup and allow eM Client to retrieve the server mailbox folders.",
+        "If folders are missing, check account settings and synchronisation before attempting any mail import."
+      ],
+      "link": [
+        {
+          "name": "eM Client: IMAP Protocol Guide",
+          "description": "Official IMAP account configuration instructions.",
+          "url": "https://www.emclient.com/imap-and-pop3-protocols-guide"
+        }
+      ],
+      "successLabel": "Account Connected",
+      "failLabel": "Connection Failed",
+      "successNext": "testEmailConnection",
+      "failNext": "troubleshootSetup"
+    },
+    "configurePop": {
+      "title": "Complete POP account configuration",
+      "body": [
+        "Check the incoming POP server hostname.",
+        "Use the provider's documented port and encryption, commonly port 995 with SSL/TLS.",
+        "Configure outgoing SMTP server settings and supported authentication.",
+        "Complete the setup and confirm the account connects.",
+        "Recognise that POP downloads mail and does not synchronise normal mailbox folders between devices.",
+        "Preserve the existing POP database or archive if moving from another computer.",
+        "Review message retention before relying on the new POP account for mail downloads."
+      ],
+      "link": [
+        {
+          "name": "eM Client: POP3 Protocol Guide",
+          "description": "Official POP configuration and behaviour.",
+          "url": "https://www.emclient.com/imap-and-pop3-protocols-guide"
+        }
+      ],
+      "successLabel": "POP Connected",
+      "failLabel": "Connection Failed",
+      "successNext": "configurePopRetention",
+      "failNext": "troubleshootSetup"
+    },
+    "configurePopRetention": {
+      "title": "Review POP message retention",
+      "body": [
+        "Open the POP account settings in eM Client.",
+        "Find the POP server settings and review options for keeping downloaded messages on the server, where offered.",
+        "Check whether server copies are removed after a specified period or when messages are deleted.",
+        "Record the existing retention policy before changing it.",
+        "During a migration, retaining server copies temporarily can reduce the risk of another computer removing mail before the replacement receives it.",
+        "Monitor mailbox storage because leaving all messages on the server indefinitely may fill the mailbox.",
+        "Confirm that new messages are downloaded and stored as intended.",
+        "Keep the original local POP mail backup."
+      ],
+      "link": [
+        {
+          "name": "eM Client: IMAP and POP3 Protocols",
+          "description": "Official information about POP downloads and account settings.",
+          "url": "https://www.emclient.com/imap-and-pop3-protocols-guide"
+        }
+      ],
+      "successLabel": "Retention Reviewed",
+      "failLabel": "Retention Problem",
+      "successNext": "testEmailConnection",
+      "failNext": "troubleshootSetup"
+    },
+    "testEmailConnection": {
+      "title": "Test sending and receiving",
+      "body": [
+        "Send a plain test email to another accessible account.",
+        "Reply from that account and confirm the response arrives in eM Client.",
+        "Check the outgoing message appears in Sent.",
+        "Check for authentication, connection and synchronisation errors.",
+        "For POP, confirm incoming messages download as expected.",
+        "After testing, identify whether the account synchronises from the server or uses local POP storage."
+      ],
+      "successLabel": "Email Working",
+      "failLabel": "Send / Receive Fails",
+      "successNext": "checkAccountSyncType",
+      "failNext": "troubleshootSetup"
+    },
+    "troubleshootSetup": {
+      "title": "Investigate account connection errors",
+      "body": [
+        "Record the exact error displayed by eM Client.",
+        "Confirm the correct incoming and outgoing mail servers.",
+        "Check ports, encryption and authentication against the provider's settings.",
+        "Verify POP or IMAP access is enabled by the provider.",
+        "Check OAuth and multifactor authentication requirements.",
+        "For business accounts, confirm the selected connection type is permitted by the organisation.",
+        "Compare account access through webmail.",
+        "Correct the identified issue before testing again."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Troubleshooting",
+          "description": "Official account connection and database troubleshooting.",
+          "url": "https://www.emclient.com/faq-troubleshooting"
+        }
+      ],
+      "successLabel": "Connection Restored",
+      "failLabel": "Still Failing",
+      "successNext": "testEmailConnection",
+      "failNext": "setupEscalation"
+    },
+    "checkAccountSyncType": {
+      "title": "Does the mailbox synchronise from the server?",
+      "body": [
+        "Check the configured account type in eM Client.",
+        "IMAP, Exchange and supported Microsoft 365 connections normally synchronise server-stored messages and folders.",
+        "POP accounts may store downloaded messages only in the local eM Client database.",
+        "For IMAP or Exchange, verify server synchronisation before importing old mail.",
+        "For POP, check whether historical mail must be transferred from a previous computer or application."
+      ],
+      "successLabel": "IMAP / Exchange",
+      "failLabel": "POP / Local Mail",
+      "successNext": "verifyServerSyncedMail",
+      "failNext": "checkPopMigration"
+    },
+    "verifyServerSyncedMail": {
+      "title": "Verify IMAP or Exchange synchronisation",
+      "body": [
+        "Allow eM Client to synchronise the mailbox.",
+        "Compare Inbox, Sent, Drafts, Archive and custom folders with the provider's webmail service.",
+        "Check older messages and attachments.",
+        "Make sure the correct account and folders are selected.",
+        "If a message exists in webmail but not eM Client, investigate synchronisation rather than importing an archive.",
+        "If all server-stored mail is present, check for Local Folders and other data that would not automatically synchronise."
+      ],
+      "link": [
+        {
+          "name": "eM Client: IMAP and POP Differences",
+          "description": "Explanation of mailbox synchronisation and local storage.",
+          "url": "https://www.emclient.com/imap-and-pop3-protocols-guide"
+        }
+      ],
+      "successLabel": "Server Mail Synced",
+      "failLabel": "Messages / Folders Missing",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "investigateSyncMissing"
+    },
+    "investigateSyncMissing": {
+      "title": "Find the source of missing messages",
+      "body": [
+        "Check whether the missing messages are present in webmail.",
+        "Search Archive, Deleted Items and custom server folders.",
+        "If the messages exist on the server, check synchronisation status, folder visibility and account settings.",
+        "If messages are absent from webmail but exist in the original application, check its local archives.",
+        "Do not import an entire old mailbox simply to fix a synchronisation problem."
+      ],
+      "successLabel": "Present In Webmail",
+      "failLabel": "Absent From Webmail",
+      "successNext": "troubleshootImapSync",
+      "failNext": "checkMissingMailSource"
+    },
+    "troubleshootImapSync": {
+      "title": "Investigate eM Client synchronisation",
+      "body": [
+        "Confirm the application is connected to the correct email account.",
+        "Check folder visibility, synchronisation errors and account authentication.",
+        "Allow large mailboxes additional time to synchronise.",
+        "Check that the expected messages are available in webmail.",
+        "Investigate the account connection instead of importing PST or MBOX files.",
+        "Retest the missing folders after correcting the issue."
+      ],
+      "successLabel": "Synchronisation Fixed",
+      "failLabel": "Still Missing",
+      "successNext": "verifyServerSyncedMail",
+      "failNext": "setupEscalation"
+    },
+    "checkMissingMailSource": {
+      "title": "Are the missing messages stored locally?",
+      "body": [
+        "Inspect the original email client and any locally stored archives.",
+        "Check previous POP accounts, Local Folders, PST files and other message exports.",
+        "If required messages exist locally but not on the server, protect them before migration.",
+        "If the messages are absent from both the server and source computer, check backups or the provider.",
+        "Do not import unrelated mail files as a workaround."
+      ],
+      "successLabel": "Local Mail Found",
+      "failLabel": "Mail Not Located",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "migrationEscalation"
+    },
+    "checkLocalOnlyData": {
+      "title": "Are there local-only folders or archives?",
+      "body": [
+        "Inspect the original email installation for mail that is not visible in webmail.",
+        "Check eM Client Local Folders, separate Data Files, old POP mail and archive folders.",
+        "Check contacts, calendars and other locally stored data separately.",
+        "IMAP synchronises server-stored mail but does not automatically transfer local archives.",
+        "If all required mail is synchronised and no additional local data is needed, no import is necessary.",
+        "If locally stored messages are required, preserve them before continuing."
+      ],
+      "successLabel": "Local Data Required",
+      "failLabel": "All Required Mail Synced",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "checkPopMigration": {
+      "title": "Check whether old POP mail must be transferred",
+      "body": [
+        "Determine whether this is a new POP account or a replacement for an existing installation.",
+        "Check old Inbox, Sent, Archive and custom folders.",
+        "POP cannot automatically restore messages previously removed from the provider's server.",
+        "Compare the old locally stored messages with those visible in the new installation.",
+        "If everything required is already available, no further import is needed.",
+        "If old local mail is required, verify the backup before migration."
+      ],
+      "successLabel": "Old Mail Required",
+      "failLabel": "No Migration Needed",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "confirmLocalBackup": {
+      "title": "Verify the local mail backup",
+      "body": [
+        "Identify the original POP mailbox, Local Folders or separate archive files.",
+        "For eM Client, confirm a completed full-database backup or a supported export of the required local data.",
+        "For another application, verify its PST, MBOX, EML or other supported mail export.",
+        "Keep an untouched backup separate from files used during import.",
+        "Confirm that the required messages and folders are included.",
+        "Do not begin an import until the original data is protected."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Backup and Restore",
+          "description": "Official full-database backup instructions.",
+          "url": "https://www.emclient.com/faq-getting-started"
+        },
+        {
+          "name": "eM Client: Import Other Mail",
+          "description": "Supported import formats and applications.",
+          "url": "https://www.emclient.com/blog/import-data-from-other-email-clients-to-em-client-380"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "identifyImportSource",
+      "failNext": "protectOriginalMail"
+    },
+    "identifyImportSource": {
+      "title": "Identify the original mail format",
+      "body": [
+        "Determine whether the source is an eM Client backup, Outlook PST, MBOX, EML or another supported application.",
+        "A full eM Client backup restores the application database rather than selectively importing mail.",
+        "A PST archive can be imported without requiring Outlook to be installed.",
+        "eM Client also supports imports from several other email clients and message formats.",
+        "If a full backup must be combined with an existing destination installation, avoid an uncontrolled database restore.",
+        "Choose a method that preserves existing destination data."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Import from Microsoft Outlook",
+          "description": "Official guidance for direct PST imports.",
+          "url": "https://www.emclient.com/documentation/getting-started/import/import-from-outlook"
+        },
+        {
+          "name": "eM Client: Supported Import Formats",
+          "description": "Official information about application and file imports.",
+          "url": "https://www.emclient.com/webdocumentation/en/10.0/emclient/Content/Getting%20Started/Import/Import.htm"
+        }
+      ],
+      "successLabel": "Outlook PST",
+      "failLabel": "eM Client / Other Format",
+      "successNext": "checkDestinationMailbox",
+      "failNext": "checkDestinationMailbox"
+    },
+    "checkDestinationMailbox": {
+      "title": "Check the destination mailbox before importing",
+      "body": [
+        "Compare the source archive with the messages already present in eM Client.",
+        "Check Inbox, Sent, Archive and important custom folders.",
+        "Compare a sample of messages using sender, recipient, date, subject, contents and attachments.",
+        "Look for overlap between old POP mail and messages already synchronised from the server.",
+        "Check the destination mailbox's remaining storage.",
+        "Do not import old messages directly into populated folders if duplication is possible.",
+        "Prepare a separate destination for inspecting the imported messages first."
+      ],
+      "successLabel": "Overlap / Uncertain",
+      "failLabel": "No Overlap Found",
+      "successNext": "prepareImportStaging",
+      "failNext": "prepareImportStaging"
+    },
+    "prepareImportStaging": {
+      "title": "Prepare a separate import destination",
+      "body": [
+        "Use a separate location named Imported Old Mail for staging imported messages.",
+        "Enable Local Folders where necessary under Menu, Settings, General, Folders.",
+        "For supported eM Client versions, consider a separate eM Client Data File for PST archives.",
+        "A separate Data File keeps historical messages isolated from the active mailbox.",
+        "For other import formats, choose a separate Local Folders destination where supported.",
+        "If the import wizard cannot isolate the messages, cancel and use another supported method.",
+        "Do not directly merge an unreviewed source into populated Inbox or Sent folders.",
+        "A staging location does not automatically deduplicate messages."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Local Folders",
+          "description": "Official instructions for enabling and using Local Folders.",
+          "url": "https://www.emclient.com/faq-getting-started"
+        },
+        {
+          "name": "eM Client: Separate Data Files",
+          "description": "Official information about creating separate local mail archives.",
+          "url": "https://www.emclient.com/blog/stay-in-charge-of-your-data-with-em-nbsp-client-data-files-752"
+        }
+      ],
+      "successLabel": "Staging Available",
+      "failLabel": "Cannot Isolate Import",
+      "successNext": "chooseImportMethod",
+      "failNext": "migrationEscalation"
+    },
+    "chooseImportMethod": {
+      "title": "Choose the appropriate import method",
+      "body": [
+        "Use the Outlook PST importer if the source is a PST file.",
+        "Use the supported application or MBOX/EML importer for other message formats.",
+        "If the source is a full eM Client backup, Restore may be appropriate only when replacing an installation or restoring into a protected destination.",
+        "Do not restore a full database over existing important mail merely to access a few old messages.",
+        "Select an import destination that keeps the source messages separate.",
+        "Avoid running the same import twice without checking the first result."
+      ],
+      "successLabel": "Outlook PST",
+      "failLabel": "Other Supported Source",
+      "successNext": "importOutlookPst",
+      "failNext": "importOtherMail"
+    },
+    "importOutlookPst": {
+      "title": "Import Outlook PST mail",
+      "body": [
+        "Preserve an untouched backup of the PST.",
+        "In eM Client on Windows, select Menu, File, Import.",
+        "On macOS, use File, Import.",
+        "Choose the Outlook or Outlook Data File import option available in the installed version.",
+        "Select the preserved PST file.",
+        "eM Client can import directly from PST without requiring Outlook to be installed.",
+        "Check the available destination options before starting.",
+        "Where supported, import the PST as a separate Data File rather than merging directly into an active mailbox.",
+        "If the feature is unavailable, select an isolated folder where the importer permits it.",
+        "Do not import directly into populated Inbox or Sent folders without reviewing existing messages.",
+        "Continue by selecting only the source folders that are required."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Import Outlook Data",
+          "description": "Official PST import instructions and destination options.",
+          "url": "https://www.emclient.com/documentation/getting-started/import/import-from-outlook"
+        },
+        {
+          "name": "eM Client: Import PST as a Data File",
+          "description": "Official procedure for creating an isolated EMDF archive from PST data.",
+          "url": "https://www.emclient.com/blog/stay-in-charge-of-your-data-with-em-nbsp-client-data-files-752"
+        }
+      ],
+      "image": "email-emclient-pst-import.png",
+      "alt": "eM Client Import wizard showing the Outlook Data File PST import option",
+      "caption": "Select the Outlook PST source and use a separate Data File or staging destination where supported.",
+      "successLabel": "PST Selected",
+      "failLabel": "Import Option Unavailable",
+      "successNext": "selectImportFolders",
+      "failNext": "migrationEscalation"
+    },
+    "selectImportFolders": {
+      "title": "Select only the required folders",
+      "body": [
+        "Review the folders available within the source PST.",
+        "Select the Inbox, Sent, Archive and custom folders that contain required historical mail.",
+        "Exclude unnecessary or already migrated folders where appropriate.",
+        "Check whether the destination preserves the original folder structure.",
+        "Select a separate Data File or other isolated destination where supported.",
+        "Avoid importing directly into an existing populated folder.",
+        "Complete the import and allow the operation to finish.",
+        "Check where the messages were actually imported before making another attempt.",
+        "Keep the original PST backup unchanged."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Outlook Import Wizard",
+          "description": "Official folder selection and destination instructions.",
+          "url": "https://www.emclient.com/documentation/getting-started/import/import-from-outlook"
+        }
+      ],
+      "image": "email-emclient-import-folders.png",
+      "alt": "eM Client Outlook Import wizard showing selectable folders within a PST archive",
+      "caption": "Choose only the folders required and review their destination before importing.",
+      "successLabel": "Import Completed",
+      "failLabel": "Import Failed / Partial",
+      "successNext": "reviewImportedMail",
+      "failNext": "checkPartialImport"
+    },
+    "importOtherMail": {
+      "title": "Import mail from another client or format",
+      "body": [
+        "Open eM Client and select Menu, File, Import on Windows, or File, Import on macOS.",
+        "Choose the supported source application or message file format.",
+        "For Thunderbird, use the available application import option where supported.",
+        "For MBOX or EML files, use the corresponding file import option.",
+        "For previous eM Client data, choose a supported import or restoration method without overwriting existing important messages.",
+        "Select only the required messages and folders where the importer permits it.",
+        "Import into a separate staging folder or data file where supported.",
+        "If isolation is not possible, stop before merging into populated folders.",
+        "Complete the import and check its destination.",
+        "Do not repeat the import until the first result has been reviewed."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Import Wizard",
+          "description": "Official supported import sources and formats.",
+          "url": "https://www.emclient.com/webdocumentation/en/10.0/emclient/Content/Getting%20Started/Import/Import.htm"
+        },
+        {
+          "name": "eM Client: Import Other Email Clients",
+          "description": "Official application migration guidance.",
+          "url": "https://www.emclient.com/blog/import-data-from-other-email-clients-to-em-client-380"
+        }
+      ],
+      "successLabel": "Import Completed",
+      "failLabel": "Import Failed / Partial",
+      "successNext": "reviewImportedMail",
+      "failNext": "checkPartialImport"
+    },
+    "checkPartialImport": {
+      "title": "Check a failed or incomplete import",
+      "body": [
+        "Do not immediately repeat the entire import.",
+        "Inspect the staging folder or separate Data File.",
+        "Determine which messages and folders have already transferred.",
+        "Compare completed date ranges and message counts with the original archive.",
+        "Check storage capacity, unsupported items and any import errors.",
+        "Correct the identified problem before retrying.",
+        "Use a new clearly labelled staging location or import only the missing messages if another attempt is needed.",
+        "Preserve the original source and partial import."
+      ],
+      "successLabel": "Partial Mail Identified",
+      "failLabel": "Result Uncertain",
+      "successNext": "reviewImportedMail",
+      "failNext": "migrationEscalation"
+    },
+    "reviewImportedMail": {
+      "title": "Review imported mail for duplicates",
+      "body": [
+        "Open the Imported Old Mail folder or separate Data File.",
+        "Compare the imported messages with Inbox, Sent, Archive and important custom folders.",
+        "Check sender, recipient, subject, date, contents and attachments.",
+        "Do not assume messages with the same subject are identical.",
+        "Look for old POP messages that are missing from the destination mailbox.",
+        "Identify overlapping mail before merging folders.",
+        "Avoid bulk deletion based only on matching dates or subjects.",
+        "Keep the original archive and imported staging area intact while comparing."
+      ],
+      "successLabel": "Mail Reviewed",
+      "failLabel": "Duplicates / Missing Mail",
+      "successNext": "chooseMailDestination",
+      "failNext": "resolveImportDuplicates"
+    },
+    "resolveImportDuplicates": {
+      "title": "Resolve duplicate or missing messages",
+      "body": [
+        "Compare suspected duplicate messages carefully with existing destination items.",
+        "Use message contents and attachments to distinguish actual duplicates from different messages in the same conversation.",
+        "Only remove a redundant staging copy after verifying the required message exists elsewhere.",
+        "For missing messages, inspect the original archive and any folders excluded from the import.",
+        "Use smaller batches for large imports.",
+        "Do not assume the Import wizard automatically removes every duplicate.",
+        "If the result is uncertain, leave the imported messages in the separate staging area.",
+        "Keep the original backup unchanged."
+      ],
+      "successLabel": "Mail Reconciled",
+      "failLabel": "Still Uncertain",
+      "successNext": "chooseMailDestination",
+      "failNext": "migrationEscalation"
+    },
+    "chooseMailDestination": {
+      "title": "Keep the archive separate or copy into the mailbox",
+      "body": [
+        "Decide whether the imported mail should remain in a separate historical folder or Data File.",
+        "If the user only needs access to older messages, leaving them in a separate archive may be sufficient.",
+        "If messages must appear across devices, they need to be copied into the synchronised mailbox where supported.",
+        "Check server mailbox storage before uploading large archives.",
+        "Do not merge the entire imported archive into an existing Inbox or Sent folder without reviewing it.",
+        "Keep the source and staging backups until verification is complete."
+      ],
+      "successLabel": "Keep Separate Archive",
+      "failLabel": "Copy Into IMAP / Exchange",
+      "successNext": "verifyMigratedMail",
+      "failNext": "copyMailToServer"
+    },
+    "copyMailToServer": {
+      "title": "Copy reviewed mail into a server mailbox",
+      "body": [
+        "Confirm the destination IMAP or Exchange account is connected and synchronising.",
+        "Create a separate Imported Old Mail folder under the destination account.",
+        "Copy selected messages or folders from the local staging area into the separate server folder.",
+        "Work in manageable batches for large archives.",
+        "Monitor synchronisation and mailbox storage.",
+        "Check webmail to verify that uploaded messages are present.",
+        "Do not copy directly into populated Inbox or Sent folders before duplicate review.",
+        "Keep the original local archive and backup."
+      ],
+      "successLabel": "Upload Verified",
+      "failLabel": "Upload Incomplete",
+      "successNext": "chooseMergeMethod",
+      "failNext": "checkPartialUpload"
+    },
+    "checkPartialUpload": {
+      "title": "Check incomplete server uploads",
+      "body": [
+        "Do not repeat the entire upload immediately.",
+        "Compare the server staging folder with the original local source.",
+        "Check which messages are already visible in webmail.",
+        "Investigate mailbox quotas, connection errors and oversized attachments.",
+        "Correct the problem and transfer only missing messages where possible.",
+        "Use another clearly labelled staging folder if the existing result is uncertain.",
+        "Retain local source files and backups."
+      ],
+      "successLabel": "Upload Reconciled",
+      "failLabel": "Still Incomplete",
+      "successNext": "chooseMergeMethod",
+      "failNext": "migrationEscalation"
+    },
+    "chooseMergeMethod": {
+      "title": "Keep the server archive separate or merge",
+      "body": [
+        "Decide whether Imported Old Mail should remain a separate archive folder within the IMAP or Exchange account.",
+        "Keeping it separate avoids altering existing Inbox and Sent folders.",
+        "If normal folder placement is required, identify which messages are not already present in the destination.",
+        "Copy only missing messages into their appropriate folders.",
+        "Do not rely on automatic duplicate removal during the merge.",
+        "Preserve staging and source copies until verification."
+      ],
+      "successLabel": "Keep Server Archive",
+      "failLabel": "Merge Missing Messages",
+      "successNext": "verifyMigratedMail",
+      "failNext": "mergeReviewedMail"
+    },
+    "mergeReviewedMail": {
+      "title": "Merge only missing messages",
+      "body": [
+        "Identify messages that do not already exist in Inbox, Sent, Archive or the relevant custom folder.",
+        "Copy only those required messages from the staging folder.",
+        "Work in manageable batches.",
+        "Allow the mailbox to synchronise completely.",
+        "Check the resulting messages and attachments through webmail where available.",
+        "Do not delete the staging archive or original files until the results are verified.",
+        "If duplicates or missing mail appear, return to the review process."
+      ],
+      "successLabel": "Merge Verified",
+      "failLabel": "Duplicates / Missing Mail",
+      "successNext": "verifyMigratedMail",
+      "failNext": "resolveImportDuplicates"
+    },
+    "verifyMigratedMail": {
+      "title": "Verify migrated messages and folders",
+      "body": [
+        "Compare the migrated messages with the original mailbox or archive.",
+        "Check Inbox, Sent, Archive, Imported Old Mail and custom folders.",
+        "Open older messages and verify their attachments.",
+        "Check message dates and folder organisation.",
+        "Look for unexpected duplicates after any merge.",
+        "For IMAP or Exchange, verify mail intended for the server appears in webmail.",
+        "For POP or local archives, confirm the messages remain accessible locally.",
+        "Check contacts and calendars separately when required.",
+        "Keep the original database or exported mail backup until verification is complete."
+      ],
+      "successLabel": "Migration Verified",
+      "failLabel": "Missing / Duplicate Mail",
+      "successNext": "setupComplete",
+      "failNext": "resolveImportDuplicates"
+    },
+    "migrationEscalation": {
+      "type": "terminal",
+      "title": "Further eM Client migration required",
+      "body": [
+        "The old mail could not be transferred or reconciled safely.",
+        "Preserve the original eM Client backup, PST or other source archive.",
+        "Keep partial imports separate.",
+        "Record the account type, source format, import method and any errors.",
+        "Check database compatibility, corrupted files, storage quotas and synchronisation.",
+        "If an import was partially completed, identify transferred messages before attempting it again.",
+        "Do not merge uncertain message sets or delete source files.",
+        "Use the provider's supported recovery or import procedure."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Import and Restore",
+          "description": "Official information about recovering or importing mail data.",
+          "url": "https://www.emclient.com/faq-getting-started"
+        },
+        {
+          "name": "eM Client: Troubleshooting",
+          "description": "Official support for account and database problems.",
+          "url": "https://www.emclient.com/faq-troubleshooting"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupComplete": {
+      "type": "terminal",
+      "title": "eM Client setup completed",
+      "body": [
+        "The email account can send and receive messages.",
+        "Incoming and outgoing server settings are configured correctly.",
+        "For IMAP or Exchange, required server-stored messages and folders have synchronised.",
+        "If no local-only data is missing, no mail import was required.",
+        "For POP, local mail storage and server retention have been reviewed.",
+        "Any required old mail or database data has been restored, imported or preserved as a separate archive.",
+        "Imported messages have been checked for duplicates before merging.",
+        "Check contacts, calendars, signatures and rules separately where required.",
+        "Keep verified backups of important locally stored messages."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupEscalation": {
+      "type": "terminal",
+      "title": "Further eM Client account diagnostics",
+      "body": [
+        "The email account cannot connect after checking its server settings.",
+        "Record the eM Client version, email provider, protocol and exact error.",
+        "Confirm that the selected connection and authentication methods are supported.",
+        "Check OAuth, multifactor authentication and organisational restrictions.",
+        "Compare mailbox access through webmail.",
+        "Use the Email Not Working guide for further mail delivery troubleshooting.",
+        "Preserve existing POP, Local Folders and database backups."
+      ],
+      "link": [
+        {
+          "name": "eM Client: Troubleshooting",
+          "description": "Official account and application troubleshooting documentation.",
+          "url": "https://www.emclient.com/faq-troubleshooting"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

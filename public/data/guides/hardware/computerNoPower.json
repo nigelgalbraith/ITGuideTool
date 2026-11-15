@@ -1,195 +1,390 @@
+
 {
+  "id": "computerNoPower",
+  "title": "Computer Won't Turn On",
   "cardText": [
-    "Diagnose a desktop or laptop that does not power on.",
-    "Determine whether the problem is power delivery, battery, power supply, motherboard, or startup related.",
-    "Follow the checks in order before replacing hardware."
+    "Diagnose a desktop or laptop that does not respond when attempting to start.",
+    "Check power delivery, cables, chargers, batteries, power supply components and internal connections.",
+    "Identify likely power faults before replacing hardware."
   ],
   "icon": "",
-  "id": "computerNoPower",
+  "text": [
+    "This guide covers desktop and laptop computers with no apparent power or startup response.",
+    "Begin by checking external power delivery before investigating internal components.",
+    "Follow the relevant desktop or laptop troubleshooting branch.",
+    "If the computer powers on but produces no display, use the Computer Turns On But No Display guide.",
+    "Do not open power supplies, damaged chargers or sealed batteries."
+  ],
+  "startNode": "checkPowerSource",
   "nodes": {
-    "checkLaptopBattery": {
-      "body": [
-        "Connect the charger and look for charging LEDs.",
-        "Leave the charger connected for at least 10 minutes.",
-        "A completely discharged battery may require time before startup."
-      ],
-      "failLabel": "No Charging Light",
-      "failNext": "laptopPowerFault",
-      "successLabel": "Charging Light Present",
-      "successNext": null,
-      "title": "Check laptop charging indicators"
-    },
-    "checkMotherboardLed": {
-      "body": [
-        "If safe to open the case, look for a standby LED on the motherboard.",
-        "A standby LED usually indicates the motherboard is receiving power."
-      ],
-      "failLabel": "No LED",
-      "failNext": "psuFailure",
-      "successLabel": "LED Present",
-      "successNext": "testPowerButton",
-      "title": "Check motherboard standby power"
-    },
-    "checkPowerCable": {
-      "body": [
-        "Ensure the power cable is firmly connected.",
-        "For laptops, verify the charger is connected correctly.",
-        "Look for damaged cables, bent pins, or loose connectors."
-      ],
-      "failLabel": "Cable Damaged",
-      "failNext": "replacePowerCable",
-      "successLabel": "Cable Appears OK",
-      "successNext": "desktopOrLaptop",
-      "title": "Check power cable and adapter"
-    },
     "checkPowerSource": {
+      "title": "Check power delivery",
       "body": [
-        "Confirm the wall outlet has power.",
-        "Try another device such as a lamp or phone charger.",
-        "If using a power board, ensure it is switched on."
+        "Test the wall outlet with another known-working device.",
+        "If using a power board, surge protector or extension lead, bypass it and test directly from a working wall outlet.",
+        "Look for damaged plugs, overheating or signs of electrical failure.",
+        "If the computer still receives no power from a known-working source, continue checking its power cable or charger."
       ],
-      "failLabel": "No Power",
-      "failNext": "restorePower",
       "successLabel": "Power Available",
+      "failLabel": "Power Fault Found",
       "successNext": "checkPowerCable",
-      "title": "Check power source"
-    },
-    "checkPsuSwitch": {
-      "body": [
-        "Ensure the switch on the back of the power supply is set to ON.",
-        "Some desktop power supplies also include a voltage selector switch which should not normally be changed."
-      ],
-      "failLabel": "Switch OFF",
-      "failNext": "enablePsu",
-      "successLabel": "Switch ON",
-      "successNext": "checkMotherboardLed",
-      "title": "Check power supply switch"
-    },
-    "desktopOrLaptop": {
-      "body": [
-        "Determine whether the affected device is a desktop computer or laptop.",
-        "Different power systems require different troubleshooting steps."
-      ],
-      "failLabel": "Laptop",
-      "failNext": "checkLaptopBattery",
-      "successLabel": "Desktop",
-      "successNext": "checkPsuSwitch",
-      "title": "Identify device type"
-    },
-    "enablePsu": {
-      "body": [
-        "The power supply was switched off.",
-        "Turn it on and test the computer again."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Enable power supply",
-      "type": "terminal"
-    },
-    "fansOrLights": {
-      "body": [
-        "Some activity indicates power is reaching the system.",
-        "The problem may be startup related rather than a complete power failure."
-      ],
-      "failLabel": "No",
-      "failNext": "checkPowerSource",
-      "successLabel": "Yes",
-      "successNext": "motherboardFailure",
-      "title": "Do fans spin or lights turn on?"
-    },
-    "laptopPowerFault": {
-      "body": [
-        "The laptop is not showing evidence of receiving power.",
-        "Test with a known-good charger if available.",
-        "If the problem remains, hardware repair may be required."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Possible charger, battery, or motherboard fault",
-      "type": "terminal"
-    },
-    "motherboardFailure": {
-      "body": [
-        "The computer receives power but still does not start normally.",
-        "Further diagnosis may require testing RAM, CPU, motherboard, and power supply components.",
-        "Escalate for hardware diagnostics or repair."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Possible motherboard or internal hardware fault",
-      "type": "terminal"
-    },
-    "pressPowerButton": {
-      "body": [
-        "Press the power button normally.",
-        "Observe whether any lights, fan movement, sounds, or screen activity occur.",
-        "Any sign of activity helps identify where the startup process is failing."
-      ],
-      "failLabel": "No Activity",
-      "failNext": "checkPowerSource",
-      "successLabel": "Some Activity",
-      "successNext": "fansOrLights",
-      "title": "Press the power button"
-    },
-    "psuFailure": {
-      "body": [
-        "The motherboard does not appear to be receiving standby power.",
-        "Test with a known-good power supply if available.",
-        "Replace the PSU if confirmed faulty."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Possible power supply failure",
-      "type": "terminal"
-    },
-    "repairPowerButton": {
-      "body": [
-        "The power button assembly may be disconnected or defective.",
-        "Inspect front-panel wiring and replace faulty components."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Repair power button",
-      "type": "terminal"
-    },
-    "replacePowerCable": {
-      "body": [
-        "A damaged power cable or charger can prevent the system from receiving power.",
-        "Replace the faulty component and test again."
-      ],
-      "failNext": null,
-      "successNext": null,
-      "title": "Replace power cable or charger",
-      "type": "terminal"
+      "failNext": "restorePower"
     },
     "restorePower": {
+      "type": "terminal",
+      "title": "External power fault identified",
       "body": [
-        "The outlet or power board is not providing power.",
-        "Restore power or move the computer to a working outlet before continuing."
+        "The outlet, power board or extension lead is not supplying reliable power.",
+        "Use a known-working outlet and replace any faulty power board or extension lead.",
+        "If a breaker repeatedly trips or the outlet shows signs of damage, arrange an electrician.",
+        "Retest the computer after restoring reliable power."
       ],
-      "failNext": null,
       "successNext": null,
-      "title": "Restore electrical power",
-      "type": "terminal"
+      "failNext": null
+    },
+    "checkPowerCable": {
+      "title": "Check power cable or charger",
+      "body": [
+        "Inspect the power cable, charger and connectors for damage.",
+        "Check for frayed insulation, bent pins, loose plugs or signs of overheating.",
+        "For desktops, try another compatible mains power cable where available.",
+        "For laptops, verify that the charger connector fits securely and is compatible with the computer.",
+        "Stop using damaged cables or adapters."
+      ],
+      "successLabel": "Cable Appears OK",
+      "failLabel": "Cable Damaged",
+      "successNext": "desktopOrLaptop",
+      "failNext": "replacePowerCable"
+    },
+    "replacePowerCable": {
+      "type": "terminal",
+      "title": "Replace damaged cable or charger",
+      "body": [
+        "A damaged power cable or charger may prevent the computer from receiving power.",
+        "Replace the faulty component with a compatible, correctly rated replacement.",
+        "For USB-C charging, ensure the charger and cable meet the laptop's power requirements.",
+        "Retest the computer after replacement."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "desktopOrLaptop": {
+      "title": "Identify computer type",
+      "body": [
+        "Select the type of computer being diagnosed.",
+        "Desktop and laptop computers use different power arrangements and require different diagnostic procedures.",
+        "For all-in-one computers, follow the manufacturer's power supply instructions."
+      ],
+      "successLabel": "Desktop",
+      "failLabel": "Laptop",
+      "successNext": "checkPsuSwitch",
+      "failNext": "checkLaptopBattery"
+    },
+    "checkPsuSwitch": {
+      "title": "Check desktop power supply",
+      "body": [
+        "Inspect the rear of the computer where the mains cable connects.",
+        "Some desktop power supplies have an I/O rocker switch that can become accidentally switched off.",
+        "If a switch is fitted, I indicates On and O indicates Off.",
+        "Check for physical damage or signs of overheating around the power supply.",
+        "Do not adjust any voltage selector switch or open the PSU casing.",
+        "If the PSU switch was off, correct it and retest."
+      ],
+      "link": [
+        {
+          "name": "ASUS: Motherboard power troubleshooting",
+          "description": "Official guidance for checking desktop power supplies and motherboard power connections.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
+      ],
+      "image": "computer-psu-switch.jpg",
+      "alt": "Rear of a desktop power supply showing the I and O rocker switch beside the mains inlet",
+      "caption": "Some desktop power supplies have a separate I/O switch beside the mains connector.",
+      "successLabel": "PSU Switch OK",
+      "failLabel": "Switch Was Off",
+      "successNext": "checkMotherboardPowerConnectors",
+      "failNext": "enablePsu"
+    },
+    "enablePsu": {
+      "type": "terminal",
+      "title": "Power supply switch issue",
+      "body": [
+        "The desktop PSU switch was set to Off.",
+        "Set the switch to I and test the computer.",
+        "If the system remains unresponsive, continue checking the internal power connections."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkMotherboardPowerConnectors": {
+      "title": "Check motherboard power connections",
+      "body": [
+        "This step applies to desktop computers with accessible internal components.",
+        "Disconnect mains power and follow appropriate anti-static precautions before opening the case.",
+        "Inspect the main 24-pin ATX motherboard power connector.",
+        "Check the CPU power connector, usually a 4-pin or 8-pin connection near the processor.",
+        "Ensure the connectors are fully seated and their retaining clips are secure.",
+        "Check for signs of burnt, damaged or loose connectors.",
+        "Use the correct power supply cables and never force incompatible connectors.",
+        "Do not open the power supply itself."
+      ],
+      "link": [
+        {
+          "name": "ASUS: Motherboard power connections",
+          "description": "Manufacturer troubleshooting for ATX and CPU power connections.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
+      ],
+      "image": "computer-motherboard-power.jpg",
+      "alt": "Motherboard showing the main ATX and CPU power connector locations",
+      "caption": "Check that the motherboard ATX and CPU power connectors are securely seated.",
+      "successLabel": "Connections Secure",
+      "failLabel": "Loose Connection",
+      "successNext": "checkMotherboardLed",
+      "failNext": "reconnectMotherboardPower"
+    },
+    "reconnectMotherboardPower": {
+      "type": "terminal",
+      "title": "Reconnect motherboard power",
+      "body": [
+        "A motherboard or CPU power connector was loose.",
+        "With mains power disconnected, reconnect the correct cable until its retaining clip is secure.",
+        "Inspect the connector for damage or overheating.",
+        "Reassemble the computer and retest.",
+        "If the computer still fails, continue with further power supply diagnostics."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkMotherboardLed": {
+      "title": "Check motherboard standby power",
+      "body": [
+        "Some motherboards have a standby-power LED that indicates part of the board is receiving power.",
+        "Check the motherboard manual to identify whether this indicator exists.",
+        "A lit standby LED suggests some power is reaching the motherboard but does not prove that the power supply is fully functional.",
+        "An unlit or absent indicator does not automatically mean the power supply has failed.",
+        "Use this observation alongside the other power checks."
+      ],
+      "successLabel": "Standby Power Evident",
+      "failLabel": "No Clear Standby Power",
+      "successNext": "testPowerButton",
+      "failNext": "psuFailure"
     },
     "testPowerButton": {
+      "title": "Check desktop power switch wiring",
       "body": [
-        "Press the power button and check whether it feels normal.",
-        "A disconnected or failed power switch can prevent startup."
+        "Inspect the case power button for physical damage or a sticking mechanism.",
+        "With mains power disconnected, check the front-panel power-switch cable where it connects to the motherboard.",
+        "Confirm the connector is attached to the correct header pins using the motherboard manual.",
+        "Look for disconnected, damaged or loose wiring.",
+        "Do not short motherboard pins unless following an approved service procedure.",
+        "If the button and wiring are intact, continue investigating the power supply."
       ],
-      "failLabel": "Button Faulty",
-      "failNext": "repairPowerButton",
-      "successLabel": "Button Appears OK",
-      "successNext": "motherboardFailure",
-      "title": "Check power button operation"
+      "successLabel": "Wiring Appears OK",
+      "failLabel": "Button or Wiring Fault",
+      "successNext": "psuFailure",
+      "failNext": "repairPowerButton"
+    },
+    "repairPowerButton": {
+      "type": "terminal",
+      "title": "Repair desktop power switch",
+      "body": [
+        "The case power switch or its front-panel wiring may be faulty.",
+        "Disconnect mains power before adjusting any connectors.",
+        "Use the motherboard manual to identify the correct power-switch header pins.",
+        "Reconnect loose wiring or replace the faulty switch assembly.",
+        "Reassemble and retest the computer.",
+        "If the fault remains, investigate the power supply and motherboard."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "psuFailure": {
+      "title": "Test the desktop power supply",
+      "body": [
+        "The desktop still does not start after checking external power and motherboard connections.",
+        "A faulty PSU is possible, but the motherboard or another component may also prevent startup.",
+        "Test with a known-working, electrically compatible PSU where available.",
+        "Only use the modular cables supplied with the replacement PSU. Cables from different PSU models are not necessarily interchangeable.",
+        "A standby LED or spinning fan does not prove that all PSU outputs are correct.",
+        "Never open a PSU casing because dangerous electrical charge can remain inside.",
+        "If a replacement PSU is unavailable, arrange further hardware testing."
+      ],
+      "link": [
+        {
+          "name": "ASUS: No-power hardware diagnostics",
+          "description": "Official troubleshooting steps for power supplies and internal computer power faults.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
+      ],
+      "successLabel": "Works With Other PSU",
+      "failLabel": "Still No Power",
+      "successNext": "replacePsu",
+      "failNext": "motherboardFailure"
+    },
+    "replacePsu": {
+      "type": "terminal",
+      "title": "Desktop PSU fault likely",
+      "body": [
+        "The computer starts correctly with a known-working replacement power supply.",
+        "This strongly suggests that the original PSU or its associated cables were faulty.",
+        "Replace it with a compatible unit of sufficient capacity.",
+        "Use the cables supplied for the replacement PSU.",
+        "Test the computer after installation."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkLaptopBattery": {
+      "title": "Check laptop charging indicators",
+      "body": [
+        "Connect a compatible charger directly to a known-working outlet.",
+        "Check whether the laptop recognises the charger or displays a charging indicator.",
+        "If the battery may be completely discharged, allow approximately 15 to 30 minutes of charging.",
+        "Inspect the charging connector for physical damage or looseness.",
+        "Some laptops do not have a dedicated charging LED, so the absence of an indicator alone does not establish a fault.",
+        "Continue with the charger and power-reset checks as appropriate."
+      ],
+      "link": [
+        {
+          "name": "Dell: Laptop power troubleshooting",
+          "description": "Official instructions for checking laptop adapters, charging and startup faults.",
+          "url": "https://www.dell.com/support/kbdoc/en-ca/000124389/how-to-troubleshoot-power-issues-on-a-dell-laptop"
+        }
+      ],
+      "successLabel": "Charging Activity",
+      "failLabel": "No Charging Activity",
+      "successNext": "laptopPowerReset",
+      "failNext": "checkLaptopCharger"
+    },
+    "checkLaptopCharger": {
+      "title": "Test laptop charger",
+      "body": [
+        "Inspect the charger and power cable for damage or overheating.",
+        "Check the charger's output voltage, power rating and connector compatibility.",
+        "For USB-C charging, confirm that the port supports charging and the adapter provides sufficient USB Power Delivery.",
+        "Try a known-working compatible charger if available.",
+        "Check for damage or looseness in the laptop's charging port.",
+        "If charging activity returns, continue with the laptop power reset.",
+        "If the laptop remains unresponsive with a compatible charger, an internal power fault is possible."
+      ],
+      "link": [
+        {
+          "name": "Dell: Troubleshoot laptop power problems",
+          "description": "Manufacturer guidance for testing AC adapters and laptop power delivery.",
+          "url": "https://www.dell.com/support/contents/en-au/article/product-support/self-support-knowledgebase/battery-and-power/no-power"
+        }
+      ],
+      "successLabel": "Charger Recognised",
+      "failLabel": "Still No Power",
+      "successNext": "laptopPowerReset",
+      "failNext": "laptopPowerFault"
+    },
+    "laptopPowerReset": {
+      "title": "Perform laptop power reset",
+      "body": [
+        "Disconnect the charger and unnecessary external devices.",
+        "If the laptop has an externally removable battery, remove it according to the manufacturer's instructions.",
+        "Hold the power button for approximately 15 to 20 seconds to discharge residual power.",
+        "Reconnect the removable battery if applicable, then reconnect the charger.",
+        "Test whether the laptop starts.",
+        "Some models use a dedicated reset button or manufacturer-specific reset procedure.",
+        "Do not dismantle a sealed laptop to disconnect its internal battery."
+      ],
+      "link": [
+        {
+          "name": "Dell: Troubleshoot laptop no-power problems",
+          "description": "Manufacturer instructions for performing a laptop hard reset and checking power delivery.",
+          "url": "https://www.dell.com/support/kbdoc/en-ca/000124389/how-to-troubleshoot-power-issues-on-a-dell-laptop"
+        }
+      ],
+      "successLabel": "Laptop Starts",
+      "failLabel": "Still No Power",
+      "successNext": "powerResetFixed",
+      "failNext": "testLaptopWithoutBattery"
+    },
+    "powerResetFixed": {
+      "type": "terminal",
+      "title": "Laptop power restored",
+      "body": [
+        "The laptop started after the power reset.",
+        "Reconnect external devices one at a time.",
+        "Check that the battery charges and the laptop starts normally.",
+        "If the problem returns, investigate the charging circuit, battery or firmware."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "testLaptopWithoutBattery": {
+      "title": "Test laptop without removable battery",
+      "body": [
+        "Only perform this test if the laptop has an externally removable battery and the manufacturer supports operation using the charger alone.",
+        "Disconnect the charger before removing the battery.",
+        "Remove the battery following the manufacturer's procedure.",
+        "Reconnect the compatible charger and attempt to start the laptop.",
+        "Do not open a laptop with a sealed internal battery for this test.",
+        "If the battery is swollen or damaged, stop using the laptop and arrange professional service.",
+        "If the battery cannot be removed safely, proceed to further power diagnostics."
+      ],
+      "successLabel": "Runs Without Battery",
+      "failLabel": "Still Fails / Not Applicable",
+      "successNext": "laptopBatteryFault",
+      "failNext": "laptopPowerFault"
+    },
+    "laptopBatteryFault": {
+      "type": "terminal",
+      "title": "Laptop battery fault possible",
+      "body": [
+        "The laptop starts when running from the charger without its removable battery.",
+        "The battery or its associated connection may be faulty.",
+        "Check the manufacturer's battery diagnostics.",
+        "Replace the battery only with a compatible, approved replacement.",
+        "Never reuse a swollen or physically damaged battery."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "laptopPowerFault": {
+      "type": "terminal",
+      "title": "Laptop internal power fault possible",
+      "body": [
+        "The laptop remains unresponsive after testing the charger and performing a power reset.",
+        "Possible causes include the charging port, battery, internal charging circuit or motherboard.",
+        "Check for manufacturer-specific diagnostic light patterns.",
+        "Stop attempting to power on the laptop if it has liquid damage, signs of overheating or a swollen battery.",
+        "Record the laptop model, charger specifications and troubleshooting results.",
+        "Arrange further hardware diagnosis before replacing internal components."
+      ],
+      "link": [
+        {
+          "name": "Dell: Advanced laptop power diagnostics",
+          "description": "Official troubleshooting for laptops that remain unresponsive after basic power checks.",
+          "url": "https://www.dell.com/support/kbdoc/en-ca/000124389/how-to-troubleshoot-power-issues-on-a-dell-laptop"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "motherboardFailure": {
+      "type": "terminal",
+      "title": "Further desktop hardware diagnostics required",
+      "body": [
+        "The desktop remains unresponsive after checking external power, internal connectors, the power switch and the PSU.",
+        "Possible causes include a motherboard fault, damaged power connector or internal electrical short.",
+        "Disconnect unnecessary peripherals and investigate recently installed hardware where appropriate.",
+        "Use known-working compatible components to isolate the fault.",
+        "Do not assume the motherboard has failed until the power supply and basic connections have been properly tested.",
+        "Arrange further hardware diagnostics or repair."
+      ],
+      "link": [
+        {
+          "name": "ASUS: Motherboard power troubleshooting",
+          "description": "Official procedures for checking power delivery and diagnosing startup faults.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
     }
-  },
-  "startNode": "pressPowerButton",
-  "text": [
-    "This guide is for computers that do not start when the power button is pressed.",
-    "Identify whether any signs of power are present.",
-    "Check external power sources before investigating internal hardware.",
-    "Escalate hardware faults when basic troubleshooting fails."
-  ],
-  "title": "Computer Won't Turn On"
+  }
 }

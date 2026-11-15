@@ -1,237 +1,416 @@
+
 {
   "id": "pcRandomlyRestarts",
   "title": "PC Randomly Restarts",
   "cardText": [
-    "Diagnose computers that restart unexpectedly during normal use, gaming, startup, or idle periods.",
-    "Check overheating, power supply stability, memory, drivers, Windows errors, and hardware faults.",
-    "Separate software issues from power and hardware failures."
+    "Diagnose computers that restart unexpectedly during gaming, normal use, startup or idle periods.",
+    "Investigate Windows event logs, overheating, power supply stability, RAM, drivers and storage.",
+    "Distinguish Windows crashes from power loss and hardware instability."
   ],
   "icon": "",
   "text": [
-    "This guide is for computers that unexpectedly restart without warning.",
-    "Determine whether the restart occurs under load, while idle, or during startup.",
-    "Check temperatures, event logs, drivers, memory, and power stability.",
-    "Escalate hardware faults when software troubleshooting does not resolve the issue."
+    "This guide is for Windows computers that restart unexpectedly without a normal shutdown.",
+    "Identify the restart pattern and inspect Windows event logs for useful diagnostic evidence.",
+    "Check temperatures, power delivery and memory stability before replacing components.",
+    "Investigate drivers, recent changes and storage errors where appropriate.",
+    "If the computer displays a blue-screen stop code, record it and use the relevant diagnostics."
   ],
   "startNode": "checkRestartPattern",
   "nodes": {
     "checkRestartPattern": {
-      "title": "Identify when the restart occurs",
+      "title": "Identify the restart pattern",
       "body": [
-        "Determine whether the restart happens during gaming, heavy workloads, startup, or random idle use.",
-        "The timing often provides clues about the underlying cause."
+        "Establish whether the restarts happen during gaming, rendering, startup, sleep, idle periods or ordinary Windows use.",
+        "Note whether the computer immediately loses power, displays a blue screen or performs a normal Windows restart.",
+        "Check whether the problem began after a hardware, software or driver change.",
+        "A restart under sustained load may suggest thermal or power instability, while a restart accompanied by a stop code provides a different diagnostic path.",
+        "Check system temperatures first if failures occur mainly under load; otherwise inspect the Windows event logs."
       ],
-      "successLabel": "Under Load",
-      "failLabel": "Random/Idle",
+      "successLabel": "Mainly Under Load",
+      "failLabel": "Random / Idle / Startup",
       "successNext": "checkTemperatures",
       "failNext": "checkEventViewer"
     },
-
     "checkTemperatures": {
-      "title": "Check system temperatures",
+      "title": "Check CPU and GPU temperatures",
       "body": [
-        "Monitor CPU and GPU temperatures while the system is under load.",
-        "Overheating can trigger automatic restarts to prevent hardware damage.",
-        "Listen for unusually loud fans or signs of thermal throttling."
+        "Use the manufacturer's monitoring utility or a reputable hardware monitoring tool to view CPU and GPU temperatures.",
+        "Observe temperatures at idle and during normal workloads that previously caused problems.",
+        "Compare readings with the processor and graphics card manufacturer's operating limits.",
+        "Check for thermal throttling, unusually high sustained temperatures or fans failing to respond to increased load.",
+        "Temperature limits vary by CPU and GPU model; do not treat a single generic temperature as a universal failure threshold.",
+        "Avoid prolonged stress testing if the computer is already overheating or repeatedly losing power."
+      ],
+      "link": [
+        {
+          "name": "Intel: Processor overheating troubleshooting",
+          "description": "Official guidance for identifying thermal throttling, unexpected shutdowns and cooling faults.",
+          "url": "https://www.intel.com/content/www/us/en/support/articles/000005791/processors/intel-core-processors.html"
+        }
       ],
       "successLabel": "Temperatures Normal",
       "failLabel": "Overheating Found",
-      "successNext": "checkPowerSupply",
+      "successNext": "checkEventViewer",
       "failNext": "resolveCoolingIssue"
     },
-
     "resolveCoolingIssue": {
-      "type": "terminal",
-      "title": "Cooling issue identified",
+      "title": "Resolve cooling or overheating problem",
       "body": [
-        "The system is overheating.",
-        "Clean dust from vents and fans, verify fan operation, and improve airflow.",
-        "Retest after cooling issues are resolved."
+        "Inspect vents, heatsinks and fans for dust buildup or airflow restrictions.",
+        "Confirm that the CPU and GPU cooling fans operate correctly.",
+        "For desktops, inspect case airflow and the installation of the CPU cooler.",
+        "If the cooler has recently been removed or installed, check its mounting pressure and thermal interface according to manufacturer instructions.",
+        "For laptops, check that vents are unobstructed and fans are operating normally.",
+        "After correcting the cooling problem, monitor temperatures and retest system stability.",
+        "If temperatures return to normal but restarts continue, investigate the Windows logs."
       ],
+      "link": [
+        {
+          "name": "Intel: Troubleshoot processor overheating",
+          "description": "Manufacturer guidance for checking cooling systems and thermal problems.",
+          "url": "https://www.intel.com/content/www/us/en/support/articles/000005791/processors/intel-core-processors.html"
+        }
+      ],
+      "successLabel": "Restarts Fixed",
+      "failLabel": "Still Restarting",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkEventViewer"
     },
-
     "checkEventViewer": {
-      "title": "Check Event Viewer",
+      "title": "Inspect Windows restart events",
       "body": [
-        "Review System logs around the restart time.",
-        "Look for Kernel-Power events, driver crashes, or hardware-related errors.",
-        "Event logs can help identify the source of unexpected restarts."
+        "Press Windows + R, enter eventvwr.msc and press Enter.",
+        "Open Windows Logs, System.",
+        "Check the events immediately before and after the most recent unexpected restart.",
+        "Look for Kernel-Power Event ID 41, EventLog Event ID 6008, BugCheck Event ID 1001 and User32 Event ID 1074 where present.",
+        "Event ID 41 records that Windows did not shut down cleanly. It does not, by itself, identify a faulty power supply.",
+        "Event ID 1001 may contain a stop code from a Windows crash.",
+        "Event ID 1074 may identify a planned restart initiated by Windows Update, software or a user.",
+        "Record relevant timestamps, error codes and source names rather than assuming every warning is related."
       ],
-      "successLabel": "Useful Errors Found",
-      "failLabel": "No Useful Errors",
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot Kernel-Power Event ID 41",
+          "description": "Explains what Event ID 41 records and how to interpret its diagnostic information.",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart"
+        },
+        {
+          "name": "Microsoft: Diagnose unexpected restarts using event logs",
+          "description": "Reference for restart-related Event IDs, including 41, 1001, 1074 and 6008.",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-unexpected-reboots-system-event-logs"
+        }
+      ],
+      "image": "pc-restart-event-viewer.png",
+      "alt": "Windows Event Viewer System log showing restart-related Event IDs including 41, 1074 and 6008",
+      "caption": "Check events around the restart time. Event ID 41 confirms an unexpected shutdown but does not identify its cause.",
+      "successLabel": "Relevant Error Found",
+      "failLabel": "No Useful Error",
       "successNext": "investigateLoggedIssue",
       "failNext": "checkPowerSupply"
     },
-
     "investigateLoggedIssue": {
-      "title": "Investigate logged issue",
+      "title": "Investigate the recorded restart cause",
       "body": [
-        "Review the reported error or warning.",
-        "Research the specific driver, service, or hardware component mentioned.",
-        "Apply any recommended fix before continuing."
+        "Check the source and details of the event recorded around the restart.",
+        "If Event ID 1074 identifies an update or application-initiated restart, investigate that process.",
+        "If Event ID 1001 reports a bugcheck, record the stop code and investigate the associated driver or system crash.",
+        "If WHEA-Logger reports hardware errors, record the event details and check the relevant hardware.",
+        "If only Event ID 41 or 6008 appears, continue investigating power, thermal and hardware stability.",
+        "Do not replace a power supply based solely on a Kernel-Power 41 event."
       ],
-      "successLabel": "Issue Fixed",
+      "link": [
+        {
+          "name": "Microsoft: Event ID 41 diagnostic interpretation",
+          "description": "Explains how to distinguish stop errors, sudden power interruptions and incomplete shutdowns.",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart"
+        },
+        {
+          "name": "Microsoft: Unexpected restart and stop code troubleshooting",
+          "description": "Official guidance for Windows crashes, stop codes and recurring unexpected restarts.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
+      ],
+      "successLabel": "Cause Identified",
+      "failLabel": "Cause Unclear",
+      "successNext": "repairLoggedIssue",
+      "failNext": "checkPowerSupply"
+    },
+    "repairLoggedIssue": {
+      "title": "Address the identified error",
+      "body": [
+        "Apply the corrective action supported by the specific error or stop code.",
+        "For driver-related crashes, investigate the identified driver before changing unrelated software.",
+        "For update-related restarts, check update history and installation status.",
+        "For hardware error reports, perform the relevant hardware diagnostics.",
+        "Make one change at a time and monitor whether unexpected restarts continue."
+      ],
+      "successLabel": "Restarts Fixed",
       "failLabel": "Still Restarting",
       "successNext": null,
       "failNext": "checkPowerSupply"
     },
-
     "checkPowerSupply": {
       "title": "Check power supply stability",
       "body": [
-        "Unexpected restarts are commonly caused by failing power supplies.",
-        "Watch for restarts during gaming, rendering, or other high-power workloads.",
-        "If available, test with a known-good PSU."
+        "Consider whether the restarts occur when CPU or GPU power demand increases.",
+        "For desktops, check the PSU's wattage, age, compatibility and power connections.",
+        "Check that motherboard and graphics card power connectors are fully seated.",
+        "Look for damaged power cables, loose connections or evidence of overheating.",
+        "Check for GPU power adapters or extension cables that may be loose or incorrectly installed.",
+        "If possible, test the desktop with a known-working compatible power supply.",
+        "For laptops, investigate charger wattage, battery condition and charging interruptions where relevant.",
+        "Do not assume that sudden restarts or Kernel-Power 41 events prove the PSU is defective.",
+        "Never open a power supply casing."
       ],
-      "successLabel": "PSU Appears OK",
-      "failLabel": "PSU Suspected",
+      "link": [
+        {
+          "name": "Microsoft: Event ID 41 and possible power interruptions",
+          "description": "Explains how unexpected power loss can generate Event ID 41 and what additional evidence is needed.",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart"
+        }
+      ],
+      "successLabel": "No PSU Fault Confirmed",
+      "failLabel": "Fault Confirmed",
       "successNext": "checkMemory",
       "failNext": "replacePsu"
     },
-
     "replacePsu": {
       "type": "terminal",
-      "title": "Power supply fault likely",
+      "title": "Power supply fault confirmed",
       "body": [
-        "The power supply appears unstable.",
-        "Replace or test with a known-good power supply.",
-        "Retest system stability afterwards."
+        "Testing with a known-working compatible power supply has resolved the unexpected restarts, or other reliable diagnostics have identified a PSU fault.",
+        "Replace the defective desktop power supply with a suitable unit.",
+        "Check its capacity and required motherboard and graphics card connectors.",
+        "When replacing a modular PSU, use only cables approved for that specific PSU model.",
+        "Do not reuse incompatible modular power supply cables.",
+        "Retest the computer under normal workloads after replacement."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkMemory": {
-      "title": "Check system memory",
+      "title": "Test system memory",
       "body": [
-        "Faulty RAM can cause sudden restarts without warning.",
-        "Run a memory diagnostic or memory test utility.",
-        "If multiple RAM sticks are installed, test them individually if necessary."
+        "Press Windows + R, enter mdsched.exe and press Enter.",
+        "Save open work and select Restart now and check for problems.",
+        "Allow Windows Memory Diagnostic to complete its tests.",
+        "Review the reported results after Windows starts.",
+        "If memory errors are found, investigate the RAM modules, memory slots and configuration.",
+        "On desktop systems, testing one RAM module at a time can help isolate the fault.",
+        "If XMP or EXPO is enabled, temporarily testing with supported default memory settings may help identify an unstable configuration.",
+        "A completed test without errors reduces suspicion of a memory fault but does not rule out intermittent RAM problems."
       ],
-      "successLabel": "Memory Healthy",
+      "link": [
+        {
+          "name": "Microsoft: Unexpected restart troubleshooting",
+          "description": "Official guidance for investigating Windows crashes and hardware-related instability.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
+      ],
+      "image": "pc-restart-memory-test.png",
+      "alt": "Windows Memory Diagnostic dialog with the Restart now and check for problems option",
+      "caption": "Run Windows Memory Diagnostic to check for memory errors that may cause crashes and restarts.",
+      "successLabel": "No Memory Errors",
       "failLabel": "Memory Errors Found",
       "successNext": "checkDrivers",
-      "failNext": "replaceMemory"
+      "failNext": "investigateMemoryFault"
     },
-
+    "investigateMemoryFault": {
+      "title": "Isolate the memory fault",
+      "body": [
+        "Record the memory diagnostic errors.",
+        "For desktops, test individual RAM modules in a known-working compatible slot where possible.",
+        "Check the motherboard manual for recommended memory slots and supported configurations.",
+        "Temporarily disable XMP or EXPO if memory instability may be related to overclocked settings.",
+        "If an error follows a particular RAM module, that module may be faulty.",
+        "If errors follow a particular slot or occur only with multiple modules, investigate the motherboard or memory configuration.",
+        "Do not replace RAM solely because one test failed while an unstable overclock was enabled."
+      ],
+      "successLabel": "Fault Isolated",
+      "failLabel": "Still Unclear",
+      "successNext": "replaceMemory",
+      "failNext": "hardwareEscalation"
+    },
     "replaceMemory": {
       "type": "terminal",
       "title": "Memory fault identified",
       "body": [
-        "Memory errors were detected.",
-        "Replace the faulty RAM and retest system stability."
+        "Testing has isolated a defective RAM module or an unsupported memory configuration.",
+        "Replace the faulty module with compatible memory if a physical defect is confirmed.",
+        "If the problem is caused by unstable XMP or EXPO settings, use stable supported memory settings instead.",
+        "Retest memory and computer stability after making changes.",
+        "If the errors persist with known-working RAM, investigate the motherboard and memory controller."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkDrivers": {
-      "title": "Check drivers",
+      "title": "Check drivers and Windows crash history",
       "body": [
-        "Review recently updated drivers.",
-        "Graphics, chipset, storage, and network drivers are common causes of instability.",
-        "Update or roll back drivers if the issue started recently."
+        "Review Windows Update history and any driver changes made before the restarts began.",
+        "Open Device Manager and check for devices reporting driver errors.",
+        "Pay particular attention to graphics, chipset, storage and network drivers where the evidence points to them.",
+        "Check the computer or component manufacturer's support website for compatible drivers.",
+        "If the restarts began immediately after a driver update, consider rolling back that driver.",
+        "Do not update every driver indiscriminately when there is no evidence that it is involved."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Update or roll back drivers",
+          "description": "Official instructions for updating, reinstalling and rolling back Windows device drivers.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/update-drivers-through-device-manager-in-windows"
+        },
+        {
+          "name": "Microsoft: Troubleshoot unexpected Windows restarts",
+          "description": "Guidance for driver-related stop codes and recurring crashes.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
       ],
       "successLabel": "Driver Issue Found",
       "failLabel": "No Driver Issue",
       "successNext": "repairDriverIssue",
       "failNext": "checkRecentChanges"
     },
-
     "repairDriverIssue": {
-      "type": "terminal",
-      "title": "Driver issue identified",
+      "title": "Repair the affected driver",
       "body": [
-        "A driver appears responsible for the restarts.",
-        "Update, roll back, or reinstall the affected driver.",
-        "Monitor stability after making changes."
+        "Identify the driver that is linked to the unexpected restarts.",
+        "Update, roll back or reinstall that driver using the manufacturer's recommended version.",
+        "If the problem began after a graphics driver update, test the previous stable driver where appropriate.",
+        "Restart the computer and monitor stability.",
+        "If the computer continues restarting, investigate other recent changes."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Driver rollback and reinstall",
+          "description": "Official Device Manager procedures for repairing problematic drivers.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/update-drivers-through-device-manager-in-windows"
+        }
+      ],
+      "successLabel": "Restarts Fixed",
+      "failLabel": "Still Restarting",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkRecentChanges"
     },
-
     "checkRecentChanges": {
-      "title": "Check recent software or hardware changes",
+      "title": "Check recent hardware and software changes",
       "body": [
-        "Determine whether the problem started after installing software, hardware, updates, or drivers.",
-        "Recent changes often provide a clear starting point for troubleshooting."
+        "Determine whether the restarts began after installing new hardware, software, a Windows update or changing BIOS settings.",
+        "Check whether any new RAM, GPU, storage device or USB peripheral was added shortly before the problem started.",
+        "Review recently installed applications and system utilities.",
+        "If overclocking, undervolting, XMP or EXPO settings were changed, consider temporarily returning to supported default settings.",
+        "Change one relevant item at a time to establish whether it affects stability."
       ],
       "successLabel": "Recent Change Found",
       "failLabel": "No Clear Change",
       "successNext": "undoRecentChange",
       "failNext": "checkDiskHealth"
     },
-
     "undoRecentChange": {
-      "type": "terminal",
-      "title": "Undo recent change",
+      "title": "Reverse the suspected change",
       "body": [
-        "Remove or reverse the recent change if appropriate.",
-        "Retest system stability afterwards."
+        "Revert the hardware, software, driver or configuration change most closely associated with the beginning of the problem.",
+        "For recently installed hardware, remove or disconnect it safely when practical.",
+        "Restore stable default overclocking or memory settings where appropriate.",
+        "For recent Windows software changes, consider the relevant supported recovery or rollback option.",
+        "Retest normal operation before making additional changes."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Windows unexpected restart troubleshooting",
+          "description": "Official guidance for resolving crashes associated with newly installed hardware and software.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
+      ],
+      "successLabel": "Restarts Fixed",
+      "failLabel": "Still Restarting",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkDiskHealth"
     },
-
     "checkDiskHealth": {
-      "title": "Check storage health",
+      "title": "Check SSD or HDD health",
       "body": [
-        "Failing SSDs or HDDs can cause crashes and unexpected restarts.",
-        "Review SMART data and storage health information.",
-        "Watch for disk errors in Event Viewer."
+        "Inspect Windows System event logs for recurring disk, storage controller or filesystem errors.",
+        "Use a suitable manufacturer diagnostic utility to review SSD or HDD health and SMART information.",
+        "Look for reported media errors, critical warnings, failing health tests or repeated I/O failures.",
+        "Check that drive cables and connectors are secure on desktop systems.",
+        "Storage errors may contribute to crashes, but a random restart is not by itself evidence of a failing drive.",
+        "Back up important files before performing further tests if storage failure is suspected."
       ],
-      "successLabel": "Storage Healthy",
-      "failLabel": "Storage Issue Found",
+      "successLabel": "Storage Appears Healthy",
+      "failLabel": "Storage Fault Found",
       "successNext": "checkBiosFirmware",
       "failNext": "replaceStorage"
     },
-
     "replaceStorage": {
       "type": "terminal",
       "title": "Storage fault identified",
       "body": [
-        "The storage device appears unreliable.",
-        "Back up important data immediately.",
-        "Replace the drive and restore or reinstall the operating system."
+        "Storage diagnostics or repeated I/O errors indicate a possible failing SSD or HDD.",
+        "Back up important data immediately if it remains accessible.",
+        "Confirm the affected drive before replacing hardware.",
+        "Replace the failing device with a compatible drive when necessary.",
+        "Restore data or reinstall the operating system as appropriate.",
+        "Retest system stability after repairing the storage fault."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkBiosFirmware": {
-      "title": "Check BIOS and firmware",
+      "title": "Check BIOS and firmware stability",
       "body": [
-        "Outdated firmware can cause instability.",
-        "Check for BIOS, motherboard, and device firmware updates.",
-        "Apply updates according to manufacturer instructions."
+        "Check whether the system is running with unstable overclocking, undervolting or memory settings.",
+        "Compare the installed BIOS version with the computer or motherboard manufacturer's support information.",
+        "Review available BIOS and firmware release notes for fixes specifically related to stability, restart problems or hardware compatibility.",
+        "An older BIOS version is not automatically the cause of unexpected restarts.",
+        "Do not attempt a firmware update if the computer cannot maintain reliable power and the manufacturer's procedure does not provide a safe recovery method.",
+        "If there is a relevant update and a safe way to apply it, proceed according to the manufacturer instructions."
       ],
-      "successLabel": "Update Available",
-      "failLabel": "No Update Available",
+      "successLabel": "Relevant Update Available",
+      "failLabel": "No Relevant Update",
       "successNext": "updateFirmware",
       "failNext": "hardwareEscalation"
     },
-
     "updateFirmware": {
-      "type": "terminal",
-      "title": "Update firmware",
+      "title": "Apply relevant firmware update",
       "body": [
-        "Install available firmware updates.",
-        "Retest the computer after updating.",
-        "Firmware updates can resolve stability problems."
+        "Confirm that the firmware update is intended for the exact computer or motherboard model.",
+        "Review the manufacturer's release notes and update instructions.",
+        "Ensure the computer has reliable power before starting the update.",
+        "For laptops, meet the manufacturer's charger and battery requirements.",
+        "If BitLocker is enabled, confirm the recovery key is available and follow manufacturer guidance about suspending protection.",
+        "Do not interrupt the firmware update.",
+        "Restart and test stability after updating.",
+        "If the computer may unexpectedly lose power, do not perform the update without an appropriate safe recovery procedure."
       ],
+      "successLabel": "Restarts Fixed",
+      "failLabel": "Still Restarting",
       "successNext": null,
-      "failNext": null
+      "failNext": "hardwareEscalation"
     },
-
     "hardwareEscalation": {
       "type": "terminal",
       "title": "Further hardware diagnostics required",
       "body": [
-        "Temperature, power, memory, storage, drivers, and firmware have been checked.",
-        "Possible causes include motherboard faults, CPU instability, GPU faults, or intermittent hardware failures.",
-        "Escalate for advanced hardware diagnostics."
+        "Unexpected restarts continue after checking available event logs, temperatures, power, memory, drivers, storage and relevant firmware.",
+        "Possible causes include motherboard faults, CPU or GPU instability, intermittent power delivery and other hardware failures.",
+        "Review any WHEA hardware errors, stop codes or memory dump files that were recorded.",
+        "For desktop computers, isolate components with known-working compatible replacements where practical.",
+        "Check motherboard diagnostic indicators and manufacturer hardware tests.",
+        "Avoid replacing expensive components based only on symptoms or an Event ID 41 entry.",
+        "Record the restart pattern, relevant logs, component specifications and troubleshooting results before arranging advanced diagnostics."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Advanced Kernel-Power troubleshooting",
+          "description": "Detailed reference for diagnosing unexpected shutdowns and unexplained restart events.",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart"
+        },
+        {
+          "name": "Microsoft: Windows unexpected restart troubleshooting",
+          "description": "Official troubleshooting procedures for recurring Windows crashes and stop code errors.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
       ],
       "successNext": null,
       "failNext": null

@@ -144,6 +144,26 @@
         {
           "id": "emailNotWorking",
           "path": "guides/email/emailNotWorking.json"
+        },
+        {
+          "id": "setupNewOutlook",
+          "path": "guides/email/setupNewOutlook.json"
+        },
+        {
+          "id": "setupClassicOutlook",
+          "path": "guides/email/setupClassicOutlook.json"
+        },
+        {
+          "id": "setupThunderbird",
+          "path": "guides/email/setupThunderbird.json"
+        },
+        {
+          "id": "setupEmClient",
+          "path": "guides/email/setupEmClient.json"
+        },
+        {
+          "id": "setupAppleMail",
+          "path": "guides/email/setupAppleMail.json"
         }
       ]
     },

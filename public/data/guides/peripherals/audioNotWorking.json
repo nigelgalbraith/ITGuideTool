@@ -1,271 +1,387 @@
+
 {
   "id": "audioNotWorking",
   "title": "Audio Not Working",
   "cardText": [
-    "Diagnose computers with no sound, low sound, or missing audio devices.",
-    "Check volume levels, output devices, headphones, speakers, Bluetooth connections, audio services, and drivers.",
-    "Separate software configuration issues from hardware faults."
+    "Troubleshoot missing, low or distorted sound on a Windows computer.",
+    "Check volume, output devices, speakers, headphones, Bluetooth connections and audio settings.",
+    "Diagnose audio services, drivers and possible hardware faults."
   ],
   "icon": "",
   "text": [
-    "This guide is for computers where audio is missing, distorted, or not working correctly.",
-    "Start with simple checks such as volume and output device selection.",
-    "Then investigate applications, drivers, services, and hardware.",
-    "Escalate hardware faults after software troubleshooting is completed."
+    "This guide helps diagnose sound problems on a Windows computer.",
+    "Start with volume and mute settings before changing drivers or services.",
+    "Check that sound is being sent to the correct speakers, headset or monitor.",
+    "Test different applications and audio devices to isolate the fault.",
+    "The menu names shown are primarily for Windows 11 and may differ in Windows 10."
   ],
   "startNode": "checkMute",
   "nodes": {
     "checkMute": {
-      "title": "Check mute status",
+      "title": "Check whether audio is muted",
       "body": [
-        "Verify the computer is not muted.",
-        "Check the keyboard mute key, volume icon, and any external speaker controls.",
-        "Muting is one of the most common causes of missing audio."
+        "Select the speaker icon on the Windows taskbar.",
+        "Check that the speaker is not muted.",
+        "Check any keyboard mute key or function key.",
+        "If using external speakers or headphones, check their physical mute and volume controls."
       ],
       "successLabel": "Not Muted",
       "failLabel": "Muted",
       "successNext": "checkVolumeLevel",
       "failNext": "unmuteAudio"
     },
-
     "unmuteAudio": {
       "type": "terminal",
-      "title": "Unmute audio",
+      "title": "Unmute the audio",
       "body": [
-        "The system was muted.",
-        "Unmute audio and test sound playback again."
+        "Unmute Windows and any connected speaker or headset.",
+        "Play a known working audio file or video.",
+        "If sound is still missing, restart this guide and continue with the volume checks."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkVolumeLevel": {
-      "title": "Check volume level",
+      "title": "Check Windows and application volume",
       "body": [
-        "Ensure the volume is turned up to an audible level.",
-        "Check both the master volume and application volume controls.",
-        "Very low volume can appear as no sound."
+        "Open Settings, System, Sound, then Volume mixer.",
+        "Check the main system volume.",
+        "Under Apps, confirm the affected application is not muted and its volume is turned up.",
+        "Check the application's own volume control if it has one.",
+        "Check that the app is using the intended output device."
       ],
-      "successLabel": "Volume OK",
-      "failLabel": "Volume Too Low",
+      "link": [
+        {
+          "name": "Microsoft: Fix low or quiet sound",
+          "description": "Official instructions for checking Windows volume, Volume mixer and sound settings.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-low-or-quiet-sound-in-windows"
+        }
+      ],
+      "image": "audio-volume-mixer.png",
+      "alt": "Windows 11 Volume mixer showing system and individual application volume controls",
+      "caption": "Check both the system volume and the affected application's volume.",
+      "successLabel": "Volume Correct",
+      "failLabel": "Muted or Too Low",
       "successNext": "testAudioPlayback",
       "failNext": "increaseVolume"
     },
-
     "increaseVolume": {
       "type": "terminal",
-      "title": "Increase volume",
+      "title": "Adjust the volume",
       "body": [
-        "Raise the volume level and test audio again.",
-        "Check application-specific volume controls as well."
+        "Increase the system and application volume to a comfortable level.",
+        "Unmute any application that was muted.",
+        "Check the speaker or headset volume controls as well.",
+        "Test sound again. If the issue remains, continue with the other checks."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "testAudioPlayback": {
-      "title": "Test audio playback",
+      "title": "Test sound in different applications",
       "body": [
-        "Play a known audio file or video.",
-        "Confirm whether any sound is heard.",
-        "This helps verify whether the issue affects all audio."
+        "Play a known working audio file or video.",
+        "Try another application or a different source of sound.",
+        "If sound works in one application but not another, the problem may be application-specific.",
+        "If there is no sound from any application, continue checking Windows audio output."
       ],
-      "successLabel": "Some Audio",
-      "failLabel": "No Audio",
+      "successLabel": "Only Some Apps Fail",
+      "failLabel": "No Sound Anywhere",
       "successNext": "appSpecificIssue",
       "failNext": "checkOutputDevice"
     },
-
     "appSpecificIssue": {
       "type": "terminal",
-      "title": "Application-specific audio issue",
+      "title": "Application-specific audio problem",
       "body": [
-        "Audio works in some applications but not others.",
-        "Check the application's audio settings, output device, and volume controls.",
-        "The operating system audio system appears to be functioning."
+        "Sound works in some applications but not others.",
+        "Open Windows Volume mixer and check the affected application's volume and output device.",
+        "Check the application's own audio settings.",
+        "Close and reopen the affected application, then test again.",
+        "If needed, update or repair the application."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix application audio",
+          "description": "Official instructions for cases where system audio works but individual applications have no sound.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-app-audio-not-working-while-system-sounds-work-in-windows"
+        }
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkOutputDevice": {
-      "title": "Check audio output device",
+      "title": "Check the selected audio output device",
       "body": [
-        "Open sound settings and review the selected output device.",
-        "Computers can route audio to monitors, Bluetooth devices, USB headsets, or speakers.",
-        "Selecting the wrong device results in no audible sound."
+        "Open Windows Settings, System, Sound.",
+        "Under Output, check which device is selected.",
+        "Choose the speakers, headphones or headset you actually want to use.",
+        "Windows may send sound to a connected monitor over HDMI or DisplayPort, a USB headset or a Bluetooth device.",
+        "Check that the selected device is enabled.",
+        "Use the Test option where available."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Fix sound and audio problems",
+          "description": "Official steps for choosing the correct default audio output device.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-sound-or-audio-problems-in-windows"
+        }
+      ],
+      "image": "audio-output-device.png",
+      "alt": "Windows 11 Sound settings showing available speakers and headset output devices",
+      "caption": "Select the output device you actually want to hear sound through.",
       "successLabel": "Correct Device",
       "failLabel": "Wrong Device",
       "successNext": "checkHeadphonesSpeakers",
       "failNext": "selectCorrectDevice"
     },
-
     "selectCorrectDevice": {
       "type": "terminal",
-      "title": "Select correct audio device",
+      "title": "Select the correct audio device",
       "body": [
-        "The wrong output device was selected.",
-        "Choose the correct speakers, headset, or monitor and test again."
+        "Select the correct speakers or headphones in Windows Sound settings.",
+        "If necessary, set the device as the default output.",
+        "Play audio to confirm it is working.",
+        "If there is still no sound, continue checking the connected audio hardware."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkHeadphonesSpeakers": {
-      "title": "Check headphones or speakers",
+      "title": "Check speakers and headphones",
       "body": [
-        "Verify speakers are powered on if required.",
-        "Reconnect headphones or speakers.",
-        "Check volume controls on external devices."
+        "If using external speakers, check that they are powered on and their volume is turned up.",
+        "Confirm the audio cable is connected to the correct port.",
+        "For a desktop computer, check that the speakers are not plugged into a microphone or line-in socket.",
+        "Reconnect the headset or speakers and check for damaged cables.",
+        "If possible, test the speakers or headphones on another device."
       ],
-      "successLabel": "Device Appears OK",
-      "failLabel": "Device Fault Found",
+      "successLabel": "Hardware Appears OK",
+      "failLabel": "Fault Found",
       "successNext": "checkBluetoothAudio",
       "failNext": "repairAudioDevice"
     },
-
     "repairAudioDevice": {
       "type": "terminal",
-      "title": "Repair or replace audio device",
+      "title": "Repair or replace the audio device",
       "body": [
-        "The headphones or speakers appear faulty.",
-        "Repair, reconnect, or replace the affected device."
+        "The speakers, headphones or their connection appear faulty.",
+        "Check the cable, power supply and audio connector as applicable.",
+        "Try a known-working replacement device.",
+        "If sound returns with another device, repair or replace the faulty equipment."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkBluetoothAudio": {
-      "title": "Check Bluetooth audio devices",
+      "title": "Check Bluetooth audio",
       "body": [
-        "Determine whether audio is being sent to a Bluetooth device.",
-        "Bluetooth devices can remain connected even when not being used.",
-        "Disconnect unused Bluetooth audio devices and test again."
+        "Open Windows Settings, Bluetooth & devices.",
+        "Check whether a Bluetooth headset or speaker is connected.",
+        "Confirm Windows is not sending audio to a Bluetooth device that is switched off or in another room.",
+        "If using Bluetooth audio, confirm the device is connected and selected as the output.",
+        "Temporarily disconnect unnecessary Bluetooth audio devices and test again."
       ],
-      "successLabel": "No Bluetooth Issue",
-      "failLabel": "Bluetooth Issue Found",
-      "successNext": "checkAudioServices",
+      "link": [
+        {
+          "name": "Microsoft: Bluetooth connected but no sound",
+          "description": "Official troubleshooting for Bluetooth speakers and headsets connected without working audio.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/bluetooth/fix-bluetooth-connected-but-no-sound-issue-on-windows"
+        }
+      ],
+      "successLabel": "Bluetooth OK",
+      "failLabel": "Bluetooth Issue",
+      "successNext": "checkAudioEnhancements",
       "failNext": "disconnectBluetooth"
     },
-
     "disconnectBluetooth": {
       "type": "terminal",
-      "title": "Disconnect Bluetooth audio device",
+      "title": "Correct the Bluetooth audio connection",
       "body": [
-        "Audio was being routed to a Bluetooth device.",
-        "Disconnect or reconfigure the device and test audio again."
+        "Disconnect any Bluetooth audio device that should not be receiving sound.",
+        "If using Bluetooth headphones or speakers, reconnect them and select them as the Windows output.",
+        "Check the Bluetooth device's battery level.",
+        "Test sound again. If the problem remains, continue with Windows audio checks."
       ],
       "successNext": null,
       "failNext": null
     },
-
-    "checkAudioServices": {
-      "title": "Check audio services",
+    "checkAudioEnhancements": {
+      "title": "Check audio enhancements",
       "body": [
-        "Verify Windows Audio services are running.",
-        "Audio services are responsible for sound playback and device management.",
-        "Restarting these services can resolve some audio faults."
+        "Open Windows Settings, System, Sound and select the affected output device.",
+        "Find Audio enhancements and temporarily turn them off if available.",
+        "Also disable spatial sound temporarily when troubleshooting distorted or missing audio.",
+        "Play a test sound again.",
+        "If audio improves, leave the problematic enhancement disabled."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix distorted or crackling audio",
+          "description": "Official guidance for testing audio enhancements, formats and driver-related sound problems.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-distorted-or-crackling-audio-in-windows"
+        }
+      ],
+      "successLabel": "Sound Fixed",
+      "failLabel": "Still Not Working",
+      "successNext": null,
+      "failNext": "checkAudioServices"
+    },
+    "checkAudioServices": {
+      "title": "Check Windows audio services",
+      "body": [
+        "Press Windows + R, type services.msc and press Enter.",
+        "Find Windows Audio and Windows Audio Endpoint Builder.",
+        "Check that both services are running.",
+        "If either service has stopped or is experiencing problems, restart it.",
+        "Take care when changing services on a managed business computer."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix sound and audio problems",
+          "description": "Includes instructions for checking and restarting Windows audio services.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-sound-or-audio-problems-in-windows"
+        }
       ],
       "successLabel": "Services Running",
       "failLabel": "Service Problem",
       "successNext": "checkAudioDeviceManager",
       "failNext": "restartAudioServices"
     },
-
     "restartAudioServices": {
       "type": "terminal",
-      "title": "Restart audio services",
+      "title": "Restart Windows audio services",
       "body": [
-        "Restart the Windows Audio services.",
-        "Retest audio playback after the services restart."
+        "In the Services console, restart Windows Audio and Windows Audio Endpoint Builder as appropriate.",
+        "Wait for the services to start and retest sound.",
+        "If a service cannot start, record the displayed error.",
+        "If sound is still missing, continue with the audio driver checks."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkAudioDeviceManager": {
-      "title": "Check Device Manager",
+      "title": "Check audio devices in Device Manager",
       "body": [
-        "Open Device Manager and inspect audio devices.",
-        "Look for warning icons, missing devices, or disabled hardware.",
-        "Driver problems often appear here."
+        "Right-click Start and open Device Manager.",
+        "Expand Sound, video and game controllers.",
+        "Also check Audio inputs and outputs if present.",
+        "Look for missing devices, warning symbols or devices that have been disabled.",
+        "If no audio device is listed, try View, Show hidden devices and Action, Scan for hardware changes.",
+        "A missing or disabled audio device may indicate a driver or hardware problem."
       ],
-      "successLabel": "No Issues",
-      "failLabel": "Driver/Device Issue",
+      "link": [
+        {
+          "name": "Microsoft: Missing audio output device",
+          "description": "Official instructions for diagnosing undetected audio devices and missing drivers.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-missing-or-undetected-audio-output-device-in-windows"
+        }
+      ],
+      "image": "audio-device-manager.png",
+      "alt": "Windows Device Manager showing the Sound, video and game controllers category",
+      "caption": "Expand Sound, video and game controllers to inspect installed audio devices.",
+      "successLabel": "No Driver Issues",
+      "failLabel": "Driver or Device Fault",
       "successNext": "testAlternateAudioDevice",
       "failNext": "updateAudioDriver"
     },
-
     "updateAudioDriver": {
-      "title": "Update or reinstall audio driver",
+      "title": "Update or reinstall the audio driver",
       "body": [
-        "Update the audio driver from the manufacturer if available.",
-        "Alternatively remove and reinstall the device.",
-        "Restart the computer after driver changes."
+        "In Device Manager, right-click the affected audio device and select Update driver.",
+        "Check the computer or motherboard manufacturer's support website for a compatible audio driver.",
+        "If necessary, uninstall the affected audio device and restart Windows to reinstall it.",
+        "Use the correct driver for the computer model and Windows version.",
+        "Retest sound after installation."
       ],
-      "successLabel": "Fixed",
-      "failLabel": "Still No Audio",
+      "link": [
+        {
+          "name": "Microsoft: Audio driver troubleshooting",
+          "description": "Official instructions for updating, reinstalling and diagnosing Windows audio drivers.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-sound-or-audio-problems-in-windows"
+        }
+      ],
+      "successLabel": "Sound Fixed",
+      "failLabel": "Still No Sound",
       "successNext": null,
       "failNext": "testAlternateAudioDevice"
     },
-
     "testAlternateAudioDevice": {
       "title": "Test another audio device",
       "body": [
-        "Connect another headset, speaker, or monitor with audio.",
-        "This helps separate computer faults from speaker or headphone faults.",
-        "Retest audio playback."
+        "Try a different known-working headset, pair of speakers or USB audio device.",
+        "Select the new device in Windows Sound settings.",
+        "Play a known working audio file or video.",
+        "If the replacement works, investigate the original audio device or its connection.",
+        "If no audio device works, continue investigating Windows or the computer hardware."
       ],
-      "successLabel": "Works",
-      "failLabel": "Still No Audio",
+      "successLabel": "Alternative Works",
+      "failLabel": "Still No Sound",
       "successNext": "audioDeviceFault",
       "failNext": "checkSystemUpdates"
     },
-
     "audioDeviceFault": {
       "type": "terminal",
-      "title": "Audio device fault found",
+      "title": "Original audio device or connection fault likely",
       "body": [
-        "Audio works using another device.",
-        "The original speaker, headset, or monitor audio hardware is likely faulty."
+        "Sound works through an alternative audio device.",
+        "The original speakers, headset, audio port or connection may be faulty.",
+        "Check the original device on another computer if practical.",
+        "Repair or replace the affected hardware if necessary."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkSystemUpdates": {
-      "title": "Check recent updates",
+      "title": "Check recent Windows or driver updates",
       "body": [
-        "Determine whether the issue started after a Windows or driver update.",
-        "Recent updates can sometimes introduce audio problems.",
-        "Review update history if applicable."
+        "Consider whether the sound stopped working immediately after a Windows or audio driver update.",
+        "Open Windows Update and review update history.",
+        "Check whether the audio driver was recently replaced.",
+        "If the timing matches a driver update, a driver rollback may restore sound.",
+        "If no update appears related, continue with further diagnostics."
       ],
-      "successLabel": "Recent Update Found",
-      "failLabel": "No Update Correlation",
+      "link": [
+        {
+          "name": "Microsoft: Audio stopped after Windows Update",
+          "description": "Official instructions for fixing sound problems following Windows or driver updates.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-audio-stops-working-after-a-windows-update-in-windows"
+        }
+      ],
+      "successLabel": "Recent Update",
+      "failLabel": "No Related Update",
       "successNext": "rollbackDriver",
       "failNext": "hardwareEscalation"
     },
-
     "rollbackDriver": {
       "type": "terminal",
-      "title": "Rollback audio driver",
+      "title": "Roll back the audio driver",
       "body": [
-        "The issue appears related to a recent update.",
-        "Rollback the audio driver or restore a previous working version if appropriate.",
-        "Retest audio afterwards."
+        "Open Device Manager and find the affected audio device.",
+        "Open Properties, select the Driver tab and choose Roll Back Driver if available.",
+        "Follow the prompts and restart the computer if requested.",
+        "Retest sound after the rollback.",
+        "If Roll Back Driver is unavailable, check the manufacturer's website for a previous compatible driver."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Repair audio after an update",
+          "description": "Official instructions for rolling back the audio driver after a Windows update.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-audio-stops-working-after-a-windows-update-in-windows"
+        }
       ],
       "successNext": null,
       "failNext": null
     },
-
     "hardwareEscalation": {
       "type": "terminal",
-      "title": "Further hardware diagnostics required",
+      "title": "Further audio diagnostics required",
       "body": [
-        "Volume, devices, drivers, services, and updates have been checked.",
-        "Possible causes include failed audio hardware, motherboard faults, damaged ports, or internal speaker failure.",
-        "Escalate for hardware diagnostics."
+        "Audio is still not working after checking Windows settings, output devices, services and drivers.",
+        "The problem may involve the internal sound hardware, audio ports, motherboard or operating system.",
+        "Record the computer model, audio device and any Device Manager error codes.",
+        "Consider testing a USB audio adapter to help isolate a possible onboard audio fault.",
+        "Escalate for further software or hardware diagnosis."
       ],
       "successNext": null,
       "failNext": null

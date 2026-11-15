@@ -1,267 +1,435 @@
+
 {
   "id": "batteryNotCharging",
   "title": "Laptop Battery Not Charging",
   "cardText": [
-    "Diagnose a laptop battery that is not charging correctly.",
-    "Check the charger, power source, battery status, operating system settings, and battery health.",
-    "Separate charger faults, battery faults, and laptop hardware faults."
+    "Diagnose a laptop battery that does not charge, charges slowly or stops at a fixed percentage.",
+    "Check charging limits, charger recognition, power delivery, battery health and Windows settings.",
+    "Identify charger, battery, firmware and internal charging circuit faults."
   ],
   "icon": "",
   "text": [
-    "This guide is for laptops that show charging problems.",
-    "The battery may not charge, may charge slowly, or may remain at a fixed percentage.",
-    "Check the charger and power source before investigating software or hardware issues.",
-    "Escalate hardware faults when basic troubleshooting does not resolve the problem."
+    "This guide is for Windows laptops that operate but have battery charging problems.",
+    "Start by identifying whether the charge percentage is increasing or has stopped.",
+    "Check manufacturer battery protection settings and charger compatibility before replacing hardware.",
+    "Use Windows battery reports and manufacturer diagnostics to assess battery condition.",
+    "If the laptop does not power on at all, use the Computer Won't Turn On guide."
   ],
-  "startNode": "checkChargerConnected",
+  "startNode": "checkBatteryPercentage",
   "nodes": {
-    "checkChargerConnected": {
-      "title": "Check charger connection",
-      "body": [
-        "Ensure the charger is firmly connected to both the laptop and power outlet.",
-        "Check for loose connections or partially inserted plugs.",
-        "Many charging faults are caused by simple connection issues."
-      ],
-      "successLabel": "Connected",
-      "failLabel": "Not Connected",
-      "successNext": "checkChargingIndicator",
-      "failNext": "reconnectCharger"
-    },
-
-    "reconnectCharger": {
-      "type": "terminal",
-      "title": "Reconnect charger",
-      "body": [
-        "Reconnect the charger securely.",
-        "Verify the connection at both ends.",
-        "Check whether charging resumes."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "checkChargingIndicator": {
-      "title": "Check charging indicator",
-      "body": [
-        "Look for charging lights or battery charging symbols.",
-        "Most laptops show visual indicators when external power is detected.",
-        "This helps determine whether the charger is being recognized."
-      ],
-      "successLabel": "Indicator Present",
-      "failLabel": "No Indicator",
-      "successNext": "checkBatteryPercentage",
-      "failNext": "checkPowerOutlet"
-    },
-
-    "checkPowerOutlet": {
-      "title": "Check power outlet",
-      "body": [
-        "Test the outlet with another device.",
-        "If using a power board, ensure it is switched on.",
-        "Try another wall outlet if available."
-      ],
-      "successLabel": "Outlet Works",
-      "failLabel": "Outlet Fault",
-      "successNext": "inspectCharger",
-      "failNext": "restorePower"
-    },
-
-    "restorePower": {
-      "type": "terminal",
-      "title": "Restore power source",
-      "body": [
-        "The outlet is not supplying power.",
-        "Restore power or use another outlet.",
-        "Retest charging afterwards."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "inspectCharger": {
-      "title": "Inspect charger",
-      "body": [
-        "Check the charger cable, connector, and adapter brick.",
-        "Look for frayed cables, bent connectors, burn marks, or physical damage.",
-        "Damaged chargers often fail intermittently before failing completely."
-      ],
-      "successLabel": "Looks Normal",
-      "failLabel": "Damage Found",
-      "successNext": "testAlternateCharger",
-      "failNext": "replaceCharger"
-    },
-
-    "replaceCharger": {
-      "type": "terminal",
-      "title": "Replace charger",
-      "body": [
-        "The charger appears damaged.",
-        "Replace it with a compatible charger.",
-        "Retest charging after replacement."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
-    "testAlternateCharger": {
-      "title": "Test another charger",
-      "body": [
-        "If available, test with a known-good compatible charger.",
-        "This helps separate charger faults from laptop faults.",
-        "Use only compatible chargers."
-      ],
-      "successLabel": "Charges Correctly",
-      "failLabel": "Still Not Charging",
-      "successNext": "chargerFaultFound",
-      "failNext": "checkBatteryPercentage"
-    },
-
-    "chargerFaultFound": {
-      "type": "terminal",
-      "title": "Original charger faulty",
-      "body": [
-        "The laptop charges with another charger.",
-        "Replace the original charger.",
-        "Verify normal charging operation afterwards."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
     "checkBatteryPercentage": {
-      "title": "Check battery percentage",
+      "title": "Check actual charging behaviour",
       "body": [
-        "Observe whether the battery percentage increases while connected to power.",
-        "Leave the charger connected for several minutes.",
-        "A charging icon does not always mean the battery is actually charging."
+        "With the charger connected, note the current battery percentage.",
+        "Observe whether the percentage increases over approximately 15 to 30 minutes.",
+        "Check whether Windows reports charging, plugged in but not charging, or no external power.",
+        "If the percentage increases but charging is unusually slow, investigate charger wattage and laptop power consumption.",
+        "If charging stops consistently at a particular percentage, check manufacturer charging limits."
       ],
-      "successLabel": "Percentage Increases",
-      "failLabel": "Percentage Stays Same",
+      "successLabel": "Charging Normally",
+      "failLabel": "Not Charging / Slow",
       "successNext": "chargingWorking",
-      "failNext": "checkWindowsBatteryStatus"
+      "failNext": "batteryManagementCheck"
     },
-
     "chargingWorking": {
       "type": "terminal",
       "title": "Battery charging normally",
       "body": [
-        "The battery percentage is increasing.",
+        "The battery percentage is increasing at an expected rate.",
         "Charging appears to be functioning correctly.",
-        "No further action is required."
+        "If charging is much slower than expected, check the charger's rated wattage and whether the laptop is under heavy load.",
+        "A battery near full capacity may charge more slowly by design."
       ],
       "successNext": null,
       "failNext": null
     },
-
-    "checkWindowsBatteryStatus": {
-      "title": "Check operating system battery status",
-      "body": [
-        "Look at the battery icon and power settings.",
-        "Check for messages such as Plugged In Not Charging.",
-        "These messages can indicate battery health or charging control issues."
-      ],
-      "successLabel": "Status Message Found",
-      "failLabel": "No Useful Message",
-      "successNext": "batteryManagementCheck",
-      "failNext": "powerReset"
-    },
-
     "batteryManagementCheck": {
-      "title": "Check battery management software",
+      "title": "Check manufacturer battery charging limits",
       "body": [
-        "Some manufacturers limit charging to preserve battery lifespan.",
-        "Look for battery conservation or battery health settings.",
-        "These settings can intentionally stop charging at a certain percentage."
+        "Some laptops deliberately stop charging at a configured percentage to reduce battery wear.",
+        "Check the manufacturer's battery management application or BIOS settings.",
+        "Examples include Lenovo Vantage Conservation Mode, Dell Battery Charge Configuration and ASUS Battery Health Charging.",
+        "Depending on the manufacturer and model, charging may stop at approximately 60%, 80% or another configured threshold.",
+        "Charging may also pause when the battery is already close to full.",
+        "If the battery consistently stops at a particular percentage, determine whether a charging threshold is enabled."
       ],
-      "successLabel": "Setting Found",
-      "failLabel": "No Setting Found",
+      "link": [
+        {
+          "name": "Lenovo: Battery stops charging at 60%",
+          "description": "Official instructions for checking conservation mode and battery charging thresholds.",
+          "url": "https://support.lenovo.com/us/en/solutions/ht103159-battery-charge-stops-at-60-plugged-in-not-charging-windows-ideapad"
+        },
+        {
+          "name": "Dell: Laptop battery charging settings",
+          "description": "Official instructions for checking BIOS battery charging configurations.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000123069/how-to-troubleshoot-dell-laptop-battery-issues"
+        }
+      ],
+      "image": "battery-charge-limit.jpg",
+      "alt": "Lenovo Vantage battery settings showing Conservation Mode and charging thresholds",
+      "caption": "Battery conservation settings may intentionally prevent charging beyond a configured percentage.",
+      "successLabel": "Charging Limit Enabled",
+      "failLabel": "No Charging Limit",
       "successNext": "disableBatteryLimit",
-      "failNext": "powerReset"
+      "failNext": "checkWindowsBatteryStatus"
     },
-
     "disableBatteryLimit": {
-      "type": "terminal",
-      "title": "Adjust battery management settings",
+      "title": "Adjust the battery charging limit",
       "body": [
-        "Battery conservation settings are limiting charging.",
-        "Adjust the settings if appropriate.",
-        "Retest charging afterwards."
+        "Open the manufacturer's battery management application or supported BIOS charging settings.",
+        "Review the current charging limit and confirm whether it explains the observed behaviour.",
+        "If a full charge is required, temporarily disable or increase the configured charging threshold.",
+        "Save the setting and reconnect the charger if necessary.",
+        "Check whether the battery begins charging beyond the previous limit.",
+        "For laptops normally used on mains power, retaining a conservation limit may be preferable for battery lifespan."
+      ],
+      "link": [
+        {
+          "name": "Lenovo: Conservation Mode settings",
+          "description": "Explains why charging may stop at a fixed percentage and how to change the setting.",
+          "url": "https://support.lenovo.com/us/en/solutions/ht103159-battery-charge-stops-at-60-plugged-in-not-charging-windows-ideapad"
+        }
+      ],
+      "successLabel": "Charging Restored",
+      "failLabel": "Still Not Charging",
+      "successNext": "chargingWorking",
+      "failNext": "checkWindowsBatteryStatus"
+    },
+    "checkWindowsBatteryStatus": {
+      "title": "Check whether Windows recognises external power",
+      "body": [
+        "Open Windows battery and power settings.",
+        "Check whether the laptop reports that external power is connected.",
+        "Look for messages such as Plugged in, Not charging or a warning about a weak charger.",
+        "A laptop can recognise external power without receiving enough power to charge the battery.",
+        "If the charger is not recognised, investigate the adapter and power connection.",
+        "If external power is recognised, check whether the charger provides sufficient wattage."
+      ],
+      "link": [
+        {
+          "name": "Dell: AC adapter recognition and charging",
+          "description": "Explains how adapter detection problems can prevent battery charging.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125125/how-to-troubleshoot-ac-adapter-issues"
+        }
+      ],
+      "successLabel": "Power Recognised",
+      "failLabel": "Power Not Recognised",
+      "successNext": "checkChargerRating",
+      "failNext": "inspectCharger"
+    },
+    "inspectCharger": {
+      "title": "Inspect charger and charging port",
+      "body": [
+        "Inspect the charger cable, connector and power adapter for visible damage.",
+        "Check for frayed cables, bent pins, damaged insulation or signs of overheating.",
+        "Inspect the laptop charging port for looseness, damage or obvious debris.",
+        "For USB-C charging, check that the cable and port support charging at the required power level.",
+        "If the laptop supports multiple charging ports, test another supported port where appropriate.",
+        "Do not use a damaged charger or attempt to straighten damaged charging contacts."
+      ],
+      "link": [
+        {
+          "name": "Dell: Identify AC adapter damage",
+          "description": "Manufacturer guidance for inspecting chargers, charging ports and adapter recognition faults.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125337/identify-ac-adapter-damage-on-dell-systems"
+        }
+      ],
+      "successLabel": "No Damage Found",
+      "failLabel": "Damage Found",
+      "successNext": "checkPowerOutlet",
+      "failNext": "replaceCharger"
+    },
+    "replaceCharger": {
+      "type": "terminal",
+      "title": "Replace damaged charger",
+      "body": [
+        "The charger or its cable appears damaged.",
+        "Stop using the affected component.",
+        "Replace it with a manufacturer-approved or properly compatible charger.",
+        "Confirm the output voltage, power rating and connector are suitable for the laptop.",
+        "For USB-C charging, use a charger and cable that support the required USB Power Delivery wattage.",
+        "If the laptop charging port itself is damaged, arrange repair rather than repeatedly connecting chargers."
       ],
       "successNext": null,
       "failNext": null
     },
-
-    "powerReset": {
-      "title": "Perform power reset",
+    "checkPowerOutlet": {
+      "title": "Check external power delivery",
       "body": [
-        "Shut down the laptop completely.",
-        "Disconnect power and hold the power button for 15–30 seconds.",
-        "Reconnect power and test charging again."
+        "Test the wall outlet with another known-working device.",
+        "Bypass power boards, extension leads and surge protectors during testing.",
+        "Connect the charger directly to a known-working outlet.",
+        "If the outlet is working and the charger is still not recognised, test another compatible adapter."
       ],
-      "successLabel": "Fixed",
-      "failLabel": "Still Not Charging",
+      "successLabel": "Outlet Works",
+      "failLabel": "Power Source Fault",
+      "successNext": "testAlternateCharger",
+      "failNext": "restorePower"
+    },
+    "restorePower": {
+      "type": "terminal",
+      "title": "External power fault identified",
+      "body": [
+        "The outlet or power board is not supplying reliable power.",
+        "Use a known-working outlet and replace faulty extension leads or power boards.",
+        "Do not use damaged outlets or equipment showing signs of overheating.",
+        "Retest battery charging once reliable external power is available."
+      ],
       "successNext": null,
+      "failNext": null
+    },
+    "testAlternateCharger": {
+      "title": "Test another compatible charger",
+      "body": [
+        "Test with a known-working charger approved for the laptop or confirmed compatible with its specifications.",
+        "Match the correct voltage, connector and required wattage.",
+        "For USB-C devices, ensure the replacement supports the appropriate USB Power Delivery profile.",
+        "Check whether Windows recognises the replacement and the battery begins charging.",
+        "If the replacement works, the original charger or its cable is likely responsible.",
+        "If neither charger works, continue investigating adapter recognition and battery charging."
+      ],
+      "link": [
+        {
+          "name": "Dell: AC adapter troubleshooting",
+          "description": "Official methods for identifying charging failures caused by incompatible or faulty adapters.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125125/how-to-troubleshoot-ac-adapter-issues"
+        }
+      ],
+      "successLabel": "Charges With Replacement",
+      "failLabel": "Still Not Charging",
+      "successNext": "chargerFaultFound",
+      "failNext": "checkChargerRating"
+    },
+    "chargerFaultFound": {
+      "type": "terminal",
+      "title": "Original charger fault likely",
+      "body": [
+        "The battery charges correctly with another compatible charger.",
+        "The original charger, cable or adapter identification circuitry is likely faulty.",
+        "Replace the original charger with a compatible unit of sufficient power capacity.",
+        "Confirm the battery charges normally after replacement."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "checkChargerRating": {
+      "title": "Check charger wattage and recognition",
+      "body": [
+        "Compare the charger's rated output power with the laptop manufacturer's requirements.",
+        "A low-wattage adapter may power a laptop but charge the battery slowly or not at all under load.",
+        "For USB-C charging, confirm that the charger, cable and port support the required USB Power Delivery level.",
+        "Some manufacturers display the detected AC adapter type or wattage in BIOS or their diagnostic application.",
+        "On supported Dell laptops, an Unknown adapter type can indicate charger, connector or identification problems.",
+        "If the charger is correctly recognised and provides sufficient power, continue with battery troubleshooting."
+      ],
+      "link": [
+        {
+          "name": "Dell: Troubleshoot battery charging",
+          "description": "Explains AC adapter wattage, recognition and charging failures.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000123069/how-to-troubleshoot-dell-laptop-battery-issues"
+        }
+      ],
+      "successLabel": "Charger Suitable",
+      "failLabel": "Underpowered / Unknown",
+      "successNext": "powerReset",
+      "failNext": "chargerUnderpowered"
+    },
+    "chargerUnderpowered": {
+      "type": "terminal",
+      "title": "Charger compatibility or recognition problem",
+      "body": [
+        "The connected charger may not provide the required wattage or may not be recognised correctly.",
+        "Check the laptop manufacturer's adapter specifications.",
+        "Use a known-working compatible charger with sufficient power.",
+        "For USB-C devices, verify the charging port and cable also support the required power.",
+        "If a correctly rated adapter still appears as Unknown, investigate the charging port and internal adapter identification circuitry.",
+        "Avoid replacing the battery until the charger has been properly verified."
+      ],
+      "link": [
+        {
+          "name": "Dell: Identify adapter recognition faults",
+          "description": "Manufacturer guidance for chargers reported as Unknown or incorrectly rated.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125337/identify-ac-adapter-damage-on-dell-systems"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "powerReset": {
+      "title": "Perform a laptop power reset",
+      "body": [
+        "Shut down Windows and disconnect the charger and unnecessary USB devices.",
+        "For laptops with an externally removable battery, remove it according to the manufacturer's instructions.",
+        "If the manufacturer recommends a standard residual-power reset, hold the power button for approximately 15 to 30 seconds.",
+        "Reconnect the battery if removed, then reconnect the charger.",
+        "Restart the laptop and check whether battery charging resumes.",
+        "Some models require a specific embedded controller reset procedure or reset button.",
+        "Do not dismantle a sealed laptop merely to disconnect its internal battery."
+      ],
+      "link": [
+        {
+          "name": "HP: Laptop battery and adapter troubleshooting",
+          "description": "Official battery troubleshooting, including hard resets and battery diagnostics.",
+          "url": "https://support.hp.com/au-en/help/computer/battery-adapter-issues"
+        }
+      ],
+      "successLabel": "Charging Restored",
+      "failLabel": "Still Not Charging",
+      "successNext": "chargingWorking",
       "failNext": "checkBatteryHealth"
     },
-
     "checkBatteryHealth": {
-      "title": "Check battery health",
+      "title": "Check Windows battery health report",
       "body": [
-        "Review battery health information if available.",
-        "Older batteries gradually lose charging capacity.",
-        "A severely degraded battery may stop charging normally."
+        "Open Command Prompt or Windows Terminal.",
+        "Run the command: powercfg /batteryreport",
+        "Windows will generate an HTML battery report and display the saved file location.",
+        "Open the report and find the Installed batteries section.",
+        "Compare Design Capacity with Full Charge Capacity.",
+        "A significantly reduced Full Charge Capacity indicates battery wear.",
+        "Review the battery's recent usage and capacity history if available.",
+        "Capacity loss alone does not prove that a charging failure is caused by the battery."
       ],
-      "successLabel": "Battery Healthy",
-      "failLabel": "Battery Worn Out",
-      "successNext": "checkFirmware",
+      "link": [
+        {
+          "name": "Microsoft: Battery care and battery reports",
+          "description": "Official instructions for generating a Windows battery report and understanding battery deterioration.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/power-battery/caring-for-your-battery-in-windows"
+        }
+      ],
+      "image": "battery-health-report.png",
+      "alt": "Windows battery report highlighting Design Capacity and Full Charge Capacity",
+      "caption": "Compare the current full charge capacity with the original design capacity to assess battery wear.",
+      "successLabel": "Capacity Reasonable",
+      "failLabel": "Severely Degraded",
+      "successNext": "checkBatteryDiagnostics",
+      "failNext": "checkBatteryDiagnostics"
+    },
+    "checkBatteryDiagnostics": {
+      "title": "Run manufacturer battery diagnostics",
+      "body": [
+        "Run the battery diagnostic utility provided by the laptop manufacturer.",
+        "Examples include Dell preboot diagnostics, HP Battery Check and Lenovo hardware diagnostics.",
+        "Review whether the battery is detected correctly and whether the test reports a fault.",
+        "Record any battery health status, error message or diagnostic failure code.",
+        "A battery may have reasonable remaining capacity but still fail due to internal electronics or charging faults.",
+        "Replace the battery only when diagnostics and other evidence identify it as defective.",
+        "If the battery passes, continue with software and firmware checks."
+      ],
+      "link": [
+        {
+          "name": "HP: Battery Check",
+          "description": "Official HP diagnostic tool for battery condition and failure identification.",
+          "url": "https://support.hp.com/au-en/help/computer/battery-adapter-issues"
+        },
+        {
+          "name": "Dell: Laptop battery diagnostics",
+          "description": "Official guidance for checking battery health and running hardware tests.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000123069/how-to-troubleshoot-dell-laptop-battery-issues"
+        }
+      ],
+      "successLabel": "Battery Test Passed",
+      "failLabel": "Battery Fault Confirmed",
+      "successNext": "checkBatteryDriver",
       "failNext": "replaceBattery"
     },
-
     "replaceBattery": {
       "type": "terminal",
-      "title": "Replace battery",
+      "title": "Battery replacement required",
       "body": [
-        "The battery appears to have reached the end of its useful life.",
-        "Replace it with a compatible battery.",
-        "Verify charging after replacement."
+        "Manufacturer diagnostics indicate that the battery is defective or has reached the end of its useful life.",
+        "Confirm the correct replacement part for the laptop model.",
+        "Use a compatible, reputable battery replacement.",
+        "For laptops with sealed internal batteries, follow manufacturer service procedures or arrange professional replacement.",
+        "Do not attempt to charge, puncture or reuse a swollen or damaged battery.",
+        "Confirm charging and battery operation after replacement."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Battery safety",
+          "description": "Guidance on battery deterioration, swelling and safe handling.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/power-battery/caring-for-your-battery-in-windows"
+        }
       ],
       "successNext": null,
       "failNext": null
     },
-
-    "checkFirmware": {
-      "title": "Check BIOS and firmware updates",
+    "checkBatteryDriver": {
+      "title": "Check Windows battery drivers",
       "body": [
-        "Some charging problems are caused by firmware issues.",
-        "Check for manufacturer BIOS, EC, or firmware updates.",
-        "Apply updates according to manufacturer guidance."
+        "Open Device Manager and expand Batteries.",
+        "Look for Microsoft AC Adapter and Microsoft ACPI-Compliant Control Method Battery, where supported.",
+        "Check for warning symbols or device error codes.",
+        "If the battery device has a Windows driver problem, uninstall only the affected battery device and restart Windows to allow it to be detected again.",
+        "Do not uninstall unrelated chipset or power management drivers.",
+        "Check the laptop manufacturer's website for relevant chipset or power management driver updates.",
+        "Retest battery charging after restarting."
       ],
-      "successLabel": "Update Available",
-      "failLabel": "No Update Available",
+      "successLabel": "Charging Restored",
+      "failLabel": "Still Not Charging",
+      "successNext": "chargingWorking",
+      "failNext": "checkFirmware"
+    },
+    "checkFirmware": {
+      "title": "Check BIOS and charging firmware",
+      "body": [
+        "Check the laptop manufacturer's support page for BIOS, embedded controller and power management updates relevant to battery charging.",
+        "Review the update release notes for fixes related to batteries or AC adapter detection.",
+        "Check the existing BIOS charging settings for unexpected restrictions.",
+        "Do not install firmware updates while the laptop has unreliable power unless the manufacturer's recovery or update procedure specifically supports it.",
+        "If no relevant update is available, continue with hardware diagnostics."
+      ],
+      "link": [
+        {
+          "name": "Dell: Battery and BIOS charging settings",
+          "description": "Official information about firmware, adapter detection and battery charging configuration.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000123069/how-to-troubleshoot-dell-laptop-battery-issues"
+        }
+      ],
+      "successLabel": "Relevant Update Available",
+      "failLabel": "No Relevant Update",
       "successNext": "updateFirmware",
       "failNext": "hardwareFault"
     },
-
     "updateFirmware": {
-      "title": "Update firmware",
+      "title": "Apply relevant firmware update",
       "body": [
-        "Install available firmware updates.",
-        "Restart the laptop and retest charging.",
-        "Firmware updates can resolve battery communication issues."
+        "Confirm that the update is intended for the exact laptop model.",
+        "Read the manufacturer's update instructions and power requirements.",
+        "Ensure the system has a stable power source and meets the required battery charge level.",
+        "Check whether BitLocker protection must be suspended and confirm the recovery key is available before making firmware changes.",
+        "Do not interrupt a firmware update once started.",
+        "Restart the laptop and retest charging after the update.",
+        "If reliable power cannot be guaranteed, do not attempt the update."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Charging Restored",
       "failLabel": "Still Not Charging",
-      "successNext": null,
+      "successNext": "chargingWorking",
       "failNext": "hardwareFault"
     },
-
     "hardwareFault": {
       "type": "terminal",
-      "title": "Hardware diagnostics required",
+      "title": "Further charging hardware diagnostics required",
       "body": [
-        "The charger, battery, power source, and software checks did not resolve the issue.",
-        "Possible causes include charging circuitry faults, motherboard faults, damaged charging ports, or battery communication failures.",
-        "Escalate for hardware repair or replacement."
+        "Battery charging still fails after checking charger recognition, power delivery, battery health, Windows drivers and relevant firmware.",
+        "Possible causes include a damaged charging port, faulty internal charging circuitry, battery communication faults or motherboard problems.",
+        "Test with a confirmed compatible charger before replacing internal components.",
+        "Review manufacturer diagnostic results and any BIOS adapter recognition warnings.",
+        "If the battery is swollen, the laptop becomes unusually hot or the charging port is damaged, stop using the affected hardware.",
+        "Record the laptop model, charger rating, battery diagnostic results and troubleshooting history.",
+        "Arrange further hardware diagnosis or repair."
+      ],
+      "link": [
+        {
+          "name": "Dell: Advanced laptop battery diagnostics",
+          "description": "Manufacturer troubleshooting for unresolved charging and adapter recognition faults.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000123069/how-to-troubleshoot-dell-laptop-battery-issues"
+        },
+        {
+          "name": "HP: Battery and adapter troubleshooting",
+          "description": "Official battery diagnostics and repair guidance.",
+          "url": "https://support.hp.com/au-en/help/computer/battery-adapter-issues"
+        }
       ],
       "successNext": null,
       "failNext": null

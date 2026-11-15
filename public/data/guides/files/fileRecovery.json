@@ -1,261 +1,628 @@
+
 {
   "id": "fileRecovery",
   "title": "File Recovery",
   "cardText": [
-    "Recover files that have been deleted, moved, lost, or become inaccessible.",
-    "Check common locations, backups, cloud storage, recycle bin, and recovery options.",
-    "Separate simple file location issues from storage failures."
+    "Recover files that were deleted, moved, overwritten, corrupted or become inaccessible.",
+    "Check Recycle Bin, Trash, cloud storage, file history, snapshots and third-party backups.",
+    "Identify storage failures and use safe recovery methods without risking further data loss."
   ],
   "icon": "",
   "text": [
-    "This guide is for files that appear to be missing, deleted, or inaccessible.",
-    "Determine whether the file was deleted, moved, synchronized, or lost due to storage problems.",
-    "Use the safest recovery options first.",
-    "Avoid writing new data to a drive if accidental deletion is suspected."
+    "This guide covers missing and deleted files on Windows, macOS, external drives, network storage and cloud services.",
+    "Identify whether the file was moved, deleted, overwritten, made inaccessible or lost following a storage failure.",
+    "Check simple locations, cloud recycle bins, previous versions and backups before attempting file recovery software.",
+    "Include OneDrive, iCloud Drive, Google Drive, Dropbox and other cloud storage services where applicable.",
+    "Check Windows File History, macOS Time Machine, NAS snapshots and third-party backup software.",
+    "If accidental deletion occurred on a local drive, minimise writes to that drive immediately.",
+    "Do not run repairs, formatting or intensive scans on a suspected failing drive.",
+    "Restore recovered files to a separate location and verify their contents before replacing existing files."
   ],
   "startNode": "identifySituation",
   "nodes": {
     "identifySituation": {
-      "title": "Identify the problem",
+      "title": "Identify what happened to the file",
       "body": [
-        "Determine whether the file was deleted, moved, renamed, or became inaccessible.",
-        "Understanding what happened helps choose the safest recovery method."
+        "Ask when the file was last seen and where it was stored.",
+        "Determine whether it was deleted, moved, renamed, overwritten, corrupted or became inaccessible.",
+        "Identify the device, operating system and storage location involved.",
+        "Check whether the file was stored on a local SSD, hard drive, USB drive, NAS or cloud service.",
+        "If the drive is missing, disconnecting, making unusual noises or reporting serious errors, investigate storage health before scanning it.",
+        "If accidental deletion is suspected, minimise writes to the affected drive while checking recovery options."
       ],
-      "successLabel": "Deleted/Missing",
-      "failLabel": "Storage Problem",
-      "successNext": "searchForFile",
+      "successLabel": "Missing / Deleted File",
+      "failLabel": "Storage / Access Problem",
+      "successNext": "identifyOriginalLocation",
       "failNext": "checkDriveHealth"
     },
-
-    "searchForFile": {
-      "title": "Search for the file",
+    "identifyOriginalLocation": {
+      "title": "Identify the original file location",
       "body": [
-        "Use the operating system search feature.",
-        "Search by file name, extension, or partial file name.",
-        "The file may have been moved or renamed."
+        "Determine which folder, account, drive or application originally contained the file.",
+        "Check whether Desktop, Documents or Pictures was redirected to OneDrive or iCloud Drive.",
+        "Identify whether the file belonged to a shared folder, network drive or external device.",
+        "Check whether the user has more than one Windows, Apple, Google or Microsoft account.",
+        "Record the filename, extension, approximate size and last known modification date.",
+        "If the file was on a synchronised folder, check the cloud service before attempting disk recovery."
+      ],
+      "successLabel": "Cloud / Synced Location",
+      "failLabel": "Local / Network Location",
+      "successNext": "checkCloudStorage",
+      "failNext": "searchForFile"
+    },
+    "searchForFile": {
+      "title": "Search for the missing file",
+      "body": [
+        "Use File Explorer search on Windows or Finder and Spotlight on macOS.",
+        "Search using the exact filename, part of the filename and file extension.",
+        "Check likely locations including Desktop, Documents, Downloads, Pictures and recently used folders.",
+        "Check whether the file was renamed, moved into another folder or saved with a different extension.",
+        "Check the originating application's Recent Files or Open Recent list.",
+        "Search other connected drives and user profiles where appropriate.",
+        "Do not run a full-disk scan if the storage device is showing signs of physical failure."
       ],
       "successLabel": "File Found",
       "failLabel": "Not Found",
-      "successNext": "fileLocated",
+      "successNext": "verifyLocatedFile",
       "failNext": "checkRecycleBin"
     },
-
-    "fileLocated": {
-      "type": "terminal",
-      "title": "File located",
+    "verifyLocatedFile": {
+      "title": "Verify the located file",
       "body": [
-        "The file was found.",
-        "Move it to a known location and verify it opens correctly."
+        "Check that the file has the expected name, size and modification date.",
+        "Open it in the appropriate application to confirm the contents are correct.",
+        "If multiple versions exist, identify the required version before changing anything.",
+        "Copy the verified file to a known safe location.",
+        "If the file is damaged or contains the wrong data, continue by checking versions and backups."
       ],
-      "successNext": null,
-      "failNext": null
+      "successLabel": "Correct File",
+      "failLabel": "Wrong / Damaged Version",
+      "successNext": "recoverySuccessful",
+      "failNext": "checkPreviousVersions"
     },
-
     "checkRecycleBin": {
-      "title": "Check Recycle Bin",
+      "title": "Check Recycle Bin or Trash",
       "body": [
-        "Open the Recycle Bin and search for the missing file.",
-        "Files deleted normally are often stored here until permanently removed."
+        "On Windows, open Recycle Bin and search for the missing file.",
+        "On macOS, open Trash and check for the deleted file.",
+        "Use the original location and deletion date to distinguish similarly named files.",
+        "Files removed using permanent deletion, some application operations or removable storage may bypass the normal bin.",
+        "Do not empty Recycle Bin or Trash while investigating."
       ],
       "successLabel": "File Found",
-      "failLabel": "Not In Recycle Bin",
+      "failLabel": "Not Found",
       "successNext": "restoreRecycleBin",
       "failNext": "checkCloudStorage"
     },
-
     "restoreRecycleBin": {
-      "type": "terminal",
-      "title": "Restore file",
+      "title": "Restore from Recycle Bin or Trash",
       "body": [
-        "Restore the file from the Recycle Bin.",
-        "Verify the file opens correctly after restoration."
+        "Select the required file and restore it using the operating system's restore command.",
+        "On Windows, Recycle Bin Restore normally returns the item to its original location.",
+        "On macOS, use Put Back where available.",
+        "Check that the original folder exists and that the restored file is accessible.",
+        "If a current file has the same name, avoid overwriting it until both versions have been compared.",
+        "Verify the recovered file opens and contains the expected information."
       ],
-      "successNext": null,
-      "failNext": null
+      "successLabel": "File Verified",
+      "failLabel": "Restore Failed / Damaged",
+      "successNext": "recoverySuccessful",
+      "failNext": "checkPreviousVersions"
     },
-
     "checkCloudStorage": {
-      "title": "Check cloud storage",
+      "title": "Check cloud storage and synchronised folders",
       "body": [
-        "Review OneDrive, Google Drive, Dropbox, or other cloud storage services.",
-        "The file may have been moved, synchronized, or deleted through cloud sync."
+        "Determine whether the file was stored in OneDrive, iCloud Drive, Google Drive, Dropbox or another cloud service.",
+        "Sign in using the correct personal, work or school account.",
+        "Search the provider's website rather than relying only on the computer's synchronised folder.",
+        "Check cloud recycle bins, recently deleted files, version history and file activity.",
+        "Check whether another device moved, renamed or deleted the file through synchronisation.",
+        "For shared folders, confirm the file has not been moved or access permissions changed.",
+        "Avoid making additional bulk changes while investigating a synchronisation-related loss."
       ],
-      "successLabel": "File Found",
-      "failLabel": "Not Found",
+      "successLabel": "Cloud Service Used",
+      "failLabel": "Not Cloud Stored",
+      "successNext": "identifyCloudProvider",
+      "failNext": "checkPreviousVersions"
+    },
+    "identifyCloudProvider": {
+      "title": "Identify the cloud storage provider",
+      "body": [
+        "Check which cloud account originally held the file.",
+        "For OneDrive, use the Microsoft account or work account associated with the original folder.",
+        "For iCloud Drive, use the Apple Account associated with the device.",
+        "For Google Drive and Dropbox, verify the correct signed-in account.",
+        "Some providers retain deleted files only for a limited period, depending on account type or plan.",
+        "For business storage, administrators may have additional recovery options."
+      ],
+      "successLabel": "OneDrive / iCloud",
+      "failLabel": "Google Drive / Dropbox / Other",
+      "successNext": "checkMicrosoftAppleCloud",
+      "failNext": "checkOtherCloud"
+    },
+    "checkMicrosoftAppleCloud": {
+      "title": "Recover OneDrive or iCloud Drive files",
+      "body": [
+        "For OneDrive, sign in at onedrive.com and open Recycle bin.",
+        "Check whether the required file appears in the cloud Recycle bin or a previous version is available.",
+        "For eligible Microsoft 365 accounts, review available OneDrive restore options if many files were affected.",
+        "For iCloud Drive, sign in at icloud.com/iclouddrive and check Recently Deleted.",
+        "Also check iCloud's Data Recovery, Restore Files option.",
+        "On a Mac, check local Trash and Time Machine for the same file.",
+        "Review the selected file before restoring and avoid overwriting a newer correct copy.",
+        "Do not assume a file can be recovered after the provider's retention period or permanent deletion."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Restore Deleted OneDrive Files",
+          "description": "Official OneDrive Recycle bin, version history and recovery instructions.",
+          "url": "https://support.microsoft.com/en-us/onedrive/restore-your-onedrive-files"
+        },
+        {
+          "name": "Apple: Recover Deleted iCloud Files",
+          "description": "Official instructions for iCloud Drive Recently Deleted and Data Recovery.",
+          "url": "https://support.apple.com/guide/icloud/recover-deleted-files-mmae56ea1ca5/icloud"
+        }
+      ],
+      "image": "file-recovery-onedrive-recycle-bin.png",
+      "alt": "OneDrive web interface showing the Recycle Bin and Restore option",
+      "caption": "Open OneDrive in your browser, select Recycle bin and restore the required files.",
+      "successLabel": "Recovery Available",
+      "failLabel": "No Recoverable Copy",
+      "successNext": "restoreCloudFile",
+      "failNext": "checkCloudAdminRecovery"
+    },
+    "checkOtherCloud": {
+      "title": "Recover Google Drive, Dropbox or other cloud files",
+      "body": [
+        "For Google Drive, sign in at drive.google.com and check Trash.",
+        "Search Drive and inspect file activity for moves, renames or deletion events.",
+        "For Dropbox, sign in at dropbox.com and open Deleted files.",
+        "Check version history if the file still exists but an older version is required.",
+        "Review Dropbox Rewind where available if many files were changed or deleted.",
+        "For other services, use their official deleted-file and version-recovery procedures.",
+        "Check the provider's recovery period and the account's subscription or administration settings.",
+        "Avoid replacing a good current version without first examining the older copy."
+      ],
+      "link": [
+        {
+          "name": "Google: Recover Deleted Drive Files",
+          "description": "Official Google Drive Trash recovery instructions.",
+          "url": "https://support.google.com/drive/answer/1716222"
+        },
+        {
+          "name": "Google: Find Lost Drive Files",
+          "description": "Official help for moved, renamed, missing or shared files.",
+          "url": "https://support.google.com/drive/answer/15701190"
+        },
+        {
+          "name": "Dropbox: Recover Deleted Files",
+          "description": "Official Dropbox deleted-file recovery procedures.",
+          "url": "https://help.dropbox.com/delete-restore/recover-deleted-files-folders"
+        }
+      ],
+      "successLabel": "Recovery Available",
+      "failLabel": "Not Recoverable Here",
+      "successNext": "restoreCloudFile",
+      "failNext": "checkCloudAdminRecovery"
+    },
+    "checkCloudAdminRecovery": {
+      "title": "Check administrator or provider recovery",
+      "body": [
+        "For Microsoft 365, Google Workspace, Dropbox Business or other managed accounts, contact the authorised administrator.",
+        "Ask whether retention policies, backup software, snapshots or administrator recovery tools cover the deleted file.",
+        "Check whether the file belonged to a shared drive, SharePoint library or team workspace.",
+        "For personal accounts, review the provider's official support and available recovery tools.",
+        "Do not promise recovery beyond the service's retention period.",
+        "If no cloud recovery option is available, continue checking independent backups."
+      ],
+      "successLabel": "Recovery Copy Found",
+      "failLabel": "No Recovery Available",
       "successNext": "restoreCloudFile",
       "failNext": "checkPreviousVersions"
     },
-
     "restoreCloudFile": {
-      "type": "terminal",
-      "title": "Restore cloud file",
+      "title": "Restore the cloud file safely",
       "body": [
-        "Restore the file using the cloud provider's recovery tools or recycle bin.",
-        "Verify the recovered file opens correctly."
+        "Identify the correct file and version before restoring.",
+        "Use the provider's supported Restore, Recover or Download command.",
+        "If practical, download a recovered copy to a separate location before replacing a current file.",
+        "Confirm that restoration does not overwrite a newer required version.",
+        "Allow cloud synchronisation to complete.",
+        "Open the recovered file and verify its contents and attachments where applicable.",
+        "Check the file on the provider's website and in the intended local folder."
       ],
-      "successNext": null,
-      "failNext": null
+      "successLabel": "File Verified",
+      "failLabel": "Restore Failed",
+      "successNext": "recoverySuccessful",
+      "failNext": "checkPreviousVersions"
     },
-
     "checkPreviousVersions": {
-      "title": "Check previous versions",
+      "title": "Choose the previous-version recovery method",
       "body": [
-        "Some operating systems and storage systems maintain previous versions.",
-        "Check file history, restore points, snapshots, or version history."
+        "Identify whether the missing file was on a Windows computer, Mac, cloud service or network storage.",
+        "For Windows, check File History and the Previous Versions tab where available.",
+        "For macOS, check Time Machine backups.",
+        "For NAS or managed network storage, check snapshots and file-version features in later backup steps.",
+        "For cloud documents, check the cloud provider’s version history in its website.",
+        "Windows System Restore is not a substitute for personal-file backup.",
+        "Choose the appropriate computer operating system; if the source is neither Windows nor macOS, continue with the backup and snapshot checks."
       ],
-      "successLabel": "Version Available",
-      "failLabel": "No Version Found",
+      "successLabel": "Windows",
+      "failLabel": "macOS / Other",
+      "successNext": "checkWindowsPreviousVersions",
+      "failNext": "checkMacTimeMachine"
+    },
+    "checkWindowsPreviousVersions": {
+      "title": "Check Windows File History and Previous Versions",
+      "body": [
+        "Open File Explorer and browse to the original folder or its parent folder.",
+        "Right-click the folder or existing file, select Properties and open Previous Versions where available.",
+        "Look for a version from before the file was deleted or changed.",
+        "If File History was configured, search its available backed-up versions of the folder.",
+        "Use Open or preview where available to confirm the file is correct before restoring.",
+        "Prefer copying a recovered version to a separate location instead of overwriting a current file.",
+        "If no versions exist, File History or snapshots may not have been configured."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Restore Files with File History",
+          "description": "Official Windows File History and previous-version recovery steps.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/backup-recovery/backup-and-restore-with-file-history"
+        }
+      ],
+      "image": "file-recovery-windows-previous-versions.jpg",
+      "alt": "Windows folder Properties dialog displaying the Previous Versions tab",
+      "caption": "Right-click the original folder, open Properties and inspect Previous Versions before restoring a copy.",
+      "successLabel": "Previous Version Found",
+      "failLabel": "No Version Available",
       "successNext": "restorePreviousVersion",
       "failNext": "checkBackups"
     },
-
-    "restorePreviousVersion": {
-      "type": "terminal",
-      "title": "Restore previous version",
+    "checkMacTimeMachine": {
+      "title": "Check macOS Time Machine or other backup versions",
       "body": [
-        "Restore the required version of the file.",
-        "Verify the restored copy contains the expected data."
+        "If the source computer is a Mac, connect or select the drive containing its Time Machine backups.",
+        "Open Finder and navigate to the folder where the file was previously located.",
+        "Open Time Machine and browse to a backup date when the file existed.",
+        "Preview the correct file and restore it, avoiding overwriting a newer version without a copy.",
+        "If Time Machine was not configured or no matching backup exists, check the other backup options.",
+        "If the source was Linux or network storage rather than macOS, skip Time Machine and continue to the relevant backup or NAS snapshot checks."
       ],
-      "successNext": null,
-      "failNext": null
+      "link": [
+        {
+          "name": "Apple: Restore Items with Time Machine",
+          "description": "Official macOS Time Machine recovery instructions.",
+          "url": "https://support.apple.com/guide/mac-help/restore-items-backed-up-with-time-machine-mh11422/mac"
+        }
+      ],
+      "image": "file-recovery-macos-time-machine.jpg",
+      "alt": "macOS Time Machine showing historical Finder windows for restoring an earlier file",
+      "caption": "Browse Time Machine backups to the date the file existed, then restore the required copy.",
+      "successLabel": "Backup Version Found",
+      "failLabel": "No Version / Not macOS",
+      "successNext": "restorePreviousVersion",
+      "failNext": "checkBackups"
     },
-
-    "checkBackups": {
-      "title": "Check backups",
+    "restorePreviousVersion": {
+      "title": "Restore a previous file version",
       "body": [
-        "Review local backups, external drives, NAS devices, or backup software.",
-        "Backups often provide the safest recovery method."
+        "Preview the available version and confirm that it contains the required information.",
+        "Record the date of the version being restored.",
+        "Where possible, restore to a different filename or location.",
+        "Do not overwrite an existing newer copy without preserving it first.",
+        "Open the restored file and verify its contents.",
+        "If the version is incomplete or the restore fails, continue checking other backups."
       ],
-      "successLabel": "Backup Available",
+      "successLabel": "Version Verified",
+      "failLabel": "Wrong / Damaged Version",
+      "successNext": "recoverySuccessful",
+      "failNext": "checkBackups"
+    },
+    "checkBackups": {
+      "title": "Check built-in and external backups",
+      "body": [
+        "Ask whether the user has a regular computer backup.",
+        "On Windows, check File History, any existing Windows Backup configuration and legacy Backup and Restore sets.",
+        "On macOS, check Time Machine backups and any backup disks.",
+        "Check external USB drives, another computer, NAS storage and server backups.",
+        "Check whether copies were emailed, exported or saved in another application.",
+        "Confirm the backup date is old enough to contain the missing file.",
+        "Avoid connecting an untrusted or damaged drive in a way that causes automatic write operations."
+      ],
+      "successLabel": "Backup Found",
       "failLabel": "No Backup Found",
       "successNext": "restoreBackup",
-      "failNext": "checkRecentDeletion"
+      "failNext": "checkThirdPartyBackups"
     },
-
+    "checkThirdPartyBackups": {
+      "title": "Check third-party backup software",
+      "body": [
+        "Check whether backup software was installed on the original computer, NAS or server.",
+        "Examples include Veeam, Acronis, Macrium Reflect, Backblaze, IDrive, Duplicati and other backup solutions.",
+        "Open the backup application's recovery interface and identify existing backup jobs or repositories.",
+        "Check external disks, network destinations and cloud backup accounts associated with those jobs.",
+        "Look for file-level restore, previous backup versions and deleted-file retention options.",
+        "Some backups are stored as disk images and must be mounted or browsed through the backup application.",
+        "Verify the backup set is accessible and that the required file exists before starting restoration.",
+        "For managed systems, check whether an IT administrator controls the backups."
+      ],
+      "successLabel": "Backup Copy Found",
+      "failLabel": "No Backup Available",
+      "successNext": "restoreBackup",
+      "failNext": "checkNasSnapshots"
+    },
+    "checkNasSnapshots": {
+      "title": "Check NAS and network storage snapshots",
+      "body": [
+        "If the file was stored on a NAS, file server or shared drive, identify the storage system.",
+        "Check whether the administrator enabled snapshots, file versioning or a network recycle bin.",
+        "For Synology, QNAP, TrueNAS or other storage platforms, use the supported snapshot or file recovery interface.",
+        "Check whether a previous version of the folder can be browsed without restoring the entire shared volume.",
+        "Do not roll back an entire shared folder or volume when only one file is missing unless the consequences are understood.",
+        "Prefer restoring the required file to a separate folder.",
+        "If the storage system is failing, stop and follow the storage-failure recovery path."
+      ],
+      "successLabel": "Snapshot Found",
+      "failLabel": "No Snapshot",
+      "successNext": "restoreBackup",
+      "failNext": "checkRecoveryEligibility"
+    },
     "restoreBackup": {
-      "type": "terminal",
-      "title": "Restore from backup",
+      "title": "Restore the file from backup",
       "body": [
-        "Restore the file from the backup source.",
-        "Verify the recovered file opens correctly."
+        "Select the correct backup date and file version.",
+        "Verify the source backup contains the required information.",
+        "Restore to a separate safe folder where possible.",
+        "Avoid replacing an existing file without first saving a copy.",
+        "Open the restored file and check its contents.",
+        "If the file came from a disk image, use the backup application's supported extraction procedure.",
+        "Keep the original backup until restoration has been confirmed."
       ],
-      "successNext": null,
-      "failNext": null
+      "successLabel": "File Verified",
+      "failLabel": "Restore Failed / Incomplete",
+      "successNext": "recoverySuccessful",
+      "failNext": "checkRecoveryEligibility"
     },
-
-    "checkRecentDeletion": {
-      "title": "Was the file recently deleted?",
+    "checkRecoveryEligibility": {
+      "title": "Assess whether deleted-file recovery is appropriate",
       "body": [
-        "Recovery success is generally higher when deletion occurred recently.",
-        "Minimize activity on the affected drive to avoid overwriting recoverable data."
+        "Determine whether the file was deleted from a local drive, USB device, memory card or other storage.",
+        "Check whether the drive is functioning normally and can be accessed without errors.",
+        "Record whether the storage uses an SSD, HDD, memory card or USB flash drive.",
+        "Recovery becomes less likely when deleted data has been overwritten or cleared by SSD TRIM.",
+        "Deletion age alone does not determine whether recovery is possible.",
+        "Do not install recovery software, download files or save recovered data onto the affected drive.",
+        "If the drive is physically failing, do not run a normal recovery scan; follow the storage-failure path."
       ],
-      "successLabel": "Recently Deleted",
-      "failLabel": "Deleted Long Ago",
+      "successLabel": "Healthy Local Storage",
+      "failLabel": "Fault / Storage Unavailable",
+      "successNext": "prepareSoftwareRecovery",
+      "failNext": "checkDriveHealth"
+    },
+    "prepareSoftwareRecovery": {
+      "title": "Prepare safe software recovery",
+      "body": [
+        "Stop unnecessary use of the affected volume.",
+        "Identify the physical storage device and the partition containing the lost data.",
+        "Use another computer or a separate healthy drive for recovery tools when practical.",
+        "Prepare a separate destination drive with enough space for recovered files.",
+        "For valuable data, consider making a sector-level image before examining the source, if the drive is healthy and appropriate tools and expertise are available.",
+        "Do not create a new partition or reformat the original drive to prepare recovery space.",
+        "Do not use CHKDSK, First Aid repair or other filesystem-writing repairs as a first step when deleted-file recovery is the goal.",
+        "For SSDs, recognise that TRIM may already have made some deleted data unrecoverable."
+      ],
+      "successLabel": "Recovery Prepared",
+      "failLabel": "Cannot Recover Safely",
       "successNext": "attemptRecoverySoftware",
-      "failNext": "limitedRecovery"
+      "failNext": "professionalRecovery"
     },
-
     "attemptRecoverySoftware": {
-      "title": "Attempt file recovery software",
+      "title": "Attempt deleted-file recovery software",
       "body": [
-        "Use reputable recovery software on the affected drive.",
-        "Recover files to a different drive whenever possible.",
-        "Avoid installing recovery tools on the affected drive."
+        "Choose a reputable tool appropriate to the operating system, file system and storage device.",
+        "On Windows, consider Microsoft's Windows File Recovery for supported local storage.",
+        "Other established tools include PhotoRec and TestDisk, but they serve different recovery purposes and require care.",
+        "Run recovery against the affected source without saving recovered files to it.",
+        "Use a separate physical drive or appropriate destination for recovered data.",
+        "Check preview results where supported and select the required files.",
+        "Large scans may take considerable time; monitor drive behaviour and stop if physical failure symptoms appear.",
+        "Do not repeat scans indefinitely if no useful data is recovered.",
+        "Verify recovered files before declaring success."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Windows File Recovery",
+          "description": "Official recovery tool and source/destination requirements.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/backup-recovery/windows-file-recovery"
+        },
+        {
+          "name": "CGSecurity: TestDisk and PhotoRec",
+          "description": "Official documentation for established partition and file recovery utilities.",
+          "url": "https://www.cgsecurity.org/wiki/Main_Page"
+        }
       ],
       "successLabel": "File Recovered",
       "failLabel": "Recovery Failed",
+      "successNext": "verifyRecoveredFile",
+      "failNext": "limitedRecovery"
+    },
+    "verifyRecoveredFile": {
+      "title": "Verify recovered files",
+      "body": [
+        "Check that the recovered file has the expected format and plausible size.",
+        "Open it in its normal application and inspect the contents.",
+        "Confirm that any embedded images, attachments or required data are present.",
+        "Recovery tools may produce partial files, damaged files or generic filenames.",
+        "Compare the recovered content with available original information.",
+        "Save the verified copy to a safe storage location."
+      ],
+      "successLabel": "Recovery Verified",
+      "failLabel": "File Corrupted / Incomplete",
       "successNext": "recoverySuccessful",
-      "failNext": "professionalRecovery"
+      "failNext": "limitedRecovery"
     },
-
-    "recoverySuccessful": {
-      "type": "terminal",
-      "title": "File recovered",
-      "body": [
-        "The file was successfully recovered.",
-        "Create a backup to prevent future data loss."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
     "limitedRecovery": {
-      "type": "terminal",
-      "title": "Recovery may be limited",
+      "title": "Assess remaining recovery options",
       "body": [
-        "Older deletions are more likely to have been overwritten.",
-        "Recovery may still be possible but success rates are lower."
+        "The attempted recovery did not produce a usable file.",
+        "Check whether the drive is an SSD where TRIM may have cleared deleted data.",
+        "Review whether the original storage has been heavily used since deletion.",
+        "Check whether another backup, device or cloud version remains available.",
+        "Avoid repeated writes or aggressive recovery attempts on the affected storage.",
+        "If the data is important, professional recovery may be justified.",
+        "If the data has been overwritten or permanently cleared, recovery may not be possible."
       ],
-      "successNext": null,
-      "failNext": null
+      "successLabel": "Important Data",
+      "failLabel": "No Further Recovery Needed",
+      "successNext": "professionalRecovery",
+      "failNext": "recoveryUnsuccessful"
     },
-
     "checkDriveHealth": {
-      "title": "Check drive health",
+      "title": "Check storage accessibility and health",
       "body": [
-        "Determine whether the drive is showing errors, unusual noises, SMART warnings, or connection problems.",
-        "Drive faults require different handling than accidental deletion."
+        "Identify whether the drive is detected consistently by the computer.",
+        "Check for unusual clicking, repeated disconnects, slow reads, SMART warnings and input/output errors.",
+        "Check whether the issue is limited to one file or affects the entire drive.",
+        "For external drives, confirm power, cable and connection issues using safe non-destructive checks.",
+        "Avoid repeatedly powering a drive that is making abnormal mechanical noises.",
+        "If a drive is suspected of failing, preserve it before performing filesystem repairs.",
+        "A healthy drive with an inaccessible file may instead have a permissions, encryption or filesystem issue."
       ],
-      "successLabel": "Drive Healthy",
-      "failLabel": "Drive Fault Suspected",
+      "successLabel": "Drive Appears Healthy",
+      "failLabel": "Drive Failure Suspected",
       "successNext": "checkFilePermissions",
       "failNext": "stopUsingDrive"
     },
-
-    "stopUsingDrive": {
-      "title": "Stop using the drive",
+    "checkFilePermissions": {
+      "title": "Check permissions and encryption",
       "body": [
-        "Continued use can worsen data loss.",
-        "Power down the device if the data is critical.",
-        "Avoid writing new data to the affected drive."
+        "Confirm whether the file or folder actually exists.",
+        "Check whether access is blocked by Windows NTFS permissions, macOS permissions or network share permissions.",
+        "Check for BitLocker, FileVault or other encryption requiring a valid key or recovery credential.",
+        "For cloud or shared storage, confirm the user still has access to the correct account and folder.",
+        "Do not reset permissions recursively or take ownership of an entire drive without understanding the consequences.",
+        "For encrypted storage, do not format or initialise the volume while trying to regain access.",
+        "If the file exists and the issue is limited to authorised access, correct permissions through the appropriate administrator or account."
+      ],
+      "successLabel": "Access Issue Identified",
+      "failLabel": "No Access Issue",
+      "successNext": "fixPermissions",
+      "failNext": "checkFilesystemIssue"
+    },
+    "fixPermissions": {
+      "title": "Restore authorised access",
+      "body": [
+        "Confirm the user has legitimate access to the file or storage.",
+        "Correct only the necessary file or folder permissions.",
+        "For network shares, check both share and filesystem permissions.",
+        "For encryption, use the correct account credentials or valid recovery key.",
+        "Avoid changing ownership or permissions on large unrelated folder trees.",
+        "Attempt to open the file again after restoring access."
+      ],
+      "successLabel": "File Accessible",
+      "failLabel": "Still Inaccessible",
+      "successNext": "verifyLocatedFile",
+      "failNext": "checkFilesystemIssue"
+    },
+    "checkFilesystemIssue": {
+      "title": "Check for filesystem or partition problems",
+      "body": [
+        "Determine whether the volume is present but unreadable, unmounted or reporting an unsupported or RAW filesystem.",
+        "Check whether another computer can identify the drive without modifying its contents.",
+        "Check for a missing drive letter or mount point without formatting the volume.",
+        "If a drive appears unallocated, RAW or asks to be formatted, do not format or initialise it.",
+        "Avoid running write-capable repairs before protecting important data.",
+        "If the data is valuable, consider professional assessment or a non-destructive imaging workflow.",
+        "Only proceed with repair after the data has been secured and the consequences are understood."
+      ],
+      "successLabel": "Data Is Important",
+      "failLabel": "No Data To Preserve",
+      "successNext": "professionalRecovery",
+      "failNext": "storageRepairPlanning"
+    },
+    "stopUsingDrive": {
+      "title": "Stop using a suspected failing drive",
+      "body": [
+        "Stop normal use of the affected drive immediately.",
+        "If the drive is clicking, repeatedly disconnecting or producing serious read errors, avoid further scanning.",
+        "Do not run CHKDSK, format, defragmentation, filesystem repair or repeated recovery scans on the failing source.",
+        "Do not reinstall the operating system onto the affected disk.",
+        "Power down safely if the data is critical or mechanical damage is suspected.",
+        "Assess whether a professional recovery service is needed before further attempts.",
+        "If the data is unimportant and backups are available, replace the faulty device instead."
       ],
       "successLabel": "Critical Data",
-      "failLabel": "Non-Critical Data",
+      "failLabel": "Data Backed Up / Unneeded",
       "successNext": "professionalRecovery",
       "failNext": "replaceDrive"
     },
-
+    "storageRepairPlanning": {
+      "type": "terminal",
+      "title": "Plan storage repair or replacement",
+      "body": [
+        "The storage problem is not being treated as an active data recovery case.",
+        "Confirm that no required data remains on the affected volume before formatting, initialising or replacing it.",
+        "Use manufacturer diagnostics and appropriate repair procedures only after confirming data preservation.",
+        "If the drive is unreliable, replace it rather than trusting it with important new files.",
+        "Restore any required data from a verified backup.",
+        "Recheck drive health and backup configuration before returning the system to service."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
     "replaceDrive": {
       "type": "terminal",
-      "title": "Replace failing drive",
+      "title": "Replace the unreliable drive",
       "body": [
-        "The drive appears unreliable.",
-        "Replace the drive and restore data from backups if available."
+        "The storage device is suspected of failure and the required data is backed up or no longer needed.",
+        "Replace the drive with a reliable storage device.",
+        "Restore required files from verified backups.",
+        "Do not reuse an unreliable drive for important data.",
+        "Confirm the replacement storage is operating correctly and backups are configured."
       ],
       "successNext": null,
       "failNext": null
     },
-
-    "checkFilePermissions": {
-      "title": "Check file permissions",
-      "body": [
-        "The file may exist but access may be restricted.",
-        "Verify ownership and permissions."
-      ],
-      "successLabel": "Permission Issue",
-      "failLabel": "Not Permission Related",
-      "successNext": "fixPermissions",
-      "failNext": "professionalRecovery"
-    },
-
-    "fixPermissions": {
-      "type": "terminal",
-      "title": "Correct permissions",
-      "body": [
-        "Adjust permissions or ownership as appropriate.",
-        "Verify access to the file afterwards."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
-
     "professionalRecovery": {
       "type": "terminal",
-      "title": "Professional recovery recommended",
+      "title": "Professional data recovery recommended",
       "body": [
-        "Basic recovery methods have been exhausted.",
-        "If the data is valuable, consult a professional data recovery service.",
-        "Avoid further use of the affected drive until recovery options have been assessed."
+        "The remaining recovery options are high risk or require specialised equipment.",
+        "Keep the original drive or storage device unchanged.",
+        "If physical failure is suspected, avoid further powering, scanning or repair attempts.",
+        "For valuable data, contact a professional recovery service and explain the device symptoms and previous actions.",
+        "Ask about assessment costs, handling procedures and recovery feasibility.",
+        "For encrypted drives, ensure valid credentials or recovery keys are available where required.",
+        "Do not format or overwrite the source before professional assessment."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "recoverySuccessful": {
+      "type": "terminal",
+      "title": "File recovered successfully",
+      "body": [
+        "The required file has been recovered and verified.",
+        "Store the recovered copy in a safe, known location.",
+        "Open the file and confirm its contents are complete.",
+        "Create an additional backup separate from the original storage.",
+        "If cloud synchronisation caused the loss, review sync and deletion behaviour.",
+        "Configure a regular backup system to reduce the risk of future data loss."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "recoveryUnsuccessful": {
+      "type": "terminal",
+      "title": "No usable recovery found",
+      "body": [
+        "The available recovery methods did not produce a usable copy.",
+        "Preserve the original storage if the data may be needed later.",
+        "Do not assume recovery is guaranteed through further software scans.",
+        "For SSDs, overwritten data and TRIM can prevent recovery.",
+        "If the information is valuable, professional assessment may still be appropriate.",
+        "Review backup coverage before returning the device to normal use."
       ],
       "successNext": null,
       "failNext": null

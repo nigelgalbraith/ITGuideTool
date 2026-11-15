@@ -1,50 +1,58 @@
+
 {
   "id": "computerSlow",
   "title": "Computer Is Slow",
   "cardText": [
-    "Diagnose a computer that feels slow, delayed, or unresponsive.",
-    "Check whether the slowdown is caused by one app, low storage, high CPU, high memory, disk activity, updates, malware, or ageing hardware.",
-    "Separate normal background activity from faults that require cleanup, repair, or hardware upgrades."
+    "Diagnose a Windows computer that has become slow or unresponsive.",
+    "Investigate high CPU, memory and disk usage, startup programs, updates, malware and storage health.",
+    "Identify software bottlenecks and hardware limitations before recommending upgrades."
   ],
   "icon": "",
   "text": [
-    "This guide is for computers that turn on and display normally but feel slow to use.",
-    "Start by identifying whether the whole computer is slow or only one application.",
-    "Check common causes such as storage space, startup load, background updates, CPU usage, memory pressure, disk health, and malware.",
-    "Escalate when the system remains slow after software cleanup and basic checks."
+    "This guide helps diagnose slow performance on Windows computers.",
+    "Identify whether the slowdown affects the entire computer or only specific applications.",
+    "Check recent changes, Task Manager resource usage, storage health and background activity.",
+    "Investigate Windows updates, startup programs, malware and thermal throttling where relevant.",
+    "Use the diagnostic results to determine whether software repairs or hardware upgrades are appropriate."
   ],
   "startNode": "identifyScope",
   "nodes": {
     "identifyScope": {
-      "title": "Identify what is slow",
+      "title": "Identify the performance problem",
       "body": [
-        "Determine whether the whole computer is slow or only one program is affected.",
-        "A single slow app usually points to that app, its data, its network connection, or its settings.",
-        "A whole-system slowdown points more toward CPU, memory, disk, startup, updates, malware, or hardware limits."
+        "Determine whether the entire computer is slow or the problem affects only one application.",
+        "Check whether Windows itself is slow to respond, applications take unusually long to open or file operations are delayed.",
+        "If only one application is affected, investigate that application before making system-wide changes.",
+        "If the entire computer is slow, continue with the system performance checks."
       ],
       "successLabel": "Whole Computer",
-      "failLabel": "One App Only",
+      "failLabel": "One Application",
       "successNext": "recentOrLongTerm",
       "failNext": "checkSingleApp"
     },
     "checkSingleApp": {
-      "title": "Check the affected application",
+      "title": "Investigate the slow application",
       "body": [
-        "Close and reopen the affected application.",
-        "Check whether other apps run normally.",
-        "If only one program is slow, update it, clear its cache if appropriate, or reinstall it."
+        "Check the application's CPU, memory and disk usage in Task Manager.",
+        "Check for available application updates and known compatibility issues.",
+        "Test whether the application behaves normally after restarting it.",
+        "If appropriate, disable unnecessary extensions or plugins.",
+        "Use the application's repair or reinstall option if its files or configuration appear damaged.",
+        "If performance remains poor, determine whether it depends on an external network service."
       ],
-      "successLabel": "App Fixed",
+      "successLabel": "Application Fixed",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "checkAppNetworkDependency"
     },
     "checkAppNetworkDependency": {
-      "title": "Check whether the app depends on internet or a server",
+      "title": "Check application network dependencies",
       "body": [
-        "Some applications feel slow because they are waiting on internet, cloud storage, email servers, databases, or shared network folders.",
-        "Test a local app such as Calculator, Notepad, or File Explorer.",
-        "If local apps are fast but cloud or network apps are slow, troubleshoot the network or service instead."
+        "Determine whether the application relies on internet access, cloud storage, a database or a remote server.",
+        "Compare its performance with local applications such as Notepad or File Explorer.",
+        "Check for delays when accessing network shares or cloud-synchronised folders.",
+        "If local applications perform normally, investigate the relevant network connection, VPN, server or cloud service.",
+        "If local applications are also slow, continue with whole-system diagnostics."
       ],
       "successLabel": "Network App Only",
       "failLabel": "Local Apps Slow Too",
@@ -53,21 +61,24 @@
     },
     "networkRelatedAppIssue": {
       "type": "terminal",
-      "title": "Application or network service issue likely",
+      "title": "Network or application service bottleneck likely",
       "body": [
-        "The slowdown appears limited to an app that depends on internet, cloud storage, email, or a server.",
-        "Check the service status, network connection, VPN, shared folder access, or application-specific settings.",
-        "The computer itself may not be the main cause."
+        "The slowdown appears limited to an application that depends on an external service.",
+        "Check network latency, DNS, VPN connections and server availability as appropriate.",
+        "For shared applications or files, test access from another computer.",
+        "Check the service provider's status information if a cloud application is affected.",
+        "Avoid unnecessary Windows repairs until the external dependency has been investigated."
       ],
       "successNext": null,
       "failNext": null
     },
     "recentOrLongTerm": {
-      "title": "Check whether the slowdown is recent",
+      "title": "Identify when performance deteriorated",
       "body": [
-        "Ask whether the computer has always been slow or became slow recently.",
-        "A recent slowdown often points to updates, new software, malware, failed hardware, or low disk space.",
-        "A long-term slowdown often points to ageing hardware, too little RAM, mechanical hard drive performance, or too many startup programs."
+        "Determine whether the computer became slow recently or has been consistently slow over time.",
+        "A recent slowdown may coincide with updates, new applications, malware or hardware deterioration.",
+        "Long-standing poor performance may result from limited RAM, a mechanical hard drive or insufficient processing capacity.",
+        "Choose the relevant branch to narrow down the likely cause."
       ],
       "successLabel": "Recently Slow",
       "failLabel": "Always Slow",
@@ -75,309 +86,472 @@
       "failNext": "checkHardwareAge"
     },
     "checkRecentChanges": {
-      "title": "Check recent changes",
+      "title": "Check recent system changes",
       "body": [
-        "Check whether new software, drivers, updates, browser extensions, antivirus tools, or startup apps were added recently.",
-        "Recent changes are useful because they create a likely before-and-after point.",
-        "Undo or disable suspicious recent changes one at a time and retest."
+        "Review recently installed applications, Windows updates, drivers and browser extensions.",
+        "Check whether a new antivirus, backup utility or cloud synchronisation application was installed.",
+        "Compare the timing of any changes with when performance deteriorated.",
+        "If a relevant change is identified, test reversing it before proceeding with broader troubleshooting."
       ],
-      "successLabel": "Change Found",
+      "link": [
+        {
+          "name": "Microsoft: Improve Windows performance",
+          "description": "Official guidance covering updates, applications, background activity and performance problems.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/tips-to-improve-pc-performance-in-windows"
+        }
+      ],
+      "successLabel": "Relevant Change",
       "failLabel": "No Clear Change",
       "successNext": "undoRecentChange",
       "failNext": "checkDiskSpace"
     },
     "undoRecentChange": {
-      "title": "Undo or disable the recent change",
+      "title": "Reverse the suspected change",
       "body": [
-        "Disable, uninstall, or roll back the recent change if safe to do so.",
-        "Restart the computer after making the change.",
-        "Then test whether normal performance has returned."
+        "Temporarily disable, uninstall or roll back the change associated with the slowdown.",
+        "For driver updates, use the manufacturer's recommended rollback procedure.",
+        "For recently installed applications, check whether they added background services or startup processes.",
+        "Make one change at a time and compare performance afterwards.",
+        "If the computer remains slow, continue investigating storage and resource usage."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Performance Restored",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "checkDiskSpace"
     },
     "checkHardwareAge": {
-      "title": "Check whether the computer is underpowered",
+      "title": "Assess hardware performance limitations",
       "body": [
-        "Older computers with low RAM, weak processors, or mechanical hard drives may be slow even when nothing is technically broken.",
-        "Check the system age, RAM amount, processor generation, and whether it uses an HDD or SSD.",
-        "A computer with a mechanical hard drive and low memory will often feel slow on modern Windows."
+        "Check the processor model, installed RAM and whether Windows runs from an HDD or SSD.",
+        "Use Task Manager, Performance to view installed memory, processor details and disk type.",
+        "Older processors, limited RAM and mechanical hard drives can significantly affect Windows responsiveness.",
+        "However, hardware age alone does not prove that an upgrade is necessary.",
+        "Determine whether the system is consistently limited by its hardware or whether another performance fault is present."
       ],
-      "successLabel": "Likely Underpowered",
-      "failLabel": "Hardware Seems OK",
+      "link": [
+        {
+          "name": "Microsoft: Signs that a PC may need upgrading",
+          "description": "Official guidance for assessing ageing or insufficient computer hardware.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/compatibility/how-to-know-it-s-time-for-a-new-pc"
+        }
+      ],
+      "successLabel": "Hardware Bottleneck Evident",
+      "failLabel": "Hardware Seems Adequate",
       "successNext": "hardwareUpgradeLikely",
       "failNext": "checkDiskSpace"
     },
     "hardwareUpgradeLikely": {
-      "type": "terminal",
-      "title": "Hardware upgrade likely needed",
+      "title": "Assess potential hardware upgrades",
       "body": [
-        "The computer appears to be limited by older or low-end hardware rather than a single fault.",
-        "The most effective upgrades are usually replacing an HDD with an SSD and increasing RAM.",
-        "If the computer is very old, replacement may be more sensible than repair."
+        "Check which hardware component is limiting performance.",
+        "Replacing a mechanical system drive with an SSD often significantly improves startup and application loading times.",
+        "Increasing RAM can help when memory pressure causes excessive paging to disk.",
+        "A processor upgrade may be impractical on older systems.",
+        "Check compatibility, upgrade costs and current Windows support before proceeding.",
+        "If the limitation is uncertain, continue with storage and Task Manager diagnostics before purchasing hardware."
+      ],
+      "successLabel": "Upgrade Justified",
+      "failLabel": "Investigate Further",
+      "successNext": "hardwareUpgradeRecommendation",
+      "failNext": "checkDiskSpace"
+    },
+    "hardwareUpgradeRecommendation": {
+      "type": "terminal",
+      "title": "Hardware upgrade recommended",
+      "body": [
+        "The system's performance limitation has been identified.",
+        "Choose an SSD upgrade when mechanical disk performance is the main bottleneck.",
+        "Increase RAM when available memory is consistently insufficient.",
+        "Confirm motherboard, memory and storage compatibility before purchasing components.",
+        "Back up data before replacing the system drive.",
+        "Compare the cost of upgrading with replacing the computer, particularly if it cannot support a current operating system."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkDiskSpace": {
-      "title": "Check free disk space",
+      "title": "Check available system drive space",
       "body": [
-        "Check how much free space is left on the system drive.",
-        "Windows can become slow when the main drive is nearly full because updates, temporary files, cache, and virtual memory need working space.",
-        "As a rough rule, try to keep at least 15–20 percent of the system drive free."
+        "Open Settings, System, Storage.",
+        "Check the free space available on the Windows system drive.",
+        "Low free space can interfere with Windows updates, temporary files and virtual memory.",
+        "As a practical guideline, maintaining approximately 15 to 20 percent free space may help, although the amount needed varies with drive size and workload.",
+        "If storage is critically low, remove unnecessary files before continuing."
       ],
-      "successLabel": "Enough Space",
-      "failLabel": "Low Space",
+      "link": [
+        {
+          "name": "Microsoft: Windows Storage settings",
+          "description": "Official guidance for inspecting disk usage and managing available storage.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/storage-settings-in-windows"
+        }
+      ],
+      "successLabel": "Enough Free Space",
+      "failLabel": "Low Free Space",
       "successNext": "openTaskManager",
       "failNext": "freeDiskSpace"
     },
     "freeDiskSpace": {
-      "title": "Free disk space",
+      "title": "Free system drive space",
       "body": [
-        "Empty the recycle bin, remove temporary files, uninstall unused programs, and move large personal files to another drive if appropriate.",
-        "Use Windows Storage settings or Disk Cleanup for safe cleanup.",
-        "Avoid deleting files from system folders unless you know exactly what they are."
+        "Open Settings, System, Storage.",
+        "Review Temporary files and Cleanup recommendations.",
+        "Remove unnecessary temporary files and unused applications.",
+        "Review Downloads and Recycle Bin contents before deleting anything.",
+        "Move large personal files to another suitable storage location if necessary.",
+        "Do not delete unknown files from Windows system directories.",
+        "Check whether sufficient space has been recovered and retest performance."
       ],
-      "successLabel": "Fixed",
+      "link": [
+        {
+          "name": "Microsoft: Manage storage with Storage Sense",
+          "description": "Official instructions for safely removing temporary files and managing storage.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/manage-drive-space-with-storage-sense"
+        }
+      ],
+      "image": "computer-slow-storage-cleanup.png",
+      "alt": "Windows 11 Storage settings showing temporary files and cleanup recommendations",
+      "caption": "Use Windows Storage settings to identify and remove unnecessary files.",
+      "successLabel": "Performance Improved",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "openTaskManager"
     },
     "openTaskManager": {
-      "title": "Open Task Manager",
+      "title": "Analyse resource usage in Task Manager",
       "body": [
-        "Open Task Manager and check CPU, Memory, Disk, and Network usage.",
-        "Sort by each column to see what is using the most resources.",
-        "This helps identify whether the slowdown is caused by processor load, memory pressure, disk activity, or background network usage."
+        "Press Ctrl + Shift + Esc to open Task Manager.",
+        "Select Processes and examine CPU, Memory, Disk and Network usage.",
+        "Sort by the relevant column to identify processes consuming the most resources.",
+        "Check whether high usage persists while the computer feels slow.",
+        "Brief spikes are normal; look for sustained activity that coincides with the performance problem.",
+        "Use the Performance tab to check total memory usage, processor load and disk activity."
       ],
+      "link": [
+        {
+          "name": "ASUS: Use Task Manager to investigate performance",
+          "description": "Manufacturer instructions showing Windows Task Manager resource monitoring.",
+          "url": "https://www.asus.com/support/faq/1043921/"
+        },
+        {
+          "name": "Microsoft: Improve PC performance",
+          "description": "Official guidance for identifying high-resource applications and background tasks.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/tips-to-improve-pc-performance-in-windows"
+        }
+      ],
+      "image": "computer-slow-task-manager.png",
+      "alt": "Windows Task Manager Processes tab showing CPU, memory and disk usage by application",
+      "caption": "Sort processes by CPU, Memory or Disk to identify sustained resource usage.",
       "successLabel": "High Usage Found",
-      "failLabel": "Usage Looks Normal",
+      "failLabel": "Usage Appears Normal",
       "successNext": "identifyHighUsage",
       "failNext": "checkStartupPrograms"
     },
     "identifyHighUsage": {
-      "title": "Identify which resource is high",
+      "title": "Identify the performance bottleneck",
       "body": [
-        "Check which Task Manager column is consistently high.",
-        "High CPU, high memory, high disk usage, and high network usage point to different causes.",
-        "Do not rely on a one-second spike. Look for repeated or sustained high usage."
+        "Determine which resource remains heavily utilised while the slowdown occurs.",
+        "High CPU usage may indicate an intensive or malfunctioning process.",
+        "High memory usage may cause excessive paging when insufficient RAM is available.",
+        "High disk activity may indicate storage delays, background tasks or a failing drive.",
+        "High network activity may indicate downloads, cloud synchronisation or remote-service delays.",
+        "Choose the branch corresponding to the main bottleneck."
       ],
-      "successLabel": "CPU/Memory High",
-      "failLabel": "Disk/Network High",
+      "successLabel": "CPU / Memory",
+      "failLabel": "Disk / Network",
       "successNext": "cpuOrMemoryHigh",
       "failNext": "diskOrNetworkHigh"
     },
     "cpuOrMemoryHigh": {
-      "title": "Check CPU and memory pressure",
+      "title": "Investigate CPU or memory pressure",
       "body": [
-        "If CPU is high, identify the process using it.",
-        "If memory is high, check whether many apps, browser tabs, or background tools are open.",
-        "High memory use can make Windows rely on disk paging, which causes major slowdowns."
+        "In Task Manager, identify the processes responsible for sustained CPU or memory usage.",
+        "Check whether the processes belong to known applications, Windows services or third-party utilities.",
+        "Compare memory usage with the total installed RAM.",
+        "If memory is nearly exhausted, check for unusually large application usage or excessive browser tabs.",
+        "Investigate processes you do not recognise before ending them.",
+        "Avoid terminating essential Windows system processes."
       ],
-      "successLabel": "Known Process",
-      "failLabel": "Unknown Process",
+      "successLabel": "Known Heavy Process",
+      "failLabel": "Unknown / Suspicious",
       "successNext": "handleKnownHeavyProcess",
       "failNext": "scanForMalware"
     },
     "handleKnownHeavyProcess": {
-      "title": "Handle the heavy process",
+      "title": "Resolve excessive application resource usage",
       "body": [
-        "If the process is a normal app, close it or reduce what it is doing.",
-        "If it is a browser, close unused tabs and disable unnecessary extensions.",
-        "If it is antivirus, backup, indexing, or updates, allow it to finish or reschedule it."
+        "Check whether the identified process is performing an expected task.",
+        "Close or reconfigure applications using excessive resources unnecessarily.",
+        "For browsers, reduce tabs or investigate extensions.",
+        "For backup, antivirus, indexing or synchronisation tasks, check whether the workload can complete or be scheduled differently.",
+        "If an application consistently uses excessive resources, check for updates or known issues.",
+        "Retest performance after reducing the load."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Performance Restored",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "checkStartupPrograms"
     },
     "scanForMalware": {
-      "title": "Scan for malware or unwanted software",
+      "title": "Check for malware or unwanted software",
       "body": [
-        "Run a trusted antivirus or Windows Security scan.",
-        "Look for unknown startup entries, suspicious browser extensions, fake cleaners, toolbars, or pop-ups.",
-        "Malware and unwanted software often cause high CPU, high memory, browser redirects, or constant background activity."
+        "Open Windows Security, Virus & threat protection.",
+        "Run a scan using the installed, trusted antivirus product.",
+        "If the problem persists or suspicious behaviour is present, consider a full scan or Microsoft Defender Offline scan where supported.",
+        "Investigate unknown startup entries, suspicious browser extensions and unexpected background processes.",
+        "Avoid installing untrusted system cleaners or software claiming to fix every performance problem.",
+        "Review any detections before removing software."
       ],
-      "successLabel": "Threat Found",
+      "link": [
+        {
+          "name": "Microsoft: Scan for malware with Windows Security",
+          "description": "Official Windows Security scanning instructions.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/scan-an-item-with-windows-security"
+        },
+        {
+          "name": "Microsoft: Improve PC performance",
+          "description": "Includes guidance on malware-related performance problems.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/tips-to-improve-pc-performance-in-windows"
+        }
+      ],
+      "successLabel": "Threat Detected",
       "failLabel": "No Threat Found",
       "successNext": "removeThreats",
       "failNext": "checkStartupPrograms"
     },
     "removeThreats": {
-      "type": "terminal",
-      "title": "Remove malware or unwanted software",
+      "title": "Remove detected malware or unwanted software",
       "body": [
-        "Remove or quarantine the detected threats.",
-        "Restart the computer and run another scan.",
-        "If the system remains unstable or suspicious activity returns, escalate for deeper cleanup or backup-and-reinstall."
+        "Follow the trusted security application's instructions to quarantine or remove confirmed threats.",
+        "Restart the computer if required.",
+        "Run another scan to check whether the threat remains.",
+        "Check whether suspicious startup processes or browser modifications return.",
+        "If sensitive accounts may have been compromised, change affected passwords from a clean device.",
+        "If performance remains poor after cleanup, continue investigating background services and startup applications."
       ],
+      "successLabel": "Performance Restored",
+      "failLabel": "Still Slow",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkStartupPrograms"
     },
     "diskOrNetworkHigh": {
-      "title": "Check disk or network activity",
+      "title": "Investigate disk and network activity",
       "body": [
-        "If Disk usage is high, check whether Windows Update, antivirus scanning, cloud sync, or indexing is running.",
-        "If Network usage is high, check for cloud backup, large downloads, updates, or streaming.",
-        "Background activity can make a computer feel slow even when nothing is broken."
+        "Use Task Manager to identify processes responsible for sustained disk or network activity.",
+        "Check for Windows Update, antivirus scans, indexing, cloud synchronisation, backup software or large downloads.",
+        "On a mechanical HDD, sustained high disk active time may cause substantial delays even when transfer speeds appear low.",
+        "Check whether the activity corresponds to a legitimate background task.",
+        "If the activity is unexpected, investigate drive health and relevant system errors."
       ],
-      "successLabel": "Normal Background Task",
-      "failLabel": "Unknown Activity",
+      "successLabel": "Expected Background Task",
+      "failLabel": "Unexpected Activity",
       "successNext": "waitForBackgroundTask",
       "failNext": "checkDiskHealth"
     },
     "waitForBackgroundTask": {
-      "title": "Let background tasks finish",
+      "title": "Manage background activity",
       "body": [
-        "Allow updates, indexing, antivirus scans, or cloud sync to complete.",
-        "Restart the computer after the task finishes.",
-        "If the slowdown only happens during these tasks, reschedule them or reduce startup/background load."
+        "Identify the background process responsible for the load.",
+        "Allow legitimate updates, backup jobs or indexing tasks to complete when practical.",
+        "Consider rescheduling non-essential tasks that interfere with normal use.",
+        "Check cloud synchronisation software for repeated failures or unusually large queues.",
+        "After the activity settles, retest computer performance.",
+        "If the computer remains slow, investigate the drive."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Performance Restored",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "checkDiskHealth"
     },
     "checkDiskHealth": {
-      "title": "Check disk health",
+      "title": "Check SSD or HDD health",
       "body": [
-        "Check whether the drive is an HDD or SSD and look for disk health warnings.",
-        "Signs of drive problems include clicking noises, very slow file access, freezes, failed updates, missing files, or SMART warnings.",
-        "A failing drive can make the whole computer slow and should be treated as a data-risk issue."
+        "Identify the system drive model and whether it is an HDD or SSD.",
+        "Use the drive manufacturer's diagnostic utility or another reputable tool to inspect SMART health information.",
+        "Check for media errors, critical warnings, repeated I/O errors or abnormal response times.",
+        "Review Windows Event Viewer for recurring disk or storage-controller errors.",
+        "Mechanical clicking noises, freezing during file access and SMART failure warnings are reasons to investigate urgently.",
+        "If drive failure is suspected, back up important data before running intensive tests.",
+        "Do not assume high disk usage alone proves the drive is defective."
       ],
-      "successLabel": "Disk Looks Healthy",
-      "failLabel": "Disk Fault Suspected",
+      "successLabel": "Drive Appears Healthy",
+      "failLabel": "Drive Fault Confirmed",
       "successNext": "checkStartupPrograms",
       "failNext": "backupAndReplaceDrive"
     },
     "backupAndReplaceDrive": {
       "type": "terminal",
-      "title": "Back up data and replace drive",
+      "title": "Storage hardware fault identified",
       "body": [
-        "A failing drive can cause slow performance and data loss.",
-        "Back up important files immediately.",
-        "Replace the drive and reinstall or clone the system if appropriate."
+        "Storage diagnostics indicate that the system drive may be failing.",
+        "Back up important files immediately if they remain accessible.",
+        "Confirm the affected drive and its replacement compatibility.",
+        "Replace the drive if a hardware fault is established.",
+        "Restore the operating system and user data from an appropriate backup, or reinstall Windows.",
+        "If the drive contains valuable data and is severely failing, consider professional data recovery before further use."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkStartupPrograms": {
-      "title": "Check startup programs",
+      "title": "Review Windows startup applications",
       "body": [
-        "Open Task Manager startup settings and review programs that start with Windows.",
-        "Disable unnecessary startup apps such as launchers, updaters, chat apps, helper tools, and vendor utilities.",
-        "Do not disable security software or drivers unless you know what they do."
+        "Open Task Manager using Ctrl + Shift + Esc.",
+        "Select Startup apps.",
+        "Review enabled applications and their reported startup impact.",
+        "Look for unnecessary launchers, update utilities, chat clients and other applications that do not need to start automatically.",
+        "Disable only applications that are not required for normal operation.",
+        "Do not disable security software, essential hardware utilities or managed business software without understanding their purpose."
       ],
-      "successLabel": "Too Many Found",
-      "failLabel": "Startup Looks OK",
+      "link": [
+        {
+          "name": "Microsoft: Configure Windows startup applications",
+          "description": "Official instructions for managing startup apps through Settings and Task Manager.",
+          "url": "https://support.microsoft.com/en-gb/windows/experience/startup-boot/configure-startup-applications-in-windows"
+        }
+      ],
+      "successLabel": "Unnecessary Apps Found",
+      "failLabel": "Startup Looks Normal",
       "successNext": "disableStartupApps",
       "failNext": "checkWindowsUpdates"
     },
     "disableStartupApps": {
-      "title": "Disable unnecessary startup apps",
+      "title": "Disable unnecessary startup applications",
       "body": [
-        "Disable non-essential startup programs.",
-        "Restart the computer and test performance again.",
-        "Reducing startup load can improve boot time and general responsiveness."
+        "Disable non-essential startup applications in Task Manager.",
+        "Restart Windows and compare startup time and responsiveness.",
+        "Check whether disabled applications are still required for particular tasks.",
+        "Re-enable an application if disabling it causes an unexpected problem.",
+        "If performance remains poor, check Windows Update activity."
       ],
-      "successLabel": "Fixed",
+      "link": [
+        {
+          "name": "Microsoft: Manage startup apps",
+          "description": "Official guidance for disabling and re-enabling Windows startup applications.",
+          "url": "https://support.microsoft.com/en-gb/windows/experience/startup-boot/configure-startup-applications-in-windows"
+        }
+      ],
+      "successLabel": "Performance Restored",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "checkWindowsUpdates"
     },
     "checkWindowsUpdates": {
-      "title": "Check Windows Update status",
+      "title": "Check Windows Update activity",
       "body": [
-        "Open Windows Update and check whether updates are downloading, installing, failing, or waiting for restart.",
-        "Windows can feel slow during large updates or after updates while background tasks finish.",
-        "A repeatedly failing update can also cause repeated background load."
+        "Open Settings, Windows Update.",
+        "Check for updates that are downloading, installing, repeatedly failing or awaiting a restart.",
+        "Use Task Manager to determine whether update-related processes are consuming significant resources.",
+        "Large updates and background maintenance can temporarily affect performance.",
+        "Repeated installation failures or update loops may indicate a problem that requires separate troubleshooting.",
+        "Check update history when the slowdown began after a particular Windows update."
       ],
-      "successLabel": "Updates Active/Failing",
-      "failLabel": "Updates OK",
+      "link": [
+        {
+          "name": "Microsoft: Windows performance troubleshooting",
+          "description": "Official recommendations for Windows updates and system performance.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/tips-to-improve-pc-performance-in-windows"
+        }
+      ],
+      "successLabel": "Update Activity / Failures",
+      "failLabel": "Updates Normal",
       "successNext": "completeUpdates",
       "failNext": "checkBrowserLoad"
     },
     "completeUpdates": {
-      "title": "Complete or repair updates",
+      "title": "Resolve update-related performance problems",
       "body": [
-        "Allow updates to finish and restart when prompted.",
-        "If updates are stuck or repeatedly failing, use the Windows Update Failed guide.",
-        "Retest performance after updates complete."
+        "Allow legitimate updates to complete where possible.",
+        "Restart Windows when an update requires it.",
+        "If updates repeatedly fail or remain stuck, use the Windows Update Failed troubleshooting guide.",
+        "Check whether update-related background load has returned to normal.",
+        "Retest overall system responsiveness after the update completes."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Performance Restored",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "checkBrowserLoad"
     },
     "checkBrowserLoad": {
-      "title": "Check browser tabs and extensions",
+      "title": "Check browser resource usage",
       "body": [
-        "Browsers can consume large amounts of memory and CPU, especially with many tabs or extensions.",
-        "Close unused tabs, disable unnecessary extensions, and test with a different browser if needed.",
-        "If only web browsing is slow, the issue may be browser, DNS, internet speed, or website related."
+        "Check whether slow performance mainly occurs when a browser is open.",
+        "Review browser memory and CPU usage in Task Manager.",
+        "Reduce unnecessary tabs and investigate extensions consuming excessive resources.",
+        "Test the browser without unnecessary extensions or using another browser.",
+        "If only websites are slow while local applications run normally, investigate internet connectivity or DNS separately.",
+        "Determine whether browser cleanup resolves the performance issue."
       ],
-      "successLabel": "Browser Was Cause",
+      "successLabel": "Browser Related",
       "failLabel": "Not Browser Related",
-      "successNext": "browserCleanup"
-    ,
+      "successNext": "browserCleanup",
       "failNext": "checkThermalThrottling"
     },
     "browserCleanup": {
       "type": "terminal",
-      "title": "Browser cleanup resolved issue",
+      "title": "Browser performance issue identified",
       "body": [
-        "The slowdown was caused by browser load, extensions, or web content.",
-        "Keep unnecessary extensions disabled and reduce excessive open tabs.",
-        "If browsing remains slow, troubleshoot internet or DNS separately."
+        "The performance problem is associated with browser processes, extensions or excessive tab usage.",
+        "Remove or disable unnecessary extensions and close unused tabs.",
+        "Check for browser updates and restart the browser.",
+        "If performance problems affect only online content, investigate the internet connection and any browser-specific network settings.",
+        "Retest performance using the normal workload."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkThermalThrottling": {
-      "title": "Check for overheating or throttling",
+      "title": "Check temperatures and thermal throttling",
       "body": [
-        "Listen for loud fans and check whether the computer gets very hot.",
-        "Dust buildup, blocked vents, failed fans, or dried thermal paste can cause the CPU or GPU to slow itself down to prevent damage.",
-        "Laptops are especially vulnerable when used on beds, carpet, or dusty surfaces."
+        "Use a reputable hardware monitoring utility to inspect CPU and GPU temperatures.",
+        "Check whether performance drops as temperatures increase during normal workloads.",
+        "Compare readings with the manufacturer's supported operating limits.",
+        "Look for thermal throttling, unusually low CPU clock speeds under load or cooling fans that are not operating properly.",
+        "Inspect ventilation and airflow restrictions.",
+        "Temperature limits vary by model, so avoid relying on a single universal threshold."
       ],
-      "successLabel": "Overheating Suspected",
-      "failLabel": "No Heat Issue",
+      "successLabel": "Thermal Problem Evident",
+      "failLabel": "Temperatures Normal",
       "successNext": "cleanCoolingSystem",
       "failNext": "checkUserProfile"
     },
     "cleanCoolingSystem": {
-      "title": "Clean cooling and improve airflow",
+      "title": "Correct cooling and airflow problems",
       "body": [
-        "Power off the computer before cleaning.",
-        "Remove dust from vents and fans if safe to do so.",
-        "Ensure laptops are used on a hard surface and desktops have clear airflow around the case."
+        "Shut down and disconnect power before cleaning accessible cooling components.",
+        "Remove dust from vents, filters and fans using an appropriate method.",
+        "Check that fans operate and heatsinks are mounted correctly.",
+        "For laptops, avoid blocking ventilation and follow manufacturer service instructions.",
+        "If thermal paste or cooler installation is suspected, inspect and service the cooling system as appropriate.",
+        "Recheck temperatures and performance after correcting the cooling issue."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Performance Restored",
       "failLabel": "Still Slow",
       "successNext": null,
       "failNext": "checkUserProfile"
     },
     "checkUserProfile": {
-      "title": "Test another user profile",
+      "title": "Compare performance with another Windows profile",
       "body": [
-        "Sign in with another user account if available.",
-        "A damaged or overloaded user profile can cause slow logins, desktop delays, broken search, and slow Explorer behaviour.",
-        "If another profile is fast, the issue may be profile-specific rather than system-wide."
+        "If available, sign in with another existing Windows user account.",
+        "Compare login time, File Explorer responsiveness and general desktop performance.",
+        "Check whether the slowdown is limited to the original profile.",
+        "Profile-specific problems can involve startup applications, cloud synchronisation, mapped drives or damaged user settings.",
+        "If both profiles are slow, continue with system-wide diagnostics."
       ],
       "successLabel": "Other Profile Fast",
-      "failLabel": "Other Profile Slow Too",
+      "failLabel": "Both Profiles Slow",
       "successNext": "profileIssueLikely",
       "failNext": "finalPerformanceAssessment"
     },
     "profileIssueLikely": {
       "type": "terminal",
-      "title": "User profile issue likely",
+      "title": "Windows user profile issue likely",
       "body": [
-        "The computer performs better under another user profile.",
-        "Back up the affected user's files and consider creating a fresh profile.",
-        "Check login items, profile corruption, mapped drives, cloud sync, and desktop/file clutter."
+        "Performance is significantly better using another Windows profile.",
+        "Investigate profile-specific startup processes, browser data, cloud synchronisation and mapped network drives.",
+        "Check for damaged user settings or unusually large profile folders.",
+        "Back up important user files and application configuration before creating a replacement profile.",
+        "If a new profile is required, migrate data carefully and verify that applications work correctly."
       ],
       "successNext": null,
       "failNext": null
@@ -386,9 +560,26 @@
       "type": "terminal",
       "title": "Further performance diagnostics required",
       "body": [
-        "Basic checks did not identify a simple cause.",
-        "Next steps may include checking event logs, drive benchmarks, RAM testing, clean boot testing, reinstalling Windows, or assessing hardware upgrades.",
-        "If the computer has an HDD, low RAM, or very old hardware, upgrading or replacing it may be the most practical solution."
+        "The computer remains slow after checking resource usage, storage health, startup processes, updates, malware and temperatures.",
+        "Review Windows event logs for recurring hardware, storage or application errors.",
+        "Consider a clean boot to isolate non-Microsoft services and startup software.",
+        "Check installed RAM capacity and whether the system drive is causing excessive paging or disk delays.",
+        "Test memory and storage with suitable diagnostics if the symptoms justify it.",
+        "Consider an SSD or RAM upgrade when a genuine hardware bottleneck has been identified.",
+        "Back up important data before attempting major repairs or reinstalling Windows.",
+        "Compare the cost of further diagnosis and upgrades with replacement if the computer is significantly outdated."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Improve Windows performance",
+          "description": "Official reference for performance troubleshooting, background apps, system resources and storage.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/tips-to-improve-pc-performance-in-windows"
+        },
+        {
+          "name": "Microsoft: Windows system configuration tools",
+          "description": "Documentation for diagnostic utilities including System Configuration and startup troubleshooting.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/system-configuration-tools-in-windows"
+        }
       ],
       "successNext": null,
       "failNext": null

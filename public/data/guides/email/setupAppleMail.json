@@ -1,0 +1,765 @@
+
+{
+  "id": "setupAppleMail",
+  "title": "Set Up Apple Mail for macOS",
+  "cardText": [
+    "Set up iCloud, Google, Microsoft Exchange, IMAP and POP accounts in Apple Mail.",
+    "Configure email servers, authentication, SMTP and POP message retention.",
+    "Synchronise server mail or safely migrate local On My Mac mailboxes and MBOX archives without duplicates."
+  ],
+  "icon": "",
+  "text": [
+    "This guide covers Apple Mail on macOS.",
+    "Use Mail's automatic account setup or the provider's documented manual settings.",
+    "IMAP, iCloud Mail and Exchange normally synchronise server-stored messages and mailboxes.",
+    "Check On My Mac mailboxes, old POP messages and local archives before retiring the original Mac.",
+    "Use Mailbox, Export Mailbox to preserve local mailboxes as MBOX packages.",
+    "Use File, Import Mailboxes for supported Apple Mail and MBOX imports.",
+    "Apple Mail places imported mail in a separate Import mailbox for review.",
+    "Compare imported messages with the current mailbox before copying only missing messages.",
+    "Verify server synchronisation and keep the original backup until migration is complete."
+  ],
+  "startNode": "identifySetupType",
+  "nodes": {
+    "identifySetupType": {
+      "title": "Identify the email setup or migration",
+      "body": [
+        "Determine whether this is a new email account or an existing mailbox being moved to another Mac.",
+        "Identify the original email application and account type.",
+        "IMAP, iCloud Mail and Exchange normally restore server-stored messages.",
+        "POP mail and On My Mac mailboxes may exist only on the original computer.",
+        "If required local mail exists, protect it before changing accounts or replacing the computer."
+      ],
+      "successLabel": "New Account",
+      "failLabel": "Existing Mail / Migration",
+      "successNext": "identifyAccountType",
+      "failNext": "identifyExistingClient"
+    },
+    "identifyExistingClient": {
+      "title": "Identify the original email application",
+      "body": [
+        "Determine whether the existing mail is in Apple Mail, Outlook, Thunderbird or another email client.",
+        "Identify whether its account uses IMAP, Exchange or POP.",
+        "Check the original client for local-only folders and separate archives.",
+        "If the original application is Apple Mail, locate its On My Mac mailboxes.",
+        "If the original client is different, identify the supported mail export format.",
+        "Do not delete the old account or remove the original installation before protecting local data."
+      ],
+      "successLabel": "Existing Apple Mail",
+      "failLabel": "Other Email Client",
+      "successNext": "checkExistingAppleMail",
+      "failNext": "backupOtherClientMail"
+    },
+    "checkExistingAppleMail": {
+      "title": "Check existing Apple Mail data",
+      "body": [
+        "Open Mail on the original Mac.",
+        "Choose Mail, Settings, Accounts and identify the email account type.",
+        "Inspect Inbox, Sent, Archive and custom mailboxes.",
+        "Expand On My Mac in the Mail sidebar and check for locally stored messages.",
+        "Compare server-backed folders with webmail where available.",
+        "Identify any local POP messages or archives that do not exist on the server.",
+        "Check whether Time Machine or another backup system protects the original Mail data.",
+        "Do not remove the account while required local messages remain unprotected."
+      ],
+      "link": [
+        {
+          "name": "Apple: Manage Mail Accounts",
+          "description": "Official account management and removal precautions.",
+          "url": "https://support.apple.com/guide/mail/mail35803/mac"
+        },
+        {
+          "name": "Apple: Create and Manage Mailboxes",
+          "description": "Explains the difference between On My Mac and server mailboxes.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1021/mac"
+        }
+      ],
+      "successLabel": "Local Mail Found",
+      "failLabel": "Server Mail Only",
+      "successNext": "backupAppleMail",
+      "failNext": "identifyAccountType"
+    },
+    "backupAppleMail": {
+      "title": "Back up local Apple Mail messages",
+      "body": [
+        "On the original Mac, identify required On My Mac mailboxes and locally stored POP messages.",
+        "Select the required mailbox in the Mail sidebar.",
+        "Choose Mailbox, Export Mailbox.",
+        "Select an external drive or another reliable backup location.",
+        "Repeat for each required local mailbox or select multiple mailboxes where appropriate.",
+        "Mail exports mailboxes as .mbox packages.",
+        "Keep the original folder names and record which mailboxes were exported.",
+        "Check that exported packages exist and contain the expected data.",
+        "For a complete Mac migration, also consider a verified Time Machine or supported Migration Assistant backup.",
+        "Keep an untouched backup of the original data."
+      ],
+      "link": [
+        {
+          "name": "Apple: Import or Export Mailboxes",
+          "description": "Official Apple Mail mailbox export instructions.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1030/mac"
+        },
+        {
+          "name": "Apple: Restore Files with Time Machine",
+          "description": "Official Time Machine recovery and restoration instructions.",
+          "url": "https://support.apple.com/guide/mac-help/mh11422/mac"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "identifyAccountType",
+      "failNext": "protectOriginalMail"
+    },
+    "backupOtherClientMail": {
+      "title": "Back up mail from another application",
+      "body": [
+        "Identify the previous email application's storage format.",
+        "For Thunderbird, export required local mailboxes in a compatible MBOX format.",
+        "For Outlook, preserve PST files and check whether a supported conversion or transfer method is required.",
+        "Do not rename a PST file to MBOX; changing the extension does not convert the messages.",
+        "Check whether the required messages already exist in the destination server mailbox.",
+        "Preserve locally stored Sent mail, archives and custom folders.",
+        "Keep an untouched source backup before attempting import."
+      ],
+      "link": [
+        {
+          "name": "Apple: Import Mailboxes into Mail",
+          "description": "Official supported Apple Mail and MBOX import formats.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1030/mac"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "identifyAccountType",
+      "failNext": "protectOriginalMail"
+    },
+    "protectOriginalMail": {
+      "type": "terminal",
+      "title": "Protect the original email data",
+      "body": [
+        "The required local messages or mailboxes have not been backed up.",
+        "Preserve the original Mac, email application and local mail data.",
+        "Check On My Mac, old POP folders, Sent mail and archives.",
+        "Create and verify an export or reliable computer backup.",
+        "Do not delete accounts or overwrite the source Mail data.",
+        "Resume migration only after the original data is protected."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "identifyAccountType": {
+      "title": "Identify the email provider and protocol",
+      "body": [
+        "Determine whether the provider is iCloud, Google, Microsoft Exchange, Microsoft 365 or another hosting service.",
+        "Use the provider's supported account type wherever possible.",
+        "For third-party hosted mail, confirm whether IMAP or POP is required.",
+        "IMAP is generally preferred when messages and folders must synchronise across devices.",
+        "POP primarily downloads incoming mail and may leave important historical messages stored locally.",
+        "Check the provider's current authentication and connection requirements."
+      ],
+      "link": [
+        {
+          "name": "Apple: Add an Email Account",
+          "description": "Official Apple Mail account setup instructions.",
+          "url": "https://support.apple.com/guide/mail/mail35803/mac"
+        }
+      ],
+      "successLabel": "Automatic / Supported Provider",
+      "failLabel": "Manual / Hosted Mail",
+      "successNext": "addEmailAccount",
+      "failNext": "collectProviderSettings"
+    },
+    "collectProviderSettings": {
+      "title": "Collect manual mail server settings",
+      "body": [
+        "Obtain the email address and the username required by the hosting provider.",
+        "Confirm whether the incoming server uses IMAP or POP.",
+        "Record the incoming server hostname, port and encryption method.",
+        "Record the outgoing SMTP hostname, port and authentication requirements.",
+        "Common IMAP settings use port 993 with SSL/TLS.",
+        "Common POP settings use port 995 with SSL/TLS.",
+        "Common SMTP submission ports include 587 with STARTTLS and 465 with implicit TLS.",
+        "Confirm these values against the provider's documentation.",
+        "Check whether OAuth, multifactor authentication or an app-specific password is required."
+      ],
+      "link": [
+        {
+          "name": "Apple: Change Mail Server Settings",
+          "description": "Official incoming and outgoing server configuration options.",
+          "url": "https://support.apple.com/guide/mail/cpmlprefacctadv/mac"
+        }
+      ],
+      "successLabel": "Settings Available",
+      "failLabel": "Settings Unknown",
+      "successNext": "addEmailAccount",
+      "failNext": "obtainProviderSettings"
+    },
+    "obtainProviderSettings": {
+      "type": "terminal",
+      "title": "Obtain the correct provider configuration",
+      "body": [
+        "The required incoming or outgoing server settings are unavailable.",
+        "Check the email provider's current Apple Mail configuration instructions.",
+        "Confirm the protocol, server names, ports, encryption and authentication.",
+        "Do not guess server hostnames or disable encryption to force a connection.",
+        "Continue after confirming the correct settings."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "addEmailAccount": {
+      "title": "Add the email account in Apple Mail",
+      "body": [
+        "Open Mail on the Mac.",
+        "Choose Mail, Add Account.",
+        "Enter the email address or select the relevant account provider from the available list.",
+        "Select Continue and follow the account setup prompts.",
+        "For iCloud, Google or Microsoft Exchange, use the provider's supported sign-in process.",
+        "Complete any multifactor authentication or browser approval.",
+        "For Other Mail Account, enter the required account details and allow Mail to attempt configuration.",
+        "If automatic detection fails, check the provider's documented manual settings.",
+        "Complete setup and confirm the account appears in the Mail sidebar."
+      ],
+      "link": [
+        {
+          "name": "Apple: Add and Manage Mail Accounts",
+          "description": "Official instructions for adding email accounts on macOS.",
+          "url": "https://support.apple.com/guide/mail/mail35803/mac"
+        }
+      ],
+      "image": "email-apple-mail-add-account.png",
+      "alt": "Apple Mail account setup dialog showing supported email providers",
+      "caption": "Choose the email provider or Other Mail Account, then complete the account sign-in process.",
+      "successLabel": "Account Added",
+      "failLabel": "Setup Failed",
+      "successNext": "testEmailConnection",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "troubleshootAccountSetup": {
+      "title": "Investigate account setup problems",
+      "body": [
+        "Record the exact error displayed by Apple Mail.",
+        "Confirm the Mac has a working internet connection.",
+        "Check the correct email address, account type and provider settings.",
+        "Review Mail, Settings, Accounts, Server Settings.",
+        "Check incoming and outgoing server authentication.",
+        "Confirm whether the provider requires a browser sign-in, OAuth or an app-specific password.",
+        "Check for a provider outage or account restriction.",
+        "Do not disable encryption or switch to POP simply because IMAP setup failed.",
+        "Correct the identified issue before testing again."
+      ],
+      "link": [
+        {
+          "name": "Apple: Mail Cannot Send or Receive",
+          "description": "Official troubleshooting for macOS Mail connections.",
+          "url": "https://support.apple.com/en-nz/102422"
+        },
+        {
+          "name": "Apple: Change Server Settings",
+          "description": "Official server configuration instructions.",
+          "url": "https://support.apple.com/guide/mail/cpmlprefacctadv/mac"
+        }
+      ],
+      "successLabel": "Setup Fixed",
+      "failLabel": "Still Failing",
+      "successNext": "testEmailConnection",
+      "failNext": "setupEscalation"
+    },
+    "testEmailConnection": {
+      "title": "Test sending and receiving",
+      "body": [
+        "Confirm that the account appears in the Mail sidebar.",
+        "Send a test email to another accessible address.",
+        "Reply from that address and verify the reply arrives.",
+        "Check that the sent message appears in the expected Sent mailbox.",
+        "Check for offline account indicators, Outbox errors or authentication prompts.",
+        "For a POP account, confirm the message download and local storage behaviour.",
+        "Once sending and receiving work, identify the configured account type before assessing old mail."
+      ],
+      "successLabel": "Email Working",
+      "failLabel": "Send / Receive Fails",
+      "successNext": "checkAccountSyncType",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "checkAccountSyncType": {
+      "title": "Does the mailbox synchronise from the server?",
+      "body": [
+        "Open Mail, Settings, Accounts and identify the configured account type.",
+        "IMAP, iCloud Mail and Exchange normally synchronise server-stored messages and folders.",
+        "POP mail may contain messages that were downloaded only to the original Mac.",
+        "For IMAP or Exchange, verify normal server synchronisation before importing an archive.",
+        "For POP, determine whether historical local messages must be transferred."
+      ],
+      "successLabel": "IMAP / iCloud / Exchange",
+      "failLabel": "POP / Local Mail",
+      "successNext": "verifyServerSyncedMail",
+      "failNext": "checkPopMigration"
+    },
+    "verifyServerSyncedMail": {
+      "title": "Verify synchronised mailboxes",
+      "body": [
+        "Allow Apple Mail time to synchronise the server mailbox.",
+        "Compare Inbox, Sent, Drafts, Archive and custom folders with webmail where available.",
+        "Check a selection of older messages and attachments.",
+        "Expand mailbox groups in the Mail sidebar to reveal available folders.",
+        "Check whether mailbox filtering or account connection problems are hiding expected messages.",
+        "If a message exists in webmail but not in Mail, investigate synchronisation rather than importing old mail.",
+        "If the required server mail is present, continue to the local-only mailbox check."
+      ],
+      "successLabel": "Server Mail Synced",
+      "failLabel": "Mail / Folders Missing",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "investigateSyncMissing"
+    },
+    "investigateSyncMissing": {
+      "title": "Determine where missing messages are stored",
+      "body": [
+        "Search the provider's webmail for the missing messages.",
+        "Check Archive, Trash and other server folders.",
+        "If the messages exist in webmail, look for a connection, filter or mailbox display problem in Mail.",
+        "If the messages are absent from webmail but present on the old Mac, they may be stored under On My Mac or in an old POP mailbox.",
+        "Do not import the complete old mailbox before determining where the missing messages are located."
+      ],
+      "successLabel": "Present In Webmail",
+      "failLabel": "Absent From Webmail",
+      "successNext": "troubleshootMailSync",
+      "failNext": "checkMissingMailSource"
+    },
+    "troubleshootMailSync": {
+      "title": "Resolve Apple Mail synchronisation problems",
+      "body": [
+        "Check whether the correct mail account is enabled and online.",
+        "Review mailbox filters, search scope and folder visibility.",
+        "Check Mail, Settings, Accounts and the account's Server Settings.",
+        "If messages appear missing or the mailbox index is inconsistent, review Apple's Mailbox, Rebuild option.",
+        "For IMAP, rebuilding may cause locally cached messages to be downloaded again.",
+        "Do not rebuild a POP or local mailbox without first protecting its local data.",
+        "Allow synchronisation to complete, then compare with webmail again."
+      ],
+      "link": [
+        {
+          "name": "Apple: Create and Rebuild Mailboxes",
+          "description": "Official mailbox management and Rebuild instructions.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1021/mac"
+        },
+        {
+          "name": "Apple: Mail Connection Troubleshooting",
+          "description": "Official help for missing or unavailable messages.",
+          "url": "https://support.apple.com/en-nz/102422"
+        }
+      ],
+      "successLabel": "Sync Fixed",
+      "failLabel": "Still Missing",
+      "successNext": "verifyServerSyncedMail",
+      "failNext": "setupEscalation"
+    },
+    "checkMissingMailSource": {
+      "title": "Check for local-only missing messages",
+      "body": [
+        "Inspect the original Mac and email application.",
+        "Check On My Mac, old POP mailboxes, local Sent messages and exported archives.",
+        "Search other user accounts or relevant email applications where appropriate.",
+        "If required messages exist locally but not in webmail, protect them before transferring.",
+        "If the messages cannot be found locally or on the server, investigate available backups.",
+        "Do not import unrelated message archives as a substitute for locating the missing data."
+      ],
+      "successLabel": "Local Mail Found",
+      "failLabel": "Mail Not Located",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "migrationEscalation"
+    },
+    "checkLocalOnlyData": {
+      "title": "Check for On My Mac and other local-only data",
+      "body": [
+        "Inspect the original Apple Mail installation after verifying server synchronisation.",
+        "Expand On My Mac and check for stored mailboxes and historical messages.",
+        "Check old POP Inbox, Sent, Archive and custom folders.",
+        "Check for separate MBOX exports or messages saved locally.",
+        "Mailboxes under On My Mac do not automatically synchronise to an IMAP or Exchange server.",
+        "Check local contacts, calendars, rules and signatures separately where required.",
+        "If all required email exists on the server and no local mail is missing, no import is required.",
+        "If required local messages exist, verify a backup before migration."
+      ],
+      "link": [
+        {
+          "name": "Apple: On My Mac and Server Mailboxes",
+          "description": "Explains local versus synchronised mailbox storage.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1021/mac"
+        }
+      ],
+      "successLabel": "Local Mail Required",
+      "failLabel": "All Mail Synced",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "checkPopMigration": {
+      "title": "Check whether previous POP mail is needed",
+      "body": [
+        "Determine whether the POP account is newly configured or replacing an existing installation.",
+        "Inspect the original Mac for downloaded POP messages and local Sent mail.",
+        "Compare the original Inbox, Sent and custom folders with the new Mail installation.",
+        "POP will not restore messages previously deleted from the server.",
+        "If all required historical messages are already available, no import is needed.",
+        "If local-only POP mail must be transferred, preserve an export or verified backup first."
+      ],
+      "successLabel": "Old Mail Required",
+      "failLabel": "No Import Needed",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "confirmLocalBackup": {
+      "title": "Confirm the original local mail backup",
+      "body": [
+        "Locate the required On My Mac, POP or exported mailbox data.",
+        "For Apple Mail, use Mailbox, Export Mailbox for supported local mailbox exports.",
+        "Preserve .mbox packages and their original folder identification.",
+        "If the source is another application, use its supported export or conversion method.",
+        "Verify that the backup includes the necessary Inbox, Sent and custom folders.",
+        "Keep an untouched source copy separate from the migration working files.",
+        "Do not begin an import until the original local data has been protected."
+      ],
+      "link": [
+        {
+          "name": "Apple: Import and Export Mailboxes",
+          "description": "Official Apple Mail mailbox export procedure.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1030/mac"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "identifyMailSource",
+      "failNext": "protectOriginalMail"
+    },
+    "identifyMailSource": {
+      "title": "Identify the old mail source",
+      "body": [
+        "Check whether the required mail is in Apple Mail MBOX packages, another application's MBOX files or another archive format.",
+        "Apple Mail supports importing mailboxes exported from Mail and compatible MBOX sources.",
+        "Some Outlook PST archives require a compatible conversion or intermediary email client.",
+        "Do not rename a PST or another unsupported format to .mbox.",
+        "Decide whether local-only messages must remain a separate archive or appear in a synchronised mailbox.",
+        "Use a method that does not overwrite the current Mail account or existing messages."
+      ],
+      "successLabel": "Apple Mail / MBOX",
+      "failLabel": "Other Format",
+      "successNext": "prepareImport",
+      "failNext": "checkOtherFormat"
+    },
+    "checkOtherFormat": {
+      "title": "Prepare another email archive format",
+      "body": [
+        "Identify the source application and actual archive format.",
+        "If an Outlook PST is involved, use Outlook or a compatible migration tool to export or transfer the required messages.",
+        "If messages are available through an IMAP account, consider transferring only missing messages using the original supported client.",
+        "For EML or other exported messages, check whether the source can produce a compatible MBOX mailbox.",
+        "Avoid unverified conversion utilities and preserve the original data.",
+        "Continue only after a supported import source is available."
+      ],
+      "successLabel": "Compatible MBOX Ready",
+      "failLabel": "Conversion Unavailable",
+      "successNext": "prepareImport",
+      "failNext": "migrationEscalation"
+    },
+    "prepareImport": {
+      "title": "Prepare a safe Apple Mail import",
+      "body": [
+        "Keep an untouched backup of the original mailbox exports.",
+        "Check available Mac disk space for the imported messages.",
+        "Compare the source archive with the destination mailbox to identify possible overlap.",
+        "Do not import source messages directly into existing Inbox or Sent folders.",
+        "Apple Mail normally creates a separate Import mailbox when using File, Import Mailboxes.",
+        "Keep the original mailbox structure identifiable.",
+        "Check the destination server's storage quota if imported messages will later be uploaded to IMAP.",
+        "Do not repeat imports until the earlier import result has been reviewed."
+      ],
+      "successLabel": "Import Ready",
+      "failLabel": "Preparation Problem",
+      "successNext": "importMailboxes",
+      "failNext": "migrationEscalation"
+    },
+    "importMailboxes": {
+      "title": "Import Apple Mail or MBOX mailboxes",
+      "body": [
+        "Open Apple Mail on the destination Mac.",
+        "Choose File, Import Mailboxes.",
+        "For mailboxes exported from Apple Mail or an appropriate previous Mail data folder, select Apple Mail.",
+        "For supported MBOX archives from other sources, choose Files in mbox format.",
+        "Select the source folder or mailbox package and continue.",
+        "Follow the import instructions and allow the operation to finish.",
+        "Apple Mail creates an Import mailbox in the sidebar for imported messages.",
+        "Expand Import and inspect its subfolders.",
+        "Do not move the entire Import mailbox directly into a populated account folder.",
+        "Keep the original source archive until the imported messages have been verified."
+      ],
+      "link": [
+        {
+          "name": "Apple: Import or Export Mailboxes",
+          "description": "Official Mail import instructions and Import mailbox behaviour.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1030/mac"
+        }
+      ],
+      "image": "email-apple-mail-import-mailboxes.jpg",
+      "alt": "Apple Mail File menu displaying the Import Mailboxes command",
+      "caption": "Choose File, Import Mailboxes and select the supported Apple Mail or MBOX source.",
+      "successLabel": "Import Completed",
+      "failLabel": "Import Failed / Partial",
+      "successNext": "reviewImportedMail",
+      "failNext": "checkPartialImport"
+    },
+    "checkPartialImport": {
+      "title": "Investigate an incomplete import",
+      "body": [
+        "Do not immediately repeat the entire import.",
+        "Inspect the Import mailbox and identify which folders and messages were transferred.",
+        "Compare message dates, counts and attachments with the source.",
+        "Check for insufficient disk space, unsupported source formats and damaged archive files.",
+        "Correct the identified problem before retrying.",
+        "If another import is required, keep it separately identifiable to avoid confusing repeated copies.",
+        "Preserve the original archive and any partially imported mail."
+      ],
+      "successLabel": "Imported Mail Identified",
+      "failLabel": "Result Unclear",
+      "successNext": "reviewImportedMail",
+      "failNext": "migrationEscalation"
+    },
+    "reviewImportedMail": {
+      "title": "Review imported messages for duplicates",
+      "body": [
+        "Open the Import mailbox and its subfolders.",
+        "Compare the imported messages with the existing Inbox, Sent, Archive and custom folders.",
+        "Look for duplicate messages using sender, recipient, subject, date, contents and attachments.",
+        "Messages sharing the same subject are not necessarily duplicates.",
+        "Confirm that important older POP messages and local Sent mail are present.",
+        "Avoid deleting messages based only on matching subjects or dates.",
+        "For large mailboxes, review smaller batches.",
+        "Keep uncertain messages isolated in Import instead of merging them."
+      ],
+      "successLabel": "Mail Reviewed",
+      "failLabel": "Duplicates / Missing Mail",
+      "successNext": "chooseMailDestination",
+      "failNext": "resolveImportDuplicates"
+    },
+    "resolveImportDuplicates": {
+      "title": "Resolve duplicate or missing imported messages",
+      "body": [
+        "Compare suspected duplicates with messages already in the destination mailbox.",
+        "Check message contents and attachments before deciding that two messages are identical.",
+        "Delete confirmed redundant staging copies only after verifying the required message exists elsewhere.",
+        "If messages are missing, inspect other source mailboxes and exported packages.",
+        "Avoid repeating a complete import without understanding the previous result.",
+        "Keep the original mailbox exports unchanged.",
+        "If the imported data cannot be reconciled safely, retain it as a separate archive."
+      ],
+      "successLabel": "Mail Reconciled",
+      "failLabel": "Still Uncertain",
+      "successNext": "chooseMailDestination",
+      "failNext": "migrationEscalation"
+    },
+    "chooseMailDestination": {
+      "title": "Keep imported mail local or upload to the server",
+      "body": [
+        "Decide whether the imported messages should remain in a separate On My Mac archive.",
+        "An On My Mac mailbox is local and does not synchronise across devices.",
+        "For historical access on one Mac, a separate local archive may be sufficient.",
+        "If the old messages must appear on other devices, they need to be copied into an appropriate server mailbox.",
+        "Do not merge all imported messages into existing folders without checking for duplicates.",
+        "Preserve the source archive and any retained local staging copies."
+      ],
+      "successLabel": "Keep Local Archive",
+      "failLabel": "Upload To IMAP / Exchange",
+      "successNext": "verifyMigratedMail",
+      "failNext": "prepareServerStaging"
+    },
+    "prepareServerStaging": {
+      "title": "Create a separate server staging mailbox",
+      "body": [
+        "Confirm the destination IMAP or Exchange account is connected and synchronising.",
+        "In Mail, choose Mailbox, New Mailbox.",
+        "In the Location menu, choose the destination server account rather than On My Mac.",
+        "Create a mailbox named Imported Old Mail.",
+        "Mailboxes created under an account are intended to be stored on that account's server.",
+        "Check server storage quotas before uploading large archives.",
+        "Do not copy directly into a populated Inbox or Sent mailbox.",
+        "Keep the original Import mailbox unchanged during the initial transfer."
+      ],
+      "link": [
+        {
+          "name": "Apple: Create Mailboxes in Mail",
+          "description": "Official instructions for local and server mailbox locations.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1021/mac"
+        }
+      ],
+      "successLabel": "Server Mailbox Ready",
+      "failLabel": "Cannot Create Mailbox",
+      "successNext": "copyMailToServer",
+      "failNext": "migrationEscalation"
+    },
+    "copyMailToServer": {
+      "title": "Copy reviewed messages to the server",
+      "body": [
+        "Select the reviewed messages in the Import mailbox.",
+        "Control-click the selection and choose Copy To, then the server's Imported Old Mail mailbox.",
+        "Alternatively, hold Option while dragging the selected messages to the destination mailbox.",
+        "Work in manageable batches and preserve useful subfolder organisation.",
+        "Allow Mail time to upload the messages.",
+        "Check webmail to verify that the copied messages appear on the server.",
+        "Do not delete the local Import mailbox or source backup until the server copies have been verified.",
+        "Do not repeat an interrupted batch before checking which messages arrived."
+      ],
+      "link": [
+        {
+          "name": "Apple: Move or Copy Emails",
+          "description": "Official Copy To and Option-drag instructions.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1000/mac"
+        }
+      ],
+      "successLabel": "Upload Verified",
+      "failLabel": "Upload Incomplete",
+      "successNext": "chooseMergeMethod",
+      "failNext": "checkPartialUpload"
+    },
+    "checkPartialUpload": {
+      "title": "Check an incomplete server transfer",
+      "body": [
+        "Do not immediately repeat the entire transfer.",
+        "Compare the server's Imported Old Mail mailbox with the local Import mailbox.",
+        "Check webmail to identify which messages have already arrived.",
+        "Investigate mailbox quota limits, connection errors and oversized messages.",
+        "Correct the issue and copy only missing items where practical.",
+        "Use separately labelled batches if the upload result remains uncertain.",
+        "Preserve the local and original archive copies."
+      ],
+      "successLabel": "Upload Reconciled",
+      "failLabel": "Still Incomplete",
+      "successNext": "chooseMergeMethod",
+      "failNext": "migrationEscalation"
+    },
+    "chooseMergeMethod": {
+      "title": "Keep the server archive separate or merge",
+      "body": [
+        "Decide whether Imported Old Mail should remain a separate historical server mailbox.",
+        "Keeping it separate makes the old messages available across devices without changing existing Inbox or Sent mail.",
+        "If messages must appear in their original destination folders, compare them with existing messages first.",
+        "Copy only confirmed missing messages.",
+        "Do not assume Apple Mail automatically prevents every duplicate.",
+        "Keep staging copies and source backups until the final result is verified."
+      ],
+      "successLabel": "Keep Separate Archive",
+      "failLabel": "Merge Selected Messages",
+      "successNext": "verifyMigratedMail",
+      "failNext": "mergeReviewedMail"
+    },
+    "mergeReviewedMail": {
+      "title": "Merge only missing messages",
+      "body": [
+        "Identify which messages in Imported Old Mail are absent from their intended destination folders.",
+        "Copy only the missing messages into the appropriate Inbox, Sent, Archive or custom mailbox.",
+        "Use Control-click, Copy To or Option-drag to preserve the staging source.",
+        "Transfer in manageable batches.",
+        "Allow server synchronisation to complete.",
+        "Verify the final messages and attachments in webmail.",
+        "Do not delete staging folders or original archive files until the merge is confirmed."
+      ],
+      "link": [
+        {
+          "name": "Apple: Copy Messages Between Mailboxes",
+          "description": "Official instructions for copying selected messages.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1000/mac"
+        }
+      ],
+      "successLabel": "Merge Verified",
+      "failLabel": "Duplicates / Missing Mail",
+      "successNext": "verifyMigratedMail",
+      "failNext": "resolveImportDuplicates"
+    },
+    "verifyMigratedMail": {
+      "title": "Verify migrated mailboxes and messages",
+      "body": [
+        "Compare the destination Mail installation with the original mailbox exports.",
+        "Check Inbox, Sent, Archive, Import, On My Mac and any important custom mailboxes.",
+        "Open older messages and verify attachments.",
+        "Check message dates, contents and mailbox organisation.",
+        "Look for duplicates after any merge.",
+        "For IMAP or Exchange, confirm that server-bound messages are visible in webmail.",
+        "For local-only archives, confirm the messages remain accessible on the Mac and are backed up.",
+        "Check contacts, calendars, rules and signatures separately where required.",
+        "Keep the original exports until migration has been verified."
+      ],
+      "successLabel": "Migration Verified",
+      "failLabel": "Missing / Duplicate Mail",
+      "successNext": "setupComplete",
+      "failNext": "resolveImportDuplicates"
+    },
+    "migrationEscalation": {
+      "type": "terminal",
+      "title": "Further Apple Mail migration required",
+      "body": [
+        "The required messages could not be imported, uploaded or reconciled safely.",
+        "Preserve the original Mac and exported mailbox packages.",
+        "Keep incomplete imports separate from the current mailbox.",
+        "Record the original application, archive format, macOS version and any errors.",
+        "Check source compatibility, available disk space and server mailbox quotas.",
+        "For unsupported PST or other formats, investigate a supported export or conversion method.",
+        "Do not repeat full imports or merge uncertain messages.",
+        "Consider restoring required local data from a verified Time Machine backup."
+      ],
+      "link": [
+        {
+          "name": "Apple: Import and Export Mailboxes",
+          "description": "Official import and export instructions.",
+          "url": "https://support.apple.com/guide/mail/mlhlp1030/mac"
+        },
+        {
+          "name": "Apple: Restore with Time Machine",
+          "description": "Official backup restoration instructions.",
+          "url": "https://support.apple.com/guide/mac-help/mh11422/mac"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupComplete": {
+      "type": "terminal",
+      "title": "Apple Mail setup completed",
+      "body": [
+        "The email account is configured and can send and receive messages.",
+        "Incoming and outgoing server settings are correct.",
+        "For IMAP, iCloud Mail or Exchange, required server-stored messages and mailboxes have synchronised.",
+        "If there was no missing local-only data, no mailbox import was required.",
+        "For POP, required locally stored messages have been retained or transferred.",
+        "Any imported mail has been reviewed for duplicates before merging into existing mailboxes.",
+        "Check contacts, calendars, rules and signatures separately when required.",
+        "Keep verified backups of important local email data."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupEscalation": {
+      "type": "terminal",
+      "title": "Further Apple Mail account diagnostics",
+      "body": [
+        "The email account cannot send or receive after checking the configured provider settings.",
+        "Record the macOS version, email provider, protocol and exact error message.",
+        "Confirm that the provider supports the selected account type and authentication method.",
+        "Check OAuth, multifactor authentication and security restrictions.",
+        "Compare account access through webmail.",
+        "Investigate connection status, mail server settings and mailbox storage limits.",
+        "Do not remove the original account until required local mail has been protected."
+      ],
+      "link": [
+        {
+          "name": "Apple: If You Cannot Send or Receive Email",
+          "description": "Official Apple Mail troubleshooting instructions.",
+          "url": "https://support.apple.com/en-nz/102422"
+        },
+        {
+          "name": "Apple: Change Server Settings",
+          "description": "Official incoming and outgoing server settings.",
+          "url": "https://support.apple.com/guide/mail/cpmlprefacctadv/mac"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

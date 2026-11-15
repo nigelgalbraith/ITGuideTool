@@ -1,0 +1,993 @@
+
+{
+  "id": "setupThunderbird",
+  "title": "Set Up Mozilla Thunderbird",
+  "cardText": [
+    "Set up IMAP or POP email accounts in Mozilla Thunderbird.",
+    "Configure incoming and outgoing servers, SMTP authentication and POP message retention.",
+    "Synchronise IMAP mail or safely migrate local POP messages, Thunderbird profiles and MBOX or EML archives."
+  ],
+  "icon": "",
+  "text": [
+    "This guide covers Thunderbird email setup on Windows, macOS and Linux.",
+    "Use automatic account configuration where supported, or manually enter the email provider's settings.",
+    "IMAP normally restores server-stored messages and folders without importing old mail.",
+    "Check for Local Folders, POP messages and other data that will not be restored through IMAP synchronisation.",
+    "Use Thunderbird's built-in Import and Export tools for supported profile migrations.",
+    "ImportExportTools NG is an optional extension for additional MBOX, EML and other import or export operations.",
+    "When transferring old messages, use separate local staging folders and check for duplicates before merging.",
+    "Preserve the original email profile and backups until the migration has been verified."
+  ],
+  "startNode": "identifySetupType",
+  "nodes": {
+    "identifySetupType": {
+      "title": "Identify the setup or migration",
+      "body": [
+        "Determine whether Thunderbird is being configured for a new mailbox or replacing an existing email installation.",
+        "For an existing account, identify whether it uses IMAP, POP or another connection type.",
+        "IMAP normally synchronises server-stored mail and folders.",
+        "POP messages and Thunderbird Local Folders may exist only on the original computer.",
+        "If local data must be transferred, preserve the source before making changes."
+      ],
+      "successLabel": "New Email Setup",
+      "failLabel": "Existing Mail / Migration",
+      "successNext": "collectAccountDetails",
+      "failNext": "identifyExistingClient"
+    },
+    "identifyExistingClient": {
+      "title": "Identify the original email application",
+      "body": [
+        "Determine whether the existing mail is stored in Thunderbird, Outlook, Apple Mail or another application.",
+        "If the source is Thunderbird, check whether its entire profile should be moved or only selected messages are needed.",
+        "A Thunderbird profile may contain accounts, local mail, address books, filters and other settings.",
+        "If the original client is different, identify its supported export or backup format.",
+        "Check for POP messages and local folders absent from webmail.",
+        "Preserve the original installation until the destination has been verified."
+      ],
+      "successLabel": "Existing Thunderbird",
+      "failLabel": "Different Email Client",
+      "successNext": "checkThunderbirdProfile",
+      "failNext": "backupOtherClientMail"
+    },
+    "checkThunderbirdProfile": {
+      "title": "Locate the existing Thunderbird profile",
+      "body": [
+        "Open Thunderbird on the original computer.",
+        "Open the application menu, Help, Troubleshooting Information.",
+        "Find Profile Folder and select Open Folder, Open Directory or Show in Finder.",
+        "The profile contains Thunderbird account settings and locally stored data.",
+        "On Windows, profiles are commonly located under %APPDATA%\\Thunderbird\\Profiles.",
+        "Use Thunderbird's actual profile location on macOS and Linux.",
+        "Check whether multiple profiles exist.",
+        "Close Thunderbird before copying profile files manually."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Thunderbird Profile Locations",
+          "description": "Official information about where Thunderbird stores profiles and local mail.",
+          "url": "https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-stores-user-data"
+        },
+        {
+          "name": "Mozilla: Move Thunderbird Data",
+          "description": "Official instructions for transferring Thunderbird data to another computer.",
+          "url": "https://support.mozilla.org/en-US/kb/moving-thunderbird-data-to-a-new-computer"
+        }
+      ],
+      "successLabel": "Profile Located",
+      "failLabel": "Profile Missing",
+      "successNext": "exportThunderbirdProfile",
+      "failNext": "profileRecoveryRequired"
+    },
+    "profileRecoveryRequired": {
+      "type": "terminal",
+      "title": "Locate the original Thunderbird profile",
+      "body": [
+        "The original Thunderbird profile has not been located.",
+        "Check Troubleshooting Information and any additional Thunderbird profiles.",
+        "On Windows, inspect the user's roaming application data folder.",
+        "Check existing computer backups and previous profile locations.",
+        "Do not remove the original installation or overwrite possible recovery data.",
+        "Continue once the required profile or mail backup is available."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Thunderbird Profile Locations",
+          "description": "Official instructions for locating Thunderbird data.",
+          "url": "https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-stores-user-data"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "exportThunderbirdProfile": {
+      "title": "Back up the Thunderbird profile",
+      "body": [
+        "On the original computer, open Thunderbird's application menu, Tools, Export.",
+        "For profiles within the supported 2 GB ZIP export limit, use Export to create a backup ZIP.",
+        "Save the exported ZIP outside the original Thunderbird profile.",
+        "For larger profiles, locate the profile folder, close Thunderbird and make a manual backup.",
+        "When manually backing up, preserve the complete Thunderbird data structure needed for restoration.",
+        "Check that mail folders, account data and other required settings are included.",
+        "Keep an untouched backup separate from the working migration copy.",
+        "Confirm the backup is accessible before continuing."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Export Thunderbird Profile",
+          "description": "Official Export tool instructions and ZIP size limitation.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-export"
+        },
+        {
+          "name": "Mozilla: Moving Thunderbird Data",
+          "description": "Official instructions for manual profile backup and transfer.",
+          "url": "https://support.mozilla.org/en-US/kb/moving-thunderbird-data-to-a-new-computer"
+        }
+      ],
+      "image": "email-thunderbird-profile-export.png",
+      "alt": "Thunderbird Export tool showing the profile export controls",
+      "caption": "Use Thunderbird's Export tool for supported profile sizes, or manually back up larger profiles with Thunderbird closed.",
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Incomplete",
+      "successNext": "chooseMigrationMethod",
+      "failNext": "protectOriginalMail"
+    },
+    "backupOtherClientMail": {
+      "title": "Back up mail from the original application",
+      "body": [
+        "Identify the original email application's storage format.",
+        "For classic Outlook, locate PST files containing POP mail and local archives.",
+        "For Apple Mail, use its supported mailbox export procedure where appropriate.",
+        "Check whether the source can export mail in MBOX or EML format.",
+        "Verify whether important messages exist on the server or only in local storage.",
+        "Preserve an untouched backup of the original messages.",
+        "Do not remove the old email installation before the backup is verified."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Export Outlook Mail",
+          "description": "Official instructions for exporting messages to PST.",
+          "url": "https://support.microsoft.com/en-us/outlook/export-emails-contacts-and-calendar-items-to-outlook-using-a-pst-file"
+        },
+        {
+          "name": "Mozilla: Thunderbird Import",
+          "description": "Official information about supported import sources.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-import"
+        }
+      ],
+      "successLabel": "Backup Ready",
+      "failLabel": "Backup Not Ready",
+      "successNext": "collectAccountDetails",
+      "failNext": "protectOriginalMail"
+    },
+    "protectOriginalMail": {
+      "type": "terminal",
+      "title": "Protect the original mail data",
+      "body": [
+        "The original email profile or archive has not been backed up successfully.",
+        "Preserve the source computer and email application.",
+        "Check locally stored Inbox, Sent, Archive and custom folders.",
+        "Keep an untouched copy of the required profile or export files.",
+        "Do not remove accounts, delete profiles or overwrite existing mail.",
+        "Resume migration after verifying the backup."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "chooseMigrationMethod": {
+      "title": "Choose a Thunderbird migration method",
+      "body": [
+        "Determine whether the entire Thunderbird profile should be moved to a replacement installation.",
+        "Full-profile restoration is useful when transferring existing accounts, mail, address books and settings together.",
+        "A profile restore is not the same as importing a few old messages into an existing configured account.",
+        "Restoring a full profile may replace destination settings and mail data.",
+        "If Thunderbird is already configured and only some local messages are needed, prefer a selected-mail import.",
+        "Do not restore an old full profile over a working destination profile without protecting the destination first."
+      ],
+      "successLabel": "Restore Entire Profile",
+      "failLabel": "Configure Then Import Mail",
+      "successNext": "checkDestinationProfile",
+      "failNext": "collectAccountDetails"
+    },
+    "checkDestinationProfile": {
+      "title": "Check the destination Thunderbird profile",
+      "body": [
+        "Determine whether the destination already contains accounts, messages or settings that must be retained.",
+        "A full-profile restore should normally use a fresh or deliberately chosen destination profile.",
+        "If Thunderbird already contains important data, back up that destination profile first.",
+        "Do not assume the Import tool will merge two complete profiles without conflicts or duplicate data.",
+        "Use selected-mail import instead if the goal is to combine messages with an existing Thunderbird installation."
+      ],
+      "successLabel": "Fresh / Backed Up Profile",
+      "failLabel": "Existing Data Must Be Preserved",
+      "successNext": "restoreThunderbirdProfile",
+      "failNext": "collectAccountDetails"
+    },
+    "restoreThunderbirdProfile": {
+      "title": "Restore Thunderbird on another computer",
+      "body": [
+        "Install a compatible Thunderbird version on the destination computer.",
+        "Back up any existing destination profile before making changes.",
+        "For a supported Thunderbird Export ZIP, open the application menu, Tools, Import.",
+        "Choose the appropriate Thunderbird profile import source and follow the wizard.",
+        "For larger profiles, use a supported folder-based import or Mozilla's manual profile transfer procedure.",
+        "Do not copy old profile files over an active Thunderbird profile while Thunderbird is running.",
+        "Restart Thunderbird and check account settings, Local Folders, contacts and other data.",
+        "Some passwords or provider authentication approvals may need to be entered again.",
+        "Allow IMAP accounts to reconnect and synchronise normally.",
+        "Do not separately import the same message archive again without checking whether the restored profile already contains it."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Import Thunderbird Profile",
+          "description": "Official built-in profile import instructions.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-import"
+        },
+        {
+          "name": "Mozilla: Move Thunderbird to Another Computer",
+          "description": "Official manual profile transfer procedure.",
+          "url": "https://support.mozilla.org/en-US/kb/moving-thunderbird-data-to-a-new-computer"
+        }
+      ],
+      "successLabel": "Profile Restored",
+      "failLabel": "Restore Failed",
+      "successNext": "verifyRestoredProfile",
+      "failNext": "migrationEscalation"
+    },
+    "verifyRestoredProfile": {
+      "title": "Verify the restored Thunderbird profile",
+      "body": [
+        "Check the restored accounts and their connection settings.",
+        "Verify that required POP messages and Local Folders are accessible.",
+        "Check address books, filters and other settings that formed part of the profile.",
+        "For IMAP, allow normal server synchronisation and compare important folders with webmail.",
+        "Check whether messages appear twice or additional source archives remain unimported.",
+        "If required mail is present and the profile works, no separate message import is needed.",
+        "If the restored profile is incomplete, preserve its backup and investigate the missing data."
+      ],
+      "successLabel": "Profile Verified",
+      "failLabel": "Data Missing / Duplicated",
+      "successNext": "setupComplete",
+      "failNext": "migrationEscalation"
+    },
+    "collectAccountDetails": {
+      "title": "Identify the account and provider settings",
+      "body": [
+        "Obtain the complete email address and supported authentication method.",
+        "Determine whether the mailbox requires IMAP or POP.",
+        "For manual setup, obtain incoming and SMTP server names, ports and encryption.",
+        "Check whether the provider requires OAuth or an app-specific password.",
+        "Confirm that IMAP or POP is enabled by the provider.",
+        "Use the provider's current documentation rather than guessing settings."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Automatic Account Configuration",
+          "description": "Official instructions for automatic mailbox setup.",
+          "url": "https://support.mozilla.org/en-US/kb/automatic-account-configuration"
+        },
+        {
+          "name": "Mozilla: Manual Account Configuration",
+          "description": "Official instructions for entering mail server settings.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        }
+      ],
+      "successLabel": "Settings Available",
+      "failLabel": "Settings Unknown",
+      "successNext": "addEmailAccount",
+      "failNext": "obtainProviderSettings"
+    },
+    "obtainProviderSettings": {
+      "type": "terminal",
+      "title": "Obtain the provider configuration",
+      "body": [
+        "The required incoming or outgoing account settings are unavailable.",
+        "Check the provider's official Thunderbird setup documentation.",
+        "Record the protocol, server names, ports, encryption and authentication requirements.",
+        "Check whether the provider permits the selected connection type.",
+        "Do not disable encryption or use insecure authentication to force the connection.",
+        "Continue once the correct settings are available."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "addEmailAccount": {
+      "title": "Add an email account in Thunderbird",
+      "body": [
+        "Open Mozilla Thunderbird.",
+        "On a new installation, use the existing email account setup screen.",
+        "On an installed system, open the application menu, New Account, Existing Email, where available.",
+        "Enter the display name and complete email address.",
+        "Enter the account password when required.",
+        "Select Continue to detect the available provider configuration.",
+        "Review the incoming and outgoing settings.",
+        "Complete any required browser-based provider authentication."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Add an Existing Email Account",
+          "description": "Official Thunderbird automatic setup instructions.",
+          "url": "https://support.mozilla.org/en-US/kb/automatic-account-configuration"
+        }
+      ],
+      "successLabel": "Configuration Detected",
+      "failLabel": "Manual Setup Required",
+      "successNext": "chooseProtocol",
+      "failNext": "manualAccountSetup"
+    },
+    "chooseProtocol": {
+      "title": "Choose IMAP or POP",
+      "body": [
+        "Review the account configurations detected by Thunderbird.",
+        "Choose IMAP when messages and folders should synchronise across devices.",
+        "Choose POP when the required configuration downloads incoming messages for primarily local storage.",
+        "POP cannot restore messages previously removed from the server by another computer.",
+        "An existing IMAP account cannot simply be converted into POP; a separate account configuration is required.",
+        "Check that the provider supports the selected protocol.",
+        "If the detected settings are unsuitable, choose manual configuration."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Automatic Account Configuration",
+          "description": "Official explanation of IMAP and POP selection.",
+          "url": "https://support.mozilla.org/en-US/kb/automatic-account-configuration"
+        },
+        {
+          "name": "Mozilla: Change from IMAP to POP",
+          "description": "Official guidance on setting up a separate POP account.",
+          "url": "https://support.mozilla.org/en-US/kb/faq-changing-imap-pop"
+        }
+      ],
+      "image": "email-thunderbird-account-setup.jpg",
+      "alt": "Thunderbird account setup screen showing IMAP and POP3 options",
+      "caption": "Choose IMAP for synchronised mail or POP3 when a local-download configuration is required.",
+      "successLabel": "IMAP Selected",
+      "failLabel": "POP Selected",
+      "successNext": "configureImap",
+      "failNext": "configurePop"
+    },
+    "manualAccountSetup": {
+      "title": "Configure incoming and outgoing servers manually",
+      "body": [
+        "In the account setup window, select Configure manually or Manual config.",
+        "Enter the incoming server hostname supplied by the email provider.",
+        "Select IMAP or POP3 as the incoming protocol.",
+        "Enter the required incoming port, connection security and authentication method.",
+        "Enter the outgoing SMTP hostname, port and encryption.",
+        "Enter the required incoming and outgoing usernames.",
+        "Common encrypted incoming ports are 993 for IMAP and 995 for POP.",
+        "Common SMTP submission ports are 587 with STARTTLS and 465 with SSL/TLS.",
+        "Use the provider's documented settings if they differ.",
+        "Select Re-test where available before completing setup."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Manual Account Configuration",
+          "description": "Official Thunderbird manual server setup instructions.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        }
+      ],
+      "successLabel": "IMAP Configured",
+      "failLabel": "POP Configured",
+      "successNext": "configureImap",
+      "failNext": "configurePop"
+    },
+    "configureImap": {
+      "title": "Complete the IMAP account setup",
+      "body": [
+        "Confirm the incoming IMAP server, port and encryption.",
+        "Use the provider's required username and authentication method.",
+        "Check the outgoing SMTP configuration.",
+        "Complete any OAuth or multifactor authentication prompts.",
+        "Select Done when Thunderbird confirms the configuration.",
+        "Allow Thunderbird to retrieve the server mailbox folders.",
+        "Do not import an old local archive before checking whether the required messages are already on the server."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Manual IMAP Configuration",
+          "description": "Official instructions for configuring Thunderbird IMAP.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        }
+      ],
+      "successLabel": "Account Connected",
+      "failLabel": "Connection Failed",
+      "successNext": "checkSmtp",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "configurePop": {
+      "title": "Complete the POP account setup",
+      "body": [
+        "Confirm that POP3 is selected as the incoming protocol.",
+        "Enter the provider's POP server hostname and required username.",
+        "Use the documented port and encryption, commonly 995 with SSL/TLS.",
+        "Check outgoing SMTP server settings.",
+        "Complete provider authentication and select Done.",
+        "Confirm the POP account appears in Thunderbird.",
+        "Before downloading a large existing mailbox, review server retention.",
+        "Keep the original POP profile or local archive backed up.",
+        "Do not assume previously downloaded messages will automatically reappear."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: POP Configuration",
+          "description": "Official guidance for configuring POP in Thunderbird.",
+          "url": "https://support.mozilla.org/en-US/kb/faq-changing-imap-pop"
+        }
+      ],
+      "successLabel": "POP Connected",
+      "failLabel": "Connection Failed",
+      "successNext": "configurePopRetention",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "configurePopRetention": {
+      "title": "Check POP message retention",
+      "body": [
+        "Open Thunderbird Account Settings.",
+        "Select the POP account and open Server Settings.",
+        "Review Leave messages on server.",
+        "Check options for deleting server copies after a set number of days or when deleted locally.",
+        "When migrating between two computers, retaining messages temporarily can help prevent premature server deletion.",
+        "Check the provider's mailbox storage limit.",
+        "Choose a retention policy suitable for the user's requirements.",
+        "Preserve the original local POP messages and verify that new messages download correctly."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: POP Account Setup",
+          "description": "Official Thunderbird POP setup information.",
+          "url": "https://support.mozilla.org/en-US/kb/faq-changing-imap-pop"
+        },
+        {
+          "name": "Mozilla Support: POP Retention",
+          "description": "Information about Leave messages on server.",
+          "url": "https://support.mozilla.org/en-US/questions/1216773"
+        }
+      ],
+      "successLabel": "Retention Configured",
+      "failLabel": "Settings Problem",
+      "successNext": "checkSmtp",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "checkSmtp": {
+      "title": "Verify outgoing SMTP configuration",
+      "body": [
+        "Open Account Settings and select Outgoing Server (SMTP).",
+        "Confirm that the correct SMTP server is associated with the email account.",
+        "Check the server hostname, port, encryption and authentication method.",
+        "Use OAuth where supported and required by the provider.",
+        "Do not disable encryption to work around sign-in errors.",
+        "Save the settings and proceed with a sending and receiving test."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Manual Account Configuration",
+          "description": "Official instructions for outgoing SMTP settings.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        }
+      ],
+      "successLabel": "SMTP Correct",
+      "failLabel": "SMTP Problem",
+      "successNext": "testEmail",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "testEmail": {
+      "title": "Test sending and receiving",
+      "body": [
+        "Send a plain test message to another accessible email address.",
+        "Reply from that address and confirm the response arrives.",
+        "Check the message appears in the expected Sent folder.",
+        "Check for connection or authentication errors.",
+        "For POP, verify incoming downloads and server retention.",
+        "Once sending and receiving work, identify the account protocol before deciding whether old mail must be imported."
+      ],
+      "successLabel": "Email Working",
+      "failLabel": "Send / Receive Fails",
+      "successNext": "checkAccountSyncType",
+      "failNext": "troubleshootAccountSetup"
+    },
+    "troubleshootAccountSetup": {
+      "title": "Investigate Thunderbird connection errors",
+      "body": [
+        "Record the exact error reported by Thunderbird.",
+        "Confirm the incoming and outgoing server names and ports.",
+        "Check whether IMAP or POP is configured correctly.",
+        "Verify the required encryption and authentication method.",
+        "Check OAuth, app-password and provider access requirements.",
+        "Compare access with webmail to identify account problems.",
+        "Correct the identified issue and test again."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Manual Configuration",
+          "description": "Official Thunderbird server configuration help.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        },
+        {
+          "name": "Mozilla: Thunderbird Support",
+          "description": "Official troubleshooting information.",
+          "url": "https://support.mozilla.org/en-US/products/thunderbird"
+        }
+      ],
+      "successLabel": "Connection Restored",
+      "failLabel": "Still Failing",
+      "successNext": "testEmail",
+      "failNext": "setupEscalation"
+    },
+    "checkAccountSyncType": {
+      "title": "Identify whether the mailbox synchronises",
+      "body": [
+        "Check the account's Server Settings in Thunderbird.",
+        "IMAP accounts normally synchronise messages and folders stored on the email server.",
+        "POP accounts generally download incoming mail into local storage.",
+        "For IMAP, verify normal server synchronisation before importing any previous messages.",
+        "For POP, check whether required older messages are missing from the current installation."
+      ],
+      "successLabel": "IMAP Account",
+      "failLabel": "POP / Local Mail",
+      "successNext": "verifyServerSyncedMail",
+      "failNext": "checkMigrationRequired"
+    },
+    "verifyServerSyncedMail": {
+      "title": "Verify IMAP messages and folders",
+      "body": [
+        "Allow Thunderbird to synchronise the existing mailbox.",
+        "Compare Inbox, Sent, Drafts, Archive and custom folders with the provider's webmail.",
+        "Check older messages and attachments where available.",
+        "Expand the account's folders and check any folder subscriptions.",
+        "Some messages may not be stored for offline use even though they are available on the server.",
+        "Do not import local mail to compensate for a normal synchronisation problem.",
+        "If the server messages are present, continue to the local-only folder check."
+      ],
+      "successLabel": "Server Mail Synced",
+      "failLabel": "Messages / Folders Missing",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "investigateSyncMissing"
+    },
+    "investigateSyncMissing": {
+      "title": "Determine where missing IMAP messages are stored",
+      "body": [
+        "Search for the missing messages in webmail.",
+        "Check Archive, Trash and any custom server folders.",
+        "If the messages are present in webmail but missing in Thunderbird, investigate synchronisation and folder visibility.",
+        "If the messages are absent from webmail but available in the old Thunderbird installation, they may be in Local Folders or another local archive.",
+        "Do not import an entire old profile until the location of the missing messages is understood."
+      ],
+      "successLabel": "Present In Webmail",
+      "failLabel": "Absent From Webmail",
+      "successNext": "troubleshootImapSync",
+      "failNext": "checkMissingMailSource"
+    },
+    "troubleshootImapSync": {
+      "title": "Investigate Thunderbird IMAP synchronisation",
+      "body": [
+        "Confirm Thunderbird is connected to the correct account.",
+        "Check folder subscriptions, filters and folder visibility.",
+        "Review Account Settings, Server Settings and Synchronization & Storage.",
+        "Check whether the account is offline or has authentication errors.",
+        "Allow large folders to finish synchronising.",
+        "Compare again with webmail before attempting a local mail import."
+      ],
+      "successLabel": "Synchronisation Fixed",
+      "failLabel": "Still Missing",
+      "successNext": "verifyServerSyncedMail",
+      "failNext": "setupEscalation"
+    },
+    "checkMissingMailSource": {
+      "title": "Check for missing local-only messages",
+      "body": [
+        "Inspect Thunderbird Local Folders on the original computer.",
+        "Check old POP folders, archives and any additional Thunderbird profiles.",
+        "Check exported MBOX or EML files where available.",
+        "If the messages exist locally but not on the server, back up that local data before transferring it.",
+        "If the messages cannot be located locally or on the server, investigate available backups or the provider.",
+        "Avoid importing unrelated archives to solve a missing server-message problem."
+      ],
+      "successLabel": "Local Mail Found",
+      "failLabel": "Mail Not Located",
+      "successNext": "checkLocalOnlyData",
+      "failNext": "migrationEscalation"
+    },
+    "checkLocalOnlyData": {
+      "title": "Check for local-only folders and messages",
+      "body": [
+        "Inspect the original Thunderbird installation after confirming that IMAP mail has synchronised.",
+        "Check Local Folders, locally stored archives and messages downloaded under a previous POP setup.",
+        "Also check address books, calendars, filters and other settings that may need separate transfer.",
+        "IMAP does not itself synchronise Thunderbird Local Folders or local address books.",
+        "If all required mail is already on the server and there is no additional local data to transfer, no mail import is necessary.",
+        "If required local-only data exists, confirm that it has been backed up before importing it."
+      ],
+      "successLabel": "Local Mail Required",
+      "failLabel": "All Required Mail Synced",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "checkMigrationRequired": {
+      "title": "Check whether previous POP mail must be transferred",
+      "body": [
+        "Check whether this is a replacement computer or a newly configured POP account.",
+        "Older POP messages may exist only in the original Thunderbird profile.",
+        "Check old Inbox, Sent, Archive and custom folders.",
+        "A new POP account will not automatically restore messages already removed from the server.",
+        "Compare required old mail with messages visible in the new installation.",
+        "If older local mail is needed, back it up and transfer it using the controlled migration process."
+      ],
+      "successLabel": "Old Mail Required",
+      "failLabel": "No Migration Needed",
+      "successNext": "confirmLocalBackup",
+      "failNext": "setupComplete"
+    },
+    "confirmLocalBackup": {
+      "title": "Confirm that local mail has been backed up",
+      "body": [
+        "Locate the required mail in the original Thunderbird profile or another email client's archive.",
+        "Back up the original profile or exported messages.",
+        "Preserve an untouched copy of the source data.",
+        "Confirm that Inbox, Sent and any custom local folders are included.",
+        "Check that the backup files are readable.",
+        "Do not begin an import if the original local messages have not been protected."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Thunderbird Profile Locations",
+          "description": "Official information about local mail storage.",
+          "url": "https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-stores-user-data"
+        },
+        {
+          "name": "Mozilla: Export Thunderbird Profile",
+          "description": "Official export and backup procedure.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-export"
+        }
+      ],
+      "successLabel": "Backup Verified",
+      "failLabel": "Backup Not Ready",
+      "successNext": "identifyMailSource",
+      "failNext": "protectOriginalMail"
+    },
+    "identifyMailSource": {
+      "title": "Identify the format of the old mail",
+      "body": [
+        "Check whether the source is a Thunderbird profile, MBOX files, EML files, Outlook PST or another email application.",
+        "Thunderbird can import supported data through its built-in Import tool.",
+        "ImportExportTools NG can provide additional MBOX and EML import options.",
+        "Do not rename PST files to MBOX because changing the filename does not convert the contents.",
+        "Use the source format and intended destination to choose the migration method."
+      ],
+      "successLabel": "Thunderbird / Built-In Import",
+      "failLabel": "MBOX / EML / Other",
+      "successNext": "prepareLocalStaging",
+      "failNext": "prepareLocalStaging"
+    },
+    "prepareLocalStaging": {
+      "title": "Prepare a separate local staging folder",
+      "body": [
+        "In Thunderbird Local Folders, create a folder named Imported Old Mail.",
+        "For multiple archives, create clearly named subfolders identifying each source or import batch.",
+        "Import old messages into this separate local area where the chosen import tool permits it.",
+        "Do not import old messages directly into an existing IMAP Inbox or Sent folder.",
+        "Check available disk space before importing large archives.",
+        "A staging folder isolates imported mail but does not automatically remove duplicate messages.",
+        "Preserve the original source files throughout the transfer."
+      ],
+      "successLabel": "Staging Ready",
+      "failLabel": "Cannot Prepare Staging",
+      "successNext": "chooseImportMethod",
+      "failNext": "migrationEscalation"
+    },
+    "chooseImportMethod": {
+      "title": "Choose built-in Import or ImportExportTools NG",
+      "body": [
+        "Use Thunderbird's built-in Tools, Import for supported profile, application and file imports.",
+        "Use ImportExportTools NG as an optional additional method for MBOX, EML or EMLX files.",
+        "For an existing Thunderbird profile, restore the entire profile only when that is the intended migration.",
+        "If only selected messages are needed, avoid replacing a working Thunderbird profile.",
+        "For MBOX and EML imports, keep the imported messages in Local Folders until they have been reviewed.",
+        "Choose the method that supports the source format without merging old mail into populated folders."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Thunderbird Import Tool",
+          "description": "Official built-in mail and profile import options.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-import"
+        },
+        {
+          "name": "ImportExportTools NG",
+          "description": "Optional Thunderbird extension for additional MBOX, EML and folder import or export operations.",
+          "url": "https://addons.thunderbird.net/en-US/thunderbird/addon/importexporttools-ng/"
+        }
+      ],
+      "successLabel": "Built-In Import",
+      "failLabel": "ImportExportTools NG",
+      "successNext": "importPreviousMail",
+      "failNext": "importWithImportExportToolsNg"
+    },
+    "importPreviousMail": {
+      "title": "Import mail using Thunderbird's built-in tool",
+      "body": [
+        "Open Thunderbird's application menu, Tools, Import.",
+        "Select the supported source application, Thunderbird profile or file import option.",
+        "Review whether the operation will import individual data types or restore an entire profile.",
+        "For Outlook, Thunderbird's built-in importer may require a supported Outlook installation rather than just a standalone PST.",
+        "Select only the required mail data where the tool provides that option.",
+        "Use an isolated import destination if the available workflow supports it.",
+        "If the tool cannot keep old mail separate from populated folders, cancel and use another compatible method.",
+        "Complete the import and inspect the resulting folders.",
+        "Do not repeat a partial import without checking which messages are already present.",
+        "Keep the original backup unchanged."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Import into Thunderbird",
+          "description": "Official built-in Import tool instructions.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-import"
+        }
+      ],
+      "image": "email-thunderbird-import-tool.png",
+      "alt": "Thunderbird Import Tool showing supported application and file sources",
+      "caption": "Use the built-in Import tool for supported sources, but review the import destination before combining data.",
+      "successLabel": "Import Completed",
+      "failLabel": "Unsupported / Partial Import",
+      "successNext": "reviewStagedMail",
+      "failNext": "checkPartialImport"
+    },
+    "importWithImportExportToolsNg": {
+      "title": "Import MBOX or EML using ImportExportTools NG",
+      "body": [
+        "In Thunderbird, open Add-ons and Themes.",
+        "Find ImportExportTools NG in the official Thunderbird Add-ons directory.",
+        "Check that the available extension version supports the installed Thunderbird release.",
+        "Review the extension's requested permissions before installing it.",
+        "In the folder pane, select or create an appropriate folder beneath Local Folders.",
+        "Use the ImportExportTools NG menu available from the folder context menu or Tools menu, depending on the installed version.",
+        "Choose the appropriate MBOX or EML import operation.",
+        "Select the preserved source files and import them into a separate staging folder.",
+        "For MBOX archives, preserve the original subfolder structure where supported.",
+        "Do not attempt to import an MBOX directly into an IMAP folder when the extension requires Local Folders.",
+        "Do not rename a PST or another archive format to MBOX.",
+        "After importing, inspect the messages and attachments before moving anything into a live mailbox.",
+        "Keep the source files and avoid repeating the same import until the first result is checked."
+      ],
+      "link": [
+        {
+          "name": "Thunderbird Add-ons: ImportExportTools NG",
+          "description": "Official add-on listing covering MBOX, EML, EMLX, folder and profile operations.",
+          "url": "https://addons.thunderbird.net/en-US/thunderbird/addon/importexporttools-ng/"
+        },
+        {
+          "name": "ImportExportTools NG Source and Documentation",
+          "description": "Project documentation, release information and usage notes.",
+          "url": "https://github.com/thunderbird/import-export-tools-ng"
+        }
+      ],
+      "successLabel": "Messages Imported",
+      "failLabel": "Import Failed / Partial",
+      "successNext": "reviewStagedMail",
+      "failNext": "checkPartialImport"
+    },
+    "checkPartialImport": {
+      "title": "Check a partial or interrupted mail import",
+      "body": [
+        "Do not immediately repeat the entire import.",
+        "Inspect the destination folders to determine which messages were already transferred.",
+        "Compare imported folders, date ranges and message counts with the source.",
+        "Check for damaged archives, unsupported formats or insufficient disk space.",
+        "If using an extension, verify that it is compatible with the Thunderbird version.",
+        "Correct the problem before attempting another import.",
+        "If another attempt is required, use a newly labelled staging folder or import only missing data.",
+        "Preserve the original source files and incomplete import until the result is understood."
+      ],
+      "successLabel": "Partial Mail Identified",
+      "failLabel": "Cannot Determine Result",
+      "successNext": "reviewStagedMail",
+      "failNext": "migrationEscalation"
+    },
+    "reviewStagedMail": {
+      "title": "Review imported messages for duplicates",
+      "body": [
+        "Inspect the Imported Old Mail staging folder and its subfolders.",
+        "Compare the imported messages with existing local and IMAP folders.",
+        "Check sender, recipient, subject, date, contents and attachments when identifying likely duplicates.",
+        "Messages in the same conversation may share a subject without being duplicates.",
+        "Check that important older POP messages and local Sent folders are present.",
+        "Do not delete messages solely because their subjects or dates match.",
+        "For large imports, compare smaller groups before merging.",
+        "Keep uncertain messages separate rather than risking deletion of required mail."
+      ],
+      "successLabel": "Mail Reviewed",
+      "failLabel": "Duplicates / Missing Mail",
+      "successNext": "checkMailDestination",
+      "failNext": "resolveImportDuplicates"
+    },
+    "resolveImportDuplicates": {
+      "title": "Resolve duplicates or missing imported messages",
+      "body": [
+        "Compare suspected duplicates with messages already stored in the destination.",
+        "Check contents and attachments before treating messages as identical.",
+        "Only remove confirmed redundant staging copies when the required messages exist elsewhere.",
+        "If messages are missing, inspect the original archive or other source folders.",
+        "Do not assume ImportExportTools NG automatically prevents duplicates across existing mail folders.",
+        "Keep the original source backup unchanged.",
+        "If the result cannot be reconciled confidently, leave the imported archive separate."
+      ],
+      "successLabel": "Mail Reconciled",
+      "failLabel": "Still Uncertain",
+      "successNext": "checkMailDestination",
+      "failNext": "migrationEscalation"
+    },
+    "checkMailDestination": {
+      "title": "Keep imported mail local or upload to IMAP",
+      "body": [
+        "Decide whether the reviewed historical messages should remain in Thunderbird Local Folders.",
+        "Local Folders are stored on the computer and do not automatically synchronise with the email provider.",
+        "Keeping a local archive may be sufficient for old POP messages.",
+        "If the user needs the old messages on multiple devices, copy them into the configured IMAP mailbox.",
+        "Check the server mailbox quota before uploading large archives.",
+        "Do not merge unreviewed messages directly into existing IMAP folders.",
+        "Retain the original mail backup regardless of the selected destination."
+      ],
+      "successLabel": "Keep Local Archive",
+      "failLabel": "Upload To IMAP",
+      "successNext": "verifyMigratedMail",
+      "failNext": "uploadMailToImap"
+    },
+    "uploadMailToImap": {
+      "title": "Copy reviewed mail into the IMAP mailbox",
+      "body": [
+        "Confirm that the destination IMAP account is connected and synchronising.",
+        "Create a separate Imported Old Mail folder under that IMAP account.",
+        "Copy the reviewed messages or local archive subfolders into the separate IMAP staging location.",
+        "Use manageable batches for large message collections.",
+        "Monitor upload progress, synchronisation errors and mailbox storage.",
+        "Check webmail to confirm that the messages have reached the server.",
+        "Do not immediately copy the entire staging folder into existing Inbox or Sent folders.",
+        "Keep the original Local Folders and exported files unchanged until the upload is verified."
+      ],
+      "successLabel": "IMAP Upload Verified",
+      "failLabel": "Upload Incomplete",
+      "successNext": "chooseMergeMethod",
+      "failNext": "checkPartialUpload"
+    },
+    "checkPartialUpload": {
+      "title": "Check an incomplete IMAP upload",
+      "body": [
+        "Do not immediately repeat the entire message copy.",
+        "Compare the IMAP staging folder with the local source.",
+        "Check which messages are already visible in webmail.",
+        "Investigate mailbox quota limits, connection errors and unsupported or oversized messages.",
+        "Correct the problem and transfer only missing messages where possible.",
+        "Use a separately labelled folder for a new attempt if the previous result is uncertain.",
+        "Keep the local source and original backups."
+      ],
+      "successLabel": "Upload Reconciled",
+      "failLabel": "Still Incomplete",
+      "successNext": "chooseMergeMethod",
+      "failNext": "migrationEscalation"
+    },
+    "chooseMergeMethod": {
+      "title": "Keep the IMAP archive separate or merge messages",
+      "body": [
+        "Decide whether Imported Old Mail should remain as a separate historical folder on the IMAP server.",
+        "Keeping it separate avoids changing the existing Inbox and Sent folders.",
+        "If normal mailbox placement is required, compare the staged messages with the destination folders first.",
+        "Copy only messages confirmed to be missing.",
+        "Do not rely on Thunderbird to identify every duplicate automatically.",
+        "Keep source and staging copies until the merge has been verified."
+      ],
+      "successLabel": "Keep Separate IMAP Archive",
+      "failLabel": "Merge Selected Messages",
+      "successNext": "verifyMigratedMail",
+      "failNext": "mergeReviewedMail"
+    },
+    "mergeReviewedMail": {
+      "title": "Merge only messages missing from existing folders",
+      "body": [
+        "Identify messages that do not already exist in the destination Inbox, Sent, Archive or custom folders.",
+        "Copy only the required messages from the IMAP staging folder.",
+        "Transfer smaller groups so errors or duplicate copies can be identified.",
+        "Allow Thunderbird to finish server synchronisation.",
+        "Verify the copied messages and attachments through webmail where available.",
+        "Do not delete the staging folder or source archive until the merge is complete.",
+        "If duplicate or missing messages are discovered, return to the review process."
+      ],
+      "successLabel": "Merge Verified",
+      "failLabel": "Duplicates / Missing Mail",
+      "successNext": "verifyMigratedMail",
+      "failNext": "resolveImportDuplicates"
+    },
+    "verifyMigratedMail": {
+      "title": "Verify imported mail and folders",
+      "body": [
+        "Compare the destination Thunderbird installation with the original profile or archive.",
+        "Check Inbox, Sent, Archive, Local Folders, Imported Old Mail and custom folders.",
+        "Open older messages and verify their attachments.",
+        "Check dates and folder organisation.",
+        "Look for unintended duplicates after any merge.",
+        "If mail was copied to IMAP, confirm the intended messages are present in webmail.",
+        "For POP, confirm the local messages remain accessible and backed up.",
+        "Check address books, filters and calendars separately if required.",
+        "Keep the original profile and archives until the migration has been verified."
+      ],
+      "successLabel": "Migration Verified",
+      "failLabel": "Missing / Duplicate Mail",
+      "successNext": "setupComplete",
+      "failNext": "resolveImportDuplicates"
+    },
+    "migrationEscalation": {
+      "type": "terminal",
+      "title": "Further Thunderbird migration required",
+      "body": [
+        "The required mail could not be imported or reconciled safely.",
+        "Preserve the original Thunderbird profile and all source exports.",
+        "Keep partial imports in separate folders.",
+        "Record the Thunderbird version, source format, migration method and exact errors.",
+        "Check profile compatibility, import format, mailbox storage and synchronisation issues.",
+        "For MBOX or EML, check ImportExportTools NG compatibility and usage instructions.",
+        "For Outlook PST, determine whether a supported Outlook import or conversion workflow is available.",
+        "Do not merge uncertain messages or delete original archives."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Thunderbird Import",
+          "description": "Official information about built-in import options.",
+          "url": "https://support.mozilla.org/en-US/kb/thunderbird-import"
+        },
+        {
+          "name": "Mozilla: Move Thunderbird Data",
+          "description": "Official Thunderbird profile migration procedure.",
+          "url": "https://support.mozilla.org/en-US/kb/moving-thunderbird-data-to-a-new-computer"
+        },
+        {
+          "name": "ImportExportTools NG",
+          "description": "Optional import and export extension for Thunderbird.",
+          "url": "https://addons.thunderbird.net/en-US/thunderbird/addon/importexporttools-ng/"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupComplete": {
+      "type": "terminal",
+      "title": "Thunderbird email setup completed",
+      "body": [
+        "The email account can send and receive messages.",
+        "Incoming and outgoing server settings are configured correctly.",
+        "For IMAP, the required server messages and folders have synchronised.",
+        "If no local-only mail is missing, no message import was necessary.",
+        "For POP, the server retention settings and local mail storage have been reviewed.",
+        "Any required previous messages or profile data have been restored, imported or retained as a verified separate archive.",
+        "Imported messages were reviewed for duplicates before merging into existing folders.",
+        "Check address books, signatures, filters and calendars separately where required.",
+        "Retain verified backups of important locally stored mail."
+      ],
+      "successNext": null,
+      "failNext": null
+    },
+    "setupEscalation": {
+      "type": "terminal",
+      "title": "Further Thunderbird account diagnostics",
+      "body": [
+        "Thunderbird cannot connect to the email provider after checking protocol and account settings.",
+        "Record the Thunderbird version, provider, account type and exact error.",
+        "Confirm that the selected IMAP or POP connection and authentication method are supported.",
+        "Check OAuth, multifactor authentication and administrator-controlled restrictions.",
+        "Compare the account with the provider's webmail service.",
+        "Use the Email Not Working guide for further connection and delivery diagnostics.",
+        "Preserve any existing POP and Local Folders data while investigating."
+      ],
+      "link": [
+        {
+          "name": "Mozilla: Thunderbird Support",
+          "description": "Official troubleshooting and configuration documentation.",
+          "url": "https://support.mozilla.org/en-US/products/thunderbird"
+        },
+        {
+          "name": "Mozilla: Manual Account Configuration",
+          "description": "Official incoming and outgoing server settings.",
+          "url": "https://support.mozilla.org/en-US/kb/manual-account-configuration"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
+    }
+  }
+}

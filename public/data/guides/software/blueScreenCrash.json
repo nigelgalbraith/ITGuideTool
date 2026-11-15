@@ -1,297 +1,562 @@
+
 {
   "id": "blueScreenCrash",
   "title": "Blue Screen / System Crash",
   "cardText": [
-    "Diagnose Windows blue screen crashes, stop errors, and system instability.",
-    "Check error codes, drivers, updates, memory, storage, system files, and hardware faults.",
-    "Separate software problems from hardware failures."
+    "Diagnose Windows blue screen crashes, stop codes and recurring system instability.",
+    "Investigate crash dumps, drivers, updates, RAM, storage, system files and hardware faults.",
+    "Identify the likely cause before replacing components or reinstalling Windows."
   ],
   "icon": "",
   "text": [
-    "This guide is for Windows systems that display a blue screen, stop error, or crash unexpectedly.",
-    "Record any error messages before restarting.",
-    "Check recent changes, drivers, updates, memory, storage, and system files.",
-    "Escalate hardware faults when software troubleshooting does not resolve the issue."
+    "This guide covers recurring Windows blue screen and stop-code errors.",
+    "Start by recording the stop code and checking the Windows crash history.",
+    "Use available crash logs to narrow down drivers, software or hardware problems.",
+    "Check recent changes, memory, storage and Windows system files where appropriate.",
+    "Back up important data before performing major repairs or recovery operations."
   ],
   "startNode": "checkBlueScreenCode",
   "nodes": {
     "checkBlueScreenCode": {
-      "title": "Check for a blue screen error code",
+      "title": "Record the Windows stop code",
       "body": [
-        "Record any stop code or error message shown on the blue screen.",
-        "Examples include MEMORY_MANAGEMENT, CRITICAL_PROCESS_DIED, PAGE_FAULT_IN_NONPAGED_AREA, and IRQL_NOT_LESS_OR_EQUAL.",
-        "The stop code often provides the first clue."
+        "Record the exact stop code shown when Windows crashes.",
+        "Examples include MEMORY_MANAGEMENT, CRITICAL_PROCESS_DIED, PAGE_FAULT_IN_NONPAGED_AREA and IRQL_NOT_LESS_OR_EQUAL.",
+        "Record any driver or system file name displayed alongside the code.",
+        "Check whether the same stop code appears repeatedly or whether different errors occur.",
+        "A stop code is a starting point for diagnosis, not proof that a particular component has failed.",
+        "If the computer restarts too quickly to read the code, inspect the Windows crash history or dump files."
       ],
-      "successLabel": "Code Available",
-      "failLabel": "No Code",
-      "successNext": "checkRecentChanges",
+      "link": [
+        {
+          "name": "Microsoft: Windows stop-code troubleshooting",
+          "description": "Official explanations and troubleshooting procedures for Windows blue screen errors.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        },
+        {
+          "name": "Microsoft: Advanced stop-error troubleshooting",
+          "description": "Technical reference for diagnosing Windows bugchecks and crash dumps.",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/troubleshoot-stop-errors"
+        }
+      ],
+      "successLabel": "Code Recorded",
+      "failLabel": "No Code Available",
+      "successNext": "checkCrashHistory",
+      "failNext": "checkCrashHistory"
+    },
+    "checkCrashHistory": {
+      "title": "Check Windows crash history",
+      "body": [
+        "Press Windows + R, enter perfmon /rel and press Enter.",
+        "Reliability Monitor shows a timeline of application failures, Windows errors and unexpected shutdowns.",
+        "Select a date corresponding to a blue screen and inspect the critical events.",
+        "Open View technical details where available to check for bugcheck information.",
+        "Record the dates, error codes and any component or application mentioned.",
+        "Look for a pattern connecting the first crash to a driver, update or hardware change."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Reliability Monitor command",
+          "description": "Official documentation for opening Reliability Monitor using perfmon /rel.",
+          "url": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/perfmon"
+        }
+      ],
+      "image": "bsod-reliability-monitor.jpg",
+      "alt": "Windows Reliability Monitor showing critical system failures on a dated timeline",
+      "caption": "Reliability Monitor helps identify recurring crashes and when they first occurred.",
+      "successLabel": "Crash Details Found",
+      "failLabel": "No Useful Details",
+      "successNext": "checkCrashDumps",
       "failNext": "checkRecentChanges"
     },
-
-    "checkRecentChanges": {
-      "title": "Check recent changes",
+    "checkCrashDumps": {
+      "title": "Check Windows crash dump files",
       "body": [
-        "Determine whether the issue started after installing hardware, drivers, updates, or software.",
-        "Recent changes often reveal the source of instability."
+        "Open File Explorer and check C:\\Windows\\Minidump for recent .dmp files.",
+        "Also check whether C:\\Windows\\MEMORY.DMP exists.",
+        "These files may contain technical information about the system when it crashed.",
+        "If dump files are available, an experienced technician can inspect them using Microsoft WinDbg.",
+        "In WinDbg, open the dump file and run !analyze -v for detailed bugcheck analysis.",
+        "Record the bugcheck code and any consistently identified third-party driver.",
+        "A driver name or module mentioned in a dump is not always the root cause.",
+        "Crash dumps can contain sensitive system information, so avoid sharing them publicly."
       ],
-      "successLabel": "Recent Change Found",
+      "link": [
+        {
+          "name": "Microsoft: Analyse Windows stop errors",
+          "description": "Official guidance for examining crash dumps and interpreting bugchecks with WinDbg.",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/troubleshoot-stop-errors"
+        },
+        {
+          "name": "Microsoft: WinDbg documentation",
+          "description": "Microsoft's Windows debugging tools and crash analysis reference.",
+          "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/"
+        }
+      ],
+      "successLabel": "Useful Cause Identified",
+      "failLabel": "No Clear Cause",
+      "successNext": "investigateCrashEvidence",
+      "failNext": "checkRecentChanges"
+    },
+    "investigateCrashEvidence": {
+      "title": "Investigate the crash evidence",
+      "body": [
+        "Compare the bugcheck code, dump analysis and crash history.",
+        "Check whether a particular third-party driver repeatedly appears in the failures.",
+        "Look for hardware error records, memory-related failures or storage-related stop codes.",
+        "If the evidence points to a driver, investigate that driver first.",
+        "If no component can be identified confidently, continue with the standard troubleshooting checks.",
+        "Avoid replacing hardware based only on a generic stop code."
+      ],
+      "successLabel": "Driver / Software Suspected",
+      "failLabel": "Hardware / Unclear",
+      "successNext": "checkDrivers",
+      "failNext": "checkRecentChanges"
+    },
+    "checkRecentChanges": {
+      "title": "Check recent hardware and software changes",
+      "body": [
+        "Determine whether the blue screens began after installing a driver, Windows update, application or hardware component.",
+        "Check recently installed RAM, graphics cards, storage devices and peripherals.",
+        "Review changes to BIOS settings, XMP, EXPO, overclocking or undervolting.",
+        "Compare the timing of the changes with Reliability Monitor's crash history.",
+        "If a particular change closely matches the first crash, test reversing it."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot stop-code errors",
+          "description": "Official guidance for checking newly installed hardware and software.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
+      ],
+      "successLabel": "Relevant Change Found",
       "failLabel": "No Recent Change",
       "successNext": "undoRecentChange",
       "failNext": "checkWindowsUpdates"
     },
-
     "undoRecentChange": {
-      "title": "Undo recent change",
+      "title": "Reverse the suspected change",
       "body": [
-        "Remove, disable, or roll back the recent change if safe to do so.",
-        "Restart the computer and monitor for additional crashes."
+        "Roll back or remove the driver, application or hardware change associated with the crashes.",
+        "If new hardware was fitted, test with the previous hardware configuration where practical.",
+        "Restore supported default BIOS, memory or overclocking settings if the crashes followed a configuration change.",
+        "Make one change at a time so the result can be evaluated.",
+        "Monitor stability after each change."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Crashes Stopped",
       "failLabel": "Still Crashing",
       "successNext": null,
       "failNext": "checkWindowsUpdates"
     },
-
     "checkWindowsUpdates": {
-      "title": "Check recent Windows updates",
+      "title": "Check Windows update history",
       "body": [
-        "Review update history.",
-        "Some crashes begin after driver or Windows updates.",
-        "Check whether the timing matches the start of the issue."
+        "Open Settings, Windows Update, Update history.",
+        "Check whether a cumulative update, feature update or driver update was installed immediately before the crashes began.",
+        "Compare the installation dates with the recorded crash history.",
+        "Review any documented issues affecting the installed update.",
+        "Do not uninstall updates simply because they are recent.",
+        "If the evidence points to a specific update, investigate the supported rollback procedure."
       ],
-      "successLabel": "Update Related",
-      "failLabel": "Not Update Related",
+      "link": [
+        {
+          "name": "Microsoft: Windows recovery options",
+          "description": "Official recovery options for Windows after problematic system changes.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/backup-recovery/recovery-options-in-windows"
+        }
+      ],
+      "successLabel": "Update Suspected",
+      "failLabel": "No Update Issue",
       "successNext": "rollbackUpdate",
       "failNext": "checkDrivers"
     },
-
     "rollbackUpdate": {
-      "type": "terminal",
-      "title": "Rollback update",
+      "title": "Remove the suspected Windows update",
       "body": [
-        "The crash appears related to a recent update.",
-        "Roll back the update if appropriate and monitor stability.",
-        "Install replacement updates when available."
+        "Confirm which Windows update is associated with the start of the crashes.",
+        "Open Windows Update, Update history, Uninstall updates where supported.",
+        "Remove only the relevant update if Microsoft provides a supported removal option.",
+        "Some updates cannot be uninstalled.",
+        "If the system cannot start normally, Windows Recovery Environment may provide an Uninstall Updates option.",
+        "Check that the BitLocker recovery key is available before recovery operations that may require it.",
+        "Restart and monitor stability after the change."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Windows recovery options",
+          "description": "Official recovery procedures including uninstalling updates and System Restore.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/backup-recovery/recovery-options-in-windows"
+        }
+      ],
+      "successLabel": "Crashes Stopped",
+      "failLabel": "Still Crashing",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkDrivers"
     },
-
     "checkDrivers": {
-      "title": "Check drivers",
+      "title": "Check device drivers",
       "body": [
-        "Review recently updated drivers.",
-        "Graphics, storage, chipset, and network drivers are common causes of blue screens.",
-        "Update or roll back drivers as needed."
+        "Open Device Manager and look for devices showing warning symbols or error codes.",
+        "Review the drivers implicated by crash dumps or recent changes.",
+        "Pay particular attention to graphics, chipset, storage and network drivers when relevant.",
+        "Compare installed driver versions with the computer or component manufacturer's supported versions.",
+        "If a crash began after a driver update, use Device Manager, Properties, Driver, Roll Back Driver where available.",
+        "Otherwise update or reinstall the affected driver from a trusted manufacturer source.",
+        "Avoid indiscriminately replacing every driver."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Update or roll back drivers",
+          "description": "Official Device Manager instructions for updating, reinstalling and rolling back drivers.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/update-drivers-through-device-manager-in-windows"
+        }
       ],
       "successLabel": "Driver Issue Found",
       "failLabel": "No Driver Issue",
       "successNext": "repairDriverIssue",
       "failNext": "checkSafeMode"
     },
-
     "repairDriverIssue": {
-      "type": "terminal",
-      "title": "Driver issue identified",
+      "title": "Repair the affected driver",
       "body": [
-        "A driver appears responsible for the crashes.",
-        "Update, reinstall, or roll back the driver.",
-        "Monitor system stability after the change."
+        "Update, roll back or reinstall the driver associated with the crashes.",
+        "Use a driver compatible with the installed Windows version and hardware.",
+        "If the problem began after an update, try the previous stable driver when available.",
+        "Restart Windows after the change if required.",
+        "Monitor whether the same stop code or crash returns."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Driver repair procedures",
+          "description": "Instructions for reinstalling or rolling back a problem driver.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/update-drivers-through-device-manager-in-windows"
+        }
+      ],
+      "successLabel": "Crashes Stopped",
+      "failLabel": "Still Crashing",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkSafeMode"
     },
-
     "checkSafeMode": {
-      "title": "Test Safe Mode",
+      "title": "Test Windows Safe Mode",
       "body": [
-        "Boot Windows into Safe Mode.",
-        "Safe Mode loads a minimal driver set.",
-        "If crashes stop, a driver or software conflict is likely."
+        "Access Windows Recovery Environment and select Troubleshoot, Advanced options, Startup Settings, Restart.",
+        "Select Safe Mode from the startup options.",
+        "Safe Mode starts Windows using a limited selection of drivers and services.",
+        "Check whether the computer remains stable while performing basic tasks.",
+        "If crashes occur only during normal startup, a third-party driver, service or application may be involved.",
+        "Safe Mode cannot reproduce every workload, so stability there does not completely rule out hardware problems.",
+        "Restart normally after testing."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Windows Startup Settings and Safe Mode",
+          "description": "Official instructions for entering and exiting Safe Mode.",
+          "url": "https://support.microsoft.com/en-au/windows/experience/startup-boot/windows-startup-settings"
+        }
       ],
       "successLabel": "Stable In Safe Mode",
       "failLabel": "Still Crashes",
       "successNext": "softwareConflict",
       "failNext": "checkMemory"
     },
-
     "softwareConflict": {
-      "type": "terminal",
-      "title": "Software or driver conflict likely",
+      "title": "Investigate software or driver conflicts",
       "body": [
-        "The system is stable in Safe Mode.",
-        "Investigate startup software, third-party drivers, antivirus products, and recently installed applications."
+        "Review third-party drivers, startup applications, security software and services.",
+        "Consider a clean boot to isolate non-Microsoft services and startup applications.",
+        "Disable one suspected component at a time and retest normal Windows startup.",
+        "Check the crash history after each change.",
+        "If the computer continues crashing, investigate memory and other hardware."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Windows stop-code troubleshooting",
+          "description": "Official troubleshooting for recurring crashes and software conflicts.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
+      ],
+      "successLabel": "Conflict Resolved",
+      "failLabel": "Still Crashing",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkMemory"
     },
-
     "checkMemory": {
-      "title": "Check memory (RAM)",
+      "title": "Test system memory",
       "body": [
-        "Run a memory diagnostic tool.",
-        "Faulty RAM is one of the most common causes of blue screens.",
-        "Test memory modules individually if necessary."
+        "Press Windows + R, enter mdsched.exe and press Enter.",
+        "Save open files and select Restart now and check for problems.",
+        "Allow Windows Memory Diagnostic to complete.",
+        "Check the diagnostic results when Windows restarts.",
+        "If errors are reported, investigate individual RAM modules, memory slots and configuration.",
+        "If XMP or EXPO is enabled, temporarily test with supported default memory settings.",
+        "Passing a basic memory test does not completely exclude intermittent memory instability."
       ],
-      "successLabel": "Memory Healthy",
+      "link": [
+        {
+          "name": "Microsoft: Windows stop-error troubleshooting",
+          "description": "Official guidance for memory-related Windows crashes and hardware diagnostics.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
+      ],
+      "image": "bsod-memory-diagnostic.png",
+      "alt": "Windows Memory Diagnostic dialog showing Restart now and check for problems",
+      "caption": "Use Windows Memory Diagnostic to test for memory faults that may cause blue screens.",
+      "successLabel": "No Memory Errors",
       "failLabel": "Memory Errors Found",
       "successNext": "checkStorageHealth",
-      "failNext": "replaceMemory"
+      "failNext": "investigateMemoryFault"
     },
-
+    "investigateMemoryFault": {
+      "title": "Isolate the memory fault",
+      "body": [
+        "Record any memory diagnostic errors.",
+        "For desktops, test one RAM module at a time using the motherboard's recommended slot.",
+        "Test modules under supported default settings before concluding that the hardware is defective.",
+        "Check whether errors follow a specific memory module or slot.",
+        "An unstable XMP or EXPO configuration may cause errors without a defective RAM module.",
+        "If the cause remains unclear, further memory and motherboard diagnostics may be necessary."
+      ],
+      "successLabel": "Fault Isolated",
+      "failLabel": "Still Unclear",
+      "successNext": "replaceMemory",
+      "failNext": "hardwareEscalation"
+    },
     "replaceMemory": {
       "type": "terminal",
-      "title": "Memory fault identified",
+      "title": "Memory fault or configuration issue identified",
       "body": [
-        "Memory testing detected errors.",
-        "Replace the faulty RAM and retest system stability."
+        "Testing has isolated a defective RAM module or unstable memory configuration.",
+        "Replace the faulty module if a physical defect is confirmed.",
+        "If errors occur only with XMP or EXPO enabled, restore stable supported memory settings.",
+        "Check motherboard memory compatibility and recommended slot placement.",
+        "Run memory diagnostics again and monitor system stability.",
+        "If errors persist with known-working RAM, investigate the motherboard or memory controller."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkStorageHealth": {
-      "title": "Check storage health",
+      "title": "Check SSD or HDD health",
       "body": [
-        "Review SSD or HDD health information.",
-        "Storage corruption can trigger blue screens.",
-        "Check SMART data and event logs for disk-related errors."
+        "Review SSD or HDD SMART information using a suitable manufacturer diagnostic utility.",
+        "Check Windows System event logs for disk, storage controller or repeated I/O errors.",
+        "Check available free space on the Windows system drive.",
+        "A failing drive or storage controller can cause crashes and operating system corruption.",
+        "If the drive reports critical warnings or media failures, protect the data before running intensive tests.",
+        "If no storage fault is evident, continue with Windows system file checks."
       ],
-      "successLabel": "Storage Healthy",
-      "failLabel": "Storage Problem Found",
+      "link": [
+        {
+          "name": "Microsoft: Windows stop-code troubleshooting",
+          "description": "Guidance covering storage issues, free space and hardware-related crashes.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/performance-optimization/troubleshooting-windows-unexpected-restarts-and-stop-code-errors"
+        }
+      ],
+      "successLabel": "Storage Appears Healthy",
+      "failLabel": "Storage Fault Found",
       "successNext": "checkSystemFiles",
       "failNext": "replaceStorage"
     },
-
     "replaceStorage": {
       "type": "terminal",
       "title": "Storage fault identified",
       "body": [
-        "The storage device appears unreliable.",
-        "Back up important data immediately.",
-        "Replace the drive and restore or reinstall Windows."
+        "The storage device has reported errors indicating a possible hardware fault.",
+        "Back up important data immediately if accessible.",
+        "Confirm the faulty device using manufacturer diagnostics or other reliable evidence.",
+        "Replace the drive if a hardware defect is confirmed.",
+        "Restore the operating system and user data as appropriate.",
+        "Retest Windows stability after repairing the storage problem."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkSystemFiles": {
-      "title": "Check Windows system files",
+      "title": "Check Windows system file integrity",
       "body": [
-        "Corrupted operating system files can cause crashes.",
-        "Run SFC and DISM repairs if appropriate.",
-        "Restart the computer afterwards."
+        "Open Command Prompt or Windows Terminal as administrator.",
+        "Run DISM /Online /Cleanup-Image /RestoreHealth",
+        "After DISM completes, run sfc /scannow",
+        "DISM checks and repairs the Windows component store used by system file repair.",
+        "SFC checks protected Windows system files and repairs corruption where possible.",
+        "Allow both commands to finish and record their results.",
+        "If corruption is repaired, restart Windows and retest stability."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Using System File Checker",
+          "description": "Official instructions for running DISM and SFC to repair Windows system files.",
+          "url": "https://support.microsoft.com/en-au/windows/experience/backup-recovery/using-system-file-checker-in-windows"
+        }
       ],
       "successLabel": "Corruption Found",
       "failLabel": "No Corruption Found",
       "successNext": "repairSystemFiles",
       "failNext": "checkTemperatures"
     },
-
     "repairSystemFiles": {
-      "type": "terminal",
-      "title": "Repair system files",
+      "title": "Retest after Windows system file repair",
       "body": [
-        "System file corruption was detected.",
-        "Repair completed successfully.",
-        "Monitor the system for further crashes."
+        "Review the DISM and SFC results to determine whether the repairs completed successfully.",
+        "If corruption remains, check Microsoft's guidance for additional repair options.",
+        "Restart Windows and test the activities that previously caused crashes.",
+        "If the computer remains stable, the system file repair may have resolved the issue.",
+        "If blue screens continue, investigate cooling and hardware instability."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Repair corrupt Windows system files",
+          "description": "Official instructions for further action when DISM or SFC reports corruption.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/backup-recovery/use-the-system-file-checker-tool-to-repair-missing-or-corrupted-system-files"
+        }
+      ],
+      "successLabel": "Crashes Stopped",
+      "failLabel": "Still Crashing",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkTemperatures"
     },
-
     "checkTemperatures": {
-      "title": "Check temperatures",
+      "title": "Check CPU and GPU temperatures",
       "body": [
-        "Monitor CPU and GPU temperatures.",
-        "Excessive heat can cause instability and blue screens.",
-        "Check for dust buildup and cooling issues."
+        "Use a reputable hardware monitoring utility to inspect CPU and GPU temperatures.",
+        "Compare readings with the hardware manufacturer's supported temperature limits.",
+        "Check for overheating, thermal throttling and abnormal cooling fan behaviour.",
+        "Inspect cooling fans, heatsinks, air vents and case airflow.",
+        "Do not assume a high temperature is abnormal without checking the component's specification.",
+        "Avoid prolonged stress testing if the computer is already overheating or unstable."
       ],
       "successLabel": "Temperatures Normal",
       "failLabel": "Overheating Found",
       "successNext": "checkEventViewer",
       "failNext": "resolveCoolingIssue"
     },
-
     "resolveCoolingIssue": {
-      "type": "terminal",
-      "title": "Cooling issue identified",
+      "title": "Correct the cooling problem",
       "body": [
-        "The system is overheating.",
-        "Clean cooling components and improve airflow.",
-        "Retest after temperatures return to normal."
+        "Remove dust from air vents, heatsinks and fans using an appropriate cleaning method.",
+        "Check that cooling fans operate normally.",
+        "For desktops, verify the CPU cooler is properly mounted and case airflow is unobstructed.",
+        "For laptops, check vents and the cooling system according to manufacturer guidance.",
+        "After repairs, monitor temperatures and retest the computer.",
+        "If temperatures return to normal but crashes continue, inspect Windows event logs."
       ],
+      "successLabel": "Crashes Stopped",
+      "failLabel": "Still Crashing",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkEventViewer"
     },
-
     "checkEventViewer": {
-      "title": "Review Event Viewer",
+      "title": "Review Windows Event Viewer",
       "body": [
-        "Review System logs around the crash time.",
-        "Look for recurring warnings, driver failures, storage errors, or hardware events.",
-        "Document recurring patterns."
+        "Press Windows + R, enter eventvwr.msc and press Enter.",
+        "Open Windows Logs, System.",
+        "Inspect errors around the times of the blue screens.",
+        "Look for BugCheck Event ID 1001, recurring WHEA-Logger hardware errors, storage errors and driver failures.",
+        "Kernel-Power Event ID 41 indicates an unexpected shutdown but does not identify the underlying fault.",
+        "Compare timestamps and error details with the Reliability Monitor history.",
+        "Investigate repeated, relevant errors rather than unrelated warnings."
       ],
-      "successLabel": "Useful Errors Found",
+      "link": [
+        {
+          "name": "Microsoft: Advanced Windows stop-error troubleshooting",
+          "description": "Technical reference for collecting and analysing Windows crash information.",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/troubleshoot-stop-errors"
+        },
+        {
+          "name": "Microsoft: Kernel-Power Event ID 41",
+          "description": "Explains why Event ID 41 alone does not identify the cause of a crash or power loss.",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart"
+        }
+      ],
+      "successLabel": "Relevant Error Found",
       "failLabel": "No Useful Errors",
       "successNext": "researchCrashCause",
       "failNext": "checkFirmware"
     },
-
     "researchCrashCause": {
-      "title": "Investigate recurring error",
+      "title": "Investigate recurring crash errors",
       "body": [
-        "Research the recurring event or stop code.",
-        "Apply any known fixes associated with the fault."
+        "Record the recurring error source, event ID, stop code and any associated driver.",
+        "Compare the findings with crash dumps and previous diagnostic results.",
+        "Check the official documentation for the implicated driver, device or Windows component.",
+        "If WHEA hardware errors are present, investigate the relevant processor, memory, PCIe or hardware subsystem.",
+        "Use the evidence to select a targeted repair rather than applying unrelated fixes."
       ],
-      "successLabel": "Fix Available",
-      "failLabel": "No Clear Fix",
+      "successLabel": "Specific Fix Identified",
+      "failLabel": "Cause Still Unclear",
       "successNext": "applySpecificFix",
       "failNext": "checkFirmware"
     },
-
     "applySpecificFix": {
-      "type": "terminal",
-      "title": "Apply targeted fix",
+      "title": "Apply the targeted repair",
       "body": [
-        "Apply the documented fix associated with the error.",
-        "Retest stability afterwards."
+        "Apply the repair supported by the identified error and manufacturer documentation.",
+        "Make one change at a time.",
+        "Restart Windows if required.",
+        "Test the workload or conditions that previously triggered the crash.",
+        "If crashes continue, check firmware and remaining hardware causes."
       ],
+      "successLabel": "Crashes Stopped",
+      "failLabel": "Still Crashing",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkFirmware"
     },
-
     "checkFirmware": {
-      "title": "Check BIOS and firmware",
+      "title": "Check BIOS and firmware stability",
       "body": [
-        "Review motherboard, storage, and device firmware versions.",
-        "Outdated firmware can cause stability issues.",
-        "Install updates according to manufacturer guidance."
+        "Check whether the system uses overclocking, undervolting or memory settings beyond supported defaults.",
+        "Review the installed BIOS version and the manufacturer's release notes.",
+        "Look for firmware fixes specifically addressing system stability, memory compatibility or hardware errors.",
+        "Check storage and graphics firmware only where relevant to the crash evidence.",
+        "An older firmware version is not automatically the cause of a blue screen.",
+        "Do not attempt a BIOS update when the computer cannot maintain stable power and there is no safe manufacturer-supported recovery method."
       ],
-      "successLabel": "Update Available",
-      "failLabel": "No Update Available",
+      "successLabel": "Relevant Update Found",
+      "failLabel": "No Relevant Update",
       "successNext": "updateFirmware",
       "failNext": "hardwareEscalation"
     },
-
     "updateFirmware": {
-      "type": "terminal",
-      "title": "Update firmware",
+      "title": "Apply the relevant firmware update",
       "body": [
-        "Install available firmware updates.",
-        "Retest system stability afterwards."
+        "Confirm that the update is intended for the exact computer or motherboard model.",
+        "Read the manufacturer's release notes and instructions before proceeding.",
+        "Ensure the computer has a stable power source.",
+        "For laptops, meet the manufacturer's charger and battery requirements.",
+        "If BitLocker is enabled, confirm the recovery key is available and follow guidance about suspending protection.",
+        "Do not interrupt the update.",
+        "If reliable power cannot be guaranteed, postpone the update and proceed with further diagnostics.",
+        "Retest system stability after the update."
       ],
+      "successLabel": "Crashes Stopped",
+      "failLabel": "Still Crashing",
       "successNext": null,
-      "failNext": null
+      "failNext": "hardwareEscalation"
     },
-
     "hardwareEscalation": {
       "type": "terminal",
-      "title": "Advanced hardware diagnostics required",
+      "title": "Further system diagnostics required",
       "body": [
-        "Drivers, updates, memory, storage, system files, temperatures, and firmware have been checked.",
-        "Possible causes include motherboard faults, CPU instability, GPU faults, power issues, or intermittent hardware failures.",
-        "Escalate for advanced diagnostics."
+        "Blue screens continue after checking crash evidence, software, drivers, memory, storage, system files and cooling.",
+        "Possible causes include motherboard faults, unstable RAM or memory controller, CPU faults, graphics hardware or power delivery problems.",
+        "Review any WHEA errors and crash dumps for consistent hardware-related evidence.",
+        "For desktops, test with known-working compatible components where practical.",
+        "Consider Windows recovery or repair installation only after checking backups and whether a hardware fault remains likely.",
+        "Do not replace expensive components based solely on a generic stop code.",
+        "Record the stop codes, crash dump findings and completed tests before arranging advanced diagnostics."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Advanced stop-error troubleshooting",
+          "description": "Technical Windows crash analysis and hardware diagnosis guidance.",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/troubleshoot-stop-errors"
+        },
+        {
+          "name": "Microsoft: Windows recovery options",
+          "description": "Official recovery and repair options when other troubleshooting is unsuccessful.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/backup-recovery/recovery-options-in-windows"
+        }
       ],
       "successNext": null,
       "failNext": null

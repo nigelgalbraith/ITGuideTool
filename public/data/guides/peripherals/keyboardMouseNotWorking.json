@@ -1,231 +1,365 @@
+
 {
   "id": "keyboardMouseNotWorking",
   "title": "Keyboard or Mouse Not Working",
   "cardText": [
-    "Diagnose keyboards and mice that do not respond, disconnect unexpectedly, or are not detected.",
-    "Check power, batteries, connections, drivers, Bluetooth, wireless receivers, and hardware faults.",
-    "Separate device faults from operating system and driver issues."
+    "Diagnose a keyboard or mouse that does not respond, disconnects or behaves unexpectedly.",
+    "Check USB connections, batteries, wireless receivers, Bluetooth pairing and Windows drivers.",
+    "Determine whether the problem is with the device, connection or computer."
   ],
   "icon": "",
   "text": [
-    "This guide is for keyboards and mice that are not responding or are behaving unexpectedly.",
-    "Check simple issues such as batteries, connections, and power before investigating drivers.",
-    "Determine whether the issue affects one device or multiple input devices.",
-    "Escalate hardware faults after software troubleshooting is complete."
+    "This guide helps troubleshoot external keyboards and mice on Windows computers.",
+    "Start with simple connection and power checks before changing Windows settings.",
+    "Identify whether the device uses a USB cable, a wireless USB receiver or Bluetooth.",
+    "If neither keyboard nor mouse works, try a known-working wired USB device before continuing.",
+    "The Windows instructions are primarily for Windows 11."
   ],
   "startNode": "identifyAffectedDevice",
   "nodes": {
     "identifyAffectedDevice": {
       "title": "Identify the affected device",
       "body": [
-        "Determine whether the issue affects a keyboard, mouse, or both.",
-        "If both devices fail at the same time, the cause is often the computer rather than the devices themselves."
+        "Determine whether the keyboard, mouse or both devices are affected.",
+        "Check whether the computer itself is responding. Look for a frozen screen, unresponsive applications or a system that has stopped starting up.",
+        "If both input devices fail together, try another known-working wired USB keyboard or mouse.",
+        "If only one device is affected, begin by checking its connection type."
       ],
       "successLabel": "One Device",
       "failLabel": "Both Devices",
       "successNext": "checkConnectionType",
       "failNext": "testAlternateInput"
     },
-
     "checkConnectionType": {
-      "title": "Identify connection type",
+      "title": "Identify the connection type",
       "body": [
-        "Determine whether the device is USB, wireless, or Bluetooth.",
-        "Different connection methods require different troubleshooting."
+        "Check how the affected keyboard or mouse connects to the computer.",
+        "A wired USB device has a cable connected directly to the computer.",
+        "A wireless device may use a small USB receiver or connect through Bluetooth.",
+        "Wireless USB receivers and Bluetooth connections are different and require separate checks."
       ],
-      "successLabel": "USB",
-      "failLabel": "Wireless/Bluetooth",
+      "successLabel": "Wired USB",
+      "failLabel": "Wireless",
       "successNext": "checkUsbConnection",
       "failNext": "checkWirelessPower"
     },
-
     "checkUsbConnection": {
-      "title": "Check USB connection",
+      "title": "Check the wired USB connection",
       "body": [
-        "Reconnect the device.",
-        "Try a different USB port.",
-        "Avoid USB hubs during testing."
+        "Disconnect and reconnect the keyboard or mouse.",
+        "Try another USB port, preferably directly on the computer.",
+        "Avoid USB hubs and docking stations during testing.",
+        "Check the cable and connector for visible damage.",
+        "Allow Windows a moment to detect the reconnected device.",
+        "If the device now responds, the connection or original USB port may have been the problem."
       ],
-      "successLabel": "Still Not Working",
-      "failLabel": "Works Now",
-      "successNext": "checkDeviceManager",
-      "failNext": null
+      "link": [
+        {
+          "name": "Microsoft: Mouse and keyboard problems",
+          "description": "Official Windows checks for cables, USB ports and input devices.",
+          "url": "https://support.microsoft.com/en-gb/windows/hardware/input-devices/mouse-and-keyboard-problems-in-windows"
+        }
+      ],
+      "successLabel": "Works Now",
+      "failLabel": "Still Not Working",
+      "successNext": null,
+      "failNext": "testAlternateInput"
     },
-
     "checkWirelessPower": {
-      "title": "Check batteries and power",
+      "title": "Check wireless device power",
       "body": [
-        "Confirm the device is switched on.",
-        "Replace or recharge batteries.",
-        "Check for power indicator lights."
+        "Confirm the keyboard or mouse is switched on.",
+        "Replace the batteries with fresh ones or fully recharge the device.",
+        "Check battery orientation and the battery compartment contacts where applicable.",
+        "Look for any power or connection indicator lights.",
+        "Move the device closer to the computer while testing.",
+        "If the device now works, the problem was likely related to power or range."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Mouse and keyboard problems",
+          "description": "Official checks for wireless device batteries, switches and connections.",
+          "url": "https://support.microsoft.com/en-gb/windows/hardware/input-devices/mouse-and-keyboard-problems-in-windows"
+        }
       ],
       "successLabel": "Power OK",
-      "failLabel": "Power Issue",
-      "successNext": "checkWirelessReceiver",
+      "failLabel": "Power Problem",
+      "successNext": "identifyWirelessConnection",
       "failNext": "replaceBatteries"
     },
-
     "replaceBatteries": {
       "type": "terminal",
-      "title": "Replace batteries or recharge device",
+      "title": "Replace batteries or recharge the device",
       "body": [
-        "Low battery power is a common cause of keyboard and mouse failures.",
-        "Replace or recharge the batteries and test again."
+        "Fit fresh batteries or recharge the keyboard or mouse.",
+        "Confirm the device switches on.",
+        "Test it again after restoring power.",
+        "If the device still does not power on, check its battery contacts, charging cable and power switch.",
+        "A device that remains completely unresponsive may require repair or replacement."
       ],
       "successNext": null,
       "failNext": null
     },
-
+    "identifyWirelessConnection": {
+      "title": "Does the device use a USB wireless receiver?",
+      "body": [
+        "Look for a small USB receiver plugged into the computer.",
+        "Some receivers are stored inside the mouse or keyboard battery compartment when not in use.",
+        "Devices using a dedicated USB receiver usually do not need Windows Bluetooth pairing.",
+        "If there is no USB receiver and the device is paired directly through Windows Bluetooth settings, choose Bluetooth."
+      ],
+      "successLabel": "USB Receiver",
+      "failLabel": "Bluetooth",
+      "successNext": "checkWirelessReceiver",
+      "failNext": "checkBluetoothConnection"
+    },
     "checkWirelessReceiver": {
-      "title": "Check wireless receiver",
+      "title": "Check the wireless USB receiver",
       "body": [
-        "If the device uses a USB receiver, ensure it is connected.",
-        "Try another USB port if available.",
-        "Look for physical damage."
+        "Confirm the receiver is firmly connected to a working USB port.",
+        "Unplug it, wait approximately 10 seconds and reconnect it.",
+        "Try another USB port directly on the computer.",
+        "Move the receiver closer to the wireless device if possible.",
+        "Keep the receiver away from obvious sources of wireless interference.",
+        "Some keyboards and mice require a manufacturer-specific receiver and cannot use a generic replacement."
       ],
-      "successLabel": "Receiver OK",
-      "failLabel": "Receiver Issue",
-      "successNext": "checkBluetoothConnection",
-      "failNext": "receiverFault"
-    },
-
-    "receiverFault": {
-      "type": "terminal",
-      "title": "Wireless receiver issue found",
-      "body": [
-        "The wireless receiver appears faulty or disconnected.",
-        "Reconnect or replace the receiver if supported."
+      "link": [
+        {
+          "name": "Microsoft: Wireless mouse and keyboard troubleshooting",
+          "description": "Official instructions for checking USB wireless receivers and connections.",
+          "url": "https://support.microsoft.com/en-gb/windows/hardware/input-devices/mouse-and-keyboard-problems-in-windows"
+        }
       ],
+      "successLabel": "Works Now",
+      "failLabel": "Still Not Working",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkReceiverPairing"
     },
-
-    "checkBluetoothConnection": {
-      "title": "Check Bluetooth connection",
+    "checkReceiverPairing": {
+      "title": "Check receiver compatibility and pairing",
       "body": [
-        "Verify the device is paired.",
-        "Remove and re-pair the device if necessary.",
-        "Bluetooth devices may disconnect after updates or power events."
+        "Confirm the USB receiver belongs to the affected keyboard or mouse.",
+        "Some manufacturers provide software for pairing a compatible replacement receiver.",
+        "Check whether the device has a connection or pairing button.",
+        "Follow the manufacturer's instructions for that exact model.",
+        "Do not attempt Windows Bluetooth pairing for a device that only supports a dedicated USB receiver.",
+        "If the receiver or device still fails, test with another computer where practical."
       ],
-      "successLabel": "Bluetooth OK",
-      "failLabel": "Bluetooth Issue",
+      "successLabel": "Connection Restored",
+      "failLabel": "Still Not Working",
+      "successNext": null,
+      "failNext": "testAlternateInput"
+    },
+    "checkBluetoothConnection": {
+      "title": "Check the Bluetooth connection",
+      "body": [
+        "Open Settings, Bluetooth & devices.",
+        "Confirm Bluetooth is switched on.",
+        "Check whether the keyboard or mouse appears in the connected devices list.",
+        "Move the device closer to the computer and confirm its battery is charged.",
+        "If Bluetooth is missing from Windows settings, the computer may have a Bluetooth adapter or driver problem.",
+        "If the device is not connected, try pairing it again."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot Bluetooth connections",
+          "description": "Official steps for Bluetooth devices that will not connect in Windows.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/bluetooth/troubleshoot-bluetooth-not-connecting-in-windows"
+        },
+        {
+          "name": "Microsoft: Bluetooth missing in Windows",
+          "description": "Troubleshooting for a missing or unavailable Bluetooth adapter.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/bluetooth/fix-bluetooth-disappeared-in-windows"
+        }
+      ],
+      "image": "keyboard-mouse-bluetooth.png",
+      "alt": "Windows 11 Bluetooth and devices settings with the Add device option",
+      "caption": "Check Bluetooth is enabled and that the keyboard or mouse is listed.",
+      "successLabel": "Connected",
+      "failLabel": "Not Connected",
       "successNext": "checkDeviceManager",
       "failNext": "repairBluetooth"
     },
-
     "repairBluetooth": {
-      "type": "terminal",
-      "title": "Repair Bluetooth connection",
+      "title": "Reconnect or pair the Bluetooth device",
       "body": [
-        "Remove the device and pair it again.",
-        "Retest input after pairing completes."
+        "Ensure the keyboard or mouse is switched on and charged.",
+        "Open Windows Settings, Bluetooth & devices.",
+        "If the device is already listed but will not connect, remove it from the list.",
+        "Put the device into pairing mode using the manufacturer's instructions.",
+        "Select Add device, then Bluetooth, and choose the keyboard or mouse.",
+        "Follow any pairing prompts, including entering a code on a Bluetooth keyboard if requested.",
+        "If pairing fails, try switching Bluetooth off and on, then repeat."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Pair a Bluetooth device",
+          "description": "Official instructions for pairing Bluetooth keyboards and mice.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/bluetooth/pair-a-bluetooth-device-in-windows"
+        },
+        {
+          "name": "Microsoft: Fix Bluetooth connection problems",
+          "description": "Further steps if Bluetooth pairing repeatedly fails.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/bluetooth/troubleshoot-bluetooth-not-connecting-in-windows"
+        }
+      ],
+      "image": "keyboard-mouse-pairing.jpg",
+      "alt": "Windows 11 Add a device dialog showing discoverable Bluetooth devices",
+      "caption": "Put the keyboard or mouse into pairing mode before selecting it in Windows.",
+      "successLabel": "Pairing Fixed",
+      "failLabel": "Still Not Working",
       "successNext": null,
-      "failNext": null
+      "failNext": "checkDeviceManager"
     },
-
     "testAlternateInput": {
-      "title": "Test another keyboard or mouse",
+      "title": "Test a known-working keyboard or mouse",
       "body": [
-        "Connect a known-good keyboard or mouse.",
-        "This helps determine whether the issue is with the device or the computer."
+        "Connect a known-working wired USB keyboard or mouse directly to the computer.",
+        "If both original devices were affected, test at least one replacement of each type where possible.",
+        "Try a different USB port if the replacement does not respond.",
+        "If the replacement works, investigate the original device, receiver or connection.",
+        "If the replacement also fails, investigate the computer and USB ports."
       ],
-      "successLabel": "New Device Works",
-      "failLabel": "New Device Fails",
+      "successLabel": "Replacement Works",
+      "failLabel": "Replacement Fails",
       "successNext": "deviceFault",
       "failNext": "checkUsbPorts"
     },
-
     "deviceFault": {
       "type": "terminal",
-      "title": "Input device fault found",
+      "title": "Original device or connection fault likely",
       "body": [
-        "The replacement device works correctly.",
-        "The original keyboard or mouse is likely faulty."
+        "A known-working replacement device responds normally.",
+        "This suggests a problem with the original keyboard, mouse, cable, wireless receiver or pairing.",
+        "If possible, test the original device on another compatible computer.",
+        "Check for a damaged cable, faulty batteries or a missing receiver.",
+        "Repair or replace the faulty device if necessary."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkUsbPorts": {
-      "title": "Check USB ports",
+      "title": "Check the computer's USB ports",
       "body": [
-        "Test the ports using another USB device.",
-        "Failed ports can affect multiple keyboards and mice."
+        "Test a known-working USB device in more than one port.",
+        "For a desktop computer, try a rear motherboard USB port instead of a front-panel port.",
+        "Disconnect unnecessary USB hubs and docking stations.",
+        "Check whether the ports work before Windows starts, such as in the BIOS or UEFI setup, if you are comfortable accessing it.",
+        "Do not change BIOS or UEFI settings unnecessarily.",
+        "If several ports fail with known-working devices, the problem may involve USB hardware or the operating system."
       ],
-      "successLabel": "Ports Work",
-      "failLabel": "Ports Faulty",
+      "successLabel": "USB Ports Work",
+      "failLabel": "USB Ports Fail",
       "successNext": "checkDeviceManager",
       "failNext": "usbPortFault"
     },
-
     "usbPortFault": {
       "type": "terminal",
-      "title": "USB port issue found",
+      "title": "USB port or controller problem",
       "body": [
-        "The USB ports are not functioning correctly.",
-        "Investigate USB controller drivers, motherboard ports, or physical damage."
+        "Known-working USB devices are not responding through the computer's USB ports.",
+        "Try ports on a different USB controller if available.",
+        "If the ports work in BIOS or UEFI but not Windows, investigate Windows USB drivers and recent changes.",
+        "If the ports also fail before Windows starts, a hardware problem is more likely.",
+        "Check for physical damage and arrange further diagnostics if necessary."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "checkDeviceManager": {
-      "title": "Check Device Manager",
+      "title": "Check the keyboard and mouse in Device Manager",
       "body": [
-        "Open Device Manager.",
-        "Look for warning symbols, disabled devices, or missing keyboard/mouse entries.",
-        "Driver issues commonly appear here."
+        "Right-click Start and open Device Manager, using a working input device.",
+        "Expand Keyboards and Mice and other pointing devices.",
+        "For wireless devices, also check Bluetooth and Human Interface Devices where appropriate.",
+        "Look for warning symbols, disabled devices or missing hardware.",
+        "Open the affected device's Properties and review Device status for an error code.",
+        "If there is no obvious driver error, continue with additional troubleshooting."
       ],
-      "successLabel": "Driver Issue Found",
-      "failLabel": "No Driver Issue",
+      "link": [
+        {
+          "name": "Microsoft: Mouse and keyboard driver troubleshooting",
+          "description": "Official instructions for checking and updating input device drivers.",
+          "url": "https://support.microsoft.com/en-gb/windows/hardware/input-devices/mouse-and-keyboard-problems-in-windows"
+        }
+      ],
+      "successLabel": "Driver Problem Found",
+      "failLabel": "No Driver Problem",
       "successNext": "reinstallDrivers",
       "failNext": "checkSafeMode"
     },
-
     "reinstallDrivers": {
-      "title": "Reinstall device drivers",
+      "title": "Update or reinstall the affected driver",
       "body": [
-        "Remove the affected device from Device Manager.",
-        "Restart the computer and allow Windows to reinstall it.",
-        "Retest the device afterwards."
+        "Before making changes, ensure you have another working input method available.",
+        "In Device Manager, right-click the affected keyboard, mouse or Bluetooth adapter.",
+        "Try Update driver and follow the instructions.",
+        "Check the computer or device manufacturer's support website for a compatible driver if needed.",
+        "If updating does not help, uninstall the affected device and restart Windows to allow it to be detected again.",
+        "Avoid removing unrelated HID devices or multiple input drivers at once.",
+        "Retest the keyboard or mouse after restarting."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Mouse and keyboard problems",
+          "description": "Official Windows guidance for input device connections and drivers.",
+          "url": "https://support.microsoft.com/en-gb/windows/hardware/input-devices/mouse-and-keyboard-problems-in-windows"
+        },
+        {
+          "name": "Microsoft: Update Bluetooth drivers",
+          "description": "Instructions for updating, reinstalling or rolling back a Bluetooth adapter driver.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/bluetooth/update-bluetooth-drivers-in-windows"
+        }
       ],
       "successLabel": "Fixed",
       "failLabel": "Still Not Working",
       "successNext": null,
       "failNext": "checkSafeMode"
     },
-
     "checkSafeMode": {
-      "title": "Test in Safe Mode",
+      "title": "Test the device in Windows Safe Mode",
       "body": [
-        "Boot into Safe Mode if possible.",
-        "If the device works there, software or driver conflicts may be responsible."
+        "If you have a working keyboard or mouse, restart Windows into Safe Mode.",
+        "Safe Mode starts Windows with a limited set of drivers and services.",
+        "Test a wired USB keyboard or mouse where possible because some wireless or Bluetooth features may not operate in Safe Mode.",
+        "If the device works in Safe Mode but fails during normal Windows startup, a software or driver conflict is possible.",
+        "If the device still fails, further testing is required to distinguish software from hardware.",
+        "Restart Windows normally after the test."
       ],
-      "successLabel": "Works In Safe Mode",
-      "failLabel": "Fails In Safe Mode",
+      "link": [
+        {
+          "name": "Microsoft: Windows startup settings and Safe Mode",
+          "description": "Official instructions for entering and exiting Windows Safe Mode.",
+          "url": "https://support.microsoft.com/en-au/windows/experience/startup-boot/windows-startup-settings"
+        }
+      ],
+      "successLabel": "Works in Safe Mode",
+      "failLabel": "Still Fails",
       "successNext": "softwareConflict",
       "failNext": "hardwareEscalation"
     },
-
     "softwareConflict": {
       "type": "terminal",
-      "title": "Software conflict likely",
+      "title": "Software or driver conflict likely",
       "body": [
-        "The device works in Safe Mode.",
-        "Investigate startup software, drivers, utilities, or recent updates."
+        "The device works in Safe Mode but not during normal Windows operation.",
+        "Check whether the problem started after installing an application, driver or Windows update.",
+        "Investigate keyboard and mouse utilities, device management software and startup applications.",
+        "Update or roll back a recently changed driver where appropriate.",
+        "Test again during normal Windows startup after making one change at a time."
       ],
       "successNext": null,
       "failNext": null
     },
-
     "hardwareEscalation": {
       "type": "terminal",
-      "title": "Further hardware diagnostics required",
+      "title": "Further input device diagnostics required",
       "body": [
-        "Power, drivers, ports, Bluetooth, and replacement device testing did not resolve the issue.",
-        "Possible causes include motherboard faults, USB controller failures, or internal hardware problems.",
-        "Escalate for hardware diagnostics."
+        "The keyboard or mouse is still not working after connection, power, driver and operating system checks.",
+        "Test the original device on another computer if possible.",
+        "If multiple known-working USB devices fail on the same computer, investigate USB controllers, motherboard connections or Windows installation problems.",
+        "If only one wireless device fails, investigate its receiver, radio connection or hardware.",
+        "Record any Device Manager error codes and troubleshooting results before arranging repair or further diagnostics."
       ],
       "successNext": null,
       "failNext": null

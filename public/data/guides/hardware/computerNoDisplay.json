@@ -1,17 +1,19 @@
+
 {
   "id": "computerNoDisplay",
   "title": "Computer Turns On But No Display",
   "cardText": [
     "Diagnose a computer that powers on but shows no image on the screen.",
-    "Check monitor power, display cables, input source, graphics output, RAM, and POST behaviour.",
-    "Separate simple display faults from internal hardware startup faults."
+    "Check monitor power, cables, input source, graphics output, RAM and POST indicators.",
+    "Distinguish monitor and connection problems from internal hardware startup faults."
   ],
   "icon": "",
   "text": [
-    "This guide is for computers that appear to turn on, but nothing is shown on the screen.",
-    "Confirm the monitor and cable before assuming the computer itself has failed.",
-    "Check whether the system is completing POST or stopping before display output begins.",
-    "Escalate internal hardware faults when display, cable, RAM, and graphics checks do not resolve the issue."
+    "This guide is for computers that appear to power on but show no picture.",
+    "Begin with the monitor, display cable and video connection before opening the computer.",
+    "Check whether the computer shows any startup logo or diagnostic information.",
+    "If there is never any video output, investigate POST indicators, graphics hardware and RAM.",
+    "Internal hardware checks are intended for people comfortable working inside desktop computers."
   ],
   "startNode": "confirmPowerActivity",
   "nodes": {
@@ -19,8 +21,17 @@
       "title": "Confirm the computer has power activity",
       "body": [
         "Press the power button and observe the computer.",
-        "Look for power lights, fan movement, keyboard lights, drive activity, or startup sounds.",
-        "This guide assumes the computer is receiving power but has no visible display output."
+        "Look for power lights, fan movement, keyboard lights or startup sounds.",
+        "A spinning fan does not necessarily mean the computer has completed startup.",
+        "If there are no signs of power, use the separate computer no-power guide.",
+        "If the computer powers on but shows no picture, continue."
+      ],
+      "link": [
+        {
+          "name": "Dell: No Power, No POST, No Boot or No Video",
+          "description": "Explains how to distinguish different computer startup failures.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125609/resolve-no-power-no-post-no-boot-or-no-video-issues-with-your-dell-computer"
+        }
       ],
       "successLabel": "Has Activity",
       "failLabel": "No Activity",
@@ -29,10 +40,11 @@
     },
     "useNoPowerGuide": {
       "type": "terminal",
-      "title": "Use the no-power guide",
+      "title": "Use the computer no-power guide",
       "body": [
-        "The computer does not appear to be powering on.",
-        "Use the Computer Won't Turn On guide instead, because this is likely a power delivery issue rather than a display issue."
+        "The computer shows no signs of powering on.",
+        "This is more likely to involve power delivery than a display connection.",
+        "Use the Computer Won't Turn On guide to check the power supply, power cable and other startup issues."
       ],
       "successNext": null,
       "failNext": null
@@ -40,12 +52,13 @@
     "checkMonitorPower": {
       "title": "Check monitor power",
       "body": [
-        "Confirm the monitor is turned on.",
-        "Check for a power light on the monitor.",
-        "If the monitor has no light, check the monitor power cable and wall outlet."
+        "Confirm the monitor is switched on.",
+        "Check its power indicator and press its menu button.",
+        "A monitor may enter standby when it receives no video signal.",
+        "If the monitor has no power indicator or menu, check its power cable and outlet."
       ],
       "successLabel": "Monitor On",
-      "failLabel": "Monitor Off",
+      "failLabel": "No Power",
       "successNext": "checkDisplayMessage",
       "failNext": "restoreMonitorPower"
     },
@@ -53,31 +66,66 @@
       "type": "terminal",
       "title": "Restore monitor power",
       "body": [
-        "The monitor is not receiving power or is not turned on.",
-        "Reconnect the monitor power cable, try another outlet, or test with another monitor.",
-        "Once the monitor powers on, test the computer again."
+        "Check that the monitor's power cable or external adapter is connected securely.",
+        "Try a known-working power outlet.",
+        "Press the monitor's power button and check for an indicator light or on-screen menu.",
+        "If the monitor still has no power, its power supply or internal hardware may be faulty.",
+        "Once the monitor powers on, restart this guide."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkDisplayMessage": {
-      "title": "Check for monitor message",
+      "title": "Check for a monitor message or startup image",
       "body": [
-        "Look at the monitor when the computer is on.",
-        "A message such as No Signal usually means the monitor is working but not receiving video from the computer.",
-        "A completely blank monitor may still be a monitor, cable, brightness, or input problem."
+        "Watch the monitor while switching the computer on.",
+        "A No Signal or No Cable message usually means the monitor is powered but is not receiving a usable video signal.",
+        "Check whether the computer manufacturer's logo, BIOS screen or Windows loading screen appears at any point.",
+        "If a startup image appears and the display only goes blank when Windows loads, this may be a software or graphics driver issue.",
+        "If the monitor remains completely blank, check its built-in controls."
       ],
-      "successLabel": "No Signal Message",
-      "failLabel": "Completely Blank",
-      "successNext": "checkInputSource",
-      "failNext": "adjustMonitorSettings"
+      "link": [
+        {
+          "name": "Dell: Troubleshoot no-video startup problems",
+          "description": "Explains no-video conditions and how to isolate monitor and computer faults.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125609/resolve-no-power-no-post-no-boot-or-no-video-issues-with-your-dell-computer"
+        }
+      ],
+      "successLabel": "No Signal / No Image",
+      "failLabel": "Blank After Startup",
+      "successNext": "adjustMonitorSettings",
+      "failNext": "windowsDisplayIssue"
+    },
+    "windowsDisplayIssue": {
+      "type": "terminal",
+      "title": "Windows or graphics driver issue possible",
+      "body": [
+        "If the computer displays a startup logo or BIOS screen but becomes blank when Windows loads, it is producing video during startup.",
+        "Disconnect unnecessary external displays and restart.",
+        "If Windows appears to be running, try Windows + Ctrl + Shift + B to reset the graphics driver.",
+        "Try Windows recovery or Safe Mode if the problem persists.",
+        "Investigate recent graphics driver updates, display settings and Windows startup problems before replacing hardware.",
+        "If the computer never displays anything at all, return to the hardware checks in this guide."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Windows Startup Settings and Safe Mode",
+          "description": "Instructions for accessing Safe Mode when Windows does not start normally.",
+          "url": "https://support.microsoft.com/en-us/windows/experience/startup-boot/windows-startup-settings"
+        }
+      ],
+      "successNext": null,
+      "failNext": null
     },
     "adjustMonitorSettings": {
-      "title": "Check brightness and monitor controls",
+      "title": "Check monitor brightness and controls",
       "body": [
-        "Open the monitor menu if possible.",
-        "Check brightness, contrast, and display mode settings.",
-        "If the monitor menu does not appear, the monitor itself may be faulty."
+        "Press the monitor's physical menu or joystick button.",
+        "Check that the on-screen menu appears.",
+        "Increase brightness if it is set very low.",
+        "Check whether the monitor is in standby or has a power-saving setting.",
+        "If the monitor's own menu does not appear, it may be faulty.",
+        "If the menu appears, continue checking the video input."
       ],
       "successLabel": "Menu Appears",
       "failLabel": "No Menu",
@@ -87,10 +135,15 @@
     "checkInputSource": {
       "title": "Check monitor input source",
       "body": [
-        "Confirm the monitor is set to the correct input source.",
-        "For example, choose HDMI, DisplayPort, DVI, or VGA depending on the cable being used.",
-        "Many no-display faults are caused by the monitor listening on the wrong input."
+        "Open the monitor's on-screen menu.",
+        "Select the input matching the video cable connected to the monitor.",
+        "Common inputs include HDMI, DisplayPort, DVI and VGA.",
+        "Some monitors have multiple HDMI or DisplayPort inputs, so check the exact socket.",
+      "Allow several seconds after changing the input."
       ],
+      "image": "computer-monitor-input-select.png",
+      "alt": "Monitor on-screen input selection menu showing HDMI and DisplayPort options",
+      "caption": "Use the monitor's menu to select the input matching the connected display cable.",
       "successLabel": "Correct Input",
       "failLabel": "Wrong Input",
       "successNext": "checkDisplayCable",
@@ -100,41 +153,57 @@
       "type": "terminal",
       "title": "Select the correct display input",
       "body": [
-        "The monitor was set to the wrong input.",
-        "Select the input that matches the connected cable, then test the display again."
+        "Select the input corresponding to the connected video cable.",
+        "Wait for the monitor to detect the computer's signal.",
+        "If a picture appears, incorrect input selection was the problem.",
+        "If there is still no picture, continue checking the display cable."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkDisplayCable": {
-      "title": "Check display cable connection",
+      "title": "Check the display cable connection",
       "body": [
-        "Check both ends of the display cable.",
-        "Make sure the cable is firmly connected to the monitor and the computer.",
-        "Look for bent pins, loose connectors, damaged cable ends, or adapters that are not fully seated."
+        "Check both ends of the video cable.",
+        "Ensure the cable is firmly connected to the monitor and computer.",
+        "Look for damaged connectors, bent pins or loose adapters.",
+        "For DisplayPort cables with locking connectors, release the latch before unplugging.",
+        "Temporarily remove unnecessary adapters or extension cables.",
+        "Reconnect the cable and test the display."
       ],
       "successLabel": "Cable Looks OK",
-      "failLabel": "Cable Loose/Damaged",
+      "failLabel": "Loose or Damaged",
       "successNext": "correctDisplayPort",
       "failNext": "replaceOrReconnectCable"
     },
     "replaceOrReconnectCable": {
       "type": "terminal",
-      "title": "Reconnect or replace display cable",
+      "title": "Reconnect or replace the display cable",
       "body": [
-        "A loose or damaged display cable can prevent video output.",
-        "Reconnect the cable securely or replace it with a known-good cable.",
-        "Avoid unnecessary adapters during testing if possible."
+        "Reconnect the display cable securely at both ends.",
+        "If the connector or cable is damaged, replace it with a known-working compatible cable.",
+        "Avoid using unnecessary display adapters during troubleshooting.",
+        "Test again after reconnecting.",
+        "If the problem persists, continue checking the computer's display output."
       ],
       "successNext": null,
       "failNext": null
     },
     "correctDisplayPort": {
-      "title": "Check the display port used on the computer",
+      "title": "Check the display output used on the computer",
       "body": [
-        "If the computer has a dedicated graphics card, the monitor should usually be plugged into the graphics card, not the motherboard display port.",
-        "If the computer has no graphics card, use the motherboard display port.",
-        "Using the wrong port can cause a no-signal display even when the computer is working."
+        "On a desktop with a dedicated graphics card, the monitor should normally connect to a video output on that graphics card.",
+        "Motherboard video outputs require support for integrated graphics from the processor and system configuration.",
+        "A motherboard HDMI or DisplayPort socket may not work when the processor has no integrated graphics.",
+        "If there is no dedicated graphics card, use a supported motherboard video output.",
+        "Check the connected port before changing the display cable."
+      ],
+      "link": [
+        {
+          "name": "ASUS: No Power, No Boot or No Display",
+          "description": "Explains integrated graphics, dedicated graphics cards and display output troubleshooting.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
       ],
       "successLabel": "Correct Port",
       "failLabel": "Wrong Port",
@@ -143,11 +212,13 @@
     },
     "moveDisplayCable": {
       "type": "terminal",
-      "title": "Move cable to the correct display output",
+      "title": "Connect to the correct graphics output",
       "body": [
-        "The monitor was connected to the wrong display output.",
-        "Move the cable to the graphics card or motherboard output as appropriate.",
-        "Restart the computer and test again."
+        "Connect the monitor to the appropriate graphics card or supported motherboard output.",
+        "Confirm the monitor is set to the matching input.",
+        "Restart the computer if required.",
+        "If video appears, the previous output was unavailable or incorrectly selected.",
+        "If there is still no display, continue troubleshooting with a known-working cable."
       ],
       "successNext": null,
       "failNext": null
@@ -155,9 +226,11 @@
     "testAnotherCable": {
       "title": "Test another display cable",
       "body": [
-        "Use a known-good HDMI, DisplayPort, DVI, or VGA cable if available.",
-        "Display cables can fail or become unreliable even when they look normal.",
-        "Testing with another cable helps separate cable faults from computer faults."
+        "Use a known-working display cable of the correct type.",
+        "Keep the same computer output and monitor input where possible.",
+        "Display cables can fail even when they appear undamaged.",
+        "If the replacement works, the original cable was likely faulty or incompatible.",
+        "If there is still no display, test another monitor."
       ],
       "successLabel": "Works With New Cable",
       "failLabel": "Still No Display",
@@ -168,8 +241,9 @@
       "type": "terminal",
       "title": "Faulty display cable",
       "body": [
-        "The display works with another cable.",
-        "Replace the faulty cable and retest the system."
+        "The monitor works with a known-working replacement cable.",
+        "The original cable was likely damaged or incompatible.",
+        "Replace it and test the computer again."
       ],
       "successNext": null,
       "failNext": null
@@ -177,44 +251,60 @@
     "testAnotherMonitor": {
       "title": "Test with another monitor or TV",
       "body": [
-        "Connect the computer to another monitor or TV using a known-good cable.",
-        "This confirms whether the original monitor is the problem.",
-        "Use the simplest direct cable connection available."
+        "Connect another known-working monitor or TV to the computer.",
+        "Use a compatible, known-working cable and select the correct input.",
+        "Test the same computer display output where practical.",
+        "If another display works, the original monitor or its configuration is likely responsible.",
+        "If neither display works, continue investigating the computer."
       ],
-      "successLabel": "Works On Other Display",
+      "successLabel": "Other Display Works",
       "failLabel": "Still No Display",
       "successNext": "monitorFault",
       "failNext": "checkKeyboardResponse"
     },
     "monitorFault": {
       "type": "terminal",
-      "title": "Monitor fault likely",
+      "title": "Original monitor fault likely",
       "body": [
-        "The computer displays correctly on another screen.",
-        "The original monitor, its input settings, or its power supply is likely faulty.",
-        "Repair or replace the monitor."
+        "A different monitor works with the same computer and connection.",
+        "The original monitor, its settings or its input connection may be faulty.",
+        "If possible, test the original monitor with another computer.",
+        "Check its on-screen menu and restore default monitor settings if appropriate.",
+        "Arrange repair or replacement if it fails with multiple known-working sources."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkKeyboardResponse": {
-      "title": "Check keyboard response",
+      "title": "Check whether the computer appears responsive",
       "body": [
-        "Press Caps Lock or Num Lock on the keyboard.",
-        "Check whether the keyboard light changes.",
-        "If the keyboard responds, the computer may be booting but failing to output video."
+        "Wait for the computer to finish its normal startup period.",
+        "Press Caps Lock or Num Lock and watch for its keyboard indicator changing.",
+        "Listen for Windows startup sounds or other signs that the operating system has loaded.",
+        "Keyboard indicator response is only a clue. Some keyboards do not show a light or may not initialise until later.",
+        "A responsive computer may be running without providing video.",
+        "A non-responsive keyboard does not by itself prove that the motherboard has failed."
       ],
-      "successLabel": "Keyboard Responds",
-      "failLabel": "No Keyboard Response",
+      "successLabel": "Appears Responsive",
+      "failLabel": "No Response",
       "successNext": "checkGraphicsOutput",
       "failNext": "checkPostIndicators"
     },
     "checkGraphicsOutput": {
-      "title": "Check graphics output options",
+      "title": "Check alternative graphics outputs",
       "body": [
-        "If the computer has both motherboard graphics and a dedicated graphics card, try the other output.",
-        "A failed graphics card or disabled output can cause no display.",
-        "Restart the computer after moving the cable."
+        "If the graphics card has another compatible video output, test it using a known-working cable.",
+        "For systems with supported integrated graphics, a motherboard video output may also be available.",
+        "Do not assume motherboard display sockets work with every processor.",
+        "Try another suitable video connection and restart the computer.",
+        "If the display works on another output, investigate the original output or graphics configuration."
+      ],
+      "link": [
+        {
+          "name": "ASUS: Graphics output and no-display troubleshooting",
+          "description": "Official guidance for testing dedicated and integrated graphics outputs.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
       ],
       "successLabel": "Display Works",
       "failLabel": "Still No Display",
@@ -223,21 +313,35 @@
     },
     "graphicsOutputIssue": {
       "type": "terminal",
-      "title": "Graphics output issue found",
+      "title": "Graphics output issue identified",
       "body": [
-        "The display works from another graphics output.",
-        "The original graphics output, graphics card, driver state, or BIOS display setting may be faulty.",
-        "Continue using the working output or diagnose the graphics card further."
+        "The display works when using a different graphics output.",
+        "The original port, graphics card or display configuration may be responsible.",
+        "Inspect the original connector for damage.",
+        "Check the supported outputs and graphics settings for the computer.",
+        "Use the working output until the original connection can be diagnosed."
       ],
       "successNext": null,
       "failNext": null
     },
     "reseatGraphicsCard": {
-      "title": "Reseat dedicated graphics card",
+      "title": "Check and reseat a dedicated graphics card",
       "body": [
-        "If this is a desktop with a dedicated graphics card, power the computer off and disconnect it from mains power.",
-        "Reseat the graphics card and confirm any PCIe power connectors are firmly attached.",
-        "Only perform this step if you are comfortable working inside the computer."
+        "This step applies to desktop computers with a removable dedicated graphics card.",
+        "Shut down the computer, switch off the power supply and disconnect the mains cable.",
+        "Allow the computer to cool and follow appropriate anti-static precautions.",
+        "If you are comfortable working inside the computer, check that the graphics card is fully seated in its PCIe slot.",
+        "Check that any required PCIe power connectors are securely attached.",
+        "Do not open a power supply or attempt this procedure on a sealed or unfamiliar computer.",
+        "Reconnect power and test the display.",
+        "If you are not comfortable opening the computer, arrange hardware assistance instead."
+      ],
+      "link": [
+        {
+          "name": "ASUS: Graphics card troubleshooting",
+          "description": "Manufacturer guidance covering graphics card seating, power connections and display faults.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
       ],
       "successLabel": "Display Works",
       "failLabel": "Still No Display",
@@ -246,46 +350,94 @@
     },
     "looseGpuFound": {
       "type": "terminal",
-      "title": "Loose graphics card or power connector",
+      "title": "Loose graphics card connection likely",
       "body": [
-        "The display returned after reseating the graphics card or its power cable.",
-        "The fault was likely a loose GPU connection or missing PCIe power.",
-        "Secure the card and cables before returning the computer to service."
+        "The display returned after checking or reseating the graphics card.",
+        "The problem may have been caused by poor PCIe contact or a loose graphics power connector.",
+        "Ensure the graphics card is secured correctly.",
+        "If the issue returns, investigate the card, motherboard slot and power supply."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkPostIndicators": {
-      "title": "Check POST indicators",
+      "title": "Check POST diagnostic indicators",
       "body": [
-        "Listen for beep codes and look for diagnostic LEDs on the motherboard.",
-        "Some systems show CPU, DRAM, VGA, or BOOT indicators when startup fails.",
-        "These signs help identify whether the computer is failing before video output starts."
+        "Observe the computer's diagnostic lights or listen for beep codes during startup.",
+        "Some motherboards have LEDs labelled CPU, DRAM, VGA and BOOT.",
+        "A light that remains illuminated may indicate the component or startup stage requiring attention.",
+        "Diagnostic lights that briefly illuminate in sequence during startup can be normal.",
+        "The exact meaning of a light or beep pattern depends on the computer or motherboard model.",
+        "A BOOT indicator often relates to the storage or boot device and does not necessarily explain a complete lack of video.",
+        "Consult the manufacturer's manual before interpreting the diagnostic code."
       ],
-      "successLabel": "Indicator Present",
-      "failLabel": "No Indicator",
+      "link": [
+        {
+          "name": "ASUS: Q-LED motherboard diagnostics",
+          "description": "Explains CPU, DRAM, VGA and BOOT diagnostic indicators.",
+          "url": "https://www.asus.com/uk/support/faq/1042678/"
+        },
+        {
+          "name": "Dell: No POST diagnostic indicators",
+          "description": "Guidance for interpreting startup beeps and diagnostic lights.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125609/resolve-no-power-no-post-no-boot-or-no-video-issues-with-your-dell-computer"
+        }
+      ],
+      "image": "computer-post-leds.jpg",
+      "alt": "ASUS motherboard diagnostic LED labels showing CPU, DRAM, VGA and BOOT",
+      "caption": "Some motherboards use diagnostic LEDs to identify the startup stage that has failed.",
+      "successLabel": "Fault Indicator Present",
+      "failLabel": "No Clear Indicator",
       "successNext": "identifyPostFault",
       "failNext": "reseatRam"
     },
     "identifyPostFault": {
-      "title": "Identify POST fault category",
+      "title": "Identify the POST fault category",
       "body": [
-        "Check which diagnostic light or beep pattern appears.",
-        "DRAM usually points to memory, VGA usually points to graphics, and CPU points to processor or motherboard faults.",
-        "Use the motherboard or computer manual if available."
+        "Record the diagnostic LED that remains illuminated or the exact beep pattern.",
+        "A DRAM indicator can suggest memory installation, compatibility or memory training problems.",
+        "A VGA indicator may point to a graphics card, video output or graphics initialisation problem.",
+        "A CPU indicator may involve the processor, power connections or motherboard.",
+        "BOOT usually indicates a boot-device problem and may occur after video initialisation.",
+        "Use the motherboard or computer manual to interpret the indicator correctly.",
+        "Choose the RAM path for a DRAM-related indication; otherwise proceed to further hardware diagnostics."
       ],
-      "successLabel": "DRAM/RAM Fault",
-      "failLabel": "CPU/GPU/Other Fault",
+      "link": [
+        {
+          "name": "ASUS: Q-LED diagnostic reference",
+          "description": "Manufacturer-specific information for identifying POST fault categories.",
+          "url": "https://www.asus.com/uk/support/faq/1042678/"
+        }
+      ],
+      "successLabel": "DRAM / RAM Fault",
+      "failLabel": "CPU / VGA / Other",
       "successNext": "reseatRam",
       "failNext": "hardwareDiagnosticRequired"
     },
     "reseatRam": {
-      "title": "Reseat RAM",
+      "title": "Reseat the RAM",
       "body": [
-        "Power off the computer and disconnect it from mains power.",
-        "Remove and reseat the RAM modules.",
-        "Poor RAM contact can stop the computer from completing POST, causing no display."
+        "This step is intended for desktop computers with accessible RAM modules.",
+        "Switch off the computer, disconnect mains power and follow anti-static precautions.",
+        "Refer to the motherboard manual before removing any memory.",
+        "Release the memory-slot clips and carefully remove the RAM module.",
+        "Check the module and slot for obvious contamination or damage.",
+        "Align the notch correctly and reinstall the module until it is fully seated and the retaining clips are secure.",
+        "Do not force the RAM into the slot.",
+        "Reconnect power and allow the computer time to initialise the memory, especially on DDR5 systems.",
+        "If the display returns, the problem may have been poor memory contact.",
+        "For laptops or sealed systems, follow the manufacturer's service instructions or arrange professional assistance."
       ],
+      "link": [
+        {
+          "name": "ASUS: No-display memory troubleshooting",
+          "description": "Official guidance for checking memory installation when the computer does not display.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
+      ],
+      "image": "computer-reseat-ram.jpg",
+      "alt": "Desktop RAM module being aligned with a motherboard memory slot",
+      "caption": "Align the RAM notch with the slot and ensure the module is fully seated.",
       "successLabel": "Display Works",
       "failLabel": "Still No Display",
       "successNext": "looseRamFound",
@@ -293,44 +445,72 @@
     },
     "looseRamFound": {
       "type": "terminal",
-      "title": "Loose RAM connection",
+      "title": "Loose RAM connection likely",
       "body": [
-        "The display returned after reseating the RAM.",
-        "The issue was likely poor memory contact.",
-        "Run a memory test if the problem returns."
+        "The display returned after reseating the memory.",
+        "A loose module or poor contact may have prevented the computer from completing POST.",
+        "Ensure the memory is fully seated and secured.",
+        "If the issue returns, check memory compatibility and run a memory diagnostic when the computer can start."
       ],
       "successNext": null,
       "failNext": null
     },
     "testSingleRamStick": {
-      "title": "Test one RAM stick at a time",
+      "title": "Test one RAM module at a time",
       "body": [
-        "If there is more than one RAM module, test with one stick at a time.",
-        "Try the recommended primary RAM slot first.",
-        "A failed RAM stick or bad RAM slot can prevent display output."
+        "If the desktop has multiple removable memory modules, test with one module installed at a time.",
+        "Switch off and disconnect mains power before changing modules.",
+        "Use the single-module slot recommended by the motherboard manual.",
+        "Test each module individually in the recommended slot.",
+        "If only one module works, test the other module in the same slot to help identify a faulty stick.",
+        "If neither module works in one slot, testing a different supported slot may help identify a slot or motherboard problem.",
+        "Allow additional time for memory training after each change, particularly on DDR5 systems.",
+        "A successful test with one module does not automatically prove the other module is faulty."
       ],
-      "successLabel": "Works With One Stick",
+      "link": [
+        {
+          "name": "ASUS: Motherboard memory troubleshooting",
+          "description": "Official instructions for testing RAM configurations during no-display troubleshooting.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
+      ],
+      "successLabel": "Works With One Module",
       "failLabel": "Still No Display",
       "successNext": "ramFaultFound",
       "failNext": "clearCmos"
     },
     "ramFaultFound": {
       "type": "terminal",
-      "title": "RAM fault likely",
+      "title": "RAM module, slot or configuration fault possible",
       "body": [
-        "The computer displays when using only one RAM stick or slot.",
-        "One RAM module or RAM slot is likely faulty.",
-        "Replace the faulty RAM or avoid the bad slot after confirming with further testing."
+        "The computer displays correctly with one memory configuration but fails with another.",
+        "Possible causes include a faulty RAM module, damaged slot, incompatible memory or unstable memory settings.",
+        "Test modules individually using the same known-working slot where possible.",
+        "Check the motherboard's supported memory configurations.",
+        "Replace a module only after further tests confirm it is defective.",
+        "If the fault follows a particular memory slot, further motherboard diagnostics may be needed."
       ],
       "successNext": null,
       "failNext": null
     },
     "clearCmos": {
-      "title": "Clear BIOS/CMOS settings",
+      "title": "Reset BIOS or CMOS settings",
       "body": [
-        "If safe and appropriate, clear the CMOS or reset BIOS settings using the motherboard instructions.",
-        "Incorrect BIOS display, RAM, or overclock settings can prevent successful startup.",
-        "After clearing CMOS, reconnect the display and test again."
+        "Incorrect firmware settings, memory overclocking or display configuration may prevent the computer from starting correctly.",
+        "Record important BIOS settings before making changes if they are known.",
+        "A CMOS reset may remove custom boot, storage, memory and security settings.",
+        "It may also trigger a BitLocker recovery-key request on some Windows systems after firmware-related changes.",
+        "Use the exact motherboard or computer manual for the approved CMOS reset procedure.",
+        "Do not move jumpers, remove batteries or open a sealed computer without the correct service instructions.",
+        "After the reset, restore any required settings and allow the system time to complete startup.",
+        "If you are unsure about the consequences, arrange further diagnostics instead."
+      ],
+      "link": [
+        {
+          "name": "ASUS: No-display troubleshooting and CMOS reset",
+          "description": "Official guidance for resetting firmware settings during startup troubleshooting.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
       ],
       "successLabel": "Display Works",
       "failLabel": "Still No Display",
@@ -339,11 +519,13 @@
     },
     "biosSettingsFault": {
       "type": "terminal",
-      "title": "BIOS settings fault",
+      "title": "BIOS settings fault likely",
       "body": [
-        "The display returned after resetting BIOS settings.",
-        "The issue may have been caused by invalid display, memory, or overclock settings.",
-        "Avoid reapplying unstable BIOS settings."
+        "The display returned after resetting firmware settings.",
+        "An unstable memory, graphics or overclocking setting may have prevented startup.",
+        "Avoid restoring the previous settings without checking their compatibility.",
+        "Review any required boot or storage settings before restarting Windows.",
+        "If the problem returns, investigate firmware compatibility and motherboard hardware."
       ],
       "successNext": null,
       "failNext": null
@@ -352,9 +534,26 @@
       "type": "terminal",
       "title": "Internal hardware diagnostics required",
       "body": [
-        "The monitor, cable, input source, graphics output, RAM seating, and basic BIOS reset checks did not restore display.",
-        "Likely causes include graphics card failure, motherboard fault, CPU fault, RAM fault, or power supply instability.",
-        "Escalate for hardware diagnostics using known-good parts."
+        "The computer still has no display after checking the monitor, video connection and relevant startup hardware.",
+        "Possible causes include graphics card, motherboard, RAM, processor or power supply faults.",
+        "Fans and power lights alone do not confirm that the power supply is functioning correctly.",
+        "Use manufacturer diagnostic codes and known-working compatible components to isolate the fault.",
+        "Check the graphics card power connectors and motherboard power connections where appropriate.",
+        "Do not open or attempt to repair the internal components of a power supply.",
+        "For laptops, all-in-one computers or sealed systems, follow manufacturer service procedures.",
+        "Record diagnostic LED or beep codes and the troubleshooting steps performed before arranging repair."
+      ],
+      "link": [
+        {
+          "name": "Dell: Diagnose No Power, No POST or No Video",
+          "description": "Official guide to diagnosing computer startup and hardware faults.",
+          "url": "https://www.dell.com/support/kbdoc/en-nz/000125609/resolve-no-power-no-post-no-boot-or-no-video-issues-with-your-dell-computer"
+        },
+        {
+          "name": "ASUS: Motherboard no-display diagnostics",
+          "description": "Official troubleshooting for memory, graphics, motherboard and firmware faults.",
+          "url": "https://www.asus.com/support/faq/1042632/"
+        }
       ],
       "successNext": null,
       "failNext": null

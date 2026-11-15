@@ -1,108 +1,134 @@
+
 {
   "id": "cannotPrint",
   "title": "Cannot Print",
   "cardText": [
     "Diagnose a printer that does not print when a job is sent.",
-    "Check printer power, connection, queue status, default printer, paper, ink/toner, driver, and network access.",
-    "Separate printer faults from computer, network, and print queue problems."
+    "Check printer error messages, print queues, connections, drivers and network access.",
+    "Identify whether the problem is with the printer, computer, application or network."
   ],
   "icon": "",
   "text": [
-    "This guide is for printers that do not print after a document is sent.",
-    "Start by checking whether the printer is powered on and ready.",
-    "Then check the print queue, selected printer, connection type, and printer status.",
-    "Escalate driver, network, or hardware faults when basic checks do not resolve the issue."
+    "This guide is for printers that do not print after a document is sent from a Windows computer.",
+    "Start by checking the printer's status messages and error codes.",
+    "Test whether the printer can print independently before investigating Windows.",
+    "Then check the selected printer, print queue, connection and driver.",
+    "Follow the relevant troubleshooting steps for USB or network printers."
   ],
-  "startNode": "checkPrinterPower",
+  "startNode": "checkPrinterStatus",
   "nodes": {
-    "checkPrinterPower": {
-      "title": "Check printer power",
-      "body": [
-        "Confirm the printer is turned on.",
-        "Check for lights, display messages, or startup sounds.",
-        "If there is no sign of power, check the power cable and wall outlet."
-      ],
-      "successLabel": "Printer On",
-      "failLabel": "No Power",
-      "successNext": "checkPrinterStatus",
-      "failNext": "restorePrinterPower"
-    },
-    "restorePrinterPower": {
-      "type": "terminal",
-      "title": "Restore printer power",
-      "body": [
-        "The printer is not receiving power or is not turned on.",
-        "Reconnect the power cable, try another outlet, and turn the printer on.",
-        "Once the printer powers on, try printing again."
-      ],
-      "successNext": null,
-      "failNext": null
-    },
     "checkPrinterStatus": {
-      "title": "Check printer status screen",
+      "title": "Check printer status",
       "body": [
-        "Look at the printer screen or indicator lights.",
-        "Check for messages such as offline, paper jam, out of paper, low ink, replace toner, door open, or error code.",
-        "Printer status messages are usually the fastest way to identify a simple blocking fault."
+        "Look at the printer's display or status lights.",
+        "Check for messages such as Paper Jam, Out of Paper, Replace Toner, Ink Empty, Cover Open or a specific error code.",
+        "Follow any instructions displayed on the printer.",
+        "The printer should be in a Ready state before continuing."
       ],
-      "successLabel": "Ready",
+      "successLabel": "Printer Ready",
       "failLabel": "Error Showing",
-      "successNext": "checkCorrectPrinter",
+      "successNext": "printerSelfTest",
       "failNext": "resolvePrinterError"
     },
     "resolvePrinterError": {
       "title": "Resolve printer error",
       "body": [
-        "Follow the message shown on the printer.",
-        "Load paper, clear jams, close covers, replace ink or toner, or restart the printer as needed.",
-        "After clearing the error, wait until the printer returns to Ready."
+        "Follow the error message shown on the printer.",
+        "Load paper, remove jammed paper carefully, close covers or replace consumables as needed.",
+        "Use the manufacturer's instructions when clearing paper jams to avoid damaging internal components.",
+        "If an error code remains, look it up using the exact printer model.",
+        "Once the printer returns to Ready, test it again."
+      ],
+      "link": [
+        {
+          "name": "Microsoft printer troubleshooting",
+          "description": "General Windows printer troubleshooting, including printer errors and connections.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows"
+        }
       ],
       "successLabel": "Error Cleared",
       "failLabel": "Error Remains",
-      "successNext": "testPrintAgain",
+      "successNext": "printerSelfTest",
       "failNext": "printerHardwareFault"
     },
     "printerHardwareFault": {
       "type": "terminal",
-      "title": "Printer hardware fault likely",
+      "title": "Printer hardware fault or servicing required",
       "body": [
-        "The printer is showing an error that cannot be cleared through normal checks.",
-        "Record the exact error message or code.",
-        "Escalate for printer repair, servicing, or replacement."
+        "The printer has an error that cannot be cleared through normal troubleshooting.",
+        "Record the exact printer model and error message or code.",
+        "Check the manufacturer's support instructions for that error.",
+        "If the error persists, the printer may require repair or replacement."
       ],
       "successNext": null,
       "failNext": null
     },
-    "checkCorrectPrinter": {
-      "title": "Check selected printer",
+    "printerSelfTest": {
+      "title": "Can the printer print its own test or configuration page?",
       "body": [
-        "When printing, confirm the correct printer is selected.",
-        "A document may be sent to an old printer, PDF printer, OneNote printer, or disconnected device.",
-        "Select the correct physical printer and try again."
+        "If supported, use the printer's control panel to print an internal test, configuration or status page.",
+        "The exact menu varies by model. Look under Settings, Reports, Information or Maintenance.",
+        "This test should run without sending a document from Windows.",
+        "If the internal page prints, the printer mechanism is probably working and the issue may involve the computer or connection.",
+        "If the internal page fails, investigate the printer itself before changing Windows settings."
+      ],
+      "successLabel": "Internal Page Prints",
+      "failLabel": "Cannot Print",
+      "successNext": "checkCorrectPrinter",
+      "failNext": "printerHardwareFault"
+    },
+    "checkCorrectPrinter": {
+      "title": "Check the selected printer",
+      "body": [
+        "Open the document's Print dialog.",
+        "Confirm the correct physical printer is selected.",
+        "Check that the job is not being sent to Microsoft Print to PDF, OneNote, an old printer or another device.",
+        "If the wrong printer is selected, choose the correct one and test again.",
+        "In Windows 11, installed printers can be viewed under Settings, Bluetooth & devices, Printers & scanners."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot offline printers",
+          "description": "Includes checking and selecting the correct default printer in Windows.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/troubleshooting-offline-printer-problems-in-windows"
+        }
       ],
       "successLabel": "Correct Printer",
       "failLabel": "Wrong Printer",
-      "successNext": "checkPrintQueue",
+      "successNext": "testPrintAgain",
       "failNext": "selectCorrectPrinter"
     },
     "selectCorrectPrinter": {
       "type": "terminal",
       "title": "Select the correct printer",
       "body": [
-        "The job was being sent to the wrong printer.",
-        "Select the correct printer and print again.",
-        "Set it as the default printer if it is used regularly."
+        "Select the correct physical printer in the application's Print dialog.",
+        "Send the document again.",
+        "If the printer is used regularly, consider setting it as the Windows default printer.",
+        "If the printer still does not print, restart this guide and continue with the print queue checks."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkPrintQueue": {
-      "title": "Check print queue",
+      "title": "Check the Windows print queue",
       "body": [
-        "Open the print queue for the printer.",
-        "Look for stuck, paused, failed, or pending print jobs.",
-        "One failed job can block every job behind it."
+        "Open Windows Settings, then Bluetooth & devices, then Printers & scanners.",
+        "Select the affected printer and choose Open print queue.",
+        "Look for stuck, paused, failed or pending jobs.",
+        "Check that the printer has not been paused.",
+        "A stuck print job can prevent newer documents from printing."
       ],
+      "link": [
+        {
+          "name": "Microsoft: View the print queue",
+          "description": "Instructions for opening and examining the Windows print queue.",
+          "url": "https://support.microsoft.com/en-au/windows/hardware/printer/view-a-printer-s-print-queue-in-windows"
+        }
+      ],
+      "image": "printer-open-queue.png",
+      "alt": "Windows printer settings showing the Open print queue option",
+      "caption": "Open the print queue for the affected printer to check for pending or stuck jobs.",
       "successLabel": "Queue Clear",
       "failLabel": "Jobs Stuck",
       "successNext": "checkPrinterConnection",
@@ -111,48 +137,77 @@
     "clearPrintQueue": {
       "title": "Clear stuck print jobs",
       "body": [
-        "Cancel stuck or failed print jobs.",
-        "Pause and resume the printer if needed.",
-        "Restart the printer and try printing a small test document."
+        "Open the affected printer's print queue.",
+        "Cancel any stuck or failed documents.",
+        "Resume the printer if printing has been paused.",
+        "Be careful when clearing a shared printer queue because other users may have jobs waiting.",
+        "Try printing one small document after clearing the queue."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Fix stuck print jobs",
+          "description": "Official instructions for cancelling stuck jobs and restoring the print queue.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-print-job-stuck-in-queue-errors-in-windows"
+        }
+      ],
+      "image": "printer-clear-queue.png",
+      "alt": "Windows print queue showing the Cancel command for a print job",
+      "caption": "Cancel stuck jobs before sending a new test document.",
       "successLabel": "Fixed",
       "failLabel": "Still Not Printing",
       "successNext": null,
       "failNext": "restartPrintSpooler"
     },
     "restartPrintSpooler": {
-      "title": "Restart print spooler",
+      "title": "Restart the Windows Print Spooler",
       "body": [
-        "Restart the computer first if this is a home or small office setup.",
-        "If comfortable with Windows services, restart the Print Spooler service.",
-        "The print spooler controls the print queue and can sometimes lock up."
+        "Restart the computer first if this is a simple home or small-office setup.",
+        "If printing still fails, press Windows + R, enter services.msc and press Enter.",
+        "Find Print Spooler in the Windows Services list.",
+        "Right-click Print Spooler and select Restart.",
+        "Restarting this service can interrupt other active print jobs, so take care on shared or managed computers.",
+        "Send another test document after the service restarts."
       ],
+      "link": [
+        {
+          "name": "Microsoft: Fix Print Spooler problems",
+          "description": "Official instructions for restarting the Print Spooler service.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-print-spooler-service-not-running-errors-in-windows"
+        }
+      ],
+      "image": "printer-print-spooler.png",
+      "alt": "Windows Services console with the Print Spooler service highlighted",
+      "caption": "The Print Spooler service manages print jobs in Windows.",
       "successLabel": "Fixed",
       "failLabel": "Still Not Printing",
       "successNext": null,
       "failNext": "checkPrinterConnection"
     },
     "checkPrinterConnection": {
-      "title": "Identify printer connection type",
+      "title": "Identify the printer connection type",
       "body": [
-        "Determine whether the printer connects by USB, Wi-Fi, Ethernet, or shared network printer.",
-        "The next checks depend on how the computer communicates with the printer.",
-        "Do not reinstall drivers until the connection path is confirmed."
+        "Determine how the printer communicates with the computer.",
+        "A USB printer connects directly to the computer using a cable.",
+        "A network printer may use Wi-Fi, Ethernet or a shared connection through another computer or print server.",
+        "Select USB for a directly connected printer, or Network for the other connection types.",
+        "Check the connection before reinstalling drivers."
       ],
       "successLabel": "USB",
-      "failLabel": "Network/Wi-Fi",
+      "failLabel": "Network / Wi-Fi",
       "successNext": "checkUsbConnection",
       "failNext": "checkNetworkPrinterConnection"
     },
     "checkUsbConnection": {
-      "title": "Check USB printer connection",
+      "title": "Check the USB printer connection",
       "body": [
         "Confirm the USB cable is firmly connected to the printer and computer.",
         "Try another USB port on the computer.",
-        "Avoid USB hubs during testing because they can cause detection problems."
+        "Avoid USB hubs and docking stations while testing.",
+        "If possible, try another known-working USB printer cable.",
+        "Allow Windows a moment to detect the printer after reconnecting it."
       ],
       "successLabel": "USB Connected",
-      "failLabel": "USB Issue Found",
+      "failLabel": "Connection Problem",
       "successNext": "checkPrinterDetected",
       "failNext": "replaceUsbCable"
     },
@@ -160,19 +215,22 @@
       "type": "terminal",
       "title": "Replace or reconnect USB cable",
       "body": [
-        "A loose, damaged, or unreliable USB cable can prevent printing.",
-        "Reconnect the cable directly to the computer or replace it with a known-good cable.",
-        "Retest printing after reconnecting."
+        "A loose or damaged USB cable can prevent printing.",
+        "Reconnect the printer directly to the computer.",
+        "Try a known-working cable and USB port.",
+        "If Windows now detects the printer, try printing again.",
+        "If the printer remains undetected, continue investigating the printer's USB interface and driver."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkPrinterDetected": {
-      "title": "Check whether printer is detected",
+      "title": "Check whether Windows detects the printer",
       "body": [
-        "Open printer settings and confirm the printer appears as installed.",
-        "If the printer is missing, the computer may not be detecting it correctly.",
-        "Detection problems usually point to USB, driver, or printer firmware issues."
+        "Open Settings, Bluetooth & devices, Printers & scanners.",
+        "Confirm the printer appears in the installed devices list.",
+        "If it is missing, check whether Windows recognises the USB device.",
+        "A missing printer may indicate a connection, USB, driver or printer hardware issue."
       ],
       "successLabel": "Printer Detected",
       "failLabel": "Printer Missing",
@@ -180,46 +238,62 @@
       "failNext": "reinstallPrinter"
     },
     "checkNetworkPrinterConnection": {
-      "title": "Check printer network connection",
+      "title": "Check the printer's network connection",
       "body": [
-        "Confirm the printer is connected to the same network as the computer.",
-        "For Wi-Fi printers, check the printer's wireless status.",
-        "For Ethernet printers, check the network cable and link lights."
+        "Confirm the printer is connected to the correct network.",
+        "For Wi-Fi printers, check the wireless network name and connection status on the printer.",
+        "For Ethernet printers, check the network cable and link lights.",
+        "For printers shared from another computer, check that the host computer is powered on and accessible.",
+        "Guest Wi-Fi networks and client isolation can prevent computers from reaching printers even when both have internet access."
       ],
-      "successLabel": "Connected To Network",
+      "link": [
+        {
+          "name": "Microsoft: Fix printer connection problems",
+          "description": "Official troubleshooting instructions for USB, network and wireless printer connections.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows"
+        }
+      ],
+      "successLabel": "Connected",
       "failLabel": "Not Connected",
       "successNext": "checkPrinterIp",
       "failNext": "reconnectPrinterNetwork"
     },
     "reconnectPrinterNetwork": {
       "type": "terminal",
-      "title": "Reconnect printer to network",
+      "title": "Reconnect the printer to the network",
       "body": [
-        "The printer is not connected to the network.",
-        "Reconnect it to Wi-Fi or Ethernet.",
-        "Once the printer is back online, try printing again."
+        "Reconnect the printer to the correct Wi-Fi network or Ethernet connection.",
+        "For shared printers, confirm the host computer and printer-sharing service are available.",
+        "Use the printer manufacturer's network setup instructions if required.",
+        "Once connected, try printing again.",
+        "If the problem persists, continue checking the printer's IP address."
       ],
       "successNext": null,
       "failNext": null
     },
     "checkPrinterIp": {
-      "title": "Check printer IP address",
+      "title": "Check the printer's IP address",
       "body": [
-        "Print or view the printer network status page if available.",
-        "Check whether the printer has a valid IP address.",
-        "If the printer IP address changed, the computer may still be trying to print to the old address."
+        "View the printer's network settings or print its network configuration report.",
+        "Check that it has a valid IP address appropriate for the local network.",
+        "An address beginning with 169.254 may indicate that the printer has not received an IPv4 address from DHCP.",
+        "Check whether the printer's IP address has changed since it was installed.",
+        "On the computer, check the installed printer's Port settings where applicable, and confirm they point to the correct printer address.",
+        "Where appropriate, use a DHCP reservation to keep the printer's address consistent."
       ],
-      "successLabel": "Valid IP",
-      "failLabel": "No Valid IP",
+      "successLabel": "IP Address Valid",
+      "failLabel": "Invalid or Missing IP",
       "successNext": "checkPrinterOnlineStatus",
       "failNext": "restartPrinterRouter"
     },
     "restartPrinterRouter": {
-      "title": "Restart printer and router",
+      "title": "Restart the printer and check network addressing",
       "body": [
-        "Restart the printer.",
-        "If multiple network devices are having problems, restart the router as well.",
-        "Wait for the printer to reconnect before testing again."
+        "Restart the printer and allow it to reconnect to the network.",
+        "Check whether it receives a valid IP address.",
+        "If several network devices have connection problems, investigate the router's DHCP service and consider restarting the router.",
+        "Avoid restarting the router unnecessarily if other users depend on it.",
+        "Try printing again once the printer is connected."
       ],
       "successLabel": "Fixed",
       "failLabel": "Still Not Printing",
@@ -227,11 +301,20 @@
       "failNext": "reinstallPrinter"
     },
     "checkPrinterOnlineStatus": {
-      "title": "Check printer online/offline status",
+      "title": "Check the printer's online status",
       "body": [
-        "Open printer settings and check whether the printer is shown as Online or Offline.",
-        "If Windows says the printer is offline while the printer itself is ready, the saved printer connection may be stale.",
-        "This commonly happens with network printers after an IP address change."
+        "Open Windows Settings, Bluetooth & devices, Printers & scanners.",
+        "Select the affected printer and check its status.",
+        "If Windows reports Offline even though the printer is ready, the saved connection may be stale.",
+        "For network printers, check whether the printer IP address has changed.",
+        "Also check whether Windows is configured to use the printer offline."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Troubleshoot offline printers",
+          "description": "Official steps for restoring an offline printer in Windows.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/troubleshooting-offline-printer-problems-in-windows"
+        }
       ],
       "successLabel": "Online",
       "failLabel": "Offline",
@@ -239,11 +322,21 @@
       "failNext": "disableUsePrinterOffline"
     },
     "disableUsePrinterOffline": {
-      "title": "Disable offline mode",
+      "title": "Disable Use Printer Offline",
       "body": [
-        "Open the printer queue options.",
-        "Make sure Use Printer Offline is not enabled.",
-        "Then try printing a test page."
+        "Open the print queue for the affected printer.",
+        "Find the option named Use Printer Offline, if available, and make sure it is disabled.",
+        "Also check that printing is not paused.",
+        "The location of this setting varies between Windows versions and printer interfaces.",
+        "If the printer remains offline, verify its network connection and saved printer port.",
+        "Try printing a test page."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Offline printer troubleshooting",
+          "description": "Instructions for checking Windows printer status and restoring printing.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/troubleshooting-offline-printer-problems-in-windows"
+        }
       ],
       "successLabel": "Fixed",
       "failLabel": "Still Offline",
@@ -251,11 +344,21 @@
       "failNext": "reinstallPrinter"
     },
     "printTestPage": {
-      "title": "Print a test page",
+      "title": "Print a Windows test page",
       "body": [
-        "Print a test page from printer settings.",
-        "A test page removes the original document or application from the troubleshooting path.",
-        "If the test page prints, the printer and computer connection are working."
+        "Open Windows Settings, Bluetooth & devices, Printers & scanners.",
+        "Select the affected printer.",
+        "Open Printer properties and choose Print Test Page, or use the available Test Page option.",
+        "A Windows test page helps separate printer connectivity problems from issues with the original document or application.",
+        "If the test page prints, investigate the original application or document.",
+        "If it fails, continue checking the printer driver and installation."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Printer connection and printing problems",
+          "description": "Windows troubleshooting instructions including printing a test page.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows"
+        }
       ],
       "successLabel": "Test Page Prints",
       "failLabel": "Test Page Fails",
@@ -266,42 +369,74 @@
       "type": "terminal",
       "title": "Document or application issue likely",
       "body": [
-        "The printer works when printing a test page.",
-        "The original document, application, page size, print settings, or file format may be the problem.",
-        "Try printing from another app or save the document as PDF and print the PDF."
+        "The Windows test page prints successfully.",
+        "The problem may be with the original document, application or its print settings.",
+        "Try printing a simple document from another application.",
+        "Check the selected paper size, print range and printer preferences.",
+        "If necessary, save the original document as a PDF and try printing that."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix printing problems in applications",
+          "description": "Troubleshooting steps for printing failures in Word, Excel and other applications.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printing-problems-in-word-excel-or-other-apps"
+        }
       ],
       "successNext": null,
       "failNext": null
     },
     "checkDriver": {
-      "title": "Check printer driver",
+      "title": "Check the printer driver",
       "body": [
-        "Check whether the correct printer driver is installed.",
-        "Generic drivers may print poorly or fail with certain printer features.",
-        "Driver issues are common after Windows updates, printer changes, or network address changes."
+        "Check that Windows is using a driver suitable for the exact printer model.",
+        "A generic driver may support basic printing but omit some manufacturer-specific functions.",
+        "Driver problems can occur after Windows updates, printer changes or reinstallations.",
+        "Check the manufacturer's support website for a current compatible driver.",
+        "If the driver is correct but printing still fails, consider removing and re-adding the printer."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Printer driver troubleshooting",
+          "description": "Official guidance for diagnosing printer connection and driver problems.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows"
+        }
       ],
       "successLabel": "Driver Looks Correct",
-      "failLabel": "Driver Wrong/Missing",
+      "failLabel": "Wrong or Missing Driver",
       "successNext": "reinstallPrinter",
       "failNext": "installCorrectDriver"
     },
     "installCorrectDriver": {
       "type": "terminal",
-      "title": "Install correct printer driver",
+      "title": "Install the correct printer driver",
       "body": [
-        "Install the correct driver from the printer manufacturer or trusted source.",
-        "Restart the computer if required.",
-        "Print a test page after installation."
+        "Find the correct printer driver on the manufacturer's official support website.",
+        "Select the exact printer model and supported Windows version.",
+        "Install the driver or complete software package as appropriate.",
+        "Restart Windows if the installer requests it.",
+        "Print another Windows test page.",
+        "If printing still fails, continue with printer reinstallation."
       ],
       "successNext": null,
       "failNext": null
     },
     "reinstallPrinter": {
-      "title": "Remove and re-add printer",
+      "title": "Remove and re-add the printer",
       "body": [
-        "Remove the printer from printer settings.",
-        "Restart the computer if needed.",
-        "Add the printer again using USB, network discovery, or the printer IP address."
+        "Record the printer's current connection method, IP address and any important settings.",
+        "Remove the affected printer from Windows Printers & scanners.",
+        "Restart Windows if needed.",
+        "Add the printer again using USB, network discovery or its confirmed IP address.",
+        "Install the correct manufacturer driver where required.",
+        "For shared printers, check with the network administrator before changing the configuration.",
+        "Print a test page after reinstalling."
+      ],
+      "link": [
+        {
+          "name": "Microsoft: Fix printer connection problems",
+          "description": "Instructions for removing, reinstalling and troubleshooting printers in Windows.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows"
+        }
       ],
       "successLabel": "Fixed",
       "failLabel": "Still Not Printing",
@@ -311,11 +446,14 @@
     "testPrintAgain": {
       "title": "Test printing again",
       "body": [
-        "Send a simple one-page test document to the printer.",
-        "Avoid complex documents until basic printing is confirmed.",
-        "If this works, retry the original document."
+        "Confirm the correct physical printer is selected.",
+        "Send a simple one-page document to the printer.",
+        "If the test document prints, retry the original print job.",
+        "If both documents print successfully, the problem is resolved.",
+        "If the simple document prints but the original does not, investigate the original document or application.",
+        "If the simple document does not print, continue checking the Windows print queue."
       ],
-      "successLabel": "Fixed",
+      "successLabel": "Printing Works",
       "failLabel": "Still Not Printing",
       "successNext": null,
       "failNext": "checkPrintQueue"
@@ -324,9 +462,20 @@
       "type": "terminal",
       "title": "Further printer diagnostics required",
       "body": [
-        "The printer has power, appears ready, and basic queue, connection, network, and driver checks have not resolved the fault.",
-        "Next steps may include firmware updates, testing from another computer, checking router/firewall rules, or factory resetting the printer.",
-        "If the printer fails from multiple devices, the printer itself is likely faulty."
+        "The printer is powered on and ready, but the computer still cannot print after queue, connection and driver troubleshooting.",
+        "Test from another computer if available to establish whether the problem affects one device or several.",
+        "Check printer firmware and manufacturer support information for the exact model.",
+        "For network printers, investigate router isolation, firewall rules, printer ports and print server configuration where applicable.",
+        "Record any Windows error messages, printer error codes and results of the tests already performed.",
+        "Avoid factory-resetting the printer until important network and configuration settings have been recorded.",
+        "If the printer cannot print its own internal test page, investigate the printer hardware rather than Windows."
+      ],
+      "link": [
+        {
+          "name": "Microsoft printer troubleshooting",
+          "description": "Official Windows troubleshooting reference for unresolved printing problems.",
+          "url": "https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-connection-and-printing-problems-in-windows"
+        }
       ],
       "successNext": null,
       "failNext": null
