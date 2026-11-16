@@ -1,3 +1,4 @@
+
 // IMPORTS
 import { el } from "../../../js/core/helpers.js";
 import { hosts } from "./editorState.js";
@@ -29,7 +30,11 @@ function createThemeToggle() {
   button.setAttribute("aria-label", "Toggle light/dark mode");
   button.setAttribute("aria-pressed", "false");
   button.title = "Toggle light/dark mode";
-  button.append(el("span", THEME_TOGGLE_ICON_CLASS, "☾"), el("span", THEME_TOGGLE_TEXT_CLASS, "Theme"));
+  const icon = el("span", THEME_TOGGLE_ICON_CLASS, "☾");
+  icon.setAttribute("aria-hidden", "true");
+  const text = el("span", THEME_TOGGLE_TEXT_CLASS, "Theme");
+  button.appendChild(icon);
+  button.appendChild(text);
   wrapper.appendChild(button);
   return wrapper;
 }
@@ -40,13 +45,29 @@ function createNav(activeNavKey) {
   const nav = el("nav", NAV_CLASS);
   nav.setAttribute("aria-label", "Editor navigation");
   const links = el("div", NAV_LINKS_CLASS);
+  links.id = "mobile-nav-links";
   NAV_ITEMS.forEach(function (item) {
-    const link = document.createElement("a");
+    const link = el("a", "", item.label);
     link.href = item.href;
-    link.textContent = item.label;
     if (activeNavKey === item.key) link.setAttribute("aria-current", "page");
     links.appendChild(link);
   });
+  const hamburger = el("button", "nav-hamburger", "☰");
+  hamburger.type = "button";
+  hamburger.setAttribute("aria-label", "Toggle navigation");
+  hamburger.setAttribute("aria-controls", links.id);
+  hamburger.setAttribute("aria-expanded", "false");
+  hamburger.addEventListener("click", function () {
+    const isOpen = nav.classList.toggle("menu-open");
+    hamburger.setAttribute("aria-expanded", String(isOpen));
+  });
+  links.addEventListener("click", function (event) {
+    if (event.target.closest("a")) {
+      nav.classList.remove("menu-open");
+      hamburger.setAttribute("aria-expanded", "false");
+    }
+  });
+  nav.appendChild(hamburger);
   nav.appendChild(links);
   return nav;
 }
@@ -63,7 +84,6 @@ export function buildEditorAppShell({ pageTitle, activeNavKey }) {
   header.appendChild(heading);
   header.appendChild(themeHost);
   header.appendChild(nav);
-
   const statusHost = el("div", "status-container");
   const main = el("main", MAIN_CLASS);
   main.id = MAIN_ID;
@@ -71,7 +91,6 @@ export function buildEditorAppShell({ pageTitle, activeNavKey }) {
   const editPane = el("section", "pane editor-main-pane");
   const decisionTreePane = el("section", "pane editor-preview-pane pane-host--decision-tree");
   main.append(listPane, editPane, decisionTreePane);
-
   appRoot.append(header, statusHost, main);
   const root = document.getElementById("app");
   if (!root) throw new Error("Missing #app root");
